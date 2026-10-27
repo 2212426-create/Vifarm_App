@@ -63,3 +63,6 @@ data/firebase/
 firestore_data.json
 realtime_db_data.json
 auth_users_data.json
+
+# Only the repo-root knowledge graph is maintained (git hooks rebuild it)
+services/recsys/graphify-out/
