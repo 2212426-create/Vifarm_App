@@ -1,0 +1,151 @@
+{
+  "identity": {
+    "model": "conalign",
+    "dataset": "coat",
+    "seed": 0,
+    "config": {
+      "batch_size": 128,
+      "train_batch_size": 128,
+      "pretrain_epochs": 2,
+      "finetune_epochs": 2,
+      "patience": 60,
+      "block_batch": [
+        64,
+        64
+      ],
+      "dim": 10,
+      "learning_rate_1": 0.01,
+      "learning_rate_2": 0.001,
+      "weight_decay_1": 0.01,
+      "weight_decay_2": 0.01,
+      "alignment_weight": 0.2
+    },
+    "data": {
+      "protocol": "conalign_source_random_split_v1",
+      "dataset": "coat",
+      "seed": 0,
+      "unif_ratio": 0.5,
+      "threshold": 4,
+      "biased_ratio": [
+        0.7,
+        0.1,
+        0.2
+      ],
+      "unbiased_ratio": [
+        0.5,
+        0.1,
+        0.4
+      ],
+      "n_users": 290,
+      "n_items": 300,
+      "sha256": "8cd9fa4fd93aad0c38a4472453d727f0a8d28b882d3d24de68bc2991341c1704",
+      "counts": {
+        "train_biased": 4872,
+        "val_biased": 695,
+        "test_biased": 1393,
+        "train_unbiased": 2320,
+        "val_unbiased": 464,
+        "test_unbiased": 1856
+      }
+    },
+    "code_sha256": "691998046fa1f680ce0ca30e563af0446efe79676929ae754486ec181afd3149",
+    "source_commit": "f6171bb5871025be2a77a37c4c9ab151cbaaab6f",
+    "device": "cpu",
+    "torch": "2.14.1+cpu"
+  },
+  "stage1": {
+    "best_epoch": 1,
+    "best_val_auc": 0.6008825302124023,
+    "epochs_run": 2
+  },
+  "stage2": {
+    "best_epoch": 1,
+    "best_val_auc": 0.6860768795013428,
+    "epochs_run": 2
+  },
+  "history": {
+    "stage1": [
+      {
+        "epoch": 0,
+        "train_bce": 0.6869110465049744,
+        "train_auc": 0.5283089280128479,
+        "val_bce": 0.6749414205551147,
+        "val_auc": 0.5529100298881531
+      },
+      {
+        "epoch": 1,
+        "train_bce": 0.6606642007827759,
+        "train_auc": 0.6391104459762573,
+        "val_bce": 0.6560727953910828,
+        "val_auc": 0.6008825302124023
+      }
+    ],
+    "stage2": [
+      {
+        "epoch": 0,
+        "train_bce": 0.6491208076477051,
+        "train_auc": 0.6204832196235657,
+        "val_bce": 0.6394308805465698,
+        "val_auc": 0.6843364834785461,
+        "alignment_batch_ratio": 0.9824561403508771,
+        "mean_alignment": 0.03073725405348731
+      },
+      {
+        "epoch": 1,
+        "train_bce": 0.6475600004196167,
+        "train_auc": 0.6259515285491943,
+        "val_bce": 0.6381716132164001,
+        "val_auc": 0.6860768795013428,
+        "alignment_batch_ratio": 1.0,
+        "mean_alignment": 0.0688797048570817
+      }
+    ]
+  },
+  "source_metrics": {
+    "test_unbiased": {
+      "biased_tower": {
+        "BCE": 0.6481502056121826,
+        "AUC": 0.6286993622779846,
+        "UAUC": 0.5747295668014901,
+        "UNDCG": 0.6076222147280368,
+        "Precision": 0.3075144508670523,
+        "Recall": 0.8281172584640792,
+        "NDCG": 0.6008179756770781
+      },
+      "unbiased_tower": {
+        "BCE": 0.6457237601280212,
+        "AUC": 0.6331568360328674,
+        "UAUC": 0.5756608450171575,
+        "UNDCG": 0.6106730358488961,
+        "Precision": 0.30982658959537607,
+        "Recall": 0.8367877786952933,
+        "NDCG": 0.6039217012104378
+      }
+    },
+    "test_biased": {
+      "biased_tower": {
+        "BCE": 0.6518449783325195,
+        "AUC": 0.6313928961753845,
+        "UAUC": 0.5989785472315455,
+        "UNDCG": 0.7086643950024973,
+        "Precision": 0.31957671957671996,
+        "Recall": 0.9319223985890652,
+        "NDCG": 0.6932498127274972
+      },
+      "unbiased_tower": {
+        "BCE": 0.650027334690094,
+        "AUC": 0.6347889304161072,
+        "UAUC": 0.6030129387817055,
+        "UNDCG": 0.7108516499587287,
+        "Precision": 0.32063492063492105,
+        "Recall": 0.9345679012345679,
+        "NDCG": 0.6955527954591906
+      }
+    }
+  },
+  "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\conalign\\coat_seed0_f6de8df48b061282.pt",
+  "seconds": 2.5741922855377197,
+  "run_id": "20261027_220527_94201143",
+  "smoke": true,
+  "protocol": "ConAlign source protocol; metric names kept from utils/metrics.py"
+}

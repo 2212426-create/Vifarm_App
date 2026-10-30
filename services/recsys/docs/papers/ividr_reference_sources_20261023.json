@@ -1,0 +1,1228 @@
+{
+  "checked_at_utc": "2026-10-22T17:09:14.222871+00:00",
+  "purpose": "IViDR reference research, no changes to production model/data/loss/protocol",
+  "repositories": [
+    {
+      "repository": "BgmLover/iDCF",
+      "url": "https://github.com/BgmLover/iDCF",
+      "commit": "462014126f6e2fc33053341c1da250f9cf6f1fa0",
+      "default_branch": "main",
+      "license_api": null,
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://raw.githubusercontent.com/BgmLover/iDCF/462014126f6e2fc33053341c1da250f9cf6f1fa0/README.md",
+          "bytes": 1366,
+          "sha256": "dfc45ee8cd8826a8917b421a3cb1c85db7080be019234ec8d751db882bf326f6",
+          "symbols_and_relevant_lines": []
+        },
+        {
+          "path": "ivae_exposure.py",
+          "url": "https://raw.githubusercontent.com/BgmLover/iDCF/462014126f6e2fc33053341c1da250f9cf6f1fa0/ivae_exposure.py",
+          "bytes": 8114,
+          "sha256": "0b74f8e735d0ce8fe0dde6894f19bac86b6b8ed5fe74c995cd6450163509ceb6",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 12,
+              "text": "def loss_function(x, x_hat, mean, log_var, prior_mean, log_prior_var, anneal=1., mask=None):"
+            },
+            {
+              "line": 15,
+              "text": "torch.sum(nn.functional.binary_cross_entropy_with_logits(x_hat, x, reduction=\"none\"), dim=1))"
+            },
+            {
+              "line": 17,
+              "text": "entropy = nn.functional.binary_cross_entropy_with_logits(x_hat, x, reduction=\"none\")"
+            },
+            {
+              "line": 31,
+              "text": "# print(reproduction_loss.item(), kld.item(), anneal)"
+            },
+            {
+              "line": 32,
+              "text": "return reproduction_loss + kld * anneal"
+            },
+            {
+              "line": 35,
+              "text": "class TrainingDataset(Dataset):"
+            },
+            {
+              "line": 36,
+              "text": "def __init__(self, data, feature, mask=None):"
+            },
+            {
+              "line": 41,
+              "text": "def __getitem__(self, index):"
+            },
+            {
+              "line": 47,
+              "text": "def __len__(self):"
+            },
+            {
+              "line": 51,
+              "text": "def train_eval(config):"
+            },
+            {
+              "line": 102,
+              "text": "use_anneal = config[\"anneal\"]"
+            },
+            {
+              "line": 103,
+              "text": "anneal_max = config[\"beta_max\"]"
+            },
+            {
+              "line": 104,
+              "text": "anneal_count = 0"
+            },
+            {
+              "line": 107,
+              "text": "anneal_max_count = int(0.2 * total_batches / anneal_max)"
+            },
+            {
+              "line": 120,
+              "text": "if use_anneal:"
+            },
+            {
+              "line": 121,
+              "text": "anneal = min(anneal_max, 1. * anneal_count / anneal_max_count)"
+            },
+            {
+              "line": 123,
+              "text": "anneal = anneal_max"
+            },
+            {
+              "line": 128,
+              "text": "loss = loss_function(x, x_hat, mean, log_var, prior_mean, prior_log_var, anneal, None) \\"
+            },
+            {
+              "line": 132,
+              "text": "anneal_count += 1"
+            },
+            {
+              "line": 139,
+              "text": "prior_log_var_val, anneal=anneal_max, mask=None).detach().item()"
+            },
+            {
+              "line": 184,
+              "text": "\"anneal\": True,"
+            },
+            {
+              "line": 212,
+              "text": "\"anneal\": True,"
+            }
+          ]
+        },
+        {
+          "path": "iDCF.py",
+          "url": "https://raw.githubusercontent.com/BgmLover/iDCF/462014126f6e2fc33053341c1da250f9cf6f1fa0/iDCF.py",
+          "bytes": 6849,
+          "sha256": "932db30974432802f3f7babe68dac0a4c147046eef9e2ba318c558d084109e81",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 15,
+              "text": "class MFMF(nn.Module):"
+            },
+            {
+              "line": 16,
+              "text": "def __init__(self, num_users, num_items,"
+            },
+            {
+              "line": 34,
+              "text": "def forward(self, uid, iid, sample=False):"
+            },
+            {
+              "line": 48,
+              "text": "def predict(self, uid, iid):"
+            },
+            {
+              "line": 52,
+              "text": "def train_eval(config):"
+            },
+            {
+              "line": 72,
+              "text": "loss_func = nn.MSELoss()"
+            }
+          ]
+        },
+        {
+          "path": "models/vae.py",
+          "url": "https://raw.githubusercontent.com/BgmLover/iDCF/462014126f6e2fc33053341c1da250f9cf6f1fa0/models/vae.py",
+          "bytes": 7519,
+          "sha256": "fef9dd585ffda8efd60a447612a0b56f9a2d875c7479e210b3b88d7deadc9d99",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 5,
+              "text": "class MLP(nn.Module):"
+            },
+            {
+              "line": 6,
+              "text": "def __init__(self, input_dim, hidden_dims, activations, device=\"cpu\"):"
+            },
+            {
+              "line": 31,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 35,
+              "text": "class Encoder(nn.Module):"
+            },
+            {
+              "line": 36,
+              "text": "def __init__(self, input_dim, hidden_dim, latent_dim):"
+            },
+            {
+              "line": 47,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 56,
+              "text": "class Decoder(nn.Module):"
+            },
+            {
+              "line": 57,
+              "text": "def __init__(self, latent_dim, hidden_dim, output_dim):"
+            },
+            {
+              "line": 65,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 73,
+              "text": "class VAE(nn.Module):"
+            },
+            {
+              "line": 74,
+              "text": "def __init__(self, input_dim, latent_dim, hidden_dim, n_layers=3, activation=\"lrelu\", out_activation=None,"
+            },
+            {
+              "line": 96,
+              "text": "def encode(self, x):"
+            },
+            {
+              "line": 101,
+              "text": "def decode(self, x):"
+            },
+            {
+              "line": 104,
+              "text": "def reparameterization(self, mean, std):"
+            },
+            {
+              "line": 109,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 115,
+              "text": "def reconstruct(self, x, sample=False):"
+            },
+            {
+              "line": 124,
+              "text": "class iVAE(nn.Module):"
+            },
+            {
+              "line": 125,
+              "text": "def __init__(self, input_dim, latent_dim, auxiliary_dim, hidden_dim, n_layers=3, activation=\"lrelu\","
+            },
+            {
+              "line": 160,
+              "text": "def encode(self, x, w):"
+            },
+            {
+              "line": 166,
+              "text": "def decode(self, x):"
+            },
+            {
+              "line": 169,
+              "text": "def prior(self, w):"
+            },
+            {
+              "line": 177,
+              "text": "def reparameterization(self, mean, std):"
+            },
+            {
+              "line": 182,
+              "text": "def forward(self, x, w):"
+            },
+            {
+              "line": 194,
+              "text": "def reconstruct(self, x, w, sample=False):"
+            }
+          ]
+        },
+        {
+          "path": "models/mf.py",
+          "url": "https://raw.githubusercontent.com/BgmLover/iDCF/462014126f6e2fc33053341c1da250f9cf6f1fa0/models/mf.py",
+          "bytes": 2789,
+          "sha256": "2e9882d03c1c311dfa744a56822397305d9a516fb9ea53daacc1dc6f2fceeef3",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 6,
+              "text": "class MF(nn.Module):"
+            },
+            {
+              "line": 7,
+              "text": "def __init__(self, num_users, num_items, embedding_size=100, dropout=0.):"
+            },
+            {
+              "line": 22,
+              "text": "def forward(self, u_id, i_id):"
+            },
+            {
+              "line": 29,
+              "text": "def predict(self, uid, iid):"
+            },
+            {
+              "line": 34,
+              "text": "class MFwithFeature(nn.Module):"
+            },
+            {
+              "line": 35,
+              "text": "def __init__(self, num_users, num_items, feature_size, embedding_size=100, dropout=0., device=\"cpu\"):"
+            },
+            {
+              "line": 61,
+              "text": "def forward(self, u_id, i_id, features):"
+            }
+          ]
+        },
+        {
+          "path": "utils.py",
+          "url": "https://raw.githubusercontent.com/BgmLover/iDCF/462014126f6e2fc33053341c1da250f9cf6f1fa0/utils.py",
+          "bytes": 18468,
+          "sha256": "d4f9cca68945f3b33545d3a68c3583f419af1a1ef949da00925f9887865e3d0e",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 16,
+              "text": "def seed_everything(seed=1234):"
+            },
+            {
+              "line": 25,
+              "text": "def split_index(data_size, split_ratio, random_split, seed=1234):"
+            },
+            {
+              "line": 35,
+              "text": "def split_by_item(df, ratio, seed=1234):"
+            },
+            {
+              "line": 50,
+              "text": "def split_by_user(df, ratio, seed=1234):"
+            },
+            {
+              "line": 60,
+              "text": "def df_to_csr(df, shape):"
+            },
+            {
+              "line": 70,
+              "text": "def np_to_csr(array):"
+            },
+            {
+              "line": 78,
+              "text": "def construct_rating_dataset(train_df_path, random_df_path, test_ratio, split_index=False):"
+            },
+            {
+              "line": 91,
+              "text": "def construct_vae_dataset(df_path, train_ratio, split_test=False, test_test_ratio=0.5, seed=1234):"
+            },
+            {
+              "line": 123,
+              "text": "def load_coat_by_ui_pair(path=\"data_process/coat/\", validation_ratio=0.3):"
+            },
+            {
+              "line": 142,
+              "text": "def NDCG_binary_at_k_batch(X_pred, heldout_batch, k=100):"
+            },
+            {
+              "line": 163,
+              "text": "def Recall_at_k_batch(X_pred, heldout_batch, k=100):"
+            },
+            {
+              "line": 178,
+              "text": "def NDCG_RECALL_at_k_batch_parallel(X_pred, heldout_batch, k=100):"
+            },
+            {
+              "line": 209,
+              "text": "def cal_ndcg_recall_parallel(num_workers, X_pred, heldout_batch, k=100):"
+            },
+            {
+              "line": 226,
+              "text": "def mf_evaluate(metric, data_loader, test_model, device=\"cpu\", params=None):"
+            },
+            {
+              "line": 269,
+              "text": "class MFRatingDataset(Dataset):"
+            },
+            {
+              "line": 270,
+              "text": "def __init__(self, uid, iid, rating, require_index=False):"
+            },
+            {
+              "line": 278,
+              "text": "def __getitem__(self, index):"
+            },
+            {
+              "line": 284,
+              "text": "def __len__(self):"
+            },
+            {
+              "line": 288,
+              "text": "def construct_mf_dataloader(config, device, require_index=False):"
+            },
+            {
+              "line": 324,
+              "text": "def get_dataloader(train_mat, train_ratings, val_mat, test_mat, batch_size, require_index=False, num_workers=5,"
+            },
+            {
+              "line": 346,
+              "text": "def load_uniform_data_from_np(ratio, array, shape):"
+            },
+            {
+              "line": 355,
+              "text": "def construct_ips_dataloader(config, device):"
+            },
+            {
+              "line": 390,
+              "text": "def Naive_Bayes_Propensity(train, unif):"
+            },
+            {
+              "line": 418,
+              "text": "def read_best_params(model, key_name, sr=0.1, cr=2.0, tr=0.0):"
+            }
+          ]
+        }
+      ],
+      "code_saved_or_integrated": false,
+      "executed": false
+    },
+    {
+      "repository": "ilkhem/iVAE",
+      "url": "https://github.com/ilkhem/iVAE",
+      "commit": "cf6ff689f8ea957d70c54639132e3a875903a257",
+      "default_branch": "master",
+      "license_api": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      },
+      "files": [
+        {
+          "path": "models/__init__.py",
+          "url": "https://raw.githubusercontent.com/ilkhem/iVAE/cf6ff689f8ea957d70c54639132e3a875903a257/models/__init__.py",
+          "bytes": 157,
+          "sha256": "0522d11b2bf32c60d36c25f81b39b7a0987cb1f09b60fb1c19b5141812fe06d8",
+          "symbols_and_relevant_lines": []
+        },
+        {
+          "path": "models/nets.py",
+          "url": "https://raw.githubusercontent.com/ilkhem/iVAE/cf6ff689f8ea957d70c54639132e3a875903a257/models/nets.py",
+          "bytes": 35790,
+          "sha256": "fcb6ec5691538fe51de37c2a6c8f6156a8f5b3ff0b39f42a3ca90570bd1aa74d",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 10,
+              "text": "def weights_init(m):"
+            },
+            {
+              "line": 15,
+              "text": "def _check_inputs(size, mu, v):"
+            },
+            {
+              "line": 45,
+              "text": "def log_normal(x, mu=None, v=None, broadcast_size=False):"
+            },
+            {
+              "line": 55,
+              "text": "def log_laplace(x, mu, b, broadcast_size=False):"
+            },
+            {
+              "line": 65,
+              "text": "class MLP(nn.Module):"
+            },
+            {
+              "line": 66,
+              "text": "def __init__(self, input_dim, output_dim, hidden_dim, n_layers, activation='none', slope=.1, device='cpu'):"
+            },
+            {
+              "line": 110,
+              "text": "def xtanh(x, alpha=.1):"
+            },
+            {
+              "line": 114,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 124,
+              "text": "class cleanIVAE(nn.Module):"
+            },
+            {
+              "line": 125,
+              "text": "def __init__(self, data_dim, latent_dim, aux_dim, n_layers=3, activation='xtanh', hidden_dim=50, slope=.1):"
+            },
+            {
+              "line": 146,
+              "text": "def reparameterize(mu, v):"
+            },
+            {
+              "line": 151,
+              "text": "def encoder(self, x, u):"
+            },
+            {
+              "line": 157,
+              "text": "def decoder(self, s):"
+            },
+            {
+              "line": 161,
+              "text": "def prior(self, u):"
+            },
+            {
+              "line": 165,
+              "text": "def forward(self, x, u):"
+            },
+            {
+              "line": 172,
+              "text": "def elbo(self, x, u, N, a=1., b=1., c=1., d=1.):"
+            },
+            {
+              "line": 188,
+              "text": "class cleanVAE(nn.Module):"
+            },
+            {
+              "line": 190,
+              "text": "def __init__(self, data_dim, latent_dim, n_layers=3, activation='xtanh', hidden_dim=50, slope=.1):"
+            },
+            {
+              "line": 210,
+              "text": "def reparameterize(mu, v):"
+            },
+            {
+              "line": 215,
+              "text": "def encoder(self, x):"
+            },
+            {
+              "line": 220,
+              "text": "def decoder(self, s):"
+            },
+            {
+              "line": 224,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 230,
+              "text": "def elbo(self, x, u, N, a=1., b=1., c=1., d=1.):"
+            },
+            {
+              "line": 246,
+              "text": "class Discriminator(nn.Module):"
+            },
+            {
+              "line": 247,
+              "text": "def __init__(self, z_dim=5, hdim=1000):"
+            },
+            {
+              "line": 265,
+              "text": "def forward(self, z):"
+            },
+            {
+              "line": 269,
+              "text": "def permute_dims(z):"
+            },
+            {
+              "line": 282,
+              "text": "class Dist:"
+            },
+            {
+              "line": 283,
+              "text": "def __init__(self):"
+            },
+            {
+              "line": 286,
+              "text": "def sample(self, *args):"
+            },
+            {
+              "line": 289,
+              "text": "def log_pdf(self, *args, **kwargs):"
+            },
+            {
+              "line": 293,
+              "text": "class Normal(Dist):"
+            },
+            {
+              "line": 294,
+              "text": "def __init__(self, device='cpu'):"
+            },
+            {
+              "line": 301,
+              "text": "def sample(self, mu, v):"
+            },
+            {
+              "line": 306,
+              "text": "def log_pdf(self, x, mu, v, reduce=True, param_shape=None):"
+            },
+            {
+              "line": 316,
+              "text": "def log_pdf_full(self, x, mu, v):"
+            },
+            {
+              "line": 332,
+              "text": "def _batch_slogdet(self, cov_batch: torch.Tensor):"
+            },
+            {
+              "line": 346,
+              "text": "class Laplace(Dist):"
+            },
+            {
+              "line": 347,
+              "text": "def __init__(self, device='cpu'):"
+            },
+            {
+              "line": 353,
+              "text": "def sample(self, mu, b):"
+            },
+            {
+              "line": 358,
+              "text": "def log_pdf(self, x, mu, b, reduce=True, param_shape=None):"
+            },
+            {
+              "line": 369,
+              "text": "class Bernoulli(Dist):"
+            },
+            {
+              "line": 370,
+              "text": "def __init__(self, device='cpu'):"
+            },
+            {
+              "line": 376,
+              "text": "def sample(self, p):"
+            },
+            {
+              "line": 380,
+              "text": "def log_pdf(self, x, f, reduce=True, param_shape=None):"
+            },
+            {
+              "line": 391,
+              "text": "class iVAE(nn.Module):"
+            },
+            {
+              "line": 392,
+              "text": "def __init__(self, latent_dim, data_dim, aux_dim, prior=None, decoder=None, encoder=None,"
+            },
+            {
+              "line": 393,
+              "text": "n_layers=3, hidden_dim=50, activation='lrelu', slope=.1, device='cpu', anneal=False):"
+            },
+            {
+              "line": 403,
+              "text": "self.anneal_params = anneal"
+            },
+            {
+              "line": 436,
+              "text": "def encoder_params(self, x, u):"
+            },
+            {
+              "line": 442,
+              "text": "def decoder_params(self, s):"
+            },
+            {
+              "line": 446,
+              "text": "def prior_params(self, u):"
+            },
+            {
+              "line": 450,
+              "text": "def forward(self, x, u):"
+            },
+            {
+              "line": 457,
+              "text": "def elbo(self, x, u):"
+            },
+            {
+              "line": 463,
+              "text": "if self.anneal_params:"
+            },
+            {
+              "line": 477,
+              "text": "def anneal(self, N, max_iter, it):"
+            },
+            {
+              "line": 486,
+              "text": "self.anneal_params = False"
+            },
+            {
+              "line": 489,
+              "text": "class DiscreteIVAE(nn.Module):"
+            },
+            {
+              "line": 490,
+              "text": "def __init__(self, latent_dim, data_dim, aux_dim,"
+            },
+            {
+              "line": 512,
+              "text": "def encoder_params(self, x, u):"
+            },
+            {
+              "line": 518,
+              "text": "def decoder_params(self, z):"
+            },
+            {
+              "line": 522,
+              "text": "def prior_params(self, u):"
+            },
+            {
+              "line": 526,
+              "text": "def forward(self, x, u):"
+            },
+            {
+              "line": 534,
+              "text": "def reparameterize(mu, logvar):"
+            },
+            {
+              "line": 539,
+              "text": "def elbo(self, x, u):"
+            },
+            {
+              "line": 541,
+              "text": "BCE = -F.binary_cross_entropy(f, x, reduction='sum')"
+            },
+            {
+              "line": 548,
+              "text": "class VAE(nn.Module):"
+            },
+            {
+              "line": 550,
+              "text": "def __init__(self, latent_dim, data_dim, decoder=None, encoder=None,"
+            },
+            {
+              "line": 578,
+              "text": "def encoder_params(self, x):"
+            },
+            {
+              "line": 583,
+              "text": "def decoder_params(self, s):"
+            },
+            {
+              "line": 587,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 593,
+              "text": "def elbo(self, x):"
+            },
+            {
+              "line": 602,
+              "text": "class DiscreteVAE(nn.Module):"
+            },
+            {
+              "line": 603,
+              "text": "def __init__(self, latent_dim, data_dim,"
+            },
+            {
+              "line": 621,
+              "text": "def encoder_params(self, x):"
+            },
+            {
+              "line": 626,
+              "text": "def decoder_params(self, z):"
+            },
+            {
+              "line": 630,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 637,
+              "text": "def reparameterize(mu, logvar):"
+            },
+            {
+              "line": 642,
+              "text": "def elbo(self, x):"
+            },
+            {
+              "line": 644,
+              "text": "BCE = -F.binary_cross_entropy(f, x, reduction='sum')"
+            },
+            {
+              "line": 650,
+              "text": "class GaussianMLP(nn.Module):"
+            },
+            {
+              "line": 651,
+              "text": "def __init__(self, input_dim, output_dim, hidden_dim, n_layers, activation, slope, device, fixed_mean=None,"
+            },
+            {
+              "line": 666,
+              "text": "def sample(self, *params):"
+            },
+            {
+              "line": 669,
+              "text": "def log_pdf(self, x, *params, **kwargs):"
+            },
+            {
+              "line": 672,
+              "text": "def forward(self, *input):"
+            },
+            {
+              "line": 680,
+              "text": "class LaplaceMLP(nn.Module):"
+            },
+            {
+              "line": 681,
+              "text": "def __init__(self, input_dim, output_dim, hidden_dim, n_layers, activation, slope, device, fixed_mean=None,"
+            },
+            {
+              "line": 696,
+              "text": "def sample(self, *params):"
+            },
+            {
+              "line": 699,
+              "text": "def log_pdf(self, x, *params, **kwargs):"
+            },
+            {
+              "line": 702,
+              "text": "def forward(self, *input):"
+            },
+            {
+              "line": 710,
+              "text": "class ModularIVAE(nn.Module):"
+            },
+            {
+              "line": 711,
+              "text": "def __init__(self, latent_dim, data_dim, aux_dim, prior=None, decoder=None, encoder=None,"
+            },
+            {
+              "line": 712,
+              "text": "n_layers=3, hidden_dim=50, activation='lrelu', slope=.1, device='cpu', anneal=False):"
+            },
+            {
+              "line": 722,
+              "text": "self.anneal_params = anneal"
+            },
+            {
+              "line": 746,
+              "text": "def forward(self, x, u):"
+            },
+            {
+              "line": 753,
+              "text": "def elbo(self, x, u):"
+            },
+            {
+              "line": 759,
+              "text": "if self.anneal_params:"
+            },
+            {
+              "line": 772,
+              "text": "def anneal(self, N, max_iter, it):"
+            },
+            {
+              "line": 781,
+              "text": "self.anneal_params = False"
+            },
+            {
+              "line": 786,
+              "text": "class ConvolutionalVAEforMNIST(nn.Module):"
+            },
+            {
+              "line": 787,
+              "text": "def __init__(self, latent_dim):"
+            },
+            {
+              "line": 821,
+              "text": "def encode(self, x):"
+            },
+            {
+              "line": 825,
+              "text": "def decode(self, z):"
+            },
+            {
+              "line": 830,
+              "text": "def reparameterize(mu, logvar):"
+            },
+            {
+              "line": 835,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 842,
+              "text": "class VAEforMNIST(nn.Module):"
+            },
+            {
+              "line": 843,
+              "text": "def __init__(self, latent_dim):"
+            },
+            {
+              "line": 854,
+              "text": "def encode(self, x):"
+            },
+            {
+              "line": 859,
+              "text": "def reparameterize(mu, logvar):"
+            },
+            {
+              "line": 864,
+              "text": "def decode(self, z):"
+            },
+            {
+              "line": 868,
+              "text": "def forward(self, x):"
+            },
+            {
+              "line": 874,
+              "text": "class ConvolutionalIVAEforMNIST(nn.Module):"
+            },
+            {
+              "line": 875,
+              "text": "def __init__(self, latent_dim):"
+            },
+            {
+              "line": 917,
+              "text": "def encode(self, x):"
+            },
+            {
+              "line": 921,
+              "text": "def decode(self, z):"
+            },
+            {
+              "line": 925,
+              "text": "def prior(self, y):"
+            },
+            {
+              "line": 931,
+              "text": "def reparameterize(mu, logvar):"
+            },
+            {
+              "line": 936,
+              "text": "def forward(self, x, y):"
+            },
+            {
+              "line": 944,
+              "text": "class iVAEforMNIST(nn.Module):"
+            },
+            {
+              "line": 945,
+              "text": "def __init__(self, latent_dim):"
+            },
+            {
+              "line": 961,
+              "text": "def encode(self, x):"
+            },
+            {
+              "line": 965,
+              "text": "def prior(self, y):"
+            },
+            {
+              "line": 970,
+              "text": "def decode(self, z):"
+            },
+            {
+              "line": 975,
+              "text": "def reparameterize(mu, logvar):"
+            },
+            {
+              "line": 980,
+              "text": "def forward(self, x, y):"
+            }
+          ]
+        },
+        {
+          "path": "models/tcl/__init__.py",
+          "url": "https://raw.githubusercontent.com/ilkhem/iVAE/cf6ff689f8ea957d70c54639132e3a875903a257/models/tcl/__init__.py",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "symbols_and_relevant_lines": []
+        },
+        {
+          "path": "models/tcl/tcl_core.py",
+          "url": "https://raw.githubusercontent.com/ilkhem/iVAE/cf6ff689f8ea957d70c54639132e3a875903a257/models/tcl/tcl_core.py",
+          "bytes": 21816,
+          "sha256": "cccb620ab416d857b2b8416b23cd5b850d2132dac16beb3f3b15614ef4e1023d",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 16,
+              "text": "def _variable_init(name, shape, wd, initializer=tf.contrib.layers.variance_scaling_initializer(), trainable=True,"
+            },
+            {
+              "line": 47,
+              "text": "def inference(x, list_hidden_nodes, num_class, wd=1e-4, maxout_k=2, MLP_trainable=True, feature_nonlinearity='abs'):"
+            },
+            {
+              "line": 66,
+              "text": "def maxout(y, k):"
+            },
+            {
+              "line": 128,
+              "text": "def tcl_loss(logits, labels):"
+            },
+            {
+              "line": 156,
+              "text": "def _add_loss_summaries(total_loss):"
+            },
+            {
+              "line": 183,
+              "text": "def train(total_loss,"
+            },
+            {
+              "line": 256,
+              "text": "def train_cpu(data,"
+            },
+            {
+              "line": 391,
+              "text": "def train_gpu(data,"
+            }
+          ]
+        },
+        {
+          "path": "models/tcl/tcl_eval.py",
+          "url": "https://raw.githubusercontent.com/ilkhem/iVAE/cf6ff689f8ea957d70c54639132e3a875903a257/models/tcl/tcl_eval.py",
+          "bytes": 4333,
+          "sha256": "383d3f10fdd34a9f146ae62e1b992ef706862a16038a0fe504b699d4d0af79bf",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 14,
+              "text": "def get_tensor(x, vars, sess, data_holder, batch=256):"
+            },
+            {
+              "line": 71,
+              "text": "def calc_accuracy(pred, label, normalize_confmat=True):"
+            }
+          ]
+        },
+        {
+          "path": "models/tcl/tcl_preprocessing.py",
+          "url": "https://raw.githubusercontent.com/ilkhem/iVAE/cf6ff689f8ea957d70c54639132e3a875903a257/models/tcl/tcl_preprocessing.py",
+          "bytes": 2266,
+          "sha256": "e750b539fb99cbe6fcb1242c1ac95c85f742fbcfc160a79d33d3e4196e2b829e",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 8,
+              "text": "def pca(x, num_comp=None, params=None, zerotolerance=1e-7):"
+            },
+            {
+              "line": 44,
+              "text": "d, V = np.linalg.eigh(xcov)  # Ascending order"
+            }
+          ]
+        },
+        {
+          "path": "models/wrappers.py",
+          "url": "https://raw.githubusercontent.com/ilkhem/iVAE/cf6ff689f8ea957d70c54639132e3a875903a257/models/wrappers.py",
+          "bytes": 11192,
+          "sha256": "3952b04c2c23a2ee00b5ec7cf48cc2ea6ec890c58cf421266d02796a915abfa4",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 14,
+              "text": "def IVAE_wrapper(X, U, S=None, batch_size=256, max_iter=7e4, seed=None, n_layers=3, hidden_dim=200, lr=1e-2, cuda=True,"
+            },
+            {
+              "line": 16,
+              "text": "anneal=False, log_folder=None, ckpt_folder=None, scheduler_tol=3):"
+            },
+            {
+              "line": 39,
+              "text": "n_layers=n_layers, hidden_dim=hidden_dim, slope=slope, anneal=anneal)"
+            },
+            {
+              "line": 62,
+              "text": "if anneal:"
+            },
+            {
+              "line": 63,
+              "text": "model.anneal(N, max_iter, it)"
+            },
+            {
+              "line": 98,
+              "text": "def VAE_wrapper(X, S=None, batch_size=256, max_iter=7e4, seed=None, n_layers=3, hidden_dim=200, lr=1e-2, cuda=True,"
+            },
+            {
+              "line": 179,
+              "text": "def TCL_wrapper(sensor, label, list_hidden_nodes, random_seed=0, max_steps=int(7e4), max_steps_init=int(7e4),"
+            }
+          ]
+        }
+      ],
+      "code_saved_or_integrated": false,
+      "executed": false
+    },
+    {
+      "repository": "Ethan00Si/Instrumental-variables-for-recommendation",
+      "url": "https://github.com/Ethan00Si/Instrumental-variables-for-recommendation",
+      "commit": "3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3",
+      "default_branch": "main",
+      "license_api": null,
+      "files": [
+        {
+          "path": "config.py",
+          "url": "https://raw.githubusercontent.com/Ethan00Si/Instrumental-variables-for-recommendation/3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3/config.py",
+          "bytes": 2393,
+          "sha256": "677efdf11f7e85ba52dc275368dfb4c331c8ba5c2cfddcad32e09def55e54084",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 5,
+              "text": "class NRHUB_Config():"
+            },
+            {
+              "line": 6,
+              "text": "def __init__(self):"
+            },
+            {
+              "line": 18,
+              "text": "class IV_NRHUB_Config():"
+            },
+            {
+              "line": 19,
+              "text": "def __init__(self):"
+            },
+            {
+              "line": 42,
+              "text": "class DIN_Config():"
+            },
+            {
+              "line": 43,
+              "text": "def __init__(self):"
+            },
+            {
+              "line": 54,
+              "text": "class IV_DIN_mlp_Config():"
+            },
+            {
+              "line": 55,
+              "text": "def __init__(self):"
+            }
+          ]
+        }
+      ],
+      "code_saved_or_integrated": false,
+      "executed": false
+    },
+    {
+      "repository": "liyuan9988/DeepFeatureIV",
+      "url": "https://github.com/liyuan9988/DeepFeatureIV",
+      "commit": "27442c3084196f352154e84504d37b0d94f9a289",
+      "default_branch": "master",
+      "license_api": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      },
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://raw.githubusercontent.com/liyuan9988/DeepFeatureIV/27442c3084196f352154e84504d37b0d94f9a289/README.md",
+          "bytes": 620,
+          "sha256": "48a48b1e43a07d81833231b3d8a819737d547feb7104fd36ca65e53f659b0898",
+          "symbols_and_relevant_lines": []
+        },
+        {
+          "path": "src/models/DFIV/model.py",
+          "url": "https://raw.githubusercontent.com/liyuan9988/DeepFeatureIV/27442c3084196f352154e84504d37b0d94f9a289/src/models/DFIV/model.py",
+          "bytes": 6277,
+          "sha256": "759df83075766f4cebad2d2c02c3ee523a5cd98a2a9f04645aaee2efc1269eea",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 13,
+              "text": "class DFIVModel:"
+            },
+            {
+              "line": 17,
+              "text": "def __init__(self,"
+            },
+            {
+              "line": 32,
+              "text": "def augment_stage1_feature(instrumental_feature: torch.Tensor,"
+            },
+            {
+              "line": 41,
+              "text": "def augment_stage2_feature(predicted_treatment_feature: torch.Tensor,"
+            },
+            {
+              "line": 58,
+              "text": "def fit_2sls(treatment_1st_feature: torch.Tensor,"
+            },
+            {
+              "line": 91,
+              "text": "def fit_t(self,"
+            },
+            {
+              "line": 116,
+              "text": "def fit(self, train_1st_data: TrainDataSet, train_2nd_data: TrainDataSet, lam1: float, lam2: float):"
+            },
+            {
+              "line": 121,
+              "text": "def predict_t(self, treatment: torch.Tensor, covariate: Optional[torch.Tensor]):"
+            },
+            {
+              "line": 132,
+              "text": "def predict(self, treatment: np.ndarray, covariate: Optional[np.ndarray]):"
+            },
+            {
+              "line": 139,
+              "text": "def evaluate_t(self, test_data: TestDataSetTorch):"
+            },
+            {
+              "line": 145,
+              "text": "def evaluate(self, test_data: TestDataSet):"
+            }
+          ]
+        },
+        {
+          "path": "src/utils/pytorch_linear_reg_utils.py",
+          "url": "https://raw.githubusercontent.com/liyuan9988/DeepFeatureIV/27442c3084196f352154e84504d37b0d94f9a289/src/utils/pytorch_linear_reg_utils.py",
+          "bytes": 2774,
+          "sha256": "2a03f59ebf61aae92b49f79e354ae80c0e3bd8fa2a0067ab9bb3cad5ade822c5",
+          "symbols_and_relevant_lines": [
+            {
+              "line": 4,
+              "text": "def fit_linear(target: torch.Tensor,"
+            },
+            {
+              "line": 38,
+              "text": "def linear_reg_pred(feature: torch.Tensor, weight: torch.Tensor):"
+            },
+            {
+              "line": 46,
+              "text": "def linear_reg_loss(target: torch.Tensor,"
+            },
+            {
+              "line": 54,
+              "text": "def outer_prod(mat1: torch.Tensor, mat2: torch.Tensor):"
+            },
+            {
+              "line": 77,
+              "text": "def add_const_col(mat: torch.Tensor):"
+            }
+          ]
+        }
+      ],
+      "code_saved_or_integrated": false,
+      "executed": false
+    }
+  ],
+  "papers": [
+    {
+      "path": "docs/papers/iVAE_AISTATS2020.pdf",
+      "url": "https://proceedings.mlr.press/v108/khemakhem20a/khemakhem20a.pdf",
+      "bytes": 2888778,
+      "sha256": "65c3f3713fedfa262f92159165434d3fd8ab8df559236456a9bb171b78c3814d",
+      "pages": 10,
+      "title_check": "Variational Autoencoders and Nonlinear ICA",
+      "title_verified": true
+    },
+    {
+      "path": "docs/papers/IV4Rec_WWW2022.pdf",
+      "url": "https://arxiv.org/pdf/2202.04514v1",
+      "bytes": 3010724,
+      "sha256": "5ae20b87db12a864f8cde918ec4ce731d135dfe7e3d8188a11dd00ec73e799b1",
+      "pages": 9,
+      "title_check": "A Model-Agnostic Causal Learning Framework",
+      "title_verified": true
+    },
+    {
+      "path": "docs/papers/IDCIV_RS_IJCAI2025.pdf",
+      "url": "https://www.ijcai.org/proceedings/2025/0329.pdf",
+      "bytes": 1570387,
+      "sha256": "fb1b804a3fe4f5a1f6b373a80d9ed9a228e18127a84b278a0e4b8c27bd80b8bf",
+      "pages": 9,
+      "title_check": "Interaction-Data-guided Conditional Instrumental Variables",
+      "title_verified": true
+    }
+  ],
+  "official_ividr_v1_source_found": false
+}

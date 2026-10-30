@@ -1,0 +1,61 @@
+{
+  "scope": "Exact bytes before Coat iVAE and propensity pipeline fix",
+  "files": [
+    {
+      "path": "docs/CURRENT_STATE.md",
+      "sha256": "8f0a2903e3c3c941356913255994ba509f74ca779058b94c5d91da4a950e03ca"
+    },
+    {
+      "path": "docs/benchmarks/paper_model_alignment.md",
+      "sha256": "5dfdf6781f21362a12e8f952eef91ca8244863ed2c3f73a13c05ace74c3b557b"
+    },
+    {
+      "path": "docs/benchmarks/root_cause_analysis.md",
+      "sha256": "f88df8b846325d03e55d909104a0c39e2604759bbfee9d96be765e278e4a9736"
+    },
+    {
+      "path": "docs/benchmarks/evaluation_protocol.md",
+      "sha256": "ac068a1d591a3f88b39d0464a67c205277944d761ce730df69025095667595c2"
+    },
+    {
+      "path": "docs/state_snapshot.json",
+      "sha256": "4f7f7d8bbd8fb5a37fefae0a6e945d2d727dde052b522962591d3f9be3d9cef5"
+    },
+    {
+      "path": "docs/catalog.json",
+      "sha256": "30e933a6033a7e4a977dc858ddb1a1d61da4c8857d06fbf5b3aed27d2610a4c5"
+    },
+    {
+      "path": "docs/check_docs.py",
+      "sha256": "3eef26f9456a19107c3348d1848a396a037301e8a3e4005d52191b8c1333d15e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "d06b5b5b25bb42fb8ba41ab51849190c020d5acd5bbf9e20028c8e1898210cfa"
+    },
+    {
+      "path": "results/CATALOG.md",
+      "sha256": "d7250105d6d5a391c38179c41b992684d73c198e22a306aeceb71e5392b05d16"
+    },
+    {
+      "path": "src/causal/idcf/ivae.py",
+      "sha256": "d12535faa249646e2a827d9b163ee007d54f20bc632a01d3ed323c31cdd99ff7"
+    },
+    {
+      "path": "src/causal/idcf/train_idcf.py",
+      "sha256": "c429f8108dd8c406ea2d376e5c345676078406e9e163e6812bf754bbea3fc060"
+    },
+    {
+      "path": "src/causal/cdr/train_dr_bias_cdr.py",
+      "sha256": "3081f1ae2914289b263081f9e7e01b2524c40845fc3a81efb5deaeb2e682c044"
+    },
+    {
+      "path": "src/causal/cdr/cdr_model.py",
+      "sha256": "5f7dda2135b3345d820559f235e2ae6e1ff68ce3c91fd410c6068cf1d89cb267"
+    },
+    {
+      "path": "src/training/config.py",
+      "sha256": "3847bbceca9e188a5ab96676aca9e58acef66c1bc94d35ee60ef08eeba31b626"
+    }
+  ]
+}

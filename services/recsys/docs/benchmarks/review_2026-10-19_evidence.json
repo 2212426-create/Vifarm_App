@@ -1,0 +1,59 @@
+{
+  "review_date": "2026-10-19",
+  "source_sha256": "1c1a098d608fcd200e8dbff560e6c895341a83cbb810a84ca0d1bfc8f6a6ba29",
+  "coat_data_sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+  "tests": {
+    "command": "./venv/Scripts/python.exe experiments/run.py test --verbosity 1",
+    "working_directory": "services/recsys",
+    "tests_run": 68,
+    "result": "OK",
+    "runner_seconds": 16.145
+  },
+  "tuning_dispatch_probe": {
+    "method": "Mock train_baseline_mf; call each workflow train_model with first MF grid entry; resolve omitted arguments against trainer defaults",
+    "coat": {"loss": "bce", "decay_scope": "embeddings", "scheduler": "plateau"},
+    "kuairand": {"loss": "bce", "decay_scope": "embeddings", "scheduler": "plateau"}
+  },
+  "cdr_validation_probe": {
+    "dataset": "coat",
+    "protocol": "paper_idcf",
+    "torch": "2.14.1+cpu",
+    "torch_num_threads": 2,
+    "device": "cpu",
+    "test_evaluated": false,
+    "checkpoints": "TemporaryDirectory; removed after probe",
+    "warm_config": {
+      "embedding_dim": 32,
+      "epochs": 100,
+      "lr": 0.0005,
+      "weight_decay": 0.000001,
+      "loss_name": "mse",
+      "decay_scope": "all",
+      "scheduler_name": "none",
+      "train_global_bias": false,
+      "patience": 5,
+      "batch_size": 512,
+      "evaluate_test": false
+    },
+    "cdr_config": {
+      "embedding_dim": 32,
+      "epochs": 10,
+      "patience": 7,
+      "lr": 0.002,
+      "batch_size": 128,
+      "max_inverse_propensity": 20.0,
+      "filter_mode": "variance",
+      "ips_weighting": "author",
+      "counterfactual_pool": "all",
+      "un_thres": 10.0,
+      "initial_rec_checkpoint": "MF from warm_config with matching seed",
+      "evaluate_test": false
+    },
+    "runs": [
+      {"seed": 42, "warm_val_ndcg": 0.6160854087814722, "warm_epoch": 25, "cdr_best_val_ndcg": 0.592015107051774, "cdr_epoch": 1, "delta_val_ndcg": -0.024070301729698262},
+      {"seed": 43, "warm_val_ndcg": 0.6013806899816628, "warm_epoch": 40, "cdr_best_val_ndcg": 0.5999142835640874, "cdr_epoch": 1, "delta_val_ndcg": -0.0014664064175754499},
+      {"seed": 44, "warm_val_ndcg": 0.6054167352035089, "warm_epoch": 37, "cdr_best_val_ndcg": 0.6277544678594686, "cdr_epoch": 1, "delta_val_ndcg": 0.02233773265595973}
+    ],
+    "interpretation": "Epoch 0 selection missing; 2 of 3 validation runs would retain warm start. No claim of improved held-out test performance."
+  }
+}

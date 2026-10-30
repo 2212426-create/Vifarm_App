@@ -1,0 +1,127 @@
+{
+  "identity": {
+    "code_sha256": "70897b831d4faa0fc73aaed139cab2cd04f3a214215eac5f49dac4de552cde33",
+    "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+    "seed": 2020,
+    "dataset": "kuairand"
+  },
+  "scope": "published_script_conditions_not_project_held_out",
+  "config": {
+    "embedding_dim": 16,
+    "epochs": 1,
+    "lr": 0.05,
+    "weight_decay": 0.0001,
+    "batch_size": 256,
+    "un_thres": 10.0,
+    "dropout_rate": 0.5,
+    "G": 1,
+    "tol": 1e-05,
+    "stop": 5,
+    "mc_samples": 10
+  },
+  "source_calibration": {
+    "method": "released_naive_bayes",
+    "calibration_rows": 82,
+    "calibration_positive_rate": 0.2682926829268293,
+    "train_positive_rate": 0.45449047475052917,
+    "population_denominator": 104328,
+    "observed_fraction": 0.03169810597346829
+  },
+  "test_labels_used_for_propensity": false,
+  "calibration_rows": 82,
+  "positive_threshold": 1,
+  "evaluation_pool": "local_held_out_random_log",
+  "zero_positive_score": null,
+  "recall_denominator": "all_positive",
+  "raw_id_convention": "source_unchanged",
+  "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_115447_b4e87d6b\\kuairand\\cdr\\20261021_115459_bfd984b8\\kuairand.pt",
+  "training_history": [
+    {
+      "epoch": 1,
+      "weighted_factual_sum": 66562.484375,
+      "rec_loss": 21.668880621592205,
+      "imp_loss": 14671309.916666666,
+      "filtered_fraction": 0.0,
+      "observed_rows_used": 3072,
+      "observed_rows_dropped": 235
+    }
+  ],
+  "metrics": {
+    "NDCG@5": 0.5246731657552482,
+    "Recall@5": 0.6725806451612903,
+    "Recall@5_bounded": 0.6822580645161291,
+    "Precision@5": 0.2774193548387097,
+    "HitRate@5": 0.9354838709677419,
+    "AUC_global": 0.5104907751083374,
+    "users": 31
+  },
+  "quick_run": true,
+  "metadata": {
+    "model": "cdr_source",
+    "architecture_version": "cdr_released_v1",
+    "dataset": "kuairand",
+    "code_sha256": "70897b831d4faa0fc73aaed139cab2cd04f3a214215eac5f49dac4de552cde33",
+    "config": {
+      "embedding_dim": 16,
+      "epochs": 1,
+      "lr": 0.05,
+      "weight_decay": 0.0001,
+      "batch_size": 256,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 1,
+      "tol": 1e-05,
+      "stop": 5,
+      "mc_samples": 10,
+      "seed": 2020,
+      "selection": "source_train_loss_last",
+      "implementation": "cdr_released",
+      "catalog_sampler": "permutation"
+    },
+    "data": {
+      "sha256": "7dc20819b18863df5da5dad15943561a83983fb0c9fc5080e6e9c778ce468135"
+    },
+    "model_kwargs": {
+      "num_users": 64,
+      "num_items": 1657,
+      "embedding_dim": 16,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5
+    },
+    "protocol": {
+      "metric_revision": "cdr_source_v1",
+      "scope": "cdr_source_protocol",
+      "recall_denominator": "all_positive",
+      "calibration": "validation_5_percent",
+      "supplementary_metrics": [
+        "Recall@5_bounded",
+        "Precision@5",
+        "HitRate@5"
+      ],
+      "auxiliary_aggregation": "same source-eligible users; empty users: Recall=1, precision/hit-rate=0",
+      "paper_scores_directly_comparable": false
+    },
+    "adaptations": [
+      "local KuaiRand preprocessing/user split; original processed CSVs unavailable",
+      "array trainer sampling instead of source Torch DataLoader",
+      "zero-based local user IDs, including user 0 in evaluation",
+      "global AUC half-credit ties instead of source arbitrary tie ranks",
+      "smoke-only calibration expanded to all validation rows to retain both classes"
+    ],
+    "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data",
+    "smoke_users": 64
+  },
+  "evaluation_scope": "cdr_source_protocol",
+  "best_epoch": 1,
+  "best_val_ndcg": null,
+  "selection_origin": "source_train_loss_last",
+  "epochs_run": 1,
+  "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+  "NDCG@5": 0.5246731657552482,
+  "Recall@5": 0.6725806451612903,
+  "Recall@5_bounded": 0.6822580645161291,
+  "Precision@5": 0.2774193548387097,
+  "HitRate@5": 0.9354838709677419,
+  "AUC_global": 0.5104907751083374,
+  "users": 31
+}

@@ -1,0 +1,43 @@
+================================================================================
+ BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH CAUSAL DEBIASING TRÊN COAT & KUAIRAND
+ Thiết bị: cpu | Dataset: coat | Model: all
+================================================================================
+ [CẤU HÌNH EPOCHS] Coat: 1 epochs | KuaiRand-Pure: 1 epochs (MF: 1)
+
+################################################################################
+ PHẦN 1: THỰC NGHIỆM TRÊN TẬP DỮ LIỆU COAT (290 Users, 300 Items)
+################################################################################
+
+>>> Huấn luyện Baseline PyTorch MF (Coat)...
+
+=======================================================
+ HUẤN LUYỆN MATRIX FACTORIZATION BASELINE: COAT
+ Thiết bị: cpu, Dim: 64, LR: 0.0005, Batch: 512, Optimizer: adam, Loss: mse
+=======================================================
+Epoch 01/01 | Train Loss: 0.2715 | Val NDCG@5: 0.2476 | Recall@5: 0.2617 | HR@5: 0.5429
+
+>>> Huấn luyện iDCF (Coat)...
+
+>>> Huấn luyện DR-BIAS + CDR (Coat)...
+
+=======================================================
+ HUẤN LUYỆN MÔ HÌNH CAUSAL DEBIASING: DR-BIAS + CDR [COAT]
+ Thiết bị: cpu | Dim: 4 | Unc Threshold: 0.1 | LR: 0.1
+=======================================================
+Epoch 01/01 | CDR Rec Loss: 0.6918 | Imp Loss: 16.6944 | Imputation filtered O/D: 0.6%/0.7% | Val NDCG@5: 0.3136 | Recall@5: 0.3524 | HR@5: 0.6571
+
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_13e80854d6_20261020_192736_117c64b0_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_13e80854d6_20261020_192736_117c64b0_v4.md
+
++---------------------------------------------------------------------------------------------------+
+|                          KẾT QUẢ TRÊN HELD-OUT RANDOM-LOG CANDIDATE POOL                          |
++=============+====================+========+==========+=============+===========+==================+
+| Tập Dữ Liệu | Mô Hình Thuật Toán | NDCG@5 | Recall@5 | Precision@5 | HitRate@5 | AUC (macro-user) |
++=============+====================+========+==========+=============+===========+==================+
+| Coat        | MF                 | 0.2953 |  0.2907  |   0.2216    |  0.6467   |      0.5035      |
++-------------+--------------------+--------+----------+-------------+-----------+------------------+
+| Coat        | iDCF               | 0.3268 |  0.3390  |   0.2515    |  0.7066   |      0.5451      |
++-------------+--------------------+--------+----------+-------------+-----------+------------------+
+| Coat        | DR-BIAS + CDR      | 0.3485 |  0.3552  |   0.2587    |  0.6946   |      0.5598      |
++-------------+--------------------+--------+----------+-------------+-----------+------------------+
+

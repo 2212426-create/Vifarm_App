@@ -1,0 +1,15 @@
+
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 2/2: feedback: COAT
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 512 | Optimizer: adam | Loss: mse | Seed: 43
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[iDCF/feedback][COAT] Epoch 001/100 | Train Loss: 0.2313 | Val NDCG@5: 0.4736 | Val Recall@5: 0.5013 | Val HR@5: 0.8429
+[iDCF/feedback][COAT] Epoch 002/100 | Train Loss: 0.1825 | Val NDCG@5: 0.4885 | Val Recall@5: 0.5068 | Val HR@5: 0.8143
+[iDCF/feedback][COAT] Epoch 003/100 | Train Loss: 0.1771 | Val NDCG@5: 0.4778 | Val Recall@5: 0.5217 | Val HR@5: 0.8429
+[iDCF/feedback][COAT] Epoch 004/100 | Train Loss: 0.1749 | Val NDCG@5: 0.4682 | Val Recall@5: 0.5240 | Val HR@5: 0.8286
+[iDCF/feedback][COAT] Epoch 005/100 | Train Loss: 0.1728 | Val NDCG@5: 0.4729 | Val Recall@5: 0.5207 | Val HR@5: 0.8571
+[iDCF/feedback][COAT] Epoch 006/100 | Train Loss: 0.1710 | Val NDCG@5: 0.4808 | Val Recall@5: 0.5534 | Val HR@5: 0.8714
+[iDCF/feedback][COAT] Epoch 007/100 | Train Loss: 0.1689 | Val NDCG@5: 0.4845 | Val Recall@5: 0.5478 | Val HR@5: 0.8571
+[iDCF/feedback][COAT] Dừng sớm tại epoch 7 | Chọn epoch: 2 | Best Val NDCG@5: 0.4885
+{"cell": "ividr_lat+mse", "seed": 43, "val": 0.4885047259631702, "test": 0.47508601641932546, "mean_abs": 4.4835920333862305, "std_mean": 0.6571400165557861, "snr": 7.4205827713012695}

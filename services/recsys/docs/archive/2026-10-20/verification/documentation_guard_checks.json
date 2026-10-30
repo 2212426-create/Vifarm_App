@@ -1,0 +1,20 @@
+{
+  "reviewed_on": "2026-10-20",
+  "scope": "documentation checks only; no model tests or quality benchmark rerun",
+  "protected_source_result_reference_files_unchanged": 92,
+  "source_milestone_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+  "checker_sha256": "be9de335559def6a7dd6a488c3337304b5b57e28abcb638c1a575e2c667a531f",
+  "probe_script": "docs/archive/2026-10-20/verification/documentation_guard_probes.py",
+  "probe_stdout": [
+    "PASS negative probe: protected-artifact-change",
+    "PASS negative probe: source-drift",
+    "PASS negative probe: unclassified-document",
+    "PASS negative probe: broken-link",
+    "PASS negative probe: broken-heading",
+    "PASS negative probe: original-zip-change",
+    "Original workspace left unchanged by negative probes."
+  ],
+  "negative_probes_use_temporary_copy_only": true,
+  "notebook_code_cells_unchanged": true,
+  "no_live_service_or_external_write_performed": true
+}

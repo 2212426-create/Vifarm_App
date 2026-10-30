@@ -1,18 +1,24 @@
 # RecSys API cho app TopTop
 
+**Hướng dẫn hiện hành, mốc 20/10/2026.** API có dữ liệu và siêu tham số phục vụ riêng;
+không dùng cấu hình hoặc điểm API làm benchmark Coat/KuaiRand.
+[Trạng thái và bằng chứng](../CURRENT_STATE.md).
+
 Mã nguồn: [`src/api/`](../../src/api/). Kiểm thử: [`tests/test_api.py`](../../tests/test_api.py).
 
 ## Mô hình phục vụ
 
 | `model` | Cách tính điểm | Huấn luyện |
 | :-- | :-- | :-- |
-| `mf` | sigmoid(⟨p_u, q_i⟩ + b_u + b_i + μ) | Adam + BCE trên tương tác TopTop đã ghi log, L2 trên embedding |
-| `cdr` | Mô hình gợi ý của DR-BIAS + CDR | Propensity = tần suất exposure theo item (kẹp 0,05–1), cặp đối chứng lấy mẫu đều |
+| `mf` | sigmoid(⟨p_u, q_i⟩ + b_u + b_i), μ=0 | Adam + MSE trên score thô, decay mọi tham số, khởi tạo uniform như iDCF |
+| `cdr` | sigmoid(⟨p_u, q_i⟩), ReleasedCDR 4 chiều, variance filter 10, dropout .5 | Source DR-BIAS update/loss, LR .05, wd .0001; item-frequency propensity (kẹp 0,05–1), MC 10; sampler có hoàn lại |
 | `popularity` | log(1 + watchCount + 5·totalLikes) + log(1 + số lượt dương) | Không học; dùng cho user chưa có lịch sử |
-| `ividr` | Không phục vụ | Cần đặc trưng user làm IV/proxy; API trả về `mf` kèm `fallback_reason` |
+| `ividr` | Không phục vụ | Cần đặc trưng user làm IV/proxy; API chọn mô hình khả dụng kèm `fallback_reason` |
 
 Nhãn dương: `is_like` hoặc `play_time_ms ≥ 3000`. Cặp user–video lặp được gộp, dương nếu có ít nhất một lần dương.
 Mô hình được huấn luyện lại sau mỗi `retrain_every` (mặc định 20) tương tác mới, hoặc khi gọi `/api/v1/sync`.
+CDR app không có random-exposure log nên không dùng Naive Bayes calibration như Coat/Yahoo.
+`training_stats.cdr` công bố triển khai và các điều chỉnh phục vụ. Không gọi điểm API là tái lập paper.
 
 ## Nguồn dữ liệu
 
@@ -24,9 +30,10 @@ Mô hình được huấn luyện lại sau mỗi `retrain_every` (mặc định
   (chỉ giữ khi `fromUsername` ánh xạ duy nhất tới một uid) và log của API
   (`RECSYS_INTERACTION_LOG`, mặc định `data/api/interactions_log.csv`).
 
-Firestore rules chỉ cho khách chưa đăng nhập đọc video `approved`. Tại 2026-10-15 truy vấn công khai
-không trả video nào, và bản export có 84/85 video `rejected`. App gửi `filter_rejected=true`, nên
-feed AI chỉ có nội dung khi có video được duyệt.
+Quyền đọc Firestore, số video và trạng thái moderation phụ thuộc dữ liệu/rules đang
+chạy. Đợt dọn tài liệu này không kiểm tra lại tài khoản hoặc dữ liệu live. Không dùng
+số lượng video của bản export/truy vấn cũ để mô tả môi trường hiện tại; kiểm tra
+`/health`, snapshot thực tế và tham số `filter_rejected` khi chẩn đoán feed.
 
 ## Endpoint
 
@@ -53,5 +60,7 @@ Có Cloudflare Tunnel và ghi URL vào `server_config/recsys_url` để app tự
 .\venv\Scripts\python.exe -m src.api.tunnel --port 8000
 ```
 
-Google Colab: mở `notebooks/TopTop_RecSys_Colab_API.ipynb` (sinh bằng `notebooks/build_notebook.py`),
-chọn Run all. Notebook clone repo từ GitHub, nên cần push `src/api` trước.
+Google Colab: mở [notebook API](../../notebooks/TopTop_RecSys_Colab_API.ipynb)
+(sinh bằng [build_notebook.py](../../notebooks/build_notebook.py)), chọn Run all.
+Notebook lấy code từ GitHub; kiểm tra đúng revision đã đồng bộ trước khi dùng
+kết quả. Không mặc định notebook đang chạy source của workspace cục bộ.

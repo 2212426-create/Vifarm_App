@@ -1,68 +1,91 @@
-# Giao thức đánh giá chung
+# Giao thức đánh giá theo mô hình
 
-Nguồn thực thi duy nhất: `src/evaluation/protocol.py`; evaluator dùng chung:
-`src/evaluation/evaluator.py`. Xem cấu hình bằng `python experiments/run.py protocol`.
-MF, IViDR và CDR dùng cùng evaluator ở validation và test.
+Mốc CDR source làm mặc định: 20/10/2026.
+[Trạng thái](../CURRENT_STATE.md) · [Định nghĩa mô hình](paper_model_alignment.md).
 
-## Quy tắc được cố định
+LCDR dùng đúng protocol H30 và evaluator của iDCF bên dưới. ConAlign dùng protocol và metric
+của source tác giả (chia ngẫu nhiên biased/unbiased, cổng thời gian KuaiRand riêng); xem
+[LCDR và ConAlign](lcdr_conalign_20261027.md). Từ 30/10 bảng benchmark gộp có dòng ConAlign ghi
+protocol `C-src` (NDCG = `NDCG` của source, AUC global, không có Recall bounded/HitRate; UAUC/UNDCG
+in dưới bảng). Không so trực tiếp hay paired-test dòng C-src với H30/CDR; KuaiRand dùng cửa sổ paper.
 
-| Thành phần | Quy tắc |
+## MF/iDCF/IViDR và chế độ CDR shared
+
+Nguồn thực thi: src/evaluation/protocol.py và evaluator.py.
+Giữ nhãn Coat/Yahoo >=4, KuaiRand is_click; biased train; random log chia
+30% validation / 70% test theo user, seed 1234.
+Ranking trên logged candidates, NDCG nhị phân, Recall chia toàn bộ positive.
+Macro loại user không positive; AUC macro theo user có hai lớp, ties 0,5.
+Chọn checkpoint/config bằng validation; test chỉ chấm sau lựa chọn.
+Std theo seed dùng ddof=1; một seed trả null/N/A. CI theo user không thay std theo seed.
+
+Coat giữ và công bố overlap train/random. Yahoo không có overlap; 1.620 user
+validation / 3.780 test, mỗi user 10 random ratings. Không tự mask train items.
+KuaiRand gộp positive theo any-click khi ranking và công bố preprocessing địa phương.
+Nguồn quy ước:
+[iDCF utils.py](https://github.com/BgmLover/iDCF/blob/main/utils.py).
+
+## CDR mặc định: source protocol
+
+Nguồn thực thi: [source_protocol.py](../../src/models/cdr/source_protocol.py).
+`benchmark`, `cdr-source` và `coat-seeds` gọi cùng đường chạy.
+
+| Thành phần | Coat / Yahoo |
 | :-- | :-- |
-| Train | Biased log; giữ nhãn dương và âm đã exposure |
-| Nhãn | Coat rating >= 4; KuaiRand chỉ is_click |
-| Validation/test | Random log, user split 30/70, seed 1234 |
-| Candidate | Những item xuất hiện trong random log của user; không sampled negatives |
-| NDCG@5 | DCG nhị phân, discount 1/log2(rank+1); IDCG đến min(5, số positive) |
-| Recall@5 | Số positive trúng top 5 / toàn bộ positive trong candidate pool |
-| Macro average | Trung bình theo user có ít nhất một positive |
-| Chọn model | Validation NDCG@5; test chỉ chấm checkpoint/config đã chọn |
-| Nhiều seed | Config cố định; mặc định 42–51; mean và sample std (ddof=1) |
-| Một seed | Std không xác định (null/N/A), không ghi 0 để biểu thị độ ổn định |
-| Auxiliary | Precision, HitRate, AUC macro theo user có hai lớp; AUC ties tính 0,5 |
+| Nhãn | Rating >=3 |
+| Seed mặc định | 2020; coat-seeds dùng danh sách seed chỉ định |
+| Huấn luyện | Trần 1000 epoch, train-loss stopping với counter tích lũy; lấy trọng số cuối |
+| Calibration | Chọn ngẫu nhiên 5% nhãn toàn random log chấm điểm |
+| Propensity | Naive Bayes; giữ mẫu số max_user_id*max_item_id như script |
+| Tập chấm | Toàn bộ random log, không split 30/70 |
+| Zero-positive user | NDCG và Recall bằng 1 |
+| Recall | Bounded: hits/min(k,n_positive) |
+| AUC | Toàn cục, ties 0,5 |
 
-`Recall@5_bounded` vẫn có trong JSON để chẩn đoán; **không dùng thay Recall@5**.
-AUC không có user đủ hai lớp trả null và auc_users=0. CI theo user của một lượt
-chạy không thay thế std giữa seed.
+Nguồn:
+[script Coat](https://github.com/CrazyDumpling/CDR_CIKM2023/blob/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9/CDR/mf_cdr_bias_coat.py),
+[script Yahoo](https://github.com/CrazyDumpling/CDR_CIKM2023/blob/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9/CDR/mf_cdr_bias_yahoo.py).
 
-[iDCF paper, mục 5.1 và phụ lục B](https://reijz.github.io/papers/2023-debiasing-recommendation-by-learning-ide.pdf)
-là căn cứ chọn tỷ lệ split, nhãn và báo cáo 10 seed.
-[Mã iDCF utils.py](https://github.com/BgmLover/iDCF/blob/main/utils.py) là căn cứ
-cho chia user, Recall chia tổng positive và loại user không positive khỏi macro metric.
+Paper prose và script khác nhau. Kết quả này tái lập điều kiện script, có dùng
+nhãn tập chấm cho calibration; không gọi là held-out test độc lập.
+Báo cáo giữ metric gốc Recall@5_bounded / AUC_global. Bảng hiển thị được gộp
+với cột protocol và loại AUC; bổ sung Recall/all positives, Precision, HitRate
+từ cùng ranking/cùng tập user, không đổi training hoặc các metric gốc.
+User empty-positive của S-full vẫn nhận Recall=1; Precision/HitRate=0.
+Các metric phụ này không phải metric nguồn công bố. Không ghép vào
+paired tests, không lấy chênh điểm thô để xếp hạng với MF/iDCF dùng giao thức khác.
 
-## Phạm vi tương đồng với paper
+## KuaiRand, tuning và serving
 
-Đây là **giao thức địa phương bám theo iDCF**, không phải cam kết tái lập mọi bài.
-[CDR mục 4.1](https://jiawei-chen.github.io/paper/CIKM23-CDR.pdf) dùng 10% random data
-validation và 90% test, đồng thời tập KuaiRand khác kích thước. Điểm CDR chạy ở
-đây chỉ so sánh được với các mô hình khác trong cùng thí nghiệm; không đặt ngang
-điểm gốc CDR như một benchmark có điều kiện giống nhau.
+KuaiRand dùng cùng estimator released nhưng local preprocessing/user split,
+5% validation cho calibration; zero-positive bị loại, Recall chia toàn positive.
+Array sampler thay DataLoader; khi catalog >20 triệu cặp, sampling có hoàn lại
+được ghi metadata. Smoke quá ít lớp có thể mở calibration ra toàn validation,
+có ghi adaptation. Không gọi đây là tái lập chính xác processed CSV của tác giả.
 
-Khác biệt cần công bố:
+Tuning CDR dùng released estimator, >=3 trên Coat, seed 2020, dừng theo train loss,
+calibration 5% validation, chọn cấu hình theo validation. Evaluator tuning là
+held-out của dự án, loại user không positive; không chuyển số tuning sang source protocol.
+MF và CDR tuning có nhãn khác nhau trên Coat, không kết luận hơn/kém từ hai dòng.
 
-- Local gộp exposure lặp thành item duy nhất, positive nếu có ít nhất một click.
-  Mã iDCF đưa trực tiếp các dòng vào CSR và cộng giá trị trùng; vì vậy tương đương
-  metric chỉ được kiểm chứng trên nhãn nhị phân, cặp duy nhất và score không hòa.
-- Local xử lý score hòa bằng item ID tăng dần để tái lập; tác giả dùng argpartition
-  không quy định tie-break tương đương. Không khẳng định khớp bitwise khi score hòa.
-- Local chỉ xếp hạng candidate đã log, kể cả khi ít hơn 5. Không thêm item ngoài
-  log để đủ 5. Có kiểm thử riêng cho trường hợp này.
-- Coat giữ các cặp train/random trùng và báo số overlap; không tự mask thành
-  bài toán unseen-item. Full-catalog evaluator là API khác, không dùng trong runner.
-- MF mặc định BCE, kiến trúc causal và ngân sách tuning khác mã tác giả.
-  Giống metric không đồng nghĩa tái lập được điểm hoặc kết luận nhân quả của paper.
+API không có randomized log nên dùng item-frequency propensity, sampler có
+hoàn lại và ngân sách phục vụ; công bố training_stats.cdr.
+`--cdr-implementation shared` dùng released trong giao thức chung;
+`equation` giữ Eq. (7)/CV cũ cho đối chứng tường minh.
 
-Report và checkpoint ghi `metric_revision`, công thức/aggregation, candidate pool,
-split, quy tắc tie, data/source hash và cờ `paper_scores_directly_comparable=false`.
-Checkpoint cũ thiếu revision này không được âm thầm chấm lại bằng metric mới.
+Kiểm tra bằng `experiments/run.py test`; smoke chỉ xác nhận vận hành.
 
-## Kiểm thử
+## Bảng tổng hợp và cập nhật báo cáo — 21/10/2026
 
-`python experiments/run.py test` gom toàn bộ suite: kiểm tra công thức NDCG/Recall
-bằng tính tay, so với dense-ranking độc lập theo quy ước iDCF, positive > k,
-candidate < k, zero-positive user, candidate sai, score NaN/Inf, tie-break,
-seed std, split rời nhau và chọn config trước khi đọc điểm test.
+H30: MF/iDCF/IViDR hoặc CDR shared, split 30/70 theo user; Coat/Yahoo >=4; AUC macro-user.
+S-full: CDR Coat/Yahoo source, >=3, toàn random log, calibration 5% nhãn chấm điểm;
+AUC toàn cục. S-KR: CDR KuaiRand local split, calibration validation, AUC toàn cục.
+Hai Recall luôn được tính và lưu JSON; bảng chỉ hiển thị Recall@5 bounded theo
+lựa chọn người dùng ngày 21/10. Khác macro population/empty-user policy
+vẫn phải đọc theo protocol của dòng đó. Không paired-test chéo protocol.
 
-`python experiments/run.py smoke` kiểm tra đường chạy ba model trên cả hai dataset.
-Coat dùng toàn bộ dữ liệu; KuaiRand mặc định lấy 64 user. Report luôn ghi smoke;
-điểm này không dùng so sánh chất lượng với bài báo. Muốn đánh giá thực nghiệm,
-chạy benchmark đầy đủ, tune bằng validation và lặp seed trên cấu hình cố định.
+`experiments/run.py report --input FILE` bổ sung metric từ checkpoint CDR,
+kiểm tra metric đã có không đổi, giữ metadata huấn luyện và ghi source hash riêng
+cho lần tính lại. Tạo artifact mới; không ghi đè báo cáo cũ, không retrain.
+Nếu checkpoint thiếu, lệnh báo lỗi; nếu AUC không có hai lớp thì giá trị thật
+không xác định vẫn là null/N/A, không gán số thay thế.

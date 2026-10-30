@@ -1,0 +1,123 @@
+{
+  "dataset": "kuairand",
+  "lcdr": [
+    {
+      "seed": 42,
+      "NDCG@5": 0.5048750506643516,
+      "Recall@5": 0.618279569892473,
+      "Recall@5_bounded": 0.624731182795699,
+      "Precision@5": 0.2580645161290323,
+      "HitRate@5": 0.8709677419354839,
+      "AUC": 0.49047101972101964,
+      "best_epoch": 1,
+      "best_val_ndcg": 0.6212897275125703,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr\\kuairand_lcdr_smoke_e1_r2_seed42_v4_d7286dcb9613ad13.pt",
+      "representation": {
+        "best_val_loss": 2307.1385955810547,
+        "best_val_parts": {
+          "ivae": 1150.339126586914,
+          "lcvae": 1156.7994689941406,
+          "constraint": 7.9263967871665955
+        },
+        "best_epoch": 2,
+        "epochs_run": 2,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 1,
+        "first_full_beta_epoch": 2,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "constraint_weight": 0.9,
+          "latent_dim": 32,
+          "hidden_dim": 64,
+          "n_layers": 2,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 2048,
+          "epochs": 2,
+          "patience": 5,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 42,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "constraint_norm": "l2_not_squared_per_user_mean",
+          "z_gradient": "detached",
+          "validation_metric": "mc_ivae_plus_lcvae_common_noise_v1"
+        }
+      }
+    }
+  ],
+  "idcf": [
+    {
+      "seed": 42,
+      "NDCG@5": 0.47290572549364623,
+      "Recall@5": 0.6311827956989247,
+      "Recall@5_bounded": 0.6440860215053763,
+      "Precision@5": 0.2774193548387097,
+      "HitRate@5": 0.8387096774193549,
+      "AUC": 0.3771481018981019,
+      "best_epoch": 1,
+      "best_val_ndcg": 0.6026858577668839,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_idcf_reference\\kuairand_idcf_smoke_e1_r2_seed42_v4_e65f80956d9e618c.pt"
+    }
+  ],
+  "summary": {
+    "lcdr": {
+      "NDCG@5": {
+        "mean": 0.5048750506643516,
+        "std": null,
+        "n_seeds": 1
+      },
+      "Recall@5": {
+        "mean": 0.618279569892473,
+        "std": null,
+        "n_seeds": 1
+      }
+    },
+    "idcf": {
+      "NDCG@5": {
+        "mean": 0.47290572549364623,
+        "std": null,
+        "n_seeds": 1
+      },
+      "Recall@5": {
+        "mean": 0.6311827956989247,
+        "std": null,
+        "n_seeds": 1
+      }
+    }
+  },
+  "model": "LCDR",
+  "run_id": "20261027_220630_2a870480",
+  "smoke": true,
+  "smoke_users": 64,
+  "epochs": 1,
+  "representation_epochs": 2,
+  "seeds": [
+    42
+  ],
+  "config": {
+    "representation": {
+      "latent_dim": 32,
+      "hidden_dim": 64,
+      "n_layers": 2,
+      "batch_size": 2048,
+      "patience": 5,
+      "constraint_weight": 0.9
+    },
+    "train": {
+      "lr": 0.0001,
+      "weight_decay": 1e-06,
+      "embedding_dim": 64,
+      "batch_size": 2048,
+      "patience": 5,
+      "init_scheme": "author_uniform"
+    }
+  },
+  "code_sha256": "691998046fa1f680ce0ca30e563af0446efe79676929ae754486ec181afd3149",
+  "protocol": "iDCF H30 (same data and evaluator as iDCF); experimental re-implementation, not a paper reproduction"
+}

@@ -1,0 +1,16 @@
+{
+  "model": "MF+BCE (IViDR head, C disabled)",
+  "dim": 4,
+  "weight_decay": 0.0001,
+  "lr": 0.001,
+  "seed": 43,
+  "code_sha256": "2811a292168094fb238f02ca0cdaa6dac26382a2fea2132fed2ddf066a332061",
+  "val_ndcg": 0.4656415087051683,
+  "best_epoch": 11,
+  "epochs_run": 31,
+  "test": {
+    "NDCG@5": 0.4247533025598321,
+    "Recall@5": 0.42462951220436257,
+    "Recall@5_bounded": 0.4769461077844312
+  }
+}

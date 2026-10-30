@@ -1,179 +1,224 @@
-# Vì sao MF, DR-BIAS + CDR và IViDR thấp hơn bài báo
+# Điều tra mô hình: kết luận còn sử dụng được
 
-Cập nhật: 2026-10-16 (review lần 2: lỗi R1 ở nhánh IV, gỡ IViDR joint). Đối chiếu trực tiếp với mã tác giả
-[iDCF](https://github.com/BgmLover/iDCF) (nền của MF và IViDR trong bảng Table 3 IViDR) và
-[CDR](https://github.com/CrazyDumpling/CDR_CIKM2023). Mọi số là NDCG@5 trên tập test,
-chọn checkpoint bằng validation, giao thức iDCF của dự án, trừ khi ghi khác.
+> **Phạm vi lịch sử trước tích hợp Yahoo/CDR released.** Các nhận định "hiện tại"
+> trong phần phân tích dưới thuộc source `d5bdd13e82c3` hoặc các mốc được ghi riêng.
+> Sau tích hợp, benchmark Coat/Yahoo mặc định dùng `released`; Eq. (7) chạy tường minh.
+> Xem [định nghĩa hiện hành](paper_model_alignment.md) và [CURRENT_STATE](../CURRENT_STATE.md).
 
-## Tóm tắt
+Trạng thái triển khai và kết quả mới nằm ở [CURRENT_STATE](../CURRENT_STATE.md).
+Bản dài trước dọn được giữ tại [archive](../archive/2026-10-20/benchmarks/root_cause_analysis.md)
+và bản nguyên byte trong [ZIP](../archive/2026-10-20/documentation_before_cleanup.zip).
 
-### Coat (10 seed 42–51, mean ± std; Wilcoxon theo cặp seed so với MF)
+## Rà soát benchmark 19:48 — đối chứng trực tiếp mã CDR công bố
 
-| Mô hình | Trước | Hiện tại | Bài báo | Δ vs MF (p) | Nguyên nhân chính | Trạng thái |
-| :-- | --: | --: | --: | :-- | :-- | :-- |
-| MF | 0.465 | **0.540 ± 0.012** | 0.5524 | — | Loss BCE thay vì MSE (L-MF-1) | Đã sửa, khớp bài báo |
-| iDCF (2 giai đoạn, mới) | — | **0.570 ± 0.012** | 0.5638 / 0.5744† | +0.030 (p = 0.002, thắng 10/10) | — | Tái lập được |
-| IViDR theo giai đoạn (mới) | — | **0.571 ± 0.013** | 0.5903 | +0.031 (p = 0.002, thắng 10/10) | Kiến trúc joint (L-IV-1); nhánh IV vô hiệu (R1, L-IV-2) | Đã sửa kiến trúc và R1; chờ chạy lại |
-| IViDR joint (cũ) | 0.531 (BCE) | 0.544 ± 0.015 | 0.5903 | +0.004 (p = 0.49) | L-IV-1 | Thay bằng bản theo giai đoạn |
-| DR-BIAS + CDR | 0.476 ± 0.006 | 0.509 ± 0.030 | 0.6567* | −0.032 (p = 0.004) | Giao thức bài báo khác (L-CDR-1); CDR là khung BCE (L-CDR-4) | Tái lập 0.666 theo giao thức tác giả |
+[Báo cáo mới](../../results/archive/2026-10-22/benchmark_history/benchmark_coat_all_16747d3add_20261020_194738_4bb0b674_v4.md),
+[evidence](../../results/archive/2026-10-22/diagnostics/cdr_followup_audit_20261020.json) và
+[runner/source/weights đối chứng](../archive/2026-10-20/cdr_followup_audit/runners_and_source.zip).
+Source dự án vẫn `d5bdd13e82c3`; đợt này không sửa runtime hoặc chọn config theo test.
 
-†0.5638 là iDCF trong ablation của bài IViDR; 0.5744 là iDCF trong bảng chính.
-\*Giao thức khác, không so trực tiếp (L-CDR-1).
+| Thí nghiệm | NDCG@5 | Recall@5 | Phạm vi |
+| :-- | --: | --: | :-- |
+| MF vừa chạy | .547612 | .529536 | Test dự án, seed 42 |
+| iDCF vừa chạy | .569884 | .551969 | Test dự án, seed 42 |
+| CDR vừa chạy | .448514 | .458145 | Test dự án, seed 42 |
+| Chạy các lớp/điều kiện script công bố | **.656665** | **.667816** | Diagnostic theo source; Recall bounded; không phải held-out benchmark dự án |
 
-### KuaiRand-Pure (seed 42, cấu hình mới; `results/benchmark_kuairand_all_2edb44f179_v4.md`)
+Dòng cuối làm tròn đúng .6567/.6678 của [CDR Table 2](https://jiawei-chen.github.io/paper/CIKM23-CDR.pdf).
+Lớp/hàm được trích nguyên AST ở commit `6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9`;
+không dùng port `cdr-author` cũ. Môi trường khác paper nên không tuyên bố bitwise.
 
-| Mô hình | Trước | Hiện tại | Bài báo |
-| :-- | --: | --: | --: |
-| MF | 0.343 | **0.3744** | 0.3748 |
-| IViDR joint | — | 0.3630 | 0.4161 |
-| DR-BIAS + CDR | — | 0.3459 | 0.3098‡ |
-| Popularity | 0.3578 | 0.3578 | — |
+### Kiểm tra dữ liệu và khác biệt thực nghiệm
 
-‡Giao thức CDR khác. iDCF / IViDR theo giai đoạn chưa chạy trên KuaiRand.
+Hai ma trận train/test khớp mọi giá trị với repository CDR gốc; khác byte chỉ do
+CRLF. Checkpoint đúng epoch 40 và source/data hash; chấm lại độc lập tái hiện
+.448514, score hữu hạn và không bị phẳng. Chưa tìm thấy lỗi tải nhầm dữ liệu/checkpoint.
 
-**Tiền xử lý dữ liệu không phải nguyên nhân.** Nhãn (Coat rating ≥ 4, KuaiRand `is_click`),
-lọc user rồi item ≥ 10 exposure một lượt, ánh xạ ID, chia user random log 30/70 bằng
-`RandomState(1234)`, chỉ xếp hạng item trong random log, NDCG/Recall loại user không có
-dương: khớp `data_process/*/build_dataset.ipynb` và `utils.py` của iDCF. Bằng chứng: MF và
-iDCF đúng cấu hình tác giả cho số trùng hoặc cao hơn bài báo.
+| Thành phần | Benchmark dự án | Script CDR công bố |
+| :-- | :-- | :-- |
+| Positive | rating >=4 | rating >=3 |
+| Tập chấm | 203 user test riêng | Toàn bộ 290 user random log |
+| User không positive | Loại khỏi macro | NDCG/Recall bằng 1 |
+| Recall | Chia toàn bộ positive | Chia số positive tối đa trong top K |
+| Propensity | Hiệu chỉnh từ validation | 5% nhãn random log cũng dùng chấm điểm |
+| Bộ lọc | CV .1 | Variance 10 |
+| Recommendation loss | Eq. (7), population-normalized | Correction imputation không cùng inverse weight; tổng chia direct batch |
+| Fit imputation/dropout | BCE cùng chiều rec; dropout embedding | BCE đảo chiều; thêm mask output probability |
 
-## MF
+Paper prose nói rating >3 và split 10/90; không đồng nhất với script. Giữ nguyên
+checkpoint script và chấm theo >=4/test pool dự án: NDCG **.479693**. Đây vẫn là
+diagnostic vì checkpoint dùng một phần nhãn random để hiệu chỉnh propensity.
+Giữ checkpoint dự án nhưng chấm >=3/full-random/empty=1 cho .577030; không coi là
+kết quả đã cải thiện hoặc tái lập paper. Không sửa nhãn/evaluator để lấy điểm cao.
 
-**L-MF-1 (chính) — Loss BCE thay vì MSE.** `iDCF/MF.py` dùng `nn.MSELoss()` trên điểm thô
-(không sigmoid) với nhãn 0/1; dự án mặc định `BCEWithLogits`. Ablation Coat, 10 seed 42–51:
+### Imputation: bộ lọc đang bảo vệ mô hình
 
-| Cấu hình | NDCG@5 |
+Epoch chọn loại 93.49% observed / 92.78% direct imputation. Lần sửa trước cố định
+eta .1 khi tune LR/wd/batch. Đối chứng mới giữ mọi tham số khác, chỉ chấm validation:
+
+| Điều kiện | Val NDCG@5 |
 | :-- | --: |
-| A. Benchmark cũ: BCE, lr 1e-3, wd 1e-5, decay chỉ embedding, ReduceLROnPlateau, μ học được, patience 7 | 0.465 ± 0.014 |
-| B. Đúng tác giả: MSE, lr 5e-4, wd 1e-6, decay mọi tham số, không scheduler, μ = 0, patience 5 | **0.540 ± 0.012** |
-| C. = B nhưng BCE | 0.453 ± 0.012 |
-| D. = A nhưng lr/wd của tác giả | 0.455 ± 0.013 |
+| IPS control, eta 0 | .494527 |
+| CDR eta .1 | .498562 |
+| eta .5 | .455278 |
+| eta 1 | .371773 |
+| eta 3/5/7/10/50, không còn lọc | .363517 |
 
-B và C chỉ khác loss: chênh **+0.087**. A và D cho thấy lr/wd gần như không tác động.
-KuaiRand (lr 5e-5, dim 64, batch 2048, cùng seed): MSE 0.3744, BCE 0.3316.
+CDR chỉ hơn IPS .004035 ở seed này; nới bộ lọc làm giảm điểm. Probe checkpoint với
+200 MC samples cho khoảng 67.46% imputation validation thỏa định nghĩa poisonous,
+nhóm retained không có poisonous trong probe. Train error-imputation MSE tăng từ
+.183787 (deterministic) lên .729206 (MC mean); validation tương ứng .663995/.833042.
+Đây là dấu hiệu nhánh imputation kém và khác error sau dropout, chưa chứng minh
+riêng một bug công thức. Paper §3.1 quy định **không dropout lúc train imputation**;
+không tự thêm dropout training rồi gọi là sửa đúng paper. Probe 200 mẫu không thay
+log train dùng 10 mẫu và trạng thái trọng số thay đổi trong epoch.
 
-**L-MF-2 — Quá khớp sớm với BCE.** BCE đạt đỉnh validation ở epoch 4–7 rồi giảm; MSE ở
-epoch 11–22 (Coat), 22 (KuaiRand). Gradient MSE trên điểm thô bị chặn, đóng vai trò điều
-chuẩn ngầm mạnh hơn trên dữ liệu MNAR nhỏ (giả thuyết, chưa kiểm chứng riêng).
+Lớp nguyên gốc chạy nhãn/split dự án, chỉ validation calibration đạt .469430 val.
+Chỉ đổi chiều BCE fit imputation của bản hiện tại theo source đạt .512568 ở eta .1,
+nhưng .320130 ở eta 10. Không có bằng chứng đổi một thành phần sẽ khôi phục .6567
+trong benchmark chung; các probe này không chấm test hay thay cấu hình mặc định.
 
-**L-MF-3 — Siêu tham số KuaiRand.** Benchmark cũ dùng dim 128, lr 5e-4, batch 4096, trần
-25 epoch; tác giả dùng dim 64, lr 5e-5, batch 2048, 100 epoch. Đây là lý do mọi mô hình
-từng thua Popularity (0.358) trên KuaiRand.
-
-**L-MF-4 (phụ).** Khởi tạo Normal thay vì Uniform(±0.01), intercept học được thay vì cố
-định 0, decay chỉ embedding, scheduler plateau. Đã gỡ cùng cấu hình B.
-
-Đã sửa: `experiments/workflows/run_all_benchmarks.py` dùng cấu hình B; MF KuaiRand 100 epoch.
+Kết luận: dữ liệu đúng; CDR hiện tại chưa phải thí nghiệm tạo số Table 2 và chưa
+cải thiện rõ ràng so với IPS control trên validation. Muốn so số paper, ghi riêng
+nhánh theo điều kiện script với calibration/metric đầy đủ; muốn cải thiện benchmark
+chung, kiểm chứng imputation và tuning trên validation trước khi khóa cấu hình.
+Các phần dưới giữ các mốc điều tra trước lượt 19:48, không thay kết luận mới này.
 
 ## DR-BIAS + CDR
 
-**L-CDR-1 (chính) — Giao thức chấm của bài báo khác và dễ hơn.** Theo `CDR/utils.py` và
-`CDR/mf_cdr_bias_coat.py`:
+Giữ tiêu đề này để liên kết từ bản chép paper cũ vẫn trỏ đúng. Các điểm dưới đây
+là đính chính của dự án; công thức/nội dung bài báo nằm ở PDF và bản chép được bảo toàn.
 
-- `binarize(thres=3)`: rating ≥ **3** là dương. Tỷ lệ dương trong random log 40% (dự án 18,5%).
-- `ndcg_func`/`recall_func`: user không có dương được tính **1**; Recall chia `min(k, #dương)`.
-- Chấm toàn bộ random log, không có validation; dừng theo train loss.
-- Propensity Naive Bayes ước lượng từ **5% nhãn của chính tập test**.
+## Đính chính cho lần đọc sau
 
-Xếp hạng **ngẫu nhiên** đạt NDCG@5 ≈ **0.46** theo giao thức này (dự án ≈ 0.30). Bản port
-thuật toán tác giả của dự án (`experiments/run.py cdr-author`) đạt **0.666 ± 0.006**,
-Recall 0.672 ± 0.007 (5 seed) so với bài báo 0.6567 / 0.6678: thuật toán đúng, chênh lệch là
-do thang đo. Số 0.6567 không đặt cạnh MF 0.5524 của iDCF được.
+- Chênh điểm CDR có cả khác giao thức và các bất nhất loss/filter ở bản cũ.
+  Không kết luận “chỉ do dữ liệu” hoặc “chỉ do BCE”.
+- Bộ lọc variance ngưỡng 10 từng không loại mẫu trong một lượt cũ. Triển khai hiện
+  dùng CV; kết quả cũ đó không mô tả bộ lọc hiện tại.
+- Những lượt CDR chọn MF epoch 0 là warm-start ablation, không phải thành tích
+  của CDR nguyên bản. Benchmark/tuning/seed runner hiện không nạp checkpoint MF.
+- CDR paper cho phép nhiều hàm error. Bản hiện hành chọn BCE; không suy ra rằng
+  mọi CDR bắt buộc dùng BCE hoặc mọi MF phải đổi sang BCE.
+- IViDR-staged cũ có `alpha_residual=1` trả lại treatment gốc; đổi thành 0 vẫn
+  không bổ sung được các MLP/reconstruction/BCE còn thiếu của IViDR paper.
+- Port `cdr-author` không tương đương bitwise mã công bố và dùng một phần nhãn
+  tập chấm điểm để ước lượng propensity. Không dùng số đó để chứng nhận tái lập.
 
-**L-CDR-2 — Bộ lọc imputation: giả thuyết lỗi bị bác bỏ.** `src/causal/cdr` lọc
-`std/mean < 0.01` nên bỏ ~99% imputation, còn tác giả lọc `phương sai < 10` (giữ gần hết).
-Ablation Coat 3 seed (warm start MF-BCE trừ dòng cuối; chọn bằng validation):
+## Sau sửa pipeline Coat — 20/10/2026
 
-| Biến thể | Val NDCG@5 | Test NDCG@5 | Epoch tốt nhất |
-| :-- | --: | --: | :-- |
-| Cũ: lọc CV 0.01, IPS `(1/p − 1)`, counterfactual chỉ cặp chưa quan sát | 0.540 | 0.479 | 14–36 |
-| Chỉ đổi bộ lọc sang phương sai < 10 | 0.489 | 0.445 | 6–11 |
-| Đủ chế độ tác giả (lọc phương sai, IPS không trọng số, toàn U×I) | 0.528 | 0.470 | 16–18 |
-| Chế độ tác giả + warm start MF-MSE | **0.607** | **0.524** | **1** |
+Các lỗi đã xử lý: iVAE Coat dùng kiến trúc 16/32/3 và patience 100; chọn checkpoint
+và early stopping sau full-beta warm-up. Ngân sách smoke quá ngắn được đánh dấu
+riêng. Trainer CDR cập nhật recommendation rồi tính lại sai số để cập nhật
+imputation, thay cho cập nhật hai bên từ cùng logits cũ.
 
-Giữ lại gần hết imputation làm **giảm** điểm: bộ lọc gắt đang giúp CDR, không phải lỗi.
-Dòng cuối có validation tốt nhất nên được chọn làm mặc định Coat
-(`filter_mode="variance"`, `ips_weighting="author"`, `counterfactual_pool="all"`,
-`un_thres=10`, warm start MF-MSE dim 32), cho **0.509 ± 0.030** trên 10 seed. Nhưng epoch
-tốt nhất luôn là 1: điểm đến từ warm start MF-MSE, huấn luyện CDR (BCE) từ epoch 2 trở đi
-chỉ làm validation giảm.
+CDR Coat mặc định dùng Naive Bayes trên validation, không dùng nhãn test cho
+hiệu chỉnh. Trọng số IPS lớn nhất giảm từ 245.07 xuống 14.33; top 1% mẫu chiếm
+1.32% tổng trọng số imputation thay vì 50.12%. Đây là thay đổi estimator
+propensity có công bố nguồn, không phải cap trọng số hoặc sửa Eq. (7).
 
-**L-CDR-3 — Khác công thức so với mã tác giả.** Các khác biệt dưới đây đã thêm thành tùy
-chọn trong `src/causal/cdr/` (`filter_mode`, `ips_weighting`, `counterfactual_pool`); như
-L-CDR-2 cho thấy, chúng không giải thích khoảng cách.
+Một phần miền tuning paper đã được kiểm tra trên validation. Cấu hình chốt:
+LR .1, wd .0001, batch 512, eta .1, dim 4, patience 20; chọn theo mean validation
+ba seed 42/43/44 giữa hai cấu hình vào vòng xác nhận. Chưa chạy đủ 1120 tổ hợp.
+CDR validation lần lượt .498562/.497547/.491869, mean .495993; vẫn chưa vượt MF.
+Các seed này tham gia chọn cấu hình nên không phải kiểm chứng độc lập ngoài mẫu.
 
-| Thành phần | Dự án (mặc định cũ) | Tác giả |
-| :-- | :-- | :-- |
-| Phần IPS | trừ `(1/p − 1)·ê·filter` | trừ `ê·filter`, không trọng số |
-| Counterfactual | chỉ cặp chưa quan sát | toàn bộ U×I |
-| MC dropout | co giãn 1/(1−p), không dropout đầu ra | mặt nạ không co giãn, dropout cả xác suất |
-| Backbone | MF có bias, warm-start MF-BCE, dim 32, lr 0.002 | MF không bias Xavier, dim 4, lr 0.05 |
-| Propensity | file Coat, kẹp 20 | Naive Bayes từ nhãn test |
+[Validation bản chốt](../../results/archive/2026-10-22/validation/coat_pipeline_fix_validation_20261020.json),
+[các trial phát triển](../../results/archive/2026-10-22/diagnostics/coat_pipeline_fix_search_20261020.json) và
+[trạng thái hiện hành](../CURRENT_STATE.md) giữ số và source tương ứng. Chưa có
+benchmark test đầy đủ của bản sửa. Không chuyển số test cũ sang source mới.
 
-**L-CDR-4 (chính dưới giao thức dự án) — CDR là khung BCE.** Sai số e trong doubly-robust là
-BCE nên CDR chịu cùng điểm yếu L-MF-1. Bằng chứng độc lập: bản port **đúng mã tác giả**,
-tune theo giao thức dự án (`experiments/run.py cdr-tune`: 16 cấu hình, chọn bằng validation,
-propensity Naive Bayes từ nhãn validation thay vì test), cấu hình chọn (dim 32, lr 0.01,
-un_thres 10) đạt test **0.482 ± 0.008** (10 seed) — ngang CDR của `src/` và thấp hơn MF-MSE.
-Kết luận: dưới giao thức iDCF, CDR thấp không do lỗi cài đặt.
+## Báo cáo Coat đầy đủ trước sửa — 20/10/2026
 
-## IViDR
+**Phần dưới mô tả source `36230d1cd908`, trước bản sửa ở trên.** Những cấu hình
+và câu “chưa sửa runtime” trong phần điều tra này là trạng thái tại mốc đó.
 
-**L-IV-0 (đã sửa) — Loss BCE.** `iDCF.py` dùng MSE. Bản joint đổi sang MSE: 0.531 ± 0.018 →
-0.549 ± 0.003 (5 seed); 10 seed 0.544 ± 0.015, không hơn MF có ý nghĩa (p = 0.49).
+[Báo cáo người dùng chạy](../../results/archive/2026-10-22/benchmark_history/benchmark_coat_all_429e263db0_v4.md),
+[JSON gốc](../../results/benchmark_coat_all_429e263db0_v4.json) và
+[evidence chỉ đọc](../../results/archive/2026-10-22/diagnostics/coat_report_analysis_20261020.json).
+Đây là full-data seed 42, không phải smoke; source `36230d1cd908`, chưa tuning.
 
-**L-IV-1 (chính, đã sửa) — Kiến trúc joint thay vì 2 giai đoạn của iDCF.** IViDR = iDCF + IV
-(ablation bài báo: iDCF 0.5638 → IViDR-F 0.5846 → IViDR 0.5903). Mã iDCF:
+| Mô hình | Test NDCG@5 dự án | Mốc paper để tham khảo | Cách diễn giải |
+| :-- | --: | :-- | :-- |
+| MF | .547612 | .5524 ± .0144 trong paper iDCF | Chênh .004788; cùng thang biến thiên seed được paper báo cáo, chưa phải kiểm định tái lập |
+| iDCF | .463745 | .5744 ± .0122 trong paper iDCF | Giảm đáng kể; chưa dùng kiến trúc iVAE Coat đã tune công khai |
+| DR-BIAS + CDR | .376982 | .6567 trong paper CDR | Khác cả thực nghiệm và cấu hình tối ưu; không coi chênh số thô là mức suy giảm cùng điều kiện |
 
-1. `ivae_exposure.py`: huấn luyện iVAE **riêng** (KL anneal, chọn theo val loss) trên
-   **vector exposure A ∈ {0,1}^n_items** của mỗi user, W = đặc trưng user one-hot.
-2. `iDCF.py::MFMF`: điểm = MF + ⟨item_emb_i, C_u⟩ với C cố định, MSE, lr 5e-4, wd 1e-6.
+Mốc paper từ [iDCF Table 2 và Appendix B](https://arxiv.org/pdf/2302.05052)
+và [CDR Table 2, §4.1](https://jiawei-chen.github.io/paper/CIKM23-CDR.pdf).
+Một seed dự án không thay thế trung bình 10 seed của iDCF. Giao thức chung bám
+iDCF; khác biệt nhỏ evaluator không đủ bằng chứng để giải thích toàn bộ chênh lệch.
 
-Bản cũ của dự án (`src/causal/ividr/`) huấn luyện **chung** loss gợi ý + 0.01·ELBO, đầu vào
-iVAE là **embedding MF của user** chứ không phải A, thêm LayerNorm và φ = 2.
+### iDCF: cấu hình ví dụ khác mô hình Coat đã tune
 
-Đã port đúng 2 giai đoạn vào `src/causal/idcf/` (`ivae.py`, `idcf_model.py`, `train_idcf.py`):
-- Với `mean.pt/std.pt` tác giả công bố: ≈ 0.586 (kiểm chứng port giai đoạn 2).
-- iVAE tự huấn luyện, 10 seed: **0.570 ± 0.012**, vượt MF ở cả 10 seed (p = 0.002), cao hơn
-  0.5638 của bài báo.
+Local dùng iVAE latent 32 / hidden 64 / 2 lớp theo `sample_config`. Tác giả xuất
+latent qua [notebook](https://github.com/BgmLover/iDCF/blob/main/save_ae_params.ipynb)
+bằng cách nạp [checkpoint đã tune](https://github.com/BgmLover/iDCF/blob/main/tuned_models/coat_val_ivae_exposure_best.pt).
+Kiểm tra trực tiếp checkpoint SHA256 `a37531edb98cdfa1cb0b47505f14d42388fd2e006416705ee7493046bcc4edd8`:
+encoder `fc_0.weight` có shape (32,314), `fc_1.weight` (32,32), `fc_2.weight`
+(16,32), tức hidden 32 / latent 16 / 3 lớp tuyến tính. Vì vậy nhận định dùng cấu
+hình ví dụ là đủ để tái lập Coat cần được rút lại. Tensor không cho biết toàn bộ
+siêu tham số huấn luyện; đổi riêng dim chưa chứng minh sẽ khôi phục điểm paper.
 
-IViDR theo giai đoạn (`src/causal/idcf/ividr_staged.py`, Algorithm 1): T = embedding item
-MF-MSE; 2SLS theo item với IV là đặc trưng trung bình của user đã thấy item; C2 = iVAE trên A,
-C1 = iVAE trên [A, X^re_u]; C = 0.9·C1 + 0.9·C2; giai đoạn 2 như iDCF. Lượt 10 seed đầu tiên:
-**0.571 ± 0.013** (+0.031 vs MF, p = 0.002, thắng 10/10) — nhưng chạy với lỗi R1 bên dưới.
+Local có 232 user train iVAE, batch 512 nên một update/epoch. Với trần 2000 epoch,
+KL warm-up dài 400 update. iVAE chọn epoch 51 (beta lúc train .125), dừng epoch
+56 (beta .1375), trong khi validation tính ELBO với beta 1. Stage 2 chọn epoch
+3 và dừng 8. Đây là checkpoint được chọn trước khi kết thúc warm-up, cần kiểm
+tra ảnh hưởng của schedule/patience trên validation. Chưa có ablation chứng minh
+đây là nguyên nhân duy nhất. Chỉ tăng trần epoch, giữ early stopping, không giải
+quyết việc dừng sớm này. Mã tác giả còn khác cách đếm update anneal và lấy mẫu
+validation, nên không gọi hai quá trình huấn luyện là tương đương.
 
-**L-IV-2 (còn lại) — Nhánh IV là giả định; lượt đầu có lỗi (R1).** IViDR-staged chỉ hơn iDCF
-**+0.0009** (Wilcoxon p = 0.28). Review lần 2 tìm ra nguyên nhân trực tiếp: `iv_reconstruct`
-trả `T^re = T̂ + alpha_residual·T̃` với mặc định `alpha_residual = 1`, nên `T^re = T` — bước
-2SLS **không có tác dụng**, C1 chỉ thấy embedding MF gốc. Bài báo (Eq. 8) dùng `α1·T̂ + α2·T̃`
-với α học bằng MLP; IViDR-F (chỉ phần fitted) đạt 0.5846. Đã đổi mặc định sang
-`alpha_residual = 0` (IViDR-F) và chọn lại bằng validation; số 10 seed cần chạy lại. Ngoài
-ra Z, T, X^re và cách ghép C1/C2 vẫn là giả định vì tác giả IViDR không công bố mã.
+### CDR: có khác giao thức và dấu hiệu tối ưu kém
 
-**L-IV-3 — Tuning.** Bài báo grid lr {1e-3, 5e-4, 1e-4, 5e-5, 1e-5} × wd {1e-5, 1e-6};
-dự án dùng cấu hình iDCF cố định (lr 5e-4, wd 1e-6, latent 16), chưa tune.
+Paper mô tả rating > 3 và validation/test 10/90. Script Coat công bố lại dùng
+rating >= 3, toàn bộ random log để chấm điểm, quy ước user không positive khác
+và ước lượng propensity Naive Bayes từ một phần nhãn random. Dự án dùng rating
+>= 4, split user 30/70, loại user không positive và propensity file Coat. Không
+đồng nhất script với paper hoặc đổi threshold chỉ để điểm cao hơn.
 
-**L-IV-4 — KuaiRand.** Bản joint (proxy one-hot 155 chiều, IV theo `tab`) đạt 0.3630, vẫn
-thua MF (0.3744): cùng nguyên nhân L-IV-1. Bản joint đã gỡ; `benchmark` nay chạy iDCF và
-IViDR theo giai đoạn trên KuaiRand (exposure = mọi cặp trong standard log, W one-hot,
-Z theo `tab`; lr 1e-4, batch 2048 theo mã tác giả). Chưa có số.
+Triển khai hiện dùng Eq. (7), CV filter và dropout embedding theo paper; script
+tác giả có các khác biệt estimator/filter/dropout đã ghi ở
+[paper_model_alignment](paper_model_alignment.md). LR .05, dim 4, batch 128 lấy
+từ script không mặc nhiên tối ưu sau những thay đổi này. Grid chưa được chạy.
 
-## Còn lại
+Tuy vậy, khác giao thức không giải thích hết chất lượng nội bộ hiện tại:
 
-1. Ablation `alpha_residual` ∈ {0, 0.5, 1} trên validation Coat, rồi chạy lại IViDR 10 seed.
-2. Chạy `benchmark --dataset kuairand --model idcf` và `--model ividr`.
-3. Thử thêm cách dựng nhánh IV (Z, ρ/τ, α học được) để thu hẹp khoảng cách với bài báo IViDR.
+- CDR chọn epoch 6, Val NDCG .425608, Test AUC .560873; Popularity NDCG .351106.
+  So với Popularity, CDR tăng .025875, Wilcoxon p=.514 trên user của seed này;
+  chưa có bằng chứng cải thiện ranking rõ ràng. Đây không phải std giữa seed.
+- Risk recommendation quanh .69; imputation loss dao động mạnh (epoch 2–5:
+  khoảng 29.8–75.1). Risk tổng hợp không chứng minh mọi dự đoán bằng .5.
+- Trên 6960 cặp train, inverse propensity lớn nhất 245.07; IPS ESS khoảng 2211.
+  Loss imputation dùng trọng số `w^3 * (1 - 1/w)^2`, lớn nhất khoảng 14.6 triệu;
+  70 mẫu có trọng số cao nhất (xấp xỉ 1%) chiếm 50.12% tổng trọng số imputation.
+  Đây là khối lượng trọng số, không phải khối lượng gradient; cần kiểm tra residual
+  và gradient mới kết luận mất ổn định. Không tự cap trọng số rồi gọi là CDR gốc.
+- Bộ lọc CV ở epoch được chọn loại khoảng 5.01% observed và 5.18% direct imputation.
+  Không áp dụng lại nhận định cũ “bộ lọc không hoạt động” cho bản này.
 
-## Lệnh tái lập
+Audit cũ từng chấm lại cùng một checkpoint port với quy tắc khác và thấy điểm đổi
+mạnh. Điều đó chứng minh metric phụ thuộc protocol, không định lượng phần chênh
+do protocol trong checkpoint CDR hiện tại. Không lấy checkpoint port làm benchmark
+độc lập vì có dùng nhãn tập chấm điểm cho propensity.
 
-```powershell
-.\venv\Scripts\python.exe experiments\run.py coat-seeds      # Coat 10 seed: MF, iDCF, IViDR, CDR
-.\venv\Scripts\python.exe experiments\run.py benchmark       # Coat + KuaiRand, 1 seed: MF, iDCF, IViDR, CDR
-.\venv\Scripts\python.exe experiments\run.py cdr-author      # CDR, giao thức tác giả
-.\venv\Scripts\python.exe experiments\run.py cdr-tune        # CDR port tác giả, giao thức dự án
-```
+### Thứ tự xử lý cần thiết
 
-Artifact: `results/coat_seeds_c25da453e8909e5b` (MF, IViDR joint, CDR cũ),
-`results/coat_seeds_7d37e1975c96a410` (iDCF, IViDR-staged với lỗi R1),
-`results/coat_seeds_7ae4942b7c4a9f32` (CDR mặc định mới), `results/cdr_idcf_tune_coat.json`,
-`results/cdr_author_protocol_coat_thr3.json`, `results/benchmark_kuairand_all_2edb44f179_v4`.
+1. Xác minh ánh xạ dữ liệu/feature và latent với pipeline iVAE Coat đã tune; tách
+   kiểm chứng kiến trúc khỏi kiểm chứng schedule và early stopping trên validation.
+2. Với CDR, chốt chạy tái lập công thức paper hay tái lập script có ghi rõ khác
+   biệt; kiểm tra định nghĩa/ước lượng propensity và độ tập trung gradient trước
+   khi tune LR, weight decay, eta, batch bằng validation. Giữ MF-MSE và CDR-BCE độc lập.
+3. Khóa cấu hình, báo mean/std nhiều seed rồi chấm test ở lượt mới. Không chọn
+   cấu hình theo test vừa đọc hoặc tuyên bố test công thức đạt là mô hình đã tốt.
+
+Đợt phân tích này không sửa runtime, không tune hoặc chạy lại mô hình. Các nguyên
+nhân chưa được kiểm tra bằng thí nghiệm đối chứng vẫn được giữ là giả thuyết.
+
+## Bằng chứng lịch sử
+
+[CDR audit evidence](cdr_audit_2026-10-19_evidence.json) và
+[review evidence](review_2026-10-19_evidence.json) giữ nguyên số đo và hash cũ.
+Công thức/phép đo trong archive mô tả phiên bản tại thời điểm điều tra;
+đường dẫn tới source ngày nay không có nghĩa lỗi đó vẫn còn.
+
+Kết quả được phép trích và phần việc còn thiếu: [catalog kết quả](../../results/CATALOG.md),
+[đối chiếu mô hình](paper_model_alignment.md), [CURRENT_STATE](../CURRENT_STATE.md).

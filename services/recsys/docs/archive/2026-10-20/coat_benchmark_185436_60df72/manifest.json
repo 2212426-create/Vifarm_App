@@ -1,0 +1,13 @@
+{
+  "reason": "preserve documentation before adding full Coat single-seed benchmark evidence",
+  "run": "results/coat_full_20261020_185436_60df72",
+  "zip_sha256": "4bfc3b4a83a9e699387310758ef8bfa76534612609f91024b49a9caa7457d3e2",
+  "members": {
+    "docs/CURRENT_STATE.md": "3aa7e6fbc0dc693f643d33455ab71e4aa6f9345ffcdc958faa9ad34cf9d91bd9",
+    "docs/state_snapshot.json": "c4a84da99c11476ecf1630db60757d726db9870093243506a4c6f0ac23003a23",
+    "docs/catalog.json": "d68185152f7783b260edfe4a0e763d65bf4f28c91647016b792155ba6c5a39ae",
+    "docs/check_docs.py": "be9de335559def6a7dd6a488c3337304b5b57e28abcb638c1a575e2c667a531f",
+    "results/CATALOG.md": "738f660cc5eaba83d29cffbe727a0585b6175f8ee5a13f2614f382beba979d99",
+    "results/README.md": "46872286fb5e69734b5630784e0e0efe5c6a642595d5323c173dbd1df1d3a2d2"
+  }
+}

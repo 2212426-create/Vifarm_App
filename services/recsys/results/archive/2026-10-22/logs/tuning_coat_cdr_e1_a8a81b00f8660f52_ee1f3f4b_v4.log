@@ -1,0 +1,26 @@
+
+#####################################################################################
+ >>> BẮT ĐẦU TINH CHỈNH MÔ HÌNH: CDR (Tổng cộng: 1 trials)
+#####################################################################################
+
+--- [CDR Trial 1/1] Cấu hình: {'embedding_dim': 4, 'lr': 0.05, 'weight_decay': 0.001, 'batch_size': 128, 'un_thres': 10.0, 'dropout_rate': 0.5, 'G': 4} ---
+Released CDR epoch 1/1 | Val NDCG@5 0.507235 | filtered 0.0%
+ [KẾT QUẢ TRIAL 1] Best Val NDCG@5 = 0.5072 (tại epoch 1) | Thời gian: 6.7s
+
+>>> [LỰA CHỌN TỐI ƯU CHO CDR] Cấu hình: {'embedding_dim': 4, 'lr': 0.05, 'weight_decay': 0.001, 'batch_size': 128, 'un_thres': 10.0, 'dropout_rate': 0.5, 'G': 4}
+    Điểm Validation NDCG@5 cao nhất: 0.5072 (epoch 1)
+    -> Đang tiến hành đánh giá DUY NHẤT 1 LẦN trên tập Held-Out Test...
+    -> KẾT QUẢ TEST: NDCG@5 = 0.5155 | Recall@5 = 0.3593 | AUC = 0.5472
+
++------------------------------------------------------------------------------------------------------------+
+|                             KẾT QUẢ CUỐI CÙNG SAU KHI TUNING TRÊN COAT DATASET                             |
++=========+============================================+============+=============+===============+==========+
+| Mô Hình |              Cấu Hình Tối Ưu               | Val NDCG@5 | Test NDCG@5 | Test Recall@5 | Test AUC |
++=========+============================================+============+=============+===============+==========+
+| CDR     | {"embedding_dim": 4, "lr": 0.05, "weigh... |   0.5072   |   0.5155    |    0.3593     |  0.5472  |
++---------+--------------------------------------------+------------+-------------+---------------+----------+
+
+[HOÀN THÀNH] Báo cáo chi tiết JSON : D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\tuning_coat_cdr_e1_a8a81b00f8660f52_ee1f3f4b_v4.json
+[HOÀN THÀNH] Báo cáo khoa học Markdown: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\tuning_coat_cdr_e1_a8a81b00f8660f52_ee1f3f4b_v4.md
+[HOÀN THÀNH] Toàn bộ nhật ký Log    : D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\tuning_coat_cdr_e1_a8a81b00f8660f52_ee1f3f4b_v4.log
+

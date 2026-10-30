@@ -1,0 +1,68 @@
+D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\src\models\conalign\data.py:71: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\Context.cpp:855.)
+  return torch.sparse_coo_tensor(indices, values, torch.Size(sparse_mx.shape))
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\conalign_coat_20261028_081519_b614253e.json",
+  "stage1": {
+    "best_epoch": 84,
+    "best_val_auc": 0.741179883480072,
+    "epochs_run": 145
+  },
+  "stage2": {
+    "best_epoch": 486,
+    "best_val_auc": 0.796845555305481,
+    "epochs_run": 500
+  },
+  "unbiased_test_unbiased_tower": {
+    "BCE": 0.46830663084983826,
+    "AUC": 0.748970627784729,
+    "UAUC": 0.6732594758013769,
+    "UNDCG": 0.7100293011692587,
+    "Precision": 0.3236994219653183,
+    "Recall": 0.8849573355353704,
+    "NDCG": 0.7050009075479164
+  }
+}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\conalign_yahoo_20261028_081519_b614253e.json",
+  "stage1": {
+    "best_epoch": 198,
+    "best_val_auc": 0.8141411542892456,
+    "epochs_run": 259
+  },
+  "stage2": {
+    "best_epoch": 122,
+    "best_val_auc": 0.766167938709259,
+    "epochs_run": 183
+  },
+  "unbiased_test_unbiased_tower": {
+    "BCE": 0.34594589471817017,
+    "AUC": 0.7503902912139893,
+    "UAUC": 0.6891571244791046,
+    "UNDCG": 0.7866907446304685,
+    "Precision": 0.2637277648878525,
+    "Recall": 0.9761020881670532,
+    "NDCG": 0.7772873203798388
+  }
+}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\conalign_kuairand_20261028_081519_b614253e.json",
+  "stage1": {
+    "best_epoch": 14,
+    "best_val_auc": 0.7231869697570801,
+    "epochs_run": 75
+  },
+  "stage2": {
+    "best_epoch": 27,
+    "best_val_auc": 0.6735249757766724,
+    "epochs_run": 88
+  },
+  "unbiased_test_unbiased_tower": {
+    "BCE": 0.5947285890579224,
+    "AUC": 0.6584612727165222,
+    "UAUC": 0.5958365562225375,
+    "UNDCG": 0.556377877497112,
+    "Precision": 0.2954569373793923,
+    "Recall": 0.6188354465168334,
+    "NDCG": 0.5277809418683062
+  }
+}

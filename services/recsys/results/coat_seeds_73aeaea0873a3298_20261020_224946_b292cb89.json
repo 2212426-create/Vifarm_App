@@ -1,0 +1,129 @@
+{
+  "identity": {
+    "dataset": "coat",
+    "seeds": [
+      2020
+    ],
+    "models": [
+      "DR-BIAS + CDR"
+    ],
+    "data": {
+      "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+      "source": {
+        "files": [
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+            8410,
+            1464639084219620000
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+            20100,
+            1464639084209131700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+            2175000,
+            1464633536347328900
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+            174290,
+            1464639084284743700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+            174290,
+            1464639084419860100
+          ]
+        ]
+      },
+      "split": {
+        "protocol": "paper_idcf",
+        "split_unit": "user",
+        "seed": 1234,
+        "validation_users": 87,
+        "test_users": 203,
+        "validation_rows": 1392,
+        "test_rows": 3248,
+        "train_random_overlap_pairs": 366,
+        "validation_overlap_pairs": 119,
+        "test_overlap_pairs": 247,
+        "test_overlap_positive_pairs": 63
+      },
+      "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+      "n_users": 290,
+      "n_items": 300
+    },
+    "code_sha256": "abc819e34351677e9a81fa880d92bf4c8d80472e3b50d9e79dc183621e315845",
+    "cdr_implementation": "released"
+  },
+  "runs": {
+    "DR-BIAS + CDR": [
+      {
+        "seed": 2020,
+        "NDCG@5": 0.6566651228158734,
+        "recall_value": 0.667816091954023,
+        "recall_metric": "Recall@5_bounded",
+        "evaluation_scope": "cdr_source_protocol",
+        "best_epoch": 29,
+        "best_val_ndcg": null,
+        "selection_origin": "source_train_loss_last",
+        "metadata": {
+          "model": "cdr_source",
+          "architecture_version": "cdr_released_v1",
+          "dataset": "coat",
+          "code_sha256": "abc819e34351677e9a81fa880d92bf4c8d80472e3b50d9e79dc183621e315845",
+          "config": {
+            "embedding_dim": 4,
+            "epochs": 1000,
+            "lr": 0.05,
+            "weight_decay": 0.001,
+            "batch_size": 128,
+            "un_thres": 10.0,
+            "dropout_rate": 0.5,
+            "G": 4,
+            "tol": 1e-05,
+            "stop": 5,
+            "mc_samples": 10,
+            "seed": 2020,
+            "selection": "source_train_loss_last",
+            "implementation": "cdr_released",
+            "catalog_sampler": "permutation"
+          },
+          "data": {
+            "sha256": "0237db4dd210747bebe119e1fedd3efa4218b408fff4855de51ef7044f1c796b"
+          },
+          "model_kwargs": {
+            "num_users": 290,
+            "num_items": 300,
+            "embedding_dim": 4,
+            "un_thres": 10.0,
+            "dropout_rate": 0.5
+          },
+          "protocol": {
+            "metric_revision": "cdr_source_v1",
+            "scope": "cdr_source_protocol",
+            "recall_denominator": "min(k,n_positive)",
+            "calibration": "evaluation_5_percent",
+            "paper_scores_directly_comparable": false
+          },
+          "adaptations": [],
+          "data_dir": null,
+          "smoke_users": null
+        },
+        "seconds": 22.5
+      }
+    ]
+  },
+  "summary": {
+    "DR-BIAS + CDR": {
+      "NDCG@5_mean": 0.6566651228158734,
+      "NDCG@5_std": null,
+      "recall_metric": "Recall@5_bounded",
+      "recall_mean": 0.667816091954023,
+      "recall_std": null
+    }
+  },
+  "seed_pairs": {}
+}

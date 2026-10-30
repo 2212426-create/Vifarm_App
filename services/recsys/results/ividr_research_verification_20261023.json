@@ -1,0 +1,50 @@
+{
+  "checked_at_utc": "2026-10-22T17:14:30.181182+00:00",
+  "scope": "research_documents_and_read_only_diagnostics",
+  "source_sha256": "2ee67c48c8d187f5faf9cb7e553454d5d93bacfdc24aea7408287e72a01ddd51",
+  "runtime_source_unchanged": true,
+  "training_performed": false,
+  "quality_improvement_measured": false,
+  "external_models_executed_or_integrated": false,
+  "existing_protected_files_checked": 477,
+  "existing_protected_checksums_unchanged": true,
+  "new_pdf_title_page_sha_checks_passed": true,
+  "pdfs": [
+    {
+      "path": "docs/papers/iVAE_AISTATS2020.pdf",
+      "url": "https://proceedings.mlr.press/v108/khemakhem20a/khemakhem20a.pdf",
+      "bytes": 2888778,
+      "sha256": "65c3f3713fedfa262f92159165434d3fd8ab8df559236456a9bb171b78c3814d",
+      "pages": 10,
+      "title_check": "Variational Autoencoders and Nonlinear ICA",
+      "title_verified": true
+    },
+    {
+      "path": "docs/papers/IV4Rec_WWW2022.pdf",
+      "url": "https://arxiv.org/pdf/2202.04514v1",
+      "bytes": 3010724,
+      "sha256": "5ae20b87db12a864f8cde918ec4ce731d135dfe7e3d8188a11dd00ec73e799b1",
+      "pages": 9,
+      "title_check": "A Model-Agnostic Causal Learning Framework",
+      "title_verified": true
+    },
+    {
+      "path": "docs/papers/IDCIV_RS_IJCAI2025.pdf",
+      "url": "https://www.ijcai.org/proceedings/2025/0329.pdf",
+      "bytes": 1570387,
+      "sha256": "fb1b804a3fe4f5a1f6b373a80d9ed9a228e18127a84b278a0e4b8c27bd80b8bf",
+      "pages": 9,
+      "title_check": "Interaction-Data-guided Conditional Instrumental Variables",
+      "title_verified": true
+    }
+  ],
+  "checkpoint_sha256_unchanged": "5949cebe01ff65bab7cd71f144e016bfd1ee8f7f8a2c6038720c9503615d5712",
+  "cached_latents_exact": true,
+  "report": "docs/benchmarks/ividr_optimization_research_20261023.md",
+  "diagnostics": "results/ividr_research_diagnostics_20261023.json",
+  "limits": [
+    "Diagnostic measurements are not a quality ablation.",
+    "Original IViDR v1 complete author-code parity remains unverified.",
+    "Model test suite was not rerun for this research-only change."
+  ]
+}

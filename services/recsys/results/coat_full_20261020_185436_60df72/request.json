@@ -1,0 +1,29 @@
+{
+  "started_at_utc": "2026-10-20T11:54:42.593943+00:00",
+  "dataset": "coat",
+  "models": [
+    "MF",
+    "iDCF",
+    "DR-BIAS + CDR"
+  ],
+  "seed": 42,
+  "device": "cpu",
+  "quick_run": false,
+  "hyperparameter_tuning": false,
+  "default_configuration": true,
+  "feedback_epoch_cap": 100,
+  "ivae_epoch_cap": 2000,
+  "checkpoint_selection": "validation_ndcg",
+  "source_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+  "checkpoint_root": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\coat_full_20261020_185436_60df72",
+  "torch_num_threads": 2,
+  "environment": {
+    "python": "3.12.10",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "torch": "2.14.1+cpu",
+    "cuda_available": false
+  },
+  "entrypoint_equivalent": "python experiments/run.py benchmark --dataset coat --model all --device cpu",
+  "runtime_wrapper_changes": "unique report/checkpoint directories and CPU thread count only"
+}

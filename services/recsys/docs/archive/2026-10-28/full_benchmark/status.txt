@@ -1,0 +1,2 @@
+ividr_rerun exit 0  
+ividr_kuairand_rerun2 finished  

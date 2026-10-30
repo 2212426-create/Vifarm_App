@@ -1,0 +1,91 @@
+{
+  "checked_at_utc": "2026-10-22T17:09:39.589067+00:00",
+  "scope": "read_only_coat_biased_exposure_checkpoint_diagnostics_no_retraining_no_test_predictions",
+  "diagnostic_source_sha256": "2ee67c48c8d187f5faf9cb7e553454d5d93bacfdc24aea7408287e72a01ddd51",
+  "training_source_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556",
+  "reference_report": "results/benchmark_coat_all_02b9e8eb46_20261022_073711_146173c9_v4.json",
+  "reference_report_sha256": "cd39cb55cb932fe2cfec8f2338167a0b4fc6971060c440e1611af6478a730b80",
+  "checkpoint_path": "checkpoints/benchmark_runs/20261022_073711_146173c9/coat/ividr/coat_v4_e100_full_a27f307e7c_exposure_defee280.pt",
+  "checkpoint_sha256_before": "5949cebe01ff65bab7cd71f144e016bfd1ee8f7f8a2c6038720c9503615d5712",
+  "checkpoint_sha256_after": "5949cebe01ff65bab7cd71f144e016bfd1ee8f7f8a2c6038720c9503615d5712",
+  "diagnostics": {
+    "exposure_shape": [
+      290,
+      300
+    ],
+    "raw_feature_shape": [
+      290,
+      14
+    ],
+    "instrument_rank_counts": {
+      "4": 1,
+      "5": 3,
+      "6": 5,
+      "7": 25,
+      "8": 79,
+      "9": 104,
+      "10": 66,
+      "11": 17
+    },
+    "fitted_norm_over_t": 0.4654653271059617,
+    "residual_norm_over_t": 0.8850660830725549,
+    "gate_fitted": {
+      "min": -0.027343377470970154,
+      "mean": 0.017820725217461586,
+      "max": 0.050739191472530365,
+      "std": 0.012622024863958359
+    },
+    "gate_residual": {
+      "min": -0.008554968982934952,
+      "mean": -0.003434448968619108,
+      "max": 0.005391586571931839,
+      "std": 0.00225872197188437
+    },
+    "reconstruction_delta": {
+      "min": -0.0009758214000612497,
+      "mean": 0.0005837366334162652,
+      "max": 0.0029812040738761425,
+      "std": 0.0006096456199884415
+    },
+    "reconstruction_delta_norm_over_exposure": 0.002984150570792051,
+    "reconstruction_user_delta_norm_over_exposure_percentiles": [
+      0.00013720303832087666,
+      0.0004083673004060984,
+      0.0018430438940413296,
+      0.005141283432021738,
+      0.008412697352468967
+    ],
+    "branch_mean_relative_difference": 0.006815826183547261,
+    "branch_mean_cosine": 0.999987781047821,
+    "branch_original_mean": {
+      "min": -3.5040745735168457,
+      "mean": -0.0017587990732863545,
+      "max": 4.037732124328613,
+      "std": 2.54642915725708
+    },
+    "branch_reconstructed_mean": {
+      "min": -3.499296188354492,
+      "mean": -0.0019185296259820461,
+      "max": 4.032266139984131,
+      "std": 2.558379650115967
+    },
+    "merged_mean": {
+      "min": -6.303033351898193,
+      "mean": -0.0033096049446612597,
+      "max": 7.262998580932617,
+      "std": 4.594314098358154
+    },
+    "merged_std": {
+      "min": 0.3587397336959839,
+      "mean": 0.6713669300079346,
+      "max": 0.9995722770690918,
+      "std": 0.12447191029787064
+    },
+    "cached_mean_exact": true,
+    "cached_std_exact": true,
+    "cached_mean_max_abs_difference": 0.0,
+    "cached_std_max_abs_difference": 0.0
+  },
+  "optimization_claim": "No measured quality improvement; diagnostics only",
+  "conclusions_require_validation_ablation": true
+}

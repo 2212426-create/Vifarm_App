@@ -1,0 +1,2 @@
+tests exit 1
+smoke exit 0

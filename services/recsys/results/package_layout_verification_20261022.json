@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "code_sha256": "5cb6ca4bcf5d8963b8a7205290a80cf0d7a4ee15a979dcaaa1dde4438be91479"
+  },
+  "scope": "Package relocation and compatibility; MF-CRIB/EGMN selected, pending implementation",
+  "test_suite": {
+    "total": 134,
+    "passed": 133,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-22/package_layout/tests.log"
+  },
+  "parity_artifact": "results/package_layout_parity_20261022.json",
+  "validation_artifact": "results/package_layout_validation_20261022.json",
+  "smoke": [
+    {
+      "dataset": "coat",
+      "report": "results/benchmark_coat_all_quick_ccfab16b42_20261022_083030_8be7bde0_v4.json",
+      "purpose": "smoke_not_quality",
+      "models": [
+        "MF",
+        "iDCF",
+        "IViDR",
+        "DR-BIAS + CDR"
+      ]
+    },
+    {
+      "dataset": "yahoo",
+      "report": "results/benchmark_yahoo_all_quick_bc1120af85_20261022_083036_8fa3fbb9_v4.json",
+      "purpose": "smoke_not_quality",
+      "models": [
+        "MF",
+        "iDCF",
+        "IViDR",
+        "DR-BIAS + CDR"
+      ]
+    },
+    {
+      "dataset": "kuairand",
+      "report": "results/benchmark_kuairand_all_quick_a60e19c99e_20261022_083105_f97618ae_v4.json",
+      "purpose": "smoke_not_quality",
+      "models": [
+        "MF",
+        "iDCF",
+        "IViDR",
+        "DR-BIAS + CDR"
+      ]
+    }
+  ],
+  "full_training_rerun": false,
+  "checkpoint_re_evaluation_only": true,
+  "new_models": {
+    "mf_crib": "selected_pending_integration",
+    "egmn": "selected_pending_integration"
+  },
+  "existing_artifacts_relabelled": false
+}

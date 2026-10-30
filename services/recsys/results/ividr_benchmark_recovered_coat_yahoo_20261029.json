@@ -1,0 +1,168 @@
+{
+  "run": "20261028_214102_cf42b911",
+  "code_sha256": "fd1df699561e05415df720ee7bf5abdc9b4b556c2b37a321dc205949d5f27a1f",
+  "selection": "max_validation_NDCG@5, first trial on ties",
+  "test_used_for_selection": false,
+  "datasets": {
+    "coat": {
+      "winner": {
+        "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261028_214102_cf42b911\\coat\\ividr\\coat_ividr_reference_v4_e100_full_a27f307e7c_bce_trial0_v4_48447badc816cca5.pt",
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "epoch": 45,
+        "val": 0.6093792195889415,
+        "code_sha256": "fd1df699561e05415df720ee7bf5abdc9b4b556c2b37a321dc205949d5f27a1f"
+      },
+      "test": {
+        "NDCG@5": 0.5287928821586134,
+        "Recall@5": 0.5031263314197446,
+        "Recall@5_bounded": 0.556686626746507,
+        "Precision@5": 0.3449101796407186,
+        "HitRate@5": 0.8383233532934131,
+        "AUC": 0.6566237716873945
+      },
+      "trials": [
+        {
+          "lr": 0.001,
+          "weight_decay": 1e-05,
+          "epoch": 45,
+          "val": 0.6093792195889415
+        },
+        {
+          "lr": 0.001,
+          "weight_decay": 1e-06,
+          "epoch": 37,
+          "val": 0.6070735170307755
+        },
+        {
+          "lr": 0.0005,
+          "weight_decay": 1e-05,
+          "epoch": 86,
+          "val": 0.6082461422795763
+        },
+        {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "epoch": 75,
+          "val": 0.6083815119292689
+        },
+        {
+          "lr": 0.0001,
+          "weight_decay": 1e-05,
+          "epoch": 97,
+          "val": 0.5443177195020779
+        },
+        {
+          "lr": 0.0001,
+          "weight_decay": 1e-06,
+          "epoch": 94,
+          "val": 0.5443177195020779
+        },
+        {
+          "lr": 5e-05,
+          "weight_decay": 1e-05,
+          "epoch": 96,
+          "val": 0.5256292334697514
+        },
+        {
+          "lr": 5e-05,
+          "weight_decay": 1e-06,
+          "epoch": 99,
+          "val": 0.5250778452711552
+        },
+        {
+          "lr": 1e-05,
+          "weight_decay": 1e-05,
+          "epoch": 100,
+          "val": 0.38686303371088554
+        },
+        {
+          "lr": 1e-05,
+          "weight_decay": 1e-06,
+          "epoch": 92,
+          "val": 0.38609275086850153
+        }
+      ]
+    },
+    "yahoo": {
+      "winner": {
+        "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261028_214102_cf42b911\\yahoo\\ividr\\yahoo_ividr_reference_v4_e100_full_bc82108454_bce_trial6_v4_08934f1a1d7a1930.pt",
+        "lr": 5e-05,
+        "weight_decay": 1e-05,
+        "epoch": 57,
+        "val": 0.6501296014486315,
+        "code_sha256": "fd1df699561e05415df720ee7bf5abdc9b4b556c2b37a321dc205949d5f27a1f"
+      },
+      "test": {
+        "NDCG@5": 0.6459631060757633,
+        "Recall@5": 0.7792070413436692,
+        "Recall@5_bounded": 0.7850968992248063,
+        "Precision@5": 0.28802325581395355,
+        "HitRate@5": 0.9,
+        "AUC": 0.7462237650460067
+      },
+      "trials": [
+        {
+          "lr": 0.001,
+          "weight_decay": 1e-05,
+          "epoch": 12,
+          "val": 0.6478508102692773
+        },
+        {
+          "lr": 0.001,
+          "weight_decay": 1e-06,
+          "epoch": 6,
+          "val": 0.6411153148134525
+        },
+        {
+          "lr": 0.0005,
+          "weight_decay": 1e-05,
+          "epoch": 26,
+          "val": 0.6498268032385409
+        },
+        {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "epoch": 11,
+          "val": 0.641828784221564
+        },
+        {
+          "lr": 0.0001,
+          "weight_decay": 1e-05,
+          "epoch": 34,
+          "val": 0.6496022849009965
+        },
+        {
+          "lr": 0.0001,
+          "weight_decay": 1e-06,
+          "epoch": 32,
+          "val": 0.6452053338153159
+        },
+        {
+          "lr": 5e-05,
+          "weight_decay": 1e-05,
+          "epoch": 57,
+          "val": 0.6501296014486315
+        },
+        {
+          "lr": 5e-05,
+          "weight_decay": 1e-06,
+          "epoch": 66,
+          "val": 0.6479750967628636
+        },
+        {
+          "lr": 1e-05,
+          "weight_decay": 1e-05,
+          "epoch": 98,
+          "val": 0.6330243166788413
+        },
+        {
+          "lr": 1e-05,
+          "weight_decay": 1e-06,
+          "epoch": 99,
+          "val": 0.6320543958084994
+        }
+      ]
+    }
+  }
+}

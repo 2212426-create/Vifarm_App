@@ -1,0 +1,9 @@
+{
+  "scope": "Before recording full Coat rerun",
+  "files": {
+    "docs/CURRENT_STATE.md": "e205d3318560f94db787bbc979c3fc5b8a03169d0331b5e8af748e74478b0d01",
+    "docs/state_snapshot.json": "cdd28e67a1e7aacf93bd2266f52df4ef0ca655acf80bea52b03abc8f06111db6",
+    "docs/catalog.json": "cffdfb2662f54c41b3c96df3c3b351dc659ffc19688761f11f169bbd7689af15",
+    "results/CATALOG.md": "d59265791ded477453e3dc64c6535f46c71b649d62e23e38eee6cb49cb597f64"
+  }
+}

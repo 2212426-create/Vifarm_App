@@ -1,0 +1,322 @@
+{
+  "identity": {
+    "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+    "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+    "seed": 2020,
+    "dataset": "kuairand"
+  },
+  "scope": "published_script_conditions_not_project_held_out",
+  "config": {
+    "embedding_dim": 4,
+    "epochs": 1000,
+    "lr": 0.05,
+    "weight_decay": 0.0001,
+    "batch_size": 2048,
+    "un_thres": 10.0,
+    "dropout_rate": 0.5,
+    "G": 1,
+    "tol": 1e-05,
+    "stop": 5,
+    "mc_samples": 10
+  },
+  "source_calibration": {
+    "method": "released_naive_bayes",
+    "calibration_rows": 14170,
+    "calibration_positive_rate": 0.1757939308398024,
+    "train_positive_rate": 0.45916025620165624,
+    "population_denominator": 157923252,
+    "observed_fraction": 0.008951018815139395
+  },
+  "test_labels_used_for_propensity": false,
+  "calibration_rows": 14170,
+  "positive_threshold": 1,
+  "evaluation_pool": "local_held_out_random_log",
+  "zero_positive_score": null,
+  "recall_denominator": "all_positive",
+  "raw_id_convention": "source_unchanged",
+  "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\kuairand\\cdr\\20261021_011931_8c9f1ada\\kuairand.pt",
+  "training_history": [
+    {
+      "epoch": 1,
+      "weighted_factual_sum": 79028784.0,
+      "rec_loss": 55.940285392429516,
+      "imp_loss": 739294746.9217391,
+      "filtered_fraction": 3.538269927536232e-07,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 2,
+      "weighted_factual_sum": 67229824.0,
+      "rec_loss": 47.580796504366226,
+      "imp_loss": 448164436.2202898,
+      "filtered_fraction": 1.0614809782608696e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 3,
+      "weighted_factual_sum": 66712756.0,
+      "rec_loss": 47.21142041855964,
+      "imp_loss": 437807012.54492754,
+      "filtered_fraction": 1.769134963768116e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 4,
+      "weighted_factual_sum": 66449744.0,
+      "rec_loss": 47.02457142152648,
+      "imp_loss": 435217442.59710145,
+      "filtered_fraction": 2.8306159420289855e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 5,
+      "weighted_factual_sum": 66326276.0,
+      "rec_loss": 46.93615196338598,
+      "imp_loss": 430797576.1623188,
+      "filtered_fraction": 4.599750905797102e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 6,
+      "weighted_factual_sum": 66338372.0,
+      "rec_loss": 46.944253788823666,
+      "imp_loss": 435729252.96231884,
+      "filtered_fraction": 5.307404891304348e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 7,
+      "weighted_factual_sum": 66332864.0,
+      "rec_loss": 46.93858042177947,
+      "imp_loss": 436372209.9942029,
+      "filtered_fraction": 7.076539855072464e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 8,
+      "weighted_factual_sum": 66385476.0,
+      "rec_loss": 46.97571690877279,
+      "imp_loss": 435217703.09565216,
+      "filtered_fraction": 1.0614809782608695e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 9,
+      "weighted_factual_sum": 66378632.0,
+      "rec_loss": 46.97077251379041,
+      "imp_loss": 434733005.68115944,
+      "filtered_fraction": 1.1322463768115942e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 10,
+      "weighted_factual_sum": 66351420.0,
+      "rec_loss": 46.9514639923538,
+      "imp_loss": 435473955.1072464,
+      "filtered_fraction": 1.2030117753623189e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 11,
+      "weighted_factual_sum": 66343796.0,
+      "rec_loss": 46.94627480990645,
+      "imp_loss": 435677340.3826087,
+      "filtered_fraction": 1.3445425724637681e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 12,
+      "weighted_factual_sum": 66385904.0,
+      "rec_loss": 46.97625503540039,
+      "imp_loss": 435644665.87826085,
+      "filtered_fraction": 1.0260982789855072e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 13,
+      "weighted_factual_sum": 66366220.0,
+      "rec_loss": 46.96193125075188,
+      "imp_loss": 438905038.09855074,
+      "filtered_fraction": 1.1322463768115942e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 14,
+      "weighted_factual_sum": 66335680.0,
+      "rec_loss": 46.94005062821982,
+      "imp_loss": 435034750.65507245,
+      "filtered_fraction": 1.769134963768116e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 15,
+      "weighted_factual_sum": 66386560.0,
+      "rec_loss": 46.97628178803817,
+      "imp_loss": 438047309.5884058,
+      "filtered_fraction": 9.907155797101449e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 16,
+      "weighted_factual_sum": 66363904.0,
+      "rec_loss": 46.96020111415697,
+      "imp_loss": 437302610.6434783,
+      "filtered_fraction": 1.0260982789855072e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 17,
+      "weighted_factual_sum": 66348764.0,
+      "rec_loss": 46.94961422353551,
+      "imp_loss": 436412887.37391305,
+      "filtered_fraction": 1.0614809782608695e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 18,
+      "weighted_factual_sum": 66347960.0,
+      "rec_loss": 46.94804085994112,
+      "imp_loss": 435627673.6,
+      "filtered_fraction": 6.368885869565217e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 19,
+      "weighted_factual_sum": 66342508.0,
+      "rec_loss": 46.945163450379304,
+      "imp_loss": 438082107.9652174,
+      "filtered_fraction": 9.553328804347827e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 20,
+      "weighted_factual_sum": 66338788.0,
+      "rec_loss": 46.94155172265094,
+      "imp_loss": 437642245.4724638,
+      "filtered_fraction": 1.2383944746376812e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 21,
+      "weighted_factual_sum": 66343116.0,
+      "rec_loss": 46.944800031357914,
+      "imp_loss": 434775803.45507246,
+      "filtered_fraction": 1.0968636775362319e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 22,
+      "weighted_factual_sum": 66353204.0,
+      "rec_loss": 46.95165980242301,
+      "imp_loss": 435331458.8289855,
+      "filtered_fraction": 1.2030117753623189e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 23,
+      "weighted_factual_sum": 66334304.0,
+      "rec_loss": 46.9387355528016,
+      "imp_loss": 437113761.6695652,
+      "filtered_fraction": 1.2030117753623189e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 24,
+      "weighted_factual_sum": 66392540.0,
+      "rec_loss": 46.97986754818239,
+      "imp_loss": 437139926.9101449,
+      "filtered_fraction": 9.553328804347827e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    }
+  ],
+  "metrics": {
+    "NDCG@5": 0.2739622599746859,
+    "Recall@5": 0.2600890318669043,
+    "AUC_global": 0.6361510753631592,
+    "users": 13502
+  },
+  "quick_run": false,
+  "metadata": {
+    "model": "cdr_source",
+    "architecture_version": "cdr_released_v1",
+    "dataset": "kuairand",
+    "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+    "config": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.0001,
+      "batch_size": 2048,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 1,
+      "tol": 1e-05,
+      "stop": 5,
+      "mc_samples": 10,
+      "seed": 2020,
+      "selection": "source_train_loss_last",
+      "implementation": "cdr_released",
+      "catalog_sampler": "replacement"
+    },
+    "data": {
+      "sha256": "7a1bb008cefc333c0079a09c408a09c7bb9d5aad925b8a4d1c0f761abf22b7de"
+    },
+    "model_kwargs": {
+      "num_users": 23533,
+      "num_items": 6712,
+      "embedding_dim": 4,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5
+    },
+    "protocol": {
+      "metric_revision": "cdr_source_v1",
+      "scope": "cdr_source_protocol",
+      "recall_denominator": "all_positive",
+      "calibration": "validation_5_percent",
+      "paper_scores_directly_comparable": false
+    },
+    "adaptations": [
+      "local KuaiRand preprocessing/user split; original processed CSVs unavailable",
+      "array trainer sampling instead of source Torch DataLoader",
+      "zero-based local user IDs, including user 0 in evaluation",
+      "global AUC half-credit ties instead of source arbitrary tie ranks",
+      "bounded-memory catalog sampling with replacement"
+    ],
+    "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data",
+    "smoke_users": null
+  },
+  "evaluation_scope": "cdr_source_protocol",
+  "best_epoch": 24,
+  "best_val_ndcg": null,
+  "selection_origin": "source_train_loss_last",
+  "epochs_run": 24,
+  "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+  "NDCG@5": 0.2739622599746859,
+  "Recall@5": 0.2600890318669043,
+  "AUC_global": 0.6361510753631592,
+  "users": 13502
+}

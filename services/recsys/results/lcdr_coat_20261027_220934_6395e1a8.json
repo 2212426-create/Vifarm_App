@@ -1,0 +1,247 @@
+{
+  "dataset": "coat",
+  "lcdr": [
+    {
+      "seed": 42,
+      "NDCG@5": 0.562860503386095,
+      "Recall@5": 0.5406396165378201,
+      "Recall@5_bounded": 0.5939121756487026,
+      "Precision@5": 0.3508982035928144,
+      "HitRate@5": 0.8622754491017964,
+      "AUC": 0.691108510999978,
+      "best_epoch": 32,
+      "best_val_ndcg": 0.6274564216269618,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr\\coat_lcdr_full_e100_r2000_seed42_v4_8b36953327ef67e2.pt",
+      "representation": {
+        "best_val_loss": 159.12747955322266,
+        "best_val_parts": {
+          "ivae": 76.93155860900879,
+          "lcvae": 82.19592094421387,
+          "constraint": 6.441908240318298
+        },
+        "best_epoch": 1586,
+        "epochs_run": 1686,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 400,
+        "first_full_beta_epoch": 401,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "constraint_weight": 0.9,
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 512,
+          "epochs": 2000,
+          "patience": 100,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 42,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "constraint_norm": "l2_not_squared_per_user_mean",
+          "z_gradient": "detached",
+          "validation_metric": "mc_ivae_plus_lcvae_common_noise_v1"
+        }
+      }
+    },
+    {
+      "seed": 43,
+      "NDCG@5": 0.5734356440612391,
+      "Recall@5": 0.5663071127142982,
+      "Recall@5_bounded": 0.617564870259481,
+      "Precision@5": 0.3592814371257485,
+      "HitRate@5": 0.8802395209580839,
+      "AUC": 0.6869482168696242,
+      "best_epoch": 23,
+      "best_val_ndcg": 0.5970804282839979,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr\\coat_lcdr_full_e100_r2000_seed43_v4_e2e1be3988f34c8e.pt",
+      "representation": {
+        "best_val_loss": 159.97837162017822,
+        "best_val_parts": {
+          "ivae": 76.73853492736816,
+          "lcvae": 83.23983669281006,
+          "constraint": 6.992187917232513
+        },
+        "best_epoch": 1543,
+        "epochs_run": 1643,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 400,
+        "first_full_beta_epoch": 401,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "constraint_weight": 0.9,
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 512,
+          "epochs": 2000,
+          "patience": 100,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 43,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "constraint_norm": "l2_not_squared_per_user_mean",
+          "z_gradient": "detached",
+          "validation_metric": "mc_ivae_plus_lcvae_common_noise_v1"
+        }
+      }
+    },
+    {
+      "seed": 44,
+      "NDCG@5": 0.5658810211338452,
+      "Recall@5": 0.5279338592212844,
+      "Recall@5_bounded": 0.5795409181636726,
+      "Precision@5": 0.3401197604790419,
+      "HitRate@5": 0.8502994011976048,
+      "AUC": 0.6795895035603119,
+      "best_epoch": 45,
+      "best_val_ndcg": 0.6242190848451686,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr\\coat_lcdr_full_e100_r2000_seed44_v4_5e45e5e6e5960e4c.pt",
+      "representation": {
+        "best_val_loss": 159.80317974090576,
+        "best_val_parts": {
+          "ivae": 76.54941368103027,
+          "lcvae": 83.25376605987549,
+          "constraint": 7.519316017627716
+        },
+        "best_epoch": 1388,
+        "epochs_run": 1488,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 400,
+        "first_full_beta_epoch": 401,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "constraint_weight": 0.9,
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 512,
+          "epochs": 2000,
+          "patience": 100,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 44,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "constraint_norm": "l2_not_squared_per_user_mean",
+          "z_gradient": "detached",
+          "validation_metric": "mc_ivae_plus_lcvae_common_noise_v1"
+        }
+      }
+    }
+  ],
+  "idcf": [
+    {
+      "seed": 42,
+      "NDCG@5": 0.5698840836815878,
+      "Recall@5": 0.5519691220290022,
+      "Recall@5_bounded": 0.6022954091816367,
+      "Precision@5": 0.3473053892215569,
+      "HitRate@5": 0.8862275449101796,
+      "AUC": 0.6859969849677934,
+      "best_epoch": 24,
+      "best_val_ndcg": 0.6058970553682123,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_idcf_reference\\coat_idcf_full_e100_r2000_seed42_v4_f5960bec3febe9bb.pt"
+    },
+    {
+      "seed": 43,
+      "NDCG@5": 0.5729673625939321,
+      "Recall@5": 0.5545951885772246,
+      "Recall@5_bounded": 0.6052894211576846,
+      "Precision@5": 0.35449101796407184,
+      "HitRate@5": 0.874251497005988,
+      "AUC": 0.6819750172482207,
+      "best_epoch": 27,
+      "best_val_ndcg": 0.5892249829926378,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_idcf_reference\\coat_idcf_full_e100_r2000_seed43_v4_d38b8cd8d4a070f3.pt"
+    },
+    {
+      "seed": 44,
+      "NDCG@5": 0.5836478342925536,
+      "Recall@5": 0.5477085954630865,
+      "Recall@5_bounded": 0.6013972055888223,
+      "Precision@5": 0.3520958083832335,
+      "HitRate@5": 0.8802395209580839,
+      "AUC": 0.6829096697547297,
+      "best_epoch": 47,
+      "best_val_ndcg": 0.6022834064045596,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_idcf_reference\\coat_idcf_full_e100_r2000_seed44_v4_ce49d6e1c7576a25.pt"
+    }
+  ],
+  "summary": {
+    "lcdr": {
+      "NDCG@5": {
+        "mean": 0.5673923895270597,
+        "std": 0.005447162186843561,
+        "n_seeds": 3
+      },
+      "Recall@5": {
+        "mean": 0.5449601961578009,
+        "std": 0.019548074127627484,
+        "n_seeds": 3
+      }
+    },
+    "idcf": {
+      "NDCG@5": {
+        "mean": 0.5754997601893579,
+        "std": 0.0072228793362622305,
+        "n_seeds": 3
+      },
+      "Recall@5": {
+        "mean": 0.5514243020231043,
+        "std": 0.0034754730338535716,
+        "n_seeds": 3
+      }
+    }
+  },
+  "model": "LCDR",
+  "run_id": "20261027_220934_6395e1a8",
+  "smoke": false,
+  "smoke_users": null,
+  "epochs": 100,
+  "representation_epochs": 2000,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "config": {
+    "representation": {
+      "latent_dim": 16,
+      "hidden_dim": 32,
+      "n_layers": 3,
+      "batch_size": 512,
+      "patience": 100,
+      "constraint_weight": 0.9
+    },
+    "train": {
+      "lr": 0.0005,
+      "weight_decay": 1e-06,
+      "embedding_dim": 64,
+      "batch_size": 512,
+      "patience": 5,
+      "init_scheme": "author_uniform"
+    }
+  },
+  "code_sha256": "691998046fa1f680ce0ca30e563af0446efe79676929ae754486ec181afd3149",
+  "protocol": "iDCF H30 (same data and evaluator as iDCF); experimental re-implementation, not a paper reproduction"
+}

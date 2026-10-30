@@ -1,0 +1,1146 @@
+{
+  "identity": {
+    "code_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+    "data": {
+      "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+      "source": {
+        "files": [
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+            8410,
+            1464639084219620000
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+            20100,
+            1464639084209131700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+            2175000,
+            1464633536347328900
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+            174290,
+            1464639084284743700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+            174290,
+            1464639084419860100
+          ]
+        ]
+      },
+      "split": {
+        "protocol": "paper_idcf",
+        "split_unit": "user",
+        "seed": 1234,
+        "validation_users": 87,
+        "test_users": 203,
+        "validation_rows": 1392,
+        "test_rows": 3248,
+        "train_random_overlap_pairs": 366,
+        "validation_overlap_pairs": 119,
+        "test_overlap_pairs": 247,
+        "test_overlap_positive_pairs": 63
+      },
+      "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+      "n_users": 290,
+      "n_items": 300
+    },
+    "config": {
+      "embedding_dim": 4,
+      "epochs": 100,
+      "lr": 0.05,
+      "batch_size": 128,
+      "patience": 5,
+      "un_thres": 0.1,
+      "max_inverse_propensity": null,
+      "weight_decay": 0.001,
+      "filter_mode": "cv",
+      "ips_weighting": "paper",
+      "counterfactual_pool": "all",
+      "mc_samples": 10,
+      "training_profile": "paper",
+      "backbone": "paper_dot",
+      "scheduler_name": "none"
+    },
+    "seeds": [
+      42,
+      43,
+      44
+    ]
+  },
+  "evaluation": "validation_only_no_held_out_test",
+  "purpose": "verify_independent_paper_method_training_not_paper_score_reproduction",
+  "smoke": [
+    {
+      "dataset": "coat",
+      "models": [
+        "MF",
+        "iDCF",
+        "DR-BIAS + CDR"
+      ],
+      "errors": []
+    },
+    {
+      "dataset": "kuairand",
+      "models": [
+        "MF",
+        "iDCF",
+        "DR-BIAS + CDR"
+      ],
+      "errors": []
+    }
+  ],
+  "runs": [
+    {
+      "best_epoch": 6,
+      "best_val_ndcg": 0.42560789410417477,
+      "selection_origin": "cdr_update",
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_v4",
+        "model": "cdr",
+        "dataset": "coat",
+        "config": {
+          "epochs": 100,
+          "lr": 0.05,
+          "batch_size": 128,
+          "patience": 5,
+          "alpha": 0.0,
+          "seed": 42,
+          "device": "cpu",
+          "weight_decay": 0.001,
+          "G": 4,
+          "training_profile": "paper",
+          "backbone": "paper_dot",
+          "loss": "bce",
+          "initialization": "random_independent",
+          "method_reference": "CDR_CIKM2023_Eq7_section3.1_DRBIAS",
+          "paper_reproduction": false,
+          "mc_samples": 10,
+          "objective_revision": "cdr_eq7_bce_v1",
+          "observed_fraction": 0.08,
+          "observed_pairs": 6960,
+          "raw_training_rows": 6960,
+          "pair_label_policy": "mean_label_per_observed_pair",
+          "effective_train_sha256": "51ec7778ecd267e7b8cfaf86b8c1af8ba2cc90df8a8583d31fdb1ad62343a07b",
+          "propensity_ess": 2210.9508269341727,
+          "propensity_sha256": "6bae755811ff6bc233516e94b61cac8ca63776ea92812bc94a534579db02815c",
+          "max_inverse_propensity": null,
+          "clipped_propensity_fraction": 0.0,
+          "population_counterfactual_weight": false,
+          "counterfactual_scale": 1.0,
+          "initial_rec_checkpoint": null,
+          "propensity": "provided_coat",
+          "counterfactuals": "all_catalog_pairs",
+          "counterfactual_pair_count": 87000,
+          "warm_start_selection": "not_used",
+          "optimizer": "Adam",
+          "scheduler": "none",
+          "filter_mode": "cv",
+          "ips_weighting": "paper",
+          "counterfactual_pool": "all"
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 0.1,
+          "dropout_rate": 0.5,
+          "filter_mode": "cv",
+          "ips_weighting": "paper",
+          "backbone": "paper_dot"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.2"
+        }
+      },
+      "cdr_training": {
+        "epoch": 6,
+        "rec_loss": 0.6936628070744602,
+        "imp_loss": 15.828737753087823,
+        "filtered_observed_fraction": 0.05014367816091954,
+        "filtered_direct_fraction": 0.05183189655172414,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 349,
+        "filtered_direct": 1443,
+        "validation_ndcg": 0.42560789410417477
+      },
+      "training_history": [
+        {
+          "epoch": 1,
+          "rec_loss": 0.6931362054564736,
+          "imp_loss": 2.9300697951154278,
+          "filtered_observed_fraction": 0.0,
+          "filtered_direct_fraction": 0.0,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 0,
+          "filtered_direct": 0,
+          "validation_ndcg": 0.31321725520998916
+        },
+        {
+          "epoch": 2,
+          "rec_loss": 0.6867919943549416,
+          "imp_loss": 29.793804985826664,
+          "filtered_observed_fraction": 0.0,
+          "filtered_direct_fraction": 3.591954022988506e-05,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 0,
+          "filtered_direct": 1,
+          "validation_ndcg": 0.3780223266805954
+        },
+        {
+          "epoch": 3,
+          "rec_loss": 0.6755937467921864,
+          "imp_loss": 60.92120750167153,
+          "filtered_observed_fraction": 0.005603448275862069,
+          "filtered_direct_fraction": 0.006716954022988506,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 39,
+          "filtered_direct": 187,
+          "validation_ndcg": 0.3515627213891785
+        },
+        {
+          "epoch": 4,
+          "rec_loss": 0.6857057159597223,
+          "imp_loss": 59.564977524497294,
+          "filtered_observed_fraction": 0.03045977011494253,
+          "filtered_direct_fraction": 0.031609195402298854,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 212,
+          "filtered_direct": 880,
+          "validation_ndcg": 0.3036066834546501
+        },
+        {
+          "epoch": 5,
+          "rec_loss": 0.6949220017953353,
+          "imp_loss": 75.05802415934475,
+          "filtered_observed_fraction": 0.04525862068965517,
+          "filtered_direct_fraction": 0.04798850574712644,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 315,
+          "filtered_direct": 1336,
+          "validation_ndcg": 0.37775298310261485
+        },
+        {
+          "epoch": 6,
+          "rec_loss": 0.6936628070744602,
+          "imp_loss": 15.828737753087823,
+          "filtered_observed_fraction": 0.05014367816091954,
+          "filtered_direct_fraction": 0.05183189655172414,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 349,
+          "filtered_direct": 1443,
+          "validation_ndcg": 0.42560789410417477
+        },
+        {
+          "epoch": 7,
+          "rec_loss": 0.6980674862861633,
+          "imp_loss": 12.217123954946345,
+          "filtered_observed_fraction": 0.06307471264367816,
+          "filtered_direct_fraction": 0.06648706896551725,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 439,
+          "filtered_direct": 1851,
+          "validation_ndcg": 0.3905801807341898
+        },
+        {
+          "epoch": 8,
+          "rec_loss": 0.6921765901825645,
+          "imp_loss": 7.154193064299497,
+          "filtered_observed_fraction": 0.05129310344827586,
+          "filtered_direct_fraction": 0.059985632183908046,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 357,
+          "filtered_direct": 1670,
+          "validation_ndcg": 0.35434975863701135
+        },
+        {
+          "epoch": 9,
+          "rec_loss": 0.6883584380149841,
+          "imp_loss": 7.6736069570888175,
+          "filtered_observed_fraction": 0.07155172413793104,
+          "filtered_direct_fraction": 0.08128591954022989,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 498,
+          "filtered_direct": 2263,
+          "validation_ndcg": 0.39934740847953704
+        },
+        {
+          "epoch": 10,
+          "rec_loss": 0.6988946221091531,
+          "imp_loss": 5.436157697981054,
+          "filtered_observed_fraction": 0.059770114942528735,
+          "filtered_direct_fraction": 0.06379310344827586,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 416,
+          "filtered_direct": 1776,
+          "validation_ndcg": 0.37370170940296044
+        },
+        {
+          "epoch": 11,
+          "rec_loss": 0.6997304840521379,
+          "imp_loss": 6.23069567897103,
+          "filtered_observed_fraction": 0.06221264367816092,
+          "filtered_direct_fraction": 0.06903735632183908,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 433,
+          "filtered_direct": 1922,
+          "validation_ndcg": 0.391680862083771
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "best_epoch": 7,
+      "best_val_ndcg": 0.4175275563804492,
+      "selection_origin": "cdr_update",
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_v4",
+        "model": "cdr",
+        "dataset": "coat",
+        "config": {
+          "epochs": 100,
+          "lr": 0.05,
+          "batch_size": 128,
+          "patience": 5,
+          "alpha": 0.0,
+          "seed": 43,
+          "device": "cpu",
+          "weight_decay": 0.001,
+          "G": 4,
+          "training_profile": "paper",
+          "backbone": "paper_dot",
+          "loss": "bce",
+          "initialization": "random_independent",
+          "method_reference": "CDR_CIKM2023_Eq7_section3.1_DRBIAS",
+          "paper_reproduction": false,
+          "mc_samples": 10,
+          "objective_revision": "cdr_eq7_bce_v1",
+          "observed_fraction": 0.08,
+          "observed_pairs": 6960,
+          "raw_training_rows": 6960,
+          "pair_label_policy": "mean_label_per_observed_pair",
+          "effective_train_sha256": "51ec7778ecd267e7b8cfaf86b8c1af8ba2cc90df8a8583d31fdb1ad62343a07b",
+          "propensity_ess": 2210.9508269341727,
+          "propensity_sha256": "6bae755811ff6bc233516e94b61cac8ca63776ea92812bc94a534579db02815c",
+          "max_inverse_propensity": null,
+          "clipped_propensity_fraction": 0.0,
+          "population_counterfactual_weight": false,
+          "counterfactual_scale": 1.0,
+          "initial_rec_checkpoint": null,
+          "propensity": "provided_coat",
+          "counterfactuals": "all_catalog_pairs",
+          "counterfactual_pair_count": 87000,
+          "warm_start_selection": "not_used",
+          "optimizer": "Adam",
+          "scheduler": "none",
+          "filter_mode": "cv",
+          "ips_weighting": "paper",
+          "counterfactual_pool": "all"
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 0.1,
+          "dropout_rate": 0.5,
+          "filter_mode": "cv",
+          "ips_weighting": "paper",
+          "backbone": "paper_dot"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.2"
+        }
+      },
+      "cdr_training": {
+        "epoch": 7,
+        "rec_loss": 0.6946608131582087,
+        "imp_loss": 8.595731938969005,
+        "filtered_observed_fraction": 0.055028735632183905,
+        "filtered_direct_fraction": 0.05808189655172414,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 383,
+        "filtered_direct": 1617,
+        "validation_ndcg": 0.4175275563804492
+      },
+      "training_history": [
+        {
+          "epoch": 1,
+          "rec_loss": 0.6931821194562044,
+          "imp_loss": 2.3912382077764383,
+          "filtered_observed_fraction": 0.0,
+          "filtered_direct_fraction": 0.0,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 0,
+          "filtered_direct": 0,
+          "validation_ndcg": 0.27464126709694164
+        },
+        {
+          "epoch": 2,
+          "rec_loss": 0.6883570551872253,
+          "imp_loss": 39.35176696235483,
+          "filtered_observed_fraction": 0.0,
+          "filtered_direct_fraction": 0.0,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 0,
+          "filtered_direct": 0,
+          "validation_ndcg": 0.2773511589081377
+        },
+        {
+          "epoch": 3,
+          "rec_loss": 0.6813826192509044,
+          "imp_loss": 39.338774215091355,
+          "filtered_observed_fraction": 0.0007183908045977011,
+          "filtered_direct_fraction": 0.001293103448275862,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 5,
+          "filtered_direct": 36,
+          "validation_ndcg": 0.3342354431070047
+        },
+        {
+          "epoch": 4,
+          "rec_loss": 0.6824774232777682,
+          "imp_loss": 84.79231493689797,
+          "filtered_observed_fraction": 0.01853448275862069,
+          "filtered_direct_fraction": 0.01889367816091954,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 129,
+          "filtered_direct": 526,
+          "validation_ndcg": 0.3350365891408684
+        },
+        {
+          "epoch": 5,
+          "rec_loss": 0.6916125156662681,
+          "imp_loss": 64.24312799627131,
+          "filtered_observed_fraction": 0.05344827586206897,
+          "filtered_direct_fraction": 0.055028735632183905,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 372,
+          "filtered_direct": 1532,
+          "validation_ndcg": 0.3940638556958965
+        },
+        {
+          "epoch": 6,
+          "rec_loss": 0.6903171116655523,
+          "imp_loss": 18.638815785538068,
+          "filtered_observed_fraction": 0.05201149425287356,
+          "filtered_direct_fraction": 0.056285919540229885,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 362,
+          "filtered_direct": 1567,
+          "validation_ndcg": 0.4111999262028419
+        },
+        {
+          "epoch": 7,
+          "rec_loss": 0.6946608131582087,
+          "imp_loss": 8.595731938969005,
+          "filtered_observed_fraction": 0.055028735632183905,
+          "filtered_direct_fraction": 0.05808189655172414,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 383,
+          "filtered_direct": 1617,
+          "validation_ndcg": 0.4175275563804492
+        },
+        {
+          "epoch": 8,
+          "rec_loss": 0.689423342184587,
+          "imp_loss": 7.9378411423076285,
+          "filtered_observed_fraction": 0.07370689655172413,
+          "filtered_direct_fraction": 0.08031609195402299,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 513,
+          "filtered_direct": 2236,
+          "validation_ndcg": 0.3670490455853195
+        },
+        {
+          "epoch": 9,
+          "rec_loss": 0.6947539535435763,
+          "imp_loss": 4.060991329496557,
+          "filtered_observed_fraction": 0.06551724137931035,
+          "filtered_direct_fraction": 0.06767241379310344,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 456,
+          "filtered_direct": 1884,
+          "validation_ndcg": 0.32383737472938257
+        },
+        {
+          "epoch": 10,
+          "rec_loss": 0.6966700066219677,
+          "imp_loss": 4.510080018910495,
+          "filtered_observed_fraction": 0.06609195402298851,
+          "filtered_direct_fraction": 0.0697198275862069,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 460,
+          "filtered_direct": 1941,
+          "validation_ndcg": 0.41167855219195393
+        },
+        {
+          "epoch": 11,
+          "rec_loss": 0.6953519105911254,
+          "imp_loss": 3.382098900188099,
+          "filtered_observed_fraction": 0.06910919540229885,
+          "filtered_direct_fraction": 0.0716235632183908,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 481,
+          "filtered_direct": 1994,
+          "validation_ndcg": 0.35215882483065586
+        },
+        {
+          "epoch": 12,
+          "rec_loss": 0.697635165127841,
+          "imp_loss": 3.227112800424749,
+          "filtered_observed_fraction": 0.0617816091954023,
+          "filtered_direct_fraction": 0.06605603448275862,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 430,
+          "filtered_direct": 1839,
+          "validation_ndcg": 0.33824485225370093
+        }
+      ],
+      "seed": 43
+    },
+    {
+      "best_epoch": 17,
+      "best_val_ndcg": 0.4530520419271063,
+      "selection_origin": "cdr_update",
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_v4",
+        "model": "cdr",
+        "dataset": "coat",
+        "config": {
+          "epochs": 100,
+          "lr": 0.05,
+          "batch_size": 128,
+          "patience": 5,
+          "alpha": 0.0,
+          "seed": 44,
+          "device": "cpu",
+          "weight_decay": 0.001,
+          "G": 4,
+          "training_profile": "paper",
+          "backbone": "paper_dot",
+          "loss": "bce",
+          "initialization": "random_independent",
+          "method_reference": "CDR_CIKM2023_Eq7_section3.1_DRBIAS",
+          "paper_reproduction": false,
+          "mc_samples": 10,
+          "objective_revision": "cdr_eq7_bce_v1",
+          "observed_fraction": 0.08,
+          "observed_pairs": 6960,
+          "raw_training_rows": 6960,
+          "pair_label_policy": "mean_label_per_observed_pair",
+          "effective_train_sha256": "51ec7778ecd267e7b8cfaf86b8c1af8ba2cc90df8a8583d31fdb1ad62343a07b",
+          "propensity_ess": 2210.9508269341727,
+          "propensity_sha256": "6bae755811ff6bc233516e94b61cac8ca63776ea92812bc94a534579db02815c",
+          "max_inverse_propensity": null,
+          "clipped_propensity_fraction": 0.0,
+          "population_counterfactual_weight": false,
+          "counterfactual_scale": 1.0,
+          "initial_rec_checkpoint": null,
+          "propensity": "provided_coat",
+          "counterfactuals": "all_catalog_pairs",
+          "counterfactual_pair_count": 87000,
+          "warm_start_selection": "not_used",
+          "optimizer": "Adam",
+          "scheduler": "none",
+          "filter_mode": "cv",
+          "ips_weighting": "paper",
+          "counterfactual_pool": "all"
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 0.1,
+          "dropout_rate": 0.5,
+          "filter_mode": "cv",
+          "ips_weighting": "paper",
+          "backbone": "paper_dot"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.2"
+        }
+      },
+      "cdr_training": {
+        "epoch": 17,
+        "rec_loss": 0.6863062706860629,
+        "imp_loss": 2.5918018622831864,
+        "filtered_observed_fraction": 0.10301724137931034,
+        "filtered_direct_fraction": 0.1180316091954023,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 717,
+        "filtered_direct": 3286,
+        "validation_ndcg": 0.4530520419271063
+      },
+      "training_history": [
+        {
+          "epoch": 1,
+          "rec_loss": 0.693074695630507,
+          "imp_loss": 4.2740930077704515,
+          "filtered_observed_fraction": 0.0,
+          "filtered_direct_fraction": 0.0,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 0,
+          "filtered_direct": 0,
+          "validation_ndcg": 0.2538541874255612
+        },
+        {
+          "epoch": 2,
+          "rec_loss": 0.6895786718888717,
+          "imp_loss": 25.198452205007726,
+          "filtered_observed_fraction": 0.00014367816091954023,
+          "filtered_direct_fraction": 3.591954022988506e-05,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 1,
+          "filtered_direct": 1,
+          "validation_ndcg": 0.31814774208186536
+        },
+        {
+          "epoch": 3,
+          "rec_loss": 0.6791867223652926,
+          "imp_loss": 40.192886820706455,
+          "filtered_observed_fraction": 0.0010057471264367816,
+          "filtered_direct_fraction": 0.002011494252873563,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 7,
+          "filtered_direct": 56,
+          "validation_ndcg": 0.3613078716537499
+        },
+        {
+          "epoch": 4,
+          "rec_loss": 0.6837128173221242,
+          "imp_loss": 44.13610368208452,
+          "filtered_observed_fraction": 0.016810344827586206,
+          "filtered_direct_fraction": 0.018318965517241378,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 117,
+          "filtered_direct": 510,
+          "validation_ndcg": 0.37353198741343646
+        },
+        {
+          "epoch": 5,
+          "rec_loss": 0.6900820764628324,
+          "imp_loss": 26.202866818688133,
+          "filtered_observed_fraction": 0.033764367816091954,
+          "filtered_direct_fraction": 0.03415948275862069,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 235,
+          "filtered_direct": 951,
+          "validation_ndcg": 0.363561347718182
+        },
+        {
+          "epoch": 6,
+          "rec_loss": 0.693328938700936,
+          "imp_loss": 16.93649863763289,
+          "filtered_observed_fraction": 0.04339080459770115,
+          "filtered_direct_fraction": 0.04608477011494253,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 302,
+          "filtered_direct": 1283,
+          "validation_ndcg": 0.4265419643568796
+        },
+        {
+          "epoch": 7,
+          "rec_loss": 0.6923199545253407,
+          "imp_loss": 6.176637437126853,
+          "filtered_observed_fraction": 0.04037356321839081,
+          "filtered_direct_fraction": 0.045402298850574715,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 281,
+          "filtered_direct": 1264,
+          "validation_ndcg": 0.3797282988550798
+        },
+        {
+          "epoch": 8,
+          "rec_loss": 0.6918796788562428,
+          "imp_loss": 42.13897343007001,
+          "filtered_observed_fraction": 0.05560344827586207,
+          "filtered_direct_fraction": 0.061422413793103446,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 387,
+          "filtered_direct": 1710,
+          "validation_ndcg": 0.3815116363728463
+        },
+        {
+          "epoch": 9,
+          "rec_loss": 0.6966506687077609,
+          "imp_loss": 7.1531527941877195,
+          "filtered_observed_fraction": 0.06235632183908046,
+          "filtered_direct_fraction": 0.06939655172413793,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 434,
+          "filtered_direct": 1932,
+          "validation_ndcg": 0.34015877362523866
+        },
+        {
+          "epoch": 10,
+          "rec_loss": 0.6993955135345459,
+          "imp_loss": 5.027238229188052,
+          "filtered_observed_fraction": 0.0778735632183908,
+          "filtered_direct_fraction": 0.07798132183908046,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 542,
+          "filtered_direct": 2171,
+          "validation_ndcg": 0.4297148738856566
+        },
+        {
+          "epoch": 11,
+          "rec_loss": 0.698467924378135,
+          "imp_loss": 4.311989671533758,
+          "filtered_observed_fraction": 0.08275862068965517,
+          "filtered_direct_fraction": 0.0875,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 576,
+          "filtered_direct": 2436,
+          "validation_ndcg": 0.42991516329792373
+        },
+        {
+          "epoch": 12,
+          "rec_loss": 0.6923789327794855,
+          "imp_loss": 4.483851063251495,
+          "filtered_observed_fraction": 0.08232758620689655,
+          "filtered_direct_fraction": 0.08922413793103448,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 573,
+          "filtered_direct": 2484,
+          "validation_ndcg": 0.4002257343041243
+        },
+        {
+          "epoch": 13,
+          "rec_loss": 0.6951362338933078,
+          "imp_loss": 3.048553577336398,
+          "filtered_observed_fraction": 0.08433908045977012,
+          "filtered_direct_fraction": 0.09152298850574712,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 587,
+          "filtered_direct": 2548,
+          "validation_ndcg": 0.3923579709142947
+        },
+        {
+          "epoch": 14,
+          "rec_loss": 0.6894963979721069,
+          "imp_loss": 3.25688279542056,
+          "filtered_observed_fraction": 0.09956896551724138,
+          "filtered_direct_fraction": 0.10991379310344827,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 693,
+          "filtered_direct": 3060,
+          "validation_ndcg": 0.4004410302522343
+        },
+        {
+          "epoch": 15,
+          "rec_loss": 0.6886836171150208,
+          "imp_loss": 2.7738468928770588,
+          "filtered_observed_fraction": 0.09856321839080459,
+          "filtered_direct_fraction": 0.10980603448275862,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 686,
+          "filtered_direct": 3057,
+          "validation_ndcg": 0.44035849481659317
+        },
+        {
+          "epoch": 16,
+          "rec_loss": 0.6954849568280307,
+          "imp_loss": 2.3820193908431313,
+          "filtered_observed_fraction": 0.09741379310344828,
+          "filtered_direct_fraction": 0.10711206896551724,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 678,
+          "filtered_direct": 2982,
+          "validation_ndcg": 0.415145427305116
+        },
+        {
+          "epoch": 17,
+          "rec_loss": 0.6863062706860629,
+          "imp_loss": 2.5918018622831864,
+          "filtered_observed_fraction": 0.10301724137931034,
+          "filtered_direct_fraction": 0.1180316091954023,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 717,
+          "filtered_direct": 3286,
+          "validation_ndcg": 0.4530520419271063
+        },
+        {
+          "epoch": 18,
+          "rec_loss": 0.6926012992858886,
+          "imp_loss": 2.6800474340265446,
+          "filtered_observed_fraction": 0.10977011494252874,
+          "filtered_direct_fraction": 0.12381465517241379,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 764,
+          "filtered_direct": 3447,
+          "validation_ndcg": 0.45167786859826914
+        },
+        {
+          "epoch": 19,
+          "rec_loss": 0.6947753494436091,
+          "imp_loss": 2.5153038826855747,
+          "filtered_observed_fraction": 0.10977011494252874,
+          "filtered_direct_fraction": 0.12126436781609196,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 764,
+          "filtered_direct": 3376,
+          "validation_ndcg": 0.4357066808474489
+        },
+        {
+          "epoch": 20,
+          "rec_loss": 0.6927594564177774,
+          "imp_loss": 2.837734976681796,
+          "filtered_observed_fraction": 0.11623563218390805,
+          "filtered_direct_fraction": 0.12755028735632185,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 809,
+          "filtered_direct": 3551,
+          "validation_ndcg": 0.43932814186772307
+        },
+        {
+          "epoch": 21,
+          "rec_loss": 0.6952856248075312,
+          "imp_loss": 2.231448039141568,
+          "filtered_observed_fraction": 0.11882183908045978,
+          "filtered_direct_fraction": 0.12456896551724138,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 827,
+          "filtered_direct": 3468,
+          "validation_ndcg": 0.4212151043467233
+        },
+        {
+          "epoch": 22,
+          "rec_loss": 0.6921783393079585,
+          "imp_loss": 2.6829813025214455,
+          "filtered_observed_fraction": 0.12255747126436782,
+          "filtered_direct_fraction": 0.13782327586206897,
+          "observed_count": 6960,
+          "direct_count": 27840,
+          "filtered_observed": 853,
+          "filtered_direct": 3837,
+          "validation_ndcg": 0.42276605231418735
+        }
+      ],
+      "seed": 44
+    }
+  ]
+}

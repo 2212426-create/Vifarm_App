@@ -1,0 +1,67 @@
+{
+  "identity": {
+    "code_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556"
+  },
+  "full_coat_report": "results/benchmark_coat_all_02b9e8eb46_20261022_073711_146173c9_v4.json",
+  "test_suite": {
+    "total": 132,
+    "passed": 131,
+    "skipped": 1,
+    "log": "docs/archive/2026-10-22/ividr_reference/tests.log"
+  },
+  "metrics": {
+    "NDCG@5": 0.541201205693586,
+    "Recall@5": 0.5583448986143597,
+    "Recall@5_bounded": 0.6132734530938123,
+    "Precision@5": 0.3628742514970061,
+    "HitRate@5": 0.9041916167664671,
+    "AUC": 0.6890576468607906
+  },
+  "implementation": "ividr_reference_bce_v2",
+  "validation_artifact": "results/ividr_reference_validation_20261022.json",
+  "feedback_reload_metrics_exact": true,
+  "stage1_reload_latents_exact": true,
+  "feature_embedding_update_norm": 0.21445681154727936,
+  "unchanged_models_regression": [
+    {
+      "model": "MF",
+      "metrics_exact": true,
+      "all_tensors_exact": true
+    },
+    {
+      "model": "iDCF",
+      "metrics_exact": true,
+      "all_tensors_exact": true
+    },
+    {
+      "model": "DR-BIAS + CDR",
+      "metrics_exact": true,
+      "all_tensors_exact": true
+    }
+  ],
+  "smoke": [
+    {
+      "dataset": "coat",
+      "report": "results/benchmark_coat_all_quick_b09736dd32_20261022_073711_cfec7538_v4.json",
+      "purpose": "smoke_not_quality"
+    },
+    {
+      "dataset": "yahoo",
+      "report": "results/benchmark_yahoo_all_quick_21ff5aea1e_20261022_073717_eb4f7f8d_v4.json",
+      "purpose": "smoke_not_quality"
+    },
+    {
+      "dataset": "kuairand",
+      "report": "results/benchmark_kuairand_all_quick_26d26ada8c_20261022_073743_69563eb6_v4.json",
+      "purpose": "smoke_not_quality"
+    }
+  ],
+  "paper_reproduction": false,
+  "eq10_coordinate_completion_is_local": true,
+  "limitations": [
+    "arXiv v1 reference; not an author-code or final-publication reproduction",
+    "Eq. (10) dimension mapping unspecified: explicit tied-item coordinate lift",
+    "factorized first gate layer; shared encoder/prior/decoder is a parameterization choice",
+    "project dataset preprocessing and split retained"
+  ]
+}

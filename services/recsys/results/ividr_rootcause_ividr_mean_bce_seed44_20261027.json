@@ -1,0 +1,83 @@
+{
+  "cell": "ividr_mean+bce",
+  "seed": 44,
+  "code_sha256": "2811a292168094fb238f02ca0cdaa6dac26382a2fea2132fed2ddf066a332061",
+  "latent": {
+    "mean_abs": 2.2957966327667236,
+    "std_mean": 0.30539625883102417,
+    "snr": 8.121358871459961
+  },
+  "trials": [
+    {
+      "lr": 0.001,
+      "weight_decay": 1e-05,
+      "best_epoch": 38,
+      "best_val_ndcg": 0.5693765208039554
+    },
+    {
+      "lr": 0.001,
+      "weight_decay": 1e-06,
+      "best_epoch": 34,
+      "best_val_ndcg": 0.5708004757482146
+    },
+    {
+      "lr": 0.0005,
+      "weight_decay": 1e-05,
+      "best_epoch": 86,
+      "best_val_ndcg": 0.5708558896443293
+    },
+    {
+      "lr": 0.0005,
+      "weight_decay": 1e-06,
+      "best_epoch": 68,
+      "best_val_ndcg": 0.5709077189715521
+    },
+    {
+      "lr": 0.0001,
+      "weight_decay": 1e-05,
+      "best_epoch": 17,
+      "best_val_ndcg": 0.4821710090220961
+    },
+    {
+      "lr": 0.0001,
+      "weight_decay": 1e-06,
+      "best_epoch": 17,
+      "best_val_ndcg": 0.4821710090220961
+    },
+    {
+      "lr": 5e-05,
+      "weight_decay": 1e-05,
+      "best_epoch": 56,
+      "best_val_ndcg": 0.47920926417698717
+    },
+    {
+      "lr": 5e-05,
+      "weight_decay": 1e-06,
+      "best_epoch": 56,
+      "best_val_ndcg": 0.47920926417698717
+    },
+    {
+      "lr": 1e-05,
+      "weight_decay": 1e-05,
+      "best_epoch": 100,
+      "best_val_ndcg": 0.47290040570347874
+    },
+    {
+      "lr": 1e-05,
+      "weight_decay": 1e-06,
+      "best_epoch": 97,
+      "best_val_ndcg": 0.46762797361164243
+    }
+  ],
+  "val_ndcg": 0.5709077189715521,
+  "test": {
+    "NDCG@5": 0.5329034105047934,
+    "Recall@5": 0.5531960388247813,
+    "Recall@5_bounded": 0.6062874251497006,
+    "best_epoch": 68
+  },
+  "ividr_stage1": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_tied_item_lift_full_seed44_exposure_20280ba2.pt",
+  "idcf_reference": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_idcf_reference\\coat_idcf_full_e100_r2000_seed44_v4_ce49d6e1c7576a25.pt",
+  "seconds": 119.65985178947449,
+  "selection": "validation NDCG@5 only"
+}

@@ -1,0 +1,121 @@
+{
+  "identity": {
+    "code_sha256": "eaaa557ae302485a39c88caade79c246fe4efa791bc02870c8c9d0a04f7e5db1",
+    "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+    "seed": 2020,
+    "dataset": "coat"
+  },
+  "scope": "published_script_conditions_not_project_held_out",
+  "config": {
+    "embedding_dim": 16,
+    "epochs": 1,
+    "lr": 0.05,
+    "weight_decay": 0.001,
+    "batch_size": 256,
+    "un_thres": 10.0,
+    "dropout_rate": 0.5,
+    "G": 4,
+    "tol": 1e-05,
+    "stop": 5,
+    "mc_samples": 10
+  },
+  "source_calibration": {
+    "method": "released_naive_bayes",
+    "calibration_rows": 232,
+    "calibration_positive_rate": 0.3706896551724138,
+    "train_positive_rate": 0.5204022988505748,
+    "population_denominator": 86411,
+    "observed_fraction": 0.08054530094548147
+  },
+  "test_labels_used_for_propensity": true,
+  "calibration_rows": 232,
+  "positive_threshold": 3,
+  "evaluation_pool": "entire_random_log",
+  "zero_positive_score": 1,
+  "recall_denominator": "min(k,n_positive)",
+  "raw_id_convention": "source_unchanged",
+  "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261030_134103_790ebdfa\\coat\\cdr\\20261030_134111_c2d1bf31\\coat.pt",
+  "training_history": [
+    {
+      "epoch": 1,
+      "weighted_factual_sum": 58956.12890625,
+      "rec_loss": 2.6510073873731823,
+      "imp_loss": 740813.7731481482,
+      "filtered_fraction": 0.0,
+      "observed_rows_used": 6912,
+      "observed_rows_dropped": 48
+    }
+  ],
+  "metrics": {
+    "NDCG@5": 0.5400707990775592,
+    "Recall@5": 0.3961318997094859,
+    "Recall@5_bounded": 0.5544827586206897,
+    "Precision@5": 0.4517241379310345,
+    "HitRate@5": 0.8827586206896552,
+    "AUC_global": 0.6246909499168396,
+    "users": 290
+  },
+  "quick_run": true,
+  "metadata": {
+    "model": "cdr_source",
+    "architecture_version": "cdr_released_v1",
+    "dataset": "coat",
+    "code_sha256": "eaaa557ae302485a39c88caade79c246fe4efa791bc02870c8c9d0a04f7e5db1",
+    "config": {
+      "embedding_dim": 16,
+      "epochs": 1,
+      "lr": 0.05,
+      "weight_decay": 0.001,
+      "batch_size": 256,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 4,
+      "tol": 1e-05,
+      "stop": 5,
+      "mc_samples": 10,
+      "seed": 2020,
+      "selection": "source_train_loss_last",
+      "implementation": "cdr_released",
+      "catalog_sampler": "permutation"
+    },
+    "data": {
+      "sha256": "0237db4dd210747bebe119e1fedd3efa4218b408fff4855de51ef7044f1c796b"
+    },
+    "model_kwargs": {
+      "num_users": 290,
+      "num_items": 300,
+      "embedding_dim": 16,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5
+    },
+    "protocol": {
+      "metric_revision": "cdr_source_v1",
+      "scope": "cdr_source_protocol",
+      "recall_denominator": "min(k,n_positive)",
+      "calibration": "evaluation_5_percent",
+      "supplementary_metrics": [
+        "Recall@5",
+        "Precision@5",
+        "HitRate@5"
+      ],
+      "auxiliary_aggregation": "same source-eligible users; empty users: Recall=1, precision/hit-rate=0",
+      "paper_scores_directly_comparable": false
+    },
+    "adaptations": [],
+    "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+    "smoke_users": null
+  },
+  "evaluation_scope": "cdr_source_protocol",
+  "best_epoch": 1,
+  "best_val_ndcg": null,
+  "selection_origin": "source_train_loss_last",
+  "epochs_run": 1,
+  "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+  "NDCG@5": 0.5400707990775592,
+  "Recall@5": 0.3961318997094859,
+  "Recall@5_bounded": 0.5544827586206897,
+  "Precision@5": 0.4517241379310345,
+  "HitRate@5": 0.8827586206896552,
+  "AUC_global": 0.6246909499168396,
+  "users": 290
+}

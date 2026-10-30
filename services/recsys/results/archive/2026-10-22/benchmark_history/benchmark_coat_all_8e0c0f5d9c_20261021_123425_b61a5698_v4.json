@@ -1,0 +1,1258 @@
+{
+  "artifact_version": 4,
+  "coat": {
+    "Random (expected)": {
+      "NDCG@5": 0.2985746891685095,
+      "Recall@5": 0.3125,
+      "Precision@5": 0.2346556886227545,
+      "HitRate@5": 0.6689272553793512,
+      "AUC": 0.5
+    },
+    "Popularity": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 203,
+      "candidate_pairs": 3248,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.3511061842200611,
+      "Recall@5": 0.365025842421052,
+      "Recall@5_bounded": 0.41187624750499,
+      "Precision@5": 0.2682634730538922,
+      "HitRate@5": 0.718562874251497,
+      "eval_users": 167,
+      "zero_positive_users": 36,
+      "NDCG@5_CI95_halfwidth": 0.04500201169456026,
+      "elapsed_seconds": 0.02,
+      "AUC": 0.550814720874601,
+      "auc_users": 167
+    },
+    "MF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 203,
+      "candidate_pairs": 3248,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.547611758415125,
+      "Recall@5": 0.5295358500448321,
+      "Recall@5_bounded": 0.5840319361277445,
+      "Precision@5": 0.3497005988023952,
+      "HitRate@5": 0.8502994011976048,
+      "eval_users": 167,
+      "zero_positive_users": 36,
+      "NDCG@5_CI95_halfwidth": 0.05004015694367718,
+      "elapsed_seconds": 0.02,
+      "AUC": 0.6931237695272126,
+      "auc_users": 167,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\mf\\coat_mf_v4_e100_full_675818c412_v4_aa99424b978df4f5.pt",
+      "best_epoch": 23,
+      "best_val_ndcg": 0.6189874762100858,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "mf_v4",
+        "model": "mf",
+        "dataset": "coat",
+        "config": {
+          "epochs": 100,
+          "lr": 0.0005,
+          "batch_size": 512,
+          "patience": 5,
+          "alpha": 0.0,
+          "weight_decay": 1e-06,
+          "seed": 42,
+          "device": "cpu",
+          "optimizer": "adam",
+          "loss": "mse",
+          "decay_scope": "all",
+          "scheduler": "none",
+          "adam_fused": false,
+          "init_scheme": "author_uniform",
+          "method_reference": "iDCF_KDD2023_MF.py_models/mf.py",
+          "method_profile": "idcf_author_mf",
+          "paper_reproduction": false,
+          "momentum": null
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 64,
+          "use_bias": true,
+          "train_global_bias": false,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "017c3601e4f3744c42e95e2eecaad571a761178b8c315d65cb31201f19591b39",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      }
+    },
+    "iDCF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 203,
+      "candidate_pairs": 3248,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.5698840836815878,
+      "Recall@5": 0.5519691220290022,
+      "Recall@5_bounded": 0.6022954091816367,
+      "Precision@5": 0.3473053892215569,
+      "HitRate@5": 0.8862275449101796,
+      "eval_users": 167,
+      "zero_positive_users": 36,
+      "NDCG@5_CI95_halfwidth": 0.04797094063475966,
+      "elapsed_seconds": 0.02,
+      "AUC": 0.6859969849677934,
+      "auc_users": 167,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\idcf\\coat_idcf_v4_e100_full_758db21f4e_v4_d9821b4e562c8f27.pt",
+      "best_epoch": 24,
+      "best_val_ndcg": 0.6058970553682123,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "idcf_v1",
+        "model": "idcf",
+        "dataset": "coat",
+        "config": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "batch_size": 512,
+          "epochs": 100,
+          "patience": 5,
+          "seed": 42,
+          "loss": "mse",
+          "device": "cpu",
+          "confounders_sha256": "7cf034ce91b25d8e",
+          "paper_reproduction": false,
+          "method_reference": "iDCF_KDD2023_MFMF",
+          "variant": "idcf",
+          "confounder_training": {
+            "best_val_loss": 76.5403995513916,
+            "best_epoch": 1379,
+            "epochs_run": 1479,
+            "selection": "post_warmup_full_beta",
+            "anneal_steps": 400,
+            "first_full_beta_epoch": 401,
+            "selected_training_beta": 1.0,
+            "last_training_beta": 1.0,
+            "config": {
+              "latent_dim": 16,
+              "hidden_dim": 32,
+              "n_layers": 3,
+              "lr": 0.0005,
+              "weight_decay": 1e-06,
+              "l2_penalty": 0.01,
+              "batch_size": 512,
+              "epochs": 2000,
+              "patience": 100,
+              "beta_max": 1.0,
+              "train_ratio": 0.8,
+              "split_seed": 1234,
+              "seed": 42,
+              "device": "cpu",
+              "validation_samples": 8,
+              "validation_seed": 1234,
+              "validation_metric": "mc_elbo_common_noise_v1"
+            }
+          }
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "latent_dim": 16,
+          "embedding_dim": 64,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "017c3601e4f3744c42e95e2eecaad571a761178b8c315d65cb31201f19591b39",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "epochs_run": 29,
+      "confounder_info": {
+        "best_val_loss": 76.5403995513916,
+        "best_epoch": 1379,
+        "epochs_run": 1479,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 400,
+        "first_full_beta_epoch": 401,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 512,
+          "epochs": 2000,
+          "patience": 100,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 42,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "validation_metric": "mc_elbo_common_noise_v1"
+        }
+      }
+    },
+    "IViDR": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 203,
+      "candidate_pairs": 3248,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.5291247296700528,
+      "Recall@5": 0.5352791253988859,
+      "Recall@5_bounded": 0.5904191616766467,
+      "Precision@5": 0.3544910179640719,
+      "HitRate@5": 0.8862275449101796,
+      "eval_users": 167,
+      "zero_positive_users": 36,
+      "NDCG@5_CI95_halfwidth": 0.04390068588080822,
+      "elapsed_seconds": 0.02,
+      "AUC": 0.6940419485703916,
+      "auc_users": 167,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial1_v4_f62a09815e59b9ab.pt",
+      "best_epoch": 37,
+      "best_val_ndcg": 0.6108626904348948,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "ividr_bce_v1",
+        "model": "ividr_bce",
+        "dataset": "coat",
+        "config": {
+          "lr": 0.001,
+          "weight_decay": 1e-06,
+          "batch_size": 512,
+          "epochs": 100,
+          "patience": 20,
+          "seed": 42,
+          "loss": "bce",
+          "device": "cpu",
+          "confounders_sha256": "55025f2a48af760b",
+          "paper_reproduction": false,
+          "method_reference": "https://arxiv.org/html/2410.12451",
+          "variant": "ividr_equations_bce",
+          "display_name": "IViDR-BCE",
+          "implementation_status": "paper_equations_with_documented_local_choices",
+          "confounder_training": {
+            "construction": "biased-exposure user columns per item; thin SVD basis",
+            "feature_embedding": "fixed seeded linear map; no rating/random-log labels",
+            "feature_embedding_seed": 1234,
+            "mean_rank": 8.796666666666667,
+            "empty_items": 0,
+            "basis_bytes": 537600,
+            "best_epoch": 644,
+            "best_val_loss": 76.17697048187256,
+            "epochs_run": 744,
+            "full_beta_selection": true,
+            "rho": 0.9,
+            "tau": 0.9,
+            "dimension_bridge": "mean of biased item histories -> registered Linear -> additive exposure",
+            "shared_encoder": true,
+            "learned_prior_mean": true,
+            "learned_reconstruction": true,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_v4_e100_full_a27f307e7c_exposure_af786344.pt",
+            "checkpoint_sha256": "b64caf48cd94694dfef0ce3ce106b9c0e51e449c0a85cb8379b898b324715cf4"
+          },
+          "treatment_sha256": "f7a0c337ebb3be179d1ee3fae9122e2f8a1883f88eada73c9b00d0e6cb819df4",
+          "source_limitations": [
+            "arXiv equations; final ACM text not verified",
+            "fixed feature embedding, pooled gate input and registered dimension bridge",
+            "project dataset preprocessing and split retained"
+          ]
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "latent_dim": 16,
+          "embedding_dim": 64,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "017c3601e4f3744c42e95e2eecaad571a761178b8c315d65cb31201f19591b39",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "confounder_info": {
+        "construction": "biased-exposure user columns per item; thin SVD basis",
+        "feature_embedding": "fixed seeded linear map; no rating/random-log labels",
+        "feature_embedding_seed": 1234,
+        "mean_rank": 8.796666666666667,
+        "empty_items": 0,
+        "basis_bytes": 537600,
+        "best_epoch": 644,
+        "best_val_loss": 76.17697048187256,
+        "epochs_run": 744,
+        "full_beta_selection": true,
+        "rho": 0.9,
+        "tau": 0.9,
+        "dimension_bridge": "mean of biased item histories -> registered Linear -> additive exposure",
+        "shared_encoder": true,
+        "learned_prior_mean": true,
+        "learned_reconstruction": true,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_v4_e100_full_a27f307e7c_exposure_af786344.pt",
+        "checkpoint_sha256": "b64caf48cd94694dfef0ce3ce106b9c0e51e449c0a85cb8379b898b324715cf4"
+      },
+      "validation_search": {
+        "trials": [
+          {
+            "lr": 0.001,
+            "weight_decay": 1e-05,
+            "best_epoch": 37,
+            "best_val_ndcg": 0.6063223211614813,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial0_v4_fc7795620cd379fa.pt"
+          },
+          {
+            "lr": 0.001,
+            "weight_decay": 1e-06,
+            "best_epoch": 37,
+            "best_val_ndcg": 0.6108626904348948,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial1_v4_f62a09815e59b9ab.pt"
+          },
+          {
+            "lr": 0.0005,
+            "weight_decay": 1e-05,
+            "best_epoch": 81,
+            "best_val_ndcg": 0.6026290677263799,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial2_v4_6dfcdeb486973d22.pt"
+          },
+          {
+            "lr": 0.0005,
+            "weight_decay": 1e-06,
+            "best_epoch": 71,
+            "best_val_ndcg": 0.6068787701207525,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial3_v4_b1843b4eb670be01.pt"
+          },
+          {
+            "lr": 0.0001,
+            "weight_decay": 1e-05,
+            "best_epoch": 98,
+            "best_val_ndcg": 0.540707860995172,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial4_v4_82af54dd253bdfeb.pt"
+          },
+          {
+            "lr": 0.0001,
+            "weight_decay": 1e-06,
+            "best_epoch": 100,
+            "best_val_ndcg": 0.5369136129217345,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial5_v4_aa0c2cfd060c35ac.pt"
+          },
+          {
+            "lr": 5e-05,
+            "weight_decay": 1e-05,
+            "best_epoch": 90,
+            "best_val_ndcg": 0.5125112565059936,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial6_v4_a73955dcc3e9c9c5.pt"
+          },
+          {
+            "lr": 5e-05,
+            "weight_decay": 1e-06,
+            "best_epoch": 90,
+            "best_val_ndcg": 0.5125112565059936,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial7_v4_aff2083e379e3415.pt"
+          },
+          {
+            "lr": 1e-05,
+            "weight_decay": 1e-05,
+            "best_epoch": 66,
+            "best_val_ndcg": 0.4780242700483678,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial8_v4_4ba908f9de745046.pt"
+          },
+          {
+            "lr": 1e-05,
+            "weight_decay": 1e-06,
+            "best_epoch": 66,
+            "best_val_ndcg": 0.4780242700483678,
+            "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial9_v4_2f10668b694fd839.pt"
+          }
+        ],
+        "selection": "max_validation_NDCG@5",
+        "test_used_for_selection": false
+      }
+    },
+    "DR-BIAS + CDR": {
+      "identity": {
+        "code_sha256": "017c3601e4f3744c42e95e2eecaad571a761178b8c315d65cb31201f19591b39",
+        "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+        "seed": 2020,
+        "dataset": "coat"
+      },
+      "scope": "published_script_conditions_not_project_held_out",
+      "config": {
+        "embedding_dim": 4,
+        "epochs": 1000,
+        "lr": 0.05,
+        "weight_decay": 0.001,
+        "batch_size": 128,
+        "un_thres": 10.0,
+        "dropout_rate": 0.5,
+        "G": 4,
+        "tol": 1e-05,
+        "stop": 5,
+        "mc_samples": 10
+      },
+      "source_calibration": {
+        "method": "released_naive_bayes",
+        "calibration_rows": 232,
+        "calibration_positive_rate": 0.3706896551724138,
+        "train_positive_rate": 0.5204022988505748,
+        "population_denominator": 86411,
+        "observed_fraction": 0.08054530094548147
+      },
+      "test_labels_used_for_propensity": true,
+      "calibration_rows": 232,
+      "positive_threshold": 3,
+      "evaluation_pool": "entire_random_log",
+      "zero_positive_score": 1,
+      "recall_denominator": "min(k,n_positive)",
+      "raw_id_convention": "source_unchanged",
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_123425_b61a5698\\coat\\cdr\\20261021_123701_d75c9680\\coat.pt",
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 58886.06640625,
+          "rec_loss": 2.6465763648351035,
+          "imp_loss": 24896.10759367766,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 2,
+          "weighted_factual_sum": 51488.97265625,
+          "rec_loss": 2.355444003034521,
+          "imp_loss": 27278.030969690393,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 3,
+          "weighted_factual_sum": 48168.921875,
+          "rec_loss": 2.2255198690626354,
+          "imp_loss": 27120.206705729168,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 4,
+          "weighted_factual_sum": 45940.6015625,
+          "rec_loss": 2.1420206736635277,
+          "imp_loss": 22155.207465277777,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 5,
+          "weighted_factual_sum": 44390.76953125,
+          "rec_loss": 2.084415517471455,
+          "imp_loss": 20088.615288628473,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 6,
+          "weighted_factual_sum": 43822.078125,
+          "rec_loss": 2.0627295441097684,
+          "imp_loss": 19169.64675564236,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 7,
+          "weighted_factual_sum": 42999.6875,
+          "rec_loss": 2.032379009105541,
+          "imp_loss": 19114.481553819445,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 8,
+          "weighted_factual_sum": 42697.21875,
+          "rec_loss": 2.0223162174224854,
+          "imp_loss": 18112.002332899305,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 9,
+          "weighted_factual_sum": 42390.484375,
+          "rec_loss": 2.009733740930204,
+          "imp_loss": 18581.18923611111,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 10,
+          "weighted_factual_sum": 42000.80859375,
+          "rec_loss": 1.9952752700558416,
+          "imp_loss": 18335.76935040509,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 11,
+          "weighted_factual_sum": 41925.02734375,
+          "rec_loss": 1.991567247443729,
+          "imp_loss": 18414.638292100695,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 12,
+          "weighted_factual_sum": 41828.0546875,
+          "rec_loss": 1.9887824124760098,
+          "imp_loss": 18103.139539930555,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 13,
+          "weighted_factual_sum": 41855.91796875,
+          "rec_loss": 1.989179445637597,
+          "imp_loss": 18085.94012225116,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 14,
+          "weighted_factual_sum": 41723.98046875,
+          "rec_loss": 1.9855918773898371,
+          "imp_loss": 18273.586009837964,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 15,
+          "weighted_factual_sum": 41948.8828125,
+          "rec_loss": 1.991908938796432,
+          "imp_loss": 17955.462962962964,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 16,
+          "weighted_factual_sum": 41681.328125,
+          "rec_loss": 1.983621440551899,
+          "imp_loss": 17854.16337528935,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 17,
+          "weighted_factual_sum": 41572.15625,
+          "rec_loss": 1.9802878741864804,
+          "imp_loss": 18209.4812463831,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 18,
+          "weighted_factual_sum": 41631.546875,
+          "rec_loss": 1.9831704850550051,
+          "imp_loss": 17959.123137297454,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 19,
+          "weighted_factual_sum": 41566.4921875,
+          "rec_loss": 1.9794235737235457,
+          "imp_loss": 17811.666883680555,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 20,
+          "weighted_factual_sum": 41482.26953125,
+          "rec_loss": 1.9798335344703109,
+          "imp_loss": 17728.38458478009,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 21,
+          "weighted_factual_sum": 41468.37890625,
+          "rec_loss": 1.975171947920764,
+          "imp_loss": 17631.907823350695,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 22,
+          "weighted_factual_sum": 41447.39453125,
+          "rec_loss": 1.976367798116472,
+          "imp_loss": 17775.06374782986,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 23,
+          "weighted_factual_sum": 41295.359375,
+          "rec_loss": 1.9686265654034085,
+          "imp_loss": 17908.16263382523,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 24,
+          "weighted_factual_sum": 41476.57421875,
+          "rec_loss": 1.9758857599011175,
+          "imp_loss": 17512.006781684027,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 25,
+          "weighted_factual_sum": 41505.44921875,
+          "rec_loss": 1.9785846228952761,
+          "imp_loss": 17625.08273654514,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 26,
+          "weighted_factual_sum": 41451.81640625,
+          "rec_loss": 1.9761514045574047,
+          "imp_loss": 17962.985785590277,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 27,
+          "weighted_factual_sum": 41451.58984375,
+          "rec_loss": 1.9741862129282068,
+          "imp_loss": 17995.123444733796,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 28,
+          "weighted_factual_sum": 41405.828125,
+          "rec_loss": 1.9726194871796503,
+          "imp_loss": 17929.092158564814,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 29,
+          "weighted_factual_sum": 41614.48046875,
+          "rec_loss": 1.9807060780348602,
+          "imp_loss": 17628.627567997686,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        }
+      ],
+      "metrics": {
+        "NDCG@5": 0.6566651228158734,
+        "Recall@5": 0.493414483026552,
+        "Recall@5_bounded": 0.667816091954023,
+        "Precision@5": 0.5324137931034482,
+        "HitRate@5": 0.9310344827586207,
+        "AUC_global": 0.7512927651405334,
+        "users": 290
+      },
+      "quick_run": false,
+      "metadata": {
+        "model": "cdr_source",
+        "architecture_version": "cdr_released_v1",
+        "dataset": "coat",
+        "code_sha256": "017c3601e4f3744c42e95e2eecaad571a761178b8c315d65cb31201f19591b39",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1000,
+          "lr": 0.05,
+          "weight_decay": 0.001,
+          "batch_size": 128,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 4,
+          "tol": 1e-05,
+          "stop": 5,
+          "mc_samples": 10,
+          "seed": 2020,
+          "selection": "source_train_loss_last",
+          "implementation": "cdr_released",
+          "catalog_sampler": "permutation"
+        },
+        "data": {
+          "sha256": "0237db4dd210747bebe119e1fedd3efa4218b408fff4855de51ef7044f1c796b"
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5
+        },
+        "protocol": {
+          "metric_revision": "cdr_source_v1",
+          "scope": "cdr_source_protocol",
+          "recall_denominator": "min(k,n_positive)",
+          "calibration": "evaluation_5_percent",
+          "supplementary_metrics": [
+            "Recall@5",
+            "Precision@5",
+            "HitRate@5"
+          ],
+          "auxiliary_aggregation": "same source-eligible users; empty users: Recall=1, precision/hit-rate=0",
+          "paper_scores_directly_comparable": false
+        },
+        "adaptations": [],
+        "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+        "smoke_users": null
+      },
+      "evaluation_scope": "cdr_source_protocol",
+      "best_epoch": 29,
+      "best_val_ndcg": null,
+      "selection_origin": "source_train_loss_last",
+      "epochs_run": 29,
+      "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+      "NDCG@5": 0.6566651228158734,
+      "Recall@5": 0.493414483026552,
+      "Recall@5_bounded": 0.667816091954023,
+      "Precision@5": 0.5324137931034482,
+      "HitRate@5": 0.9310344827586207,
+      "AUC_global": 0.7512927651405334,
+      "users": 290
+    }
+  },
+  "kuairand": {},
+  "yahoo": {},
+  "diagnostics": {
+    "coat": {
+      "users": 203,
+      "zero_positive_users": 36,
+      "evaluated_users": 167,
+      "candidate_pairs": 3248,
+      "positive_pairs": 627,
+      "pooled_positive_rate": 0.19304187192118227,
+      "mean_user_positive_rate": 0.19304187192118227,
+      "candidate_size_p10_p50_p90": [
+        16.0,
+        16.0,
+        16.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.2985746891685095,
+        "Recall@5": 0.3125,
+        "Precision@5": 0.2346556886227545,
+        "HitRate@5": 0.6689272553793512,
+        "AUC": 0.5
+      }
+    },
+    "coat_validation": {
+      "users": 87,
+      "zero_positive_users": 17,
+      "evaluated_users": 70,
+      "candidate_pairs": 1392,
+      "positive_pairs": 233,
+      "pooled_positive_rate": 0.16738505747126436,
+      "mean_user_positive_rate": 0.16738505747126436,
+      "candidate_size_p10_p50_p90": [
+        16.0,
+        16.0,
+        16.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.281148705099452,
+        "Recall@5": 0.3125,
+        "Precision@5": 0.2080357142857143,
+        "HitRate@5": 0.6293400052328624,
+        "AUC": 0.5
+      }
+    }
+  },
+  "significance": {
+    "coat": {
+      "MF vs Popularity": {
+        "mean_delta_ndcg": 0.19650557419506384,
+        "CI95_halfwidth": 0.055009100897640925,
+        "wilcoxon_p": 3.3144075758512966e-10,
+        "users": 167,
+        "users_changed": 144,
+        "wins": 105,
+        "losses": 39
+      },
+      "iDCF vs Popularity": {
+        "mean_delta_ndcg": 0.21877789946152654,
+        "CI95_halfwidth": 0.05932520486397698,
+        "wilcoxon_p": 9.124122434425526e-11,
+        "users": 167,
+        "users_changed": 147,
+        "wins": 110,
+        "losses": 37
+      },
+      "iDCF vs MF": {
+        "mean_delta_ndcg": 0.02227232526646273,
+        "CI95_halfwidth": 0.033775249709062954,
+        "wilcoxon_p": 0.6214846271434473,
+        "users": 167,
+        "users_changed": 100,
+        "wins": 51,
+        "losses": 49
+      },
+      "IViDR vs Popularity": {
+        "mean_delta_ndcg": 0.17801854544999166,
+        "CI95_halfwidth": 0.05560056114068855,
+        "wilcoxon_p": 1.783688400472991e-08,
+        "users": 167,
+        "users_changed": 144,
+        "wins": 100,
+        "losses": 44
+      },
+      "IViDR vs MF": {
+        "mean_delta_ndcg": -0.01848702874507216,
+        "CI95_halfwidth": 0.0388395293207897,
+        "wilcoxon_p": 0.21743707179116434,
+        "users": 167,
+        "users_changed": 127,
+        "wins": 58,
+        "losses": 69
+      }
+    }
+  },
+  "evaluation_protocol": {
+    "coat": {
+      "metric_revision": "logged_binary_v1",
+      "reference": "iDCF_KDD2023",
+      "implementation": "idcf_aligned_local",
+      "k": 5,
+      "primary_metrics": [
+        "NDCG@5",
+        "Recall@5"
+      ],
+      "candidates": "logged_exposures",
+      "relevance": "binary_any_positive_per_user_item",
+      "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+      "recall_denominator": "all_positive_items_in_candidate_pool",
+      "aggregation": "macro_by_user",
+      "include_zero_positive_users": false,
+      "tie_break": "score_desc_then_item_id_asc",
+      "train_overlap": "retain_and_disclose",
+      "selection": "validation_ndcg",
+      "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+      "seed_std_ddof": 1,
+      "split": {
+        "protocol": "paper_idcf",
+        "split_unit": "user",
+        "seed": 1234,
+        "validation_users": 87,
+        "test_users": 203,
+        "validation_rows": 1392,
+        "test_rows": 3248,
+        "train_random_overlap_pairs": 366,
+        "validation_overlap_pairs": 119,
+        "test_overlap_pairs": 247,
+        "test_overlap_positive_pairs": 63
+      },
+      "paper_scores_directly_comparable": false,
+      "limitations": [
+        "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+        "Binary duplicate aggregation and deterministic score ties are local conventions.",
+        "Local model architectures, loss and tuning differ from original implementations."
+      ]
+    }
+  },
+  "protocol": {
+    "selection": "validation_only",
+    "run_id": "20261021_123425_b61a5698",
+    "threads_override": 2,
+    "test": "held_out_final_evaluation",
+    "candidate_pool": "logged_exposures_only",
+    "include_zero_positive_users": {
+      "coat": false,
+      "kuairand": false,
+      "yahoo": false
+    },
+    "coat_protocol": "paper_idcf",
+    "idcf_config": {
+      "yahoo": {
+        "ivae": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "batch_size": 512,
+          "patience": 100
+        },
+        "train": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 2048,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      },
+      "coat": {
+        "ivae": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "batch_size": 512,
+          "patience": 100
+        },
+        "train": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 512,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      },
+      "kuairand": {
+        "ivae": {
+          "latent_dim": 32,
+          "hidden_dim": 64,
+          "n_layers": 2,
+          "batch_size": 2048,
+          "patience": 5
+        },
+        "train": {
+          "lr": 0.0001,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 2048,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      }
+    },
+    "ividr_implementation": "ividr_equations_bce",
+    "ivae_epochs": 2000,
+    "stage2_overrides": {},
+    "stage1_overrides": {},
+    "device": "cpu",
+    "kuairand_protocol": "paper_idcf",
+    "kuairand_random_val_fraction": 0.3,
+    "paper_scores_directly_comparable": false,
+    "coat_random_split_seed": 1234,
+    "alpha": 0.0,
+    "alpha_applies_to": [
+      "MF"
+    ],
+    "kuairand_cdr_propensity": "item_exposure_frequency_proxy_clipped_0.05_to_1.0",
+    "quick_run": false,
+    "seed": 42,
+    "epochs_coat": 100,
+    "epochs_kuairand": 100,
+    "epochs_yahoo": 100,
+    "cdr_implementation": "auto",
+    "dimension_override": null,
+    "learning_rate_override": null,
+    "batch_size_override": null,
+    "coat_split_info": {
+      "protocol": "paper_idcf",
+      "split_unit": "user",
+      "seed": 1234,
+      "validation_users": 87,
+      "test_users": 203,
+      "validation_rows": 1392,
+      "test_rows": 3248,
+      "train_random_overlap_pairs": 366,
+      "validation_overlap_pairs": 119,
+      "test_overlap_pairs": 247,
+      "test_overlap_positive_pairs": 63
+    },
+    "smoke_users": null
+  }
+}

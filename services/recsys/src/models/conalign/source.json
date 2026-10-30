@@ -1,0 +1,31 @@
+{
+  "model": "ConAlign",
+  "paper": {
+    "title": "ConAlign: Conditional Alignment Framework for Balancing Biased and Unbiased Recommendation",
+    "authors": ["Jingcheng Zhang", "Yihan Wang", "Qi Song", "Liyin Hong"],
+    "venue": "RecSys 2026",
+    "doi": "10.1145/3773078.3831873",
+    "arxiv": "2607.24092v1",
+    "pdf": "docs/papers/ConAlign_RecSys2026.pdf"
+  },
+  "source": {
+    "repository": "https://github.com/JcZhangzz/ConAlign",
+    "commit": "f6171bb5871025be2a77a37c4c9ab151cbaaab6f",
+    "vendored": "third_party/conalign",
+    "license": "none declared; academic study only",
+    "ported": ["mymodel.py::DualTowerMF", "mymodel.py::para", "mymodel.py::train_and_eval",
+               "utils/load_dataset_new.py", "utils/load_kuairand.py", "utils/data_loader.py",
+               "utils/early_stop.py", "utils/metrics.py"]
+  },
+  "local_changes": [
+    "Reads data/raw instead of the repository datasets folder; rebuilt rows are byte-identical",
+    "Returns metrics/history and saves the checkpoint under checkpoints/conalign instead of the script folder",
+    "Optional --smoke-users subset and epoch overrides for smoke runs only",
+    "Since 2026-10-30 KuaiRand defaults to the paper window (kuairand_window='paper'): only logs 2022-04-22..05-08, train 04-22..05-05; kuairand_window='source' keeps the released loader byte-for-byte"
+  ],
+  "paper_source_differences": [
+    "Paper text (Sec. 4.1): KuaiRand logs April 22 to May 8, train first two weeks, validation day 15, test last two days. Source utils/load_kuairand.py builds train dates as 20220408 + i for i < 28, i.e. 20220408..20220430 then 20220431..20220435 (not real dates): May 1-5 never enter training although the docstring says 28 days to May 5. Validation 05-06 and test 05-07..08 agree",
+    "Paper describes KuaiRand-Pure as 1,000 users and 7,388 videos; the released Pure logs for April 22 to May 8 have 27,285 users and 7,583 videos",
+    "Paper reports UAUC/NDCG@5 without naming which source NDCG; artifacts keep every source metric name"
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-20",
+  "scope": "documentation cleanup only; no training/runtime/test code changed",
+  "source_sha256_before_and_after": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+  "original_documents_preserved": 19,
+  "original_zip": "docs/archive/2026-10-20/documentation_before_cleanup.zip",
+  "readable_historical_documents": 5,
+  "planning_documents_labelled": 3,
+  "presentation_relocated": {
+    "original": "docs/presentation/Slide_33_NghienCuuUngDungHocMayDeXuatVideoNgan.pptx",
+    "archive": "docs/archive/2026-10-20/presentation/Slide_33_NghienCuuUngDungHocMayDeXuatVideoNgan.pptx",
+    "sha256": "4cdbb2e85c165a06580d7d07ae3c670a521a2665598e7457d9112e824ea5075f"
+  },
+  "unchanged_protected_files": {
+    "src/__init__.py": "7e43510f78d4d287a4a0213511e30cd68bbf7c26deac6f236e950b5c5bb0c2a6",
+    "src/api/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/api/app.py": "472b30a0c873641d26a3bd76a0abb6303b02d1113f2e05355e9f042d6c82a7d4",
+    "src/api/firebase_bridge.py": "6597eabd579c47ae707cdaac66c1de46cfe2641907c02fc4eb01335ba7edf732",
+    "src/api/schemas.py": "65dfb2026662906f2fa5b373d3b5455766415675a77c49cb317abbb8079eb9f2",
+    "src/api/service.py": "7961f98c284a9ed2b4cbcad2b72b81416fe9060725b0dc0f3009fcf8405a8072",
+    "src/api/tunnel.py": "44a30dcff51ca6286d923d23cc7073816474ee622e0f15a9d18163d118131237",
+    "src/baselines/__init__.py": "df0b0824bbbb1d1307bc566f54041fe8746a2550799936c67344faf1a437dd19",
+    "src/baselines/train_mf.py": "f8bf9030bf304262b38258197458df3de7c3e9204ebf94ee3fccc57bed1ab986",
+    "src/causal/__init__.py": "ac1b99562e082e7d0201ae812f93a410c0ba9090b686f5e6ad95b80a02b9964d",
+    "src/causal/cdr/__init__.py": "3178568ce702d128528f08c457a046f9384268d2f2f24362ee072a63ee3aa464",
+    "src/causal/cdr/cdr_model.py": "5f7dda2135b3345d820559f235e2ae6e1ff68ce3c91fd410c6068cf1d89cb267",
+    "src/causal/cdr/dr_bias_loss.py": "f6de56000edb194b8419808f517631175000404daea56b9b2309e7ca4008263f",
+    "src/causal/cdr/imputation_model.py": "baa0fcf5bb12e900809c867be42a8dd3aad21f9ea88648971f27461e1bf4147f",
+    "src/causal/cdr/observations.py": "a0a3f0cb19bf4fa1db3a9a0ad9d095728318c0485b07e4d0d9c91f159badf65c",
+    "src/causal/cdr/sampling.py": "aa2303225e6b2de1e134a1e3ad1659a092731b9d85d903be44c54d495fe56618",
+    "src/causal/cdr/train_dr_bias_cdr.py": "3081f1ae2914289b263081f9e7e01b2524c40845fc3a81efb5deaeb2e682c044",
+    "src/causal/idcf/__init__.py": "2cfcab34f019cdad5e5f7e3747c5cc7b380a68f323b10e63c1fd7aa29de24441",
+    "src/causal/idcf/idcf_model.py": "cc2fb22ccba47cb2a465bc506f21a00d84d3ad1a6c28bbd16ca001feecdc0416",
+    "src/causal/idcf/ivae.py": "d12535faa249646e2a827d9b163ee007d54f20bc632a01d3ed323c31cdd99ff7",
+    "src/causal/idcf/ividr_staged.py": "a89054d24b5c4f9b0c0a377b700d0c1f23e20d352681378a5f7b04a16b97009b",
+    "src/causal/idcf/train_idcf.py": "c429f8108dd8c406ea2d376e5c345676078406e9e163e6812bf754bbea3fc060",
+    "src/data_pipeline/__init__.py": "d78cc301e0c524de7a3d6e3e52a21c28880cf39f3c0c8e79044ed4fad418ad79",
+    "src/data_pipeline/coat_dataset.py": "824c908ffaf9a3e06b2cda4cd59b25ee7590aed5a6c150be4d2a855fded3949a",
+    "src/data_pipeline/kuairand_dataset.py": "d14a4314d0bd1902c4a719ffd1b70ab1f95adb8c34e8bf92fe2e4823ed93312f",
+    "src/evaluation/__init__.py": "29fdb0020d1386e4c0158dddef6395d4450ac49df9027e9cef788dbceb1a9b54",
+    "src/evaluation/diagnostics.py": "48935ed6a429473c6539c8c9f0d4b54187b3d87d89fd0b228b982f1a6a588f8e",
+    "src/evaluation/evaluator.py": "aa832fad0cdb436bc5bf59d6c6428e5a90a17a1e94ed164604eb09df27a42820",
+    "src/evaluation/metrics.py": "ec13d869f0d92ad43c57d85b280aca0b8ad367866b8ea87576e629e29c1ee061",
+    "src/evaluation/protocol.py": "2b7cfb9b8bfe792e89639a186ffdc5d04ef49a805b8499dfd3f9c8dbbedeab84",
+    "src/evaluation/table_formatter.py": "aa9f8f1c0c8507c18a1d3463b59fcf2c94324474476d9c2b73b9dd2a22ac3efc",
+    "src/evaluation/vectorized_evaluator.py": "f80f9e8f16c063045e6ca45ca85cfd0de9b01508638c5b59be3c4ab8f5977733",
+    "src/models/__init__.py": "d52e44ac03a6331664a25742658c4f2e505909f51eb062a4d9d4eeea84f05841",
+    "src/models/matrix_factorization.py": "bd727b8e51665849155f743f01598ea2a844513b04670ef2a3d061638d896c8a",
+    "src/training/__init__.py": "b77a2379b37ab712b1c5b2118fe08930d05cf1e268d9c83b0d7e304a3c68ba46",
+    "src/training/config.py": "3847bbceca9e188a5ab96676aca9e58acef66c1bc94d35ee60ef08eeba31b626",
+    "src/training/train_pipeline.py": "87a5f7432e1b67485d7040b0b98cc60581b85b27417d453335d24fd539b75b08",
+    "src/utils/__init__.py": "d07627858400781967045734c07465c6b4369af31a455fa51b7dd0591457b6ce",
+    "src/utils/artifacts.py": "f7d3c34d9f9767ee3f2d9c0bb023c4934959e7497152aee5e91615cc982281a8",
+    "src/utils/experiment_lock.py": "b16f3284aececb786bd834d899a7e59c3eaac44ebdf28da1ee03dfabca97811b",
+    "src/utils/helpers.py": "3eda2ea2ce4d63a6e477c43621fc49256b32e93f2f7d0f667a11c3c39fba519c",
+    "experiments/__init__.py": "ee8ddb302c0e31726f58c48edd85647949ed5a0124aa13ee6d94cd37510a41bb",
+    "experiments/run.py": "77dc7674a0bc66e84fb1b487fae12c266cfe692618125eb9c7a9a0de3cc9088b",
+    "experiments/workflows/__init__.py": "b8846b9903097a25b0fd03203f3060c9b93227af9696f1cf3b64955014e1e01d",
+    "experiments/workflows/cdr_author_protocol.py": "81efa76b0e13ed30615f63bf790cc1feac74021e061da869a706d7f8c8e814f2",
+    "experiments/workflows/cdr_idcf_tune.py": "5163cd113cf6a2cfb95f275aecf4701bb0156bc99541392b7518ef1aa111c319",
+    "experiments/workflows/coat_seed_benchmark.py": "dc0c730d392cb8a0da235d520e6291895e937921ab5ed59421153a7901d40922",
+    "experiments/workflows/compare_mf_optimizers.py": "fa3d5327341f2d69d653c5552696589f97229a22cd0a09f6b9339d770da920e8",
+    "experiments/workflows/run_all_benchmarks.py": "a9bcb83d10b7b5a4bf098a33b2435e77fd58f2428c99e43839dba88bfde0a3cf",
+    "experiments/workflows/tune_coat_models.py": "0bc2e39cd123d7afeea43ea6b8ee04e24feafd797a86c2893c1e5b4818ba0b34",
+    "experiments/workflows/tune_kuairand_models.py": "eb841f97b4ccb7bee86aa5b285bc51f9e89e273252945c78c23673576382cbd2",
+    "tests/test_api.py": "dec621975dc6736ba4f26f266a2030225c0a2d90d67eec44847fff6f3044da90",
+    "tests/test_cdr_paper.py": "d4ff98137ee7941a49ea45dbf62380bea763a4f2cd9fbe5421a87ebaf2e29db9",
+    "tests/test_idcf.py": "5bd9d0d53a7509c49ef1deba44e38215612314985b936b14e757e86c00ff3691",
+    "tests/test_methodology.py": "87d090fdb9b5ab16d45dda4c3b36c3b0b6dcd8376877fb663ea5c4d9d1a8558d",
+    "tests/test_paper_model_profiles.py": "2957b7453c74fc6a8a9cb4db277f3b6938b6c44fff1395e978e267d60512d21d",
+    "tests/test_review_fixes.py": "b18dbffeb1c831c244d2123b180ce7c96476f362b4e351fad29434e584b435c9",
+    "tests/test_suite.py": "f7276a4fa62d410d07841d933d37e7bd3e22b71ec1b1b3774b70a5728aec7843",
+    "results/benchmark_all_8c15e5d925_v4.json": "f889ae4daadb43f7d2fe2e7037416a8d63768e31cd06420a1796bc934ea2cdb5",
+    "results/benchmark_all_8c15e5d925_v4.md": "f2fefb30d180072810d81ef8dc642e6c7310d51afc69e4e83ec18b3874fbf1f0",
+    "results/benchmark_coat_all_003679088f_v4.json": "2ed4721fc7eecd11cbe0d3afa47168cba9e53b316c7686181e01f09ffdde5598",
+    "results/benchmark_coat_all_003679088f_v4.md": "fc119ceaf9ce5c020c79b887bb54e3c36f91defafb9a2a74b2c4c5668625e40a",
+    "results/benchmark_coat_all_19d70ea039_v4.json": "9f953965eb05a85f687a9efd7f27075542eeceee7ac10f10ce28cba735f0cbea",
+    "results/benchmark_coat_all_19d70ea039_v4.md": "56042c29f7d060b778c264639097e25108527c1a3e9e872b31270dce3cf8650f",
+    "results/benchmark_coat_ividr_9cf02b470b_v4.json": "b5b88001082b15dcee2f48a1537b65e1bf03ba377c1fe0dbf9865de8b2148a63",
+    "results/benchmark_coat_ividr_9cf02b470b_v4.md": "db87469059641b7e5311120c525cb970e7e63af4d3c4a3297044d6d20df0f5de",
+    "results/benchmark_kuairand_all_2edb44f179_v4.json": "a19630950dd95f690ef526adfc9306553dadde74c01b6a0c3d0adcbcdf56f683",
+    "results/benchmark_kuairand_all_2edb44f179_v4.md": "a858b96cf34318afd29ed9aaa986481147eeedcadae320b76a7edb5668450fd1",
+    "results/benchmark_kuairand_all_32e6ded9ad_v4.json": "cb29a95f6200f55afc5a32e5c99b3481fee1d022e337dbae27521445a5a128f3",
+    "results/benchmark_kuairand_all_32e6ded9ad_v4.md": "21137d99e9861ad5a0d1d373b878270079fafe2987f0f59eed922fa0f7fc1e31",
+    "results/cdr_author_protocol_coat_thr3.json": "0c147e68bfb68742bd791d85cb258ac2368d3a4f6c63b2394af7c015579a1acb",
+    "results/cdr_eq7_validation_6346597634257fd0.json": "7360b1c0e8743584b409780eb6a3eec48cc2d94ef71c7c94e1b3426f75105b5a",
+    "results/cdr_idcf_tune_coat.json": "3b5153918c30cdb3e013f3ca52210d51037e6863019b9e512160a612caa0bf55",
+    "results/cdr_paper_method_validation_37b126f2c13fcea9.json": "556d5ffad26e92e732fcd66afa494470dd44a3b1f21231b50dc2e4406f2e191d",
+    "results/coat_seeds_7ae4942b7c4a9f32.json": "952bd168056a4d558b183845482d036a6eb1a29ec23e48f80f4cc8ff6b69798f",
+    "results/coat_seeds_7ae4942b7c4a9f32.md": "f34a1363d8acd50ab838fb3a235a9d2bb756955b224f55021547c2512752e9b4",
+    "results/coat_seeds_7d37e1975c96a410.json": "33f64abab33af3b60b5815c1562793a2c8efeb3ecf17d91e0901dcd8879f8b45",
+    "results/coat_seeds_7d37e1975c96a410.md": "f9c453ec795231e30fced5536764f12b13d61a47f7d3094d97137fbedf50055f",
+    "results/coat_seeds_c25da453e8909e5b.json": "7eda6102bf5efd9a843e0d623babd8880ab492d6fe41e5bd8b83c13304caf511",
+    "results/coat_seeds_c25da453e8909e5b.md": "9368f74eb7f67d0f353c6a74537db8a9dad092532e1199b9a6436196b7890a72",
+    "results/tuning_kuairand_all_e25_4deb0568781e5d74_v4.json": "97cebf2d059c0b05d5a4d9ce2600142845db052af94ff01eae2f00a70030d6f9",
+    "results/tuning_kuairand_all_e25_4deb0568781e5d74_v4.md": "0261be20244f4f023ea86892887a69411edf1c4848cc2984353a525ba3621110",
+    "docs/papers/CDR.pdf": "aafdc12c975db1d5fdfd889801efc2f0c35d8c43420308b496235647f26c27ec",
+    "docs/papers/iDCF.pdf": "8824cd45404c3599f93272c2db0443bf58c44bd85580dd822aef7b86230fdcba",
+    "docs/papers/IViDR.pdf": "ff725d20dfd676f543882cba959dd60d988a792fabeaaf10a1d894804247cfad",
+    "docs/papers/ReCRec.pdf": "8ab969ff3703e2e4b3abb4fd183da460b835cec51d36dde72dd3958397668504",
+    "docs/paper_summaries/CDR.md": "d11c6ef4a60f84b5291beeb7585f48b2410031fa31d0b1cbe9be6766672c903b",
+    "docs/paper_summaries/iDCF.md": "32c06936a75774289b91049a78ce62dc441d5f082bf6b63f6b58970552d112bb",
+    "docs/paper_summaries/IViDR.md": "51a94d806bf551d24f3335e8a011844c937a4af7b91194810a9e24c8b2c45855",
+    "docs/paper_summaries/ReCRec.md": "590324ced41aa12871aaf2cc2854e84a17d286a047b52ddb90b2af02bb9b633d",
+    "docs/benchmarks/cdr_audit_2026-10-19_evidence.json": "4dcec1efe9efca65bfdaee65efe303cf6cb52d54b50658a555e3797adffccf2c",
+    "docs/benchmarks/review_2026-10-19_evidence.json": "4e27d7e083dd740b231734a04ab707c5ca345e7ac5902f51cbc1e1c0637627c5"
+  },
+  "result_provenance": [
+    {
+      "path": "results/benchmark_all_8c15e5d925_v4.json",
+      "role": "historical_result",
+      "note": "Kết quả benchmark/tuning lịch sử; đọc metadata từng model/checkpoint; không đại diện mốc source hiện hành",
+      "source_hashes_found": [
+        "a9fdeb72ccd65cda0ecaaab2a4054250c4c37a44296622807f9ca713eab17384"
+      ],
+      "sha256": "f889ae4daadb43f7d2fe2e7037416a8d63768e31cd06420a1796bc934ea2cdb5"
+    },
+    {
+      "path": "results/benchmark_coat_all_003679088f_v4.json",
+      "role": "historical_result",
+      "note": "Kết quả benchmark/tuning lịch sử; đọc metadata từng model/checkpoint; không đại diện mốc source hiện hành",
+      "source_hashes_found": [
+        "3ef8cd9bc5c95a40ceb8186c966e6a10b04368ff33a1791d5ccbfd8934506f2a",
+        "6a5c2727eef6ab4e66d68b5bad275694e61c315078059b75029ef8c5bcbf11d6"
+      ],
+      "sha256": "2ed4721fc7eecd11cbe0d3afa47168cba9e53b316c7686181e01f09ffdde5598"
+    },
+    {
+      "path": "results/benchmark_coat_all_19d70ea039_v4.json",
+      "role": "historical_result",
+      "note": "Kết quả benchmark/tuning lịch sử; đọc metadata từng model/checkpoint; không đại diện mốc source hiện hành",
+      "source_hashes_found": [
+        "22ea114a3bdbffa66c82d64a84eccd8893aecb6395ebce886dffa877938eb718"
+      ],
+      "sha256": "9f953965eb05a85f687a9efd7f27075542eeceee7ac10f10ce28cba735f0cbea"
+    },
+    {
+      "path": "results/benchmark_coat_ividr_9cf02b470b_v4.json",
+      "role": "historical_result",
+      "note": "Kết quả benchmark/tuning lịch sử; đọc metadata từng model/checkpoint; không đại diện mốc source hiện hành",
+      "source_hashes_found": [
+        "946754273f79475bcb8fc66b3535f3169f6097647373d86930a47fcd7f0f6bc8"
+      ],
+      "sha256": "b5b88001082b15dcee2f48a1537b65e1bf03ba377c1fe0dbf9865de8b2148a63"
+    },
+    {
+      "path": "results/benchmark_kuairand_all_2edb44f179_v4.json",
+      "role": "historical_result",
+      "note": "Kết quả benchmark/tuning lịch sử; đọc metadata từng model/checkpoint; không đại diện mốc source hiện hành",
+      "source_hashes_found": [
+        "1e321a8e1ddffc325bd2b8e4c9a61a3d0e69b91d975ebf0466637ffffbe49158",
+        "b333046dc8d969dc6b17de09172bc391484b4cd84badfc91f3bb1e0156bd6ed6",
+        "e5106d9db8854b6a046921570a1fb7b19c5231d7d4024f4dbf57787340ad7e90"
+      ],
+      "sha256": "a19630950dd95f690ef526adfc9306553dadde74c01b6a0c3d0adcbcdf56f683"
+    },
+    {
+      "path": "results/benchmark_kuairand_all_32e6ded9ad_v4.json",
+      "role": "historical_result",
+      "note": "Kết quả benchmark/tuning lịch sử; đọc metadata từng model/checkpoint; không đại diện mốc source hiện hành",
+      "source_hashes_found": [
+        "e5106d9db8854b6a046921570a1fb7b19c5231d7d4024f4dbf57787340ad7e90",
+        "fbe2d03c1f3d4a7902436e59cfbef6523c0220e4c7c6cf3c8c0cc5635d8e9f69"
+      ],
+      "sha256": "cb29a95f6200f55afc5a32e5c99b3481fee1d022e337dbae27521445a5a128f3"
+    },
+    {
+      "path": "results/cdr_author_protocol_coat_thr3.json",
+      "role": "diagnostic_result",
+      "note": "Port chẩn đoán; dùng một phần nhãn tập chấm điểm cho propensity; thiếu source hash; không xác nhận tái lập paper",
+      "source_hashes_found": [],
+      "sha256": "0c147e68bfb68742bd791d85cb258ac2368d3a4f6c63b2394af7c015579a1acb"
+    },
+    {
+      "path": "results/cdr_eq7_validation_6346597634257fd0.json",
+      "role": "historical_result",
+      "note": "Warm-start ablation đã bị thay thế; ba seed chọn MF epoch 0; không đại diện CDR độc lập",
+      "source_hashes_found": [
+        "999931b4f5cce8ce071c5b111c6d81814d3aaa726862b6e290bcec45e35782ff"
+      ],
+      "sha256": "7360b1c0e8743584b409780eb6a3eec48cc2d94ef71c7c94e1b3426f75105b5a"
+    },
+    {
+      "path": "results/cdr_idcf_tune_coat.json",
+      "role": "diagnostic_result",
+      "note": "Port/filter variance, tuning theo giao thức dự án; thiếu source hash; không thuộc cấu hình CDR hiện hành",
+      "source_hashes_found": [],
+      "sha256": "3b5153918c30cdb3e013f3ca52210d51037e6863019b9e512160a612caa0bf55"
+    },
+    {
+      "path": "results/cdr_paper_method_validation_37b126f2c13fcea9.json",
+      "role": "validation_result",
+      "note": "CDR độc lập, ba seed; chỉ validation; có ghi riêng smoke hai dataset; chưa tuning/test",
+      "source_hashes_found": [
+        "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2"
+      ],
+      "sha256": "556d5ffad26e92e732fcd66afa494470dd44a3b1f21231b50dc2e4406f2e191d"
+    },
+    {
+      "path": "results/coat_seeds_7ae4942b7c4a9f32.json",
+      "role": "historical_result",
+      "note": "CDR lịch sử trước cơ chế giữ epoch 0; không đại diện CDR huấn luyện độc lập",
+      "source_hashes_found": [
+        "e5106d9db8854b6a046921570a1fb7b19c5231d7d4024f4dbf57787340ad7e90"
+      ],
+      "sha256": "952bd168056a4d558b183845482d036a6eb1a29ec23e48f80f4cc8ff6b69798f"
+    },
+    {
+      "path": "results/coat_seeds_7d37e1975c96a410.json",
+      "role": "historical_result",
+      "note": "iDCF và IViDR-staged cũ; IViDR dùng alpha_residual=1; không phải bản đúng paper",
+      "source_hashes_found": [
+        "02582b7e7987102a43b101f553904ec1942305b8c3c107d3a2e59ab6ee628b5b"
+      ],
+      "sha256": "33f64abab33af3b60b5815c1562793a2c8efeb3ecf17d91e0901dcd8879f8b45"
+    },
+    {
+      "path": "results/coat_seeds_c25da453e8909e5b.json",
+      "role": "historical_result",
+      "note": "Bộ nhiều seed cũ; có kiến trúc joint/CDR cũ; không gán lại số cho mô hình hiện hành",
+      "source_hashes_found": [
+        "fbe2d03c1f3d4a7902436e59cfbef6523c0220e4c7c6cf3c8c0cc5635d8e9f69"
+      ],
+      "sha256": "7eda6102bf5efd9a843e0d623babd8880ab492d6fe41e5bd8b83c13304caf511"
+    },
+    {
+      "path": "results/tuning_kuairand_all_e25_4deb0568781e5d74_v4.json",
+      "role": "historical_result",
+      "note": "Kết quả benchmark/tuning lịch sử; đọc metadata từng model/checkpoint; không đại diện mốc source hiện hành",
+      "source_hashes_found": [
+        "22ea114a3bdbffa66c82d64a84eccd8893aecb6395ebce886dffa877938eb718"
+      ],
+      "sha256": "97cebf2d059c0b05d5a4d9ce2600142845db052af94ff01eae2f00a70030d6f9"
+    }
+  ],
+  "test_evidence": {
+    "total": 97,
+    "passed": 96,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "provenance": "verification from preceding model-change task, not rerun during documentation cleanup",
+    "log": "docs/archive/2026-10-20/verification/test_suite_97.log"
+  },
+  "documentation_check": "python docs/check_docs.py (read-only; source milestone, zip members, coverage, hashes, local links and headings)",
+  "limits": [
+    "historical statements remain in clearly labelled archives",
+    "paper transcripts were preserved, not independently verified in full",
+    "documentation checker does not validate scientific claims or external URLs",
+    "no live Firebase data or API latency was reverified"
+  ]
+}

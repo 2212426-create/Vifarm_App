@@ -1,0 +1,104 @@
+{
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "summary": {
+    "idcf": {
+      "val_ndcg": {
+        "mean": 0.6091550262102368,
+        "std": 0.01585860777918663
+      },
+      "test_ndcg": {
+        "mean": 0.56993092707049,
+        "std": 0.010688609461024009
+      },
+      "test_recall": {
+        "mean": 0.5537423006135581,
+        "std": 0.011005498358410847
+      },
+      "test_recall_bounded": {
+        "mean": 0.6071457085828342,
+        "std": 0.012326343673720411
+      }
+    },
+    "ividr_default": {
+      "val_ndcg": {
+        "mean": 0.587837042830517,
+        "std": 0.019878163813834324
+      },
+      "test_ndcg": {
+        "mean": 0.5325387634333008,
+        "std": 0.00667241720651597
+      },
+      "test_recall": {
+        "mean": 0.537083520272143,
+        "std": 0.015976091136059828
+      },
+      "test_recall_bounded": {
+        "mean": 0.5930938123752495,
+        "std": 0.01654740244004264
+      }
+    },
+    "ividr_zero_neg0.1": {
+      "val_ndcg": {
+        "mean": 0.6292394674014797,
+        "std": 0.0160826496930622
+      },
+      "test_ndcg": {
+        "mean": 0.5657424155077049,
+        "std": 0.02122276357985389
+      },
+      "test_recall": {
+        "mean": 0.5480630812966143,
+        "std": 0.021721053321593325
+      },
+      "test_recall_bounded": {
+        "mean": 0.6030538922155688,
+        "std": 0.02174800081097294
+      }
+    }
+  },
+  "paired_tests": {
+    "ividr_zero_neg0.1-ividr_default:test": {
+      "mean_diff": 0.03320365207440414,
+      "wins": 9,
+      "wilcoxon_p": 0.005859375
+    },
+    "ividr_zero_neg0.1-ividr_default:val": {
+      "mean_diff": 0.04140242457096284,
+      "wins": 10,
+      "wilcoxon_p": 0.001953125
+    },
+    "ividr_zero_neg0.1-idcf:test": {
+      "mean_diff": -0.004188511562785169,
+      "wins": 4,
+      "wilcoxon_p": 0.625
+    },
+    "ividr_zero_neg0.1-idcf:val": {
+      "mean_diff": 0.02008444119124301,
+      "wins": 7,
+      "wilcoxon_p": 0.048828125
+    },
+    "ividr_default-idcf:test": {
+      "mean_diff": -0.037392163637189314,
+      "wins": 0,
+      "wilcoxon_p": 0.001953125
+    },
+    "ividr_default-idcf:val": {
+      "mean_diff": -0.02131798337971983,
+      "wins": 2,
+      "wilcoxon_p": 0.02734375
+    }
+  },
+  "reproducibility": "seeds 42/43 identical to earlier runs; seed 44 IViDR stage-1 diverged (best epoch 486 vs 573) from CPU floating-point nondeterminism under parallel load; MF treatment identical",
+  "selection": "validation NDCG@5 only"
+}

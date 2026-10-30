@@ -1,0 +1,16 @@
+{
+  "reviewed_on": "2026-10-20",
+  "scope": "Markdown text only; notebook code cells unchanged; notebook not executed",
+  "original_zip": "docs/archive/2026-10-20/notebook_documentation_before_cleanup.zip",
+  "original_zip_sha256": "947b042416d71c0c549d928b7ebdc24ad4cbe43ed564ebda265f1baf1b1714e7",
+  "members_before": {
+    "notebooks/build_notebook.py": "409238316e8cf7471fd435a72207178760485f1f1d64875bc6a33e0b1b9cd128",
+    "notebooks/TopTop_RecSys_Colab_API.ipynb": "166466a3fa6b45009195c500a487ae218f4091cbf9970120e3e397baa5530837"
+  },
+  "files_after": {
+    "notebooks/build_notebook.py": "232080daf5389fb0e6e12bb68eb759029f7e665945c6e7b1b4aa967caf7b789a",
+    "notebooks/TopTop_RecSys_Colab_API.ipynb": "896ef7694b8a1bc3ae58f058e67b14441ce25bdef462199fc1650f82d58e4626"
+  },
+  "code_cells_sha256": "10f913804597bf11f9e53dab9b075c4b5afa9019c012c96cebada3d40e8f52a3",
+  "notebook_code_cells_unchanged": true
+}

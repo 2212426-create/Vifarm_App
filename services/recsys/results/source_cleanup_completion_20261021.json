@@ -1,0 +1,18 @@
+{
+    "completed":  true,
+    "reason":  "Explicit user request to remove rejected external-source material without retaining backups",
+    "removed_files":  228,
+    "removed_bytes":  12034883,
+    "redacted_metadata":  [
+                              {
+                                  "path":  "docs/state_snapshot.json",
+                                  "previous_sha256":  "fc11e2f30ef716fdb20843c8d21de4a66a8549f0e47f965637275a13879072bf"
+                              },
+                              {
+                                  "path":  "results/four_model_default_verification_20261021.json",
+                                  "previous_sha256":  "efec95fecd95d7220f983c1fe8825e8d8ba4d9e039862fed57e9306110ef6a1a"
+                              }
+                          ],
+    "runtime_model":  "IViDR-BCE",
+    "metrics_and_training_hashes_preserved":  true
+}

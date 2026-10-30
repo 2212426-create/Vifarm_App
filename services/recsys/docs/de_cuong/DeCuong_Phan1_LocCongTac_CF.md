@@ -1,8 +1,10 @@
+> **ĐỀ CƯƠNG/KẾ HOẠCH — KHÔNG PHẢI BÁO CÁO TRIỂN KHAI HIỆN HÀNH.** Phạm vi mô hình và mốc dự kiến bên dưới có thể chưa thực hiện. Đọc [CURRENT_STATE](../CURRENT_STATE.md) và metadata kết quả trước khi dùng làm kết luận. Bản trước khi thêm nhãn được giữ trong ZIP archive ngày 20/10/2026.
+
 # ĐỀ CƯƠNG CHI TIẾT — PHẦN 1: THUẬT TOÁN LỌC CỘNG TÁC (COLLABORATIVE FILTERING - CF)
 ## Đề tài: Nghiên cứu ứng dụng học máy trong phân tích hành vi người dùng và đề xuất video ngắn trên nền tảng quảng bá sản phẩm nông nghiệp
 **Sinh viên phụ trách chính:** **Vũ Thế Huỳnh** (MSSV: `2312639` - Lớp `CTK47A`)  
 **Giáo viên hướng dẫn:** **TS. Nguyễn Thị Lương**  
-**Tập tin tổng hợp:** [`DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md`](../DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md)
+**Tập tin tổng hợp:** [`DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md`](DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md)
 
 ---
 
@@ -63,4 +65,3 @@
 * **Mã nguồn:** Module `src/models/matrix_factorization.py`, `src/baselines/train_mf.py`, `src/causal/cdr/`.
 * **Báo cáo chuyên đề:** Chương I & Chương II (Phần Lọc cộng tác).
 * **Kiểm thử tự động:** Bộ kiểm thử đơn vị cho MF và CDR đạt 100% Passed.
-

@@ -1,0 +1,107 @@
+
+========================================================================
+ HUẤN LUYỆN CDR: COAT
+ Thiết bị: cpu | Dim: 4 | LR: 0.05 | Batch: 128 | Optimizer: adam | Loss: bce | Seed: 2020
+ Giao thức: Validation calibration | selection: source_train_loss_last
+========================================================================
+[CDR][COAT] Epoch 001/1000 | Train Rec Loss: 2.6636 | Train Imp Loss: 18285.4439 | Filtered: 0.0%
+[CDR][COAT] Epoch 002/1000 | Train Rec Loss: 2.4788 | Train Imp Loss: 10922.3599 | Filtered: 0.0%
+[CDR][COAT] Epoch 003/1000 | Train Rec Loss: 2.2865 | Train Imp Loss: 19420.3867 | Filtered: 0.0%
+[CDR][COAT] Epoch 004/1000 | Train Rec Loss: 2.2054 | Train Imp Loss: 17065.0333 | Filtered: 0.0%
+[CDR][COAT] Epoch 005/1000 | Train Rec Loss: 2.1343 | Train Imp Loss: 16687.8139 | Filtered: 0.0%
+[CDR][COAT] Epoch 006/1000 | Train Rec Loss: 2.1129 | Train Imp Loss: 15588.8179 | Filtered: 0.0%
+[CDR][COAT] Epoch 007/1000 | Train Rec Loss: 2.0919 | Train Imp Loss: 15581.9801 | Filtered: 0.0%
+[CDR][COAT] Epoch 008/1000 | Train Rec Loss: 2.0837 | Train Imp Loss: 14495.6859 | Filtered: 0.0%
+[CDR][COAT] Epoch 009/1000 | Train Rec Loss: 2.0697 | Train Imp Loss: 14833.3685 | Filtered: 0.0%
+[CDR][COAT] Epoch 010/1000 | Train Rec Loss: 2.0658 | Train Imp Loss: 14690.2521 | Filtered: 0.0%
+[CDR][COAT] Epoch 011/1000 | Train Rec Loss: 2.0598 | Train Imp Loss: 14901.9892 | Filtered: 0.0%
+[CDR][COAT] Epoch 012/1000 | Train Rec Loss: 2.0604 | Train Imp Loss: 14187.1668 | Filtered: 0.0%
+[CDR][COAT] Epoch 013/1000 | Train Rec Loss: 2.0583 | Train Imp Loss: 14439.0725 | Filtered: 0.0%
+[CDR][COAT] Epoch 014/1000 | Train Rec Loss: 2.0495 | Train Imp Loss: 14568.6238 | Filtered: 0.0%
+[CDR][COAT] Epoch 015/1000 | Train Rec Loss: 2.0491 | Train Imp Loss: 14181.0820 | Filtered: 0.0%
+[CDR][COAT] Epoch 016/1000 | Train Rec Loss: 2.0421 | Train Imp Loss: 14502.6524 | Filtered: 0.0%
+[CDR][COAT] Epoch 017/1000 | Train Rec Loss: 2.0487 | Train Imp Loss: 14628.6375 | Filtered: 0.0%
+[CDR][COAT] Epoch 018/1000 | Train Rec Loss: 2.0446 | Train Imp Loss: 14010.7205 | Filtered: 0.0%
+[CDR][COAT] Epoch 019/1000 | Train Rec Loss: 2.0437 | Train Imp Loss: 14510.6671 | Filtered: 0.0%
+[CDR][COAT] Epoch 020/1000 | Train Rec Loss: 2.0434 | Train Imp Loss: 14455.5909 | Filtered: 0.0%
+[CDR][COAT] Epoch 021/1000 | Train Rec Loss: 2.0368 | Train Imp Loss: 14085.2530 | Filtered: 0.0%
+[CDR][COAT] Epoch 022/1000 | Train Rec Loss: 2.0340 | Train Imp Loss: 14010.3957 | Filtered: 0.0%
+[CDR][COAT] Epoch 023/1000 | Train Rec Loss: 2.0357 | Train Imp Loss: 14048.3067 | Filtered: 0.0%
+[CDR][COAT] VALIDATION | NDCG@5: 0.669935 | Recall@5: 0.518639 | Recall@5_bounded: 0.686782 | HitRate@5: 0.965517
+[CDR][COAT] Dừng sớm tại epoch 23 | Chọn epoch: 23 | Val NDCG@5: 0.6699
+
+========================================================================
+ HUẤN LUYỆN CDR: COAT
+ Thiết bị: cpu | Dim: 4 | LR: 0.05 | Batch: 128 | Optimizer: adam | Loss: bce | Seed: 2021
+ Giao thức: Validation calibration | selection: source_train_loss_last
+========================================================================
+[CDR][COAT] Epoch 001/1000 | Train Rec Loss: 2.6639 | Train Imp Loss: 22215.0186 | Filtered: 0.0%
+[CDR][COAT] Epoch 002/1000 | Train Rec Loss: 2.4818 | Train Imp Loss: 12585.7282 | Filtered: 0.0%
+[CDR][COAT] Epoch 003/1000 | Train Rec Loss: 2.3234 | Train Imp Loss: 18517.9241 | Filtered: 0.0%
+[CDR][COAT] Epoch 004/1000 | Train Rec Loss: 2.2276 | Train Imp Loss: 19239.5780 | Filtered: 0.0%
+[CDR][COAT] Epoch 005/1000 | Train Rec Loss: 2.1623 | Train Imp Loss: 17692.4562 | Filtered: 0.0%
+[CDR][COAT] Epoch 006/1000 | Train Rec Loss: 2.1233 | Train Imp Loss: 17412.8632 | Filtered: 0.0%
+[CDR][COAT] Epoch 007/1000 | Train Rec Loss: 2.1023 | Train Imp Loss: 16153.2715 | Filtered: 0.0%
+[CDR][COAT] Epoch 008/1000 | Train Rec Loss: 2.0835 | Train Imp Loss: 16656.1727 | Filtered: 0.0%
+[CDR][COAT] Epoch 009/1000 | Train Rec Loss: 2.0773 | Train Imp Loss: 15795.0856 | Filtered: 0.0%
+[CDR][COAT] Epoch 010/1000 | Train Rec Loss: 2.0624 | Train Imp Loss: 15515.1940 | Filtered: 0.0%
+[CDR][COAT] Epoch 011/1000 | Train Rec Loss: 2.0640 | Train Imp Loss: 15411.2462 | Filtered: 0.0%
+[CDR][COAT] Epoch 012/1000 | Train Rec Loss: 2.0591 | Train Imp Loss: 15039.0022 | Filtered: 0.0%
+[CDR][COAT] Epoch 013/1000 | Train Rec Loss: 2.0554 | Train Imp Loss: 14881.8713 | Filtered: 0.0%
+[CDR][COAT] Epoch 014/1000 | Train Rec Loss: 2.0483 | Train Imp Loss: 15008.8537 | Filtered: 0.0%
+[CDR][COAT] Epoch 015/1000 | Train Rec Loss: 2.0464 | Train Imp Loss: 14866.9680 | Filtered: 0.0%
+[CDR][COAT] Epoch 016/1000 | Train Rec Loss: 2.0448 | Train Imp Loss: 14374.9665 | Filtered: 0.0%
+[CDR][COAT] Epoch 017/1000 | Train Rec Loss: 2.0427 | Train Imp Loss: 14686.8430 | Filtered: 0.0%
+[CDR][COAT] Epoch 018/1000 | Train Rec Loss: 2.0423 | Train Imp Loss: 14401.1619 | Filtered: 0.0%
+[CDR][COAT] Epoch 019/1000 | Train Rec Loss: 2.0396 | Train Imp Loss: 14636.5868 | Filtered: 0.0%
+[CDR][COAT] Epoch 020/1000 | Train Rec Loss: 2.0382 | Train Imp Loss: 14462.5348 | Filtered: 0.0%
+[CDR][COAT] Epoch 021/1000 | Train Rec Loss: 2.0317 | Train Imp Loss: 14229.0383 | Filtered: 0.0%
+[CDR][COAT] Epoch 022/1000 | Train Rec Loss: 2.0352 | Train Imp Loss: 14707.0080 | Filtered: 0.0%
+[CDR][COAT] Epoch 023/1000 | Train Rec Loss: 2.0353 | Train Imp Loss: 14490.9270 | Filtered: 0.0%
+[CDR][COAT] Epoch 024/1000 | Train Rec Loss: 2.0332 | Train Imp Loss: 14563.7372 | Filtered: 0.0%
+[CDR][COAT] Epoch 025/1000 | Train Rec Loss: 2.0344 | Train Imp Loss: 14145.2740 | Filtered: 0.0%
+[CDR][COAT] Epoch 026/1000 | Train Rec Loss: 2.0320 | Train Imp Loss: 14351.5384 | Filtered: 0.0%
+[CDR][COAT] Epoch 027/1000 | Train Rec Loss: 2.0318 | Train Imp Loss: 14258.7124 | Filtered: 0.0%
+[CDR][COAT] Epoch 028/1000 | Train Rec Loss: 2.0291 | Train Imp Loss: 14435.3202 | Filtered: 0.0%
+[CDR][COAT] Epoch 029/1000 | Train Rec Loss: 2.0258 | Train Imp Loss: 14037.0991 | Filtered: 0.0%
+[CDR][COAT] Epoch 030/1000 | Train Rec Loss: 2.0241 | Train Imp Loss: 14207.5391 | Filtered: 0.0%
+[CDR][COAT] Epoch 031/1000 | Train Rec Loss: 2.0232 | Train Imp Loss: 14622.8551 | Filtered: 0.0%
+[CDR][COAT] Epoch 032/1000 | Train Rec Loss: 2.0232 | Train Imp Loss: 14418.7925 | Filtered: 0.0%
+[CDR][COAT] Epoch 033/1000 | Train Rec Loss: 2.0268 | Train Imp Loss: 14458.4457 | Filtered: 0.0%
+[CDR][COAT] Epoch 034/1000 | Train Rec Loss: 2.0234 | Train Imp Loss: 14473.1530 | Filtered: 0.0%
+[CDR][COAT] Epoch 035/1000 | Train Rec Loss: 2.0288 | Train Imp Loss: 14283.6955 | Filtered: 0.0%
+[CDR][COAT] VALIDATION | NDCG@5: 0.654669 | Recall@5: 0.489110 | Recall@5_bounded: 0.650766 | HitRate@5: 0.977011
+[CDR][COAT] Dừng sớm tại epoch 35 | Chọn epoch: 35 | Val NDCG@5: 0.6547
+
+========================================================================
+ HUẤN LUYỆN CDR: COAT
+ Thiết bị: cpu | Dim: 4 | LR: 0.05 | Batch: 128 | Optimizer: adam | Loss: bce | Seed: 2022
+ Giao thức: Validation calibration | selection: source_train_loss_last
+========================================================================
+[CDR][COAT] Epoch 001/1000 | Train Rec Loss: 2.6550 | Train Imp Loss: 17455.8436 | Filtered: 0.0%
+[CDR][COAT] Epoch 002/1000 | Train Rec Loss: 2.4228 | Train Imp Loss: 15250.5029 | Filtered: 0.0%
+[CDR][COAT] Epoch 003/1000 | Train Rec Loss: 2.2418 | Train Imp Loss: 22884.5927 | Filtered: 0.0%
+[CDR][COAT] Epoch 004/1000 | Train Rec Loss: 2.1792 | Train Imp Loss: 19067.3835 | Filtered: 0.0%
+[CDR][COAT] Epoch 005/1000 | Train Rec Loss: 2.1211 | Train Imp Loss: 18083.6989 | Filtered: 0.0%
+[CDR][COAT] Epoch 006/1000 | Train Rec Loss: 2.0882 | Train Imp Loss: 16892.8738 | Filtered: 0.0%
+[CDR][COAT] Epoch 007/1000 | Train Rec Loss: 2.0763 | Train Imp Loss: 16568.5396 | Filtered: 0.0%
+[CDR][COAT] Epoch 008/1000 | Train Rec Loss: 2.0546 | Train Imp Loss: 16469.1250 | Filtered: 0.0%
+[CDR][COAT] Epoch 009/1000 | Train Rec Loss: 2.0532 | Train Imp Loss: 16064.1005 | Filtered: 0.0%
+[CDR][COAT] Epoch 010/1000 | Train Rec Loss: 2.0502 | Train Imp Loss: 15940.7097 | Filtered: 0.0%
+[CDR][COAT] Epoch 011/1000 | Train Rec Loss: 2.0390 | Train Imp Loss: 15500.7503 | Filtered: 0.0%
+[CDR][COAT] Epoch 012/1000 | Train Rec Loss: 2.0377 | Train Imp Loss: 15733.8109 | Filtered: 0.0%
+[CDR][COAT] Epoch 013/1000 | Train Rec Loss: 2.0307 | Train Imp Loss: 15578.0387 | Filtered: 0.0%
+[CDR][COAT] Epoch 014/1000 | Train Rec Loss: 2.0395 | Train Imp Loss: 15440.2607 | Filtered: 0.0%
+[CDR][COAT] Epoch 015/1000 | Train Rec Loss: 2.0284 | Train Imp Loss: 15478.8940 | Filtered: 0.0%
+[CDR][COAT] Epoch 016/1000 | Train Rec Loss: 2.0252 | Train Imp Loss: 15204.8964 | Filtered: 0.0%
+[CDR][COAT] Epoch 017/1000 | Train Rec Loss: 2.0283 | Train Imp Loss: 15362.5884 | Filtered: 0.0%
+[CDR][COAT] Epoch 018/1000 | Train Rec Loss: 2.0198 | Train Imp Loss: 15297.8596 | Filtered: 0.0%
+[CDR][COAT] Epoch 019/1000 | Train Rec Loss: 2.0227 | Train Imp Loss: 14895.6952 | Filtered: 0.0%
+[CDR][COAT] Epoch 020/1000 | Train Rec Loss: 2.0183 | Train Imp Loss: 15220.9312 | Filtered: 0.0%
+[CDR][COAT] Epoch 021/1000 | Train Rec Loss: 2.0156 | Train Imp Loss: 15192.5537 | Filtered: 0.0%
+[CDR][COAT] Epoch 022/1000 | Train Rec Loss: 2.0149 | Train Imp Loss: 14858.5718 | Filtered: 0.0%
+[CDR][COAT] Epoch 023/1000 | Train Rec Loss: 2.0123 | Train Imp Loss: 15394.7614 | Filtered: 0.0%
+[CDR][COAT] Epoch 024/1000 | Train Rec Loss: 2.0134 | Train Imp Loss: 15063.9224 | Filtered: 0.0%
+[CDR][COAT] Epoch 025/1000 | Train Rec Loss: 2.0186 | Train Imp Loss: 14745.2809 | Filtered: 0.0%
+[CDR][COAT] VALIDATION | NDCG@5: 0.666938 | Recall@5: 0.494794 | Recall@5_bounded: 0.661877 | HitRate@5: 0.965517
+[CDR][COAT] Dừng sớm tại epoch 25 | Chọn epoch: 25 | Val NDCG@5: 0.6669

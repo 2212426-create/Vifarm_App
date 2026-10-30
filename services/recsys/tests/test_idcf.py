@@ -70,8 +70,8 @@ class CDRAuthorModeTests(unittest.TestCase):
 
     def test_variance_filter_keeps_what_cv_filter_drops(self):
         # std/mean = 0.1/0.2 = 0.5 > 0.01 -> CV bỏ; phương sai 0.01 < 10 -> author giữ.
-        _, dropped = cdr_recommendation_loss(**self._terms(0.01), un_thres=0.01, filter_mode="cv")
-        _, kept = cdr_recommendation_loss(**self._terms(0.01), un_thres=10.0, filter_mode="variance")
+        _, dropped = cdr_recommendation_loss(**self._terms(0.01), un_thres=0.01, filter_mode="cv", ips_weighting="author")
+        _, kept = cdr_recommendation_loss(**self._terms(0.01), un_thres=10.0, filter_mode="variance", ips_weighting="author")
         self.assertEqual((dropped, kept), (1.0, 0.0))
 
     def test_author_ips_subtracts_unweighted_imputation(self):

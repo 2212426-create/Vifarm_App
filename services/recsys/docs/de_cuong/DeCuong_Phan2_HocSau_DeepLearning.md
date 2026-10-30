@@ -1,8 +1,10 @@
+> **ĐỀ CƯƠNG/KẾ HOẠCH — KHÔNG PHẢI BÁO CÁO TRIỂN KHAI HIỆN HÀNH.** Phạm vi mô hình và mốc dự kiến bên dưới có thể chưa thực hiện. Đọc [CURRENT_STATE](../CURRENT_STATE.md) và metadata kết quả trước khi dùng làm kết luận. Bản trước khi thêm nhãn được giữ trong ZIP archive ngày 20/10/2026.
+
 # ĐỀ CƯƠNG CHI TIẾT — PHẦN 2: HỌC SÂU TRONG HỆ THỐNG GỢI Ý (DEEP LEARNING RECOMMENDATION)
 ## Đề tài: Nghiên cứu ứng dụng học máy trong phân tích hành vi người dùng và đề xuất video ngắn trên nền tảng quảng bá sản phẩm nông nghiệp
 **Sinh viên phụ trách chính:** **Phùng Nguyễn Hoài Bo** (MSSV: `2312585` - Lớp `CTK47A`)  
 **Giáo viên hướng dẫn:** **TS. Nguyễn Thị Lương**  
-**Tập tin tổng hợp:** [`DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md`](../DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md)
+**Tập tin tổng hợp:** [`DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md`](DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md)
 
 ---
 
@@ -75,4 +77,3 @@
 * **Mã nguồn:** Module `src/causal/ividr/`, `src/api/`, `notebooks/TopTop_RecSys_Colab_API.ipynb`.
 * **Báo cáo chuyên đề:** Chương I & Chương II (Phần Học sâu Deep Learning và Triển khai API).
 * **Kiểm thử tự động:** Bộ kiểm thử đơn vị cho iVAE, IV Projection, API Server đạt 100% Passed.
-

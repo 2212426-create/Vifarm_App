@@ -1,0 +1,396 @@
+{
+  "identity": {
+    "code_sha256": "88769819bd670011c7a4667b0bff82458549ef0de8abee3f63e4d050e68a2943",
+    "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+    "seed": 2020,
+    "dataset": "yahoo"
+  },
+  "scope": "published_script_conditions_not_project_held_out",
+  "config": {
+    "embedding_dim": 4,
+    "epochs": 1000,
+    "lr": 0.05,
+    "weight_decay": 0.0001,
+    "batch_size": 2048,
+    "un_thres": 10.0,
+    "dropout_rate": 0.7,
+    "G": 1
+  },
+  "source_calibration": {
+    "method": "released_naive_bayes",
+    "calibration_rows": 2700,
+    "calibration_positive_rate": 0.2288888888888889,
+    "train_positive_rate": 0.5588892025768036,
+    "population_denominator": 15400000,
+    "observed_fraction": 0.02024051948051948
+  },
+  "test_labels_used_for_propensity": true,
+  "calibration_rows": 2700,
+  "positive_threshold": 3,
+  "evaluation_pool": "entire_random_log",
+  "zero_positive_score": 1,
+  "recall_denominator": "min(k,n_positive)",
+  "raw_id_convention": "source_unchanged",
+  "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\cdr_source\\20261020_223912_640fbf31\\yahoo.pt",
+  "training_history": [
+    {
+      "epoch": 1,
+      "weighted_factual_sum": 8465360.0,
+      "rec_loss": 27.187946332128423,
+      "imp_loss": 127003068.06578948,
+      "filtered_fraction": 1.606188322368421e-06,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 2,
+      "weighted_factual_sum": 5994468.0,
+      "rec_loss": 19.237283392956382,
+      "imp_loss": 73449010.55263157,
+      "filtered_fraction": 0.0004336708470394737,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 3,
+      "weighted_factual_sum": 5637975.0,
+      "rec_loss": 18.060191305060137,
+      "imp_loss": 45084280.921052635,
+      "filtered_fraction": 0.0008352179276315789,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 4,
+      "weighted_factual_sum": 5469133.0,
+      "rec_loss": 17.491598380239385,
+      "imp_loss": 42327006.473684214,
+      "filtered_fraction": 0.0009171335320723685,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 5,
+      "weighted_factual_sum": 5377412.5,
+      "rec_loss": 17.1827456574691,
+      "imp_loss": 41030156.868421055,
+      "filtered_fraction": 0.0009283768503289474,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 6,
+      "weighted_factual_sum": 5321457.5,
+      "rec_loss": 16.98815073465046,
+      "imp_loss": 40841960.315789476,
+      "filtered_fraction": 0.0009829872532894736,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 7,
+      "weighted_factual_sum": 5278315.0,
+      "rec_loss": 16.840507043035405,
+      "imp_loss": 40529850.2631579,
+      "filtered_fraction": 0.0009669253700657895,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 8,
+      "weighted_factual_sum": 5245625.5,
+      "rec_loss": 16.732863695997942,
+      "imp_loss": 40231773.94736842,
+      "filtered_fraction": 0.001010292454769737,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 9,
+      "weighted_factual_sum": 5220432.5,
+      "rec_loss": 16.638976919023616,
+      "imp_loss": 40037127.0,
+      "filtered_fraction": 0.0009749563116776315,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 10,
+      "weighted_factual_sum": 5209866.0,
+      "rec_loss": 16.59939023068077,
+      "imp_loss": 40190967.60526316,
+      "filtered_fraction": 0.00103759765625,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 11,
+      "weighted_factual_sum": 5188018.0,
+      "rec_loss": 16.523423916415165,
+      "imp_loss": 39382448.026315786,
+      "filtered_fraction": 0.0010986328125,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 12,
+      "weighted_factual_sum": 5178672.0,
+      "rec_loss": 16.487367291199533,
+      "imp_loss": 39657169.59210526,
+      "filtered_fraction": 0.0010118986430921052,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 13,
+      "weighted_factual_sum": 5160692.5,
+      "rec_loss": 16.430795230363543,
+      "imp_loss": 39359480.65789474,
+      "filtered_fraction": 0.0011050575657894736,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 14,
+      "weighted_factual_sum": 5155810.0,
+      "rec_loss": 16.403065430490596,
+      "imp_loss": 39667459.473684214,
+      "filtered_fraction": 0.001087389494243421,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 15,
+      "weighted_factual_sum": 5141193.0,
+      "rec_loss": 16.355826271207707,
+      "imp_loss": 38777231.10526316,
+      "filtered_fraction": 0.0010986328125,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 16,
+      "weighted_factual_sum": 5132299.0,
+      "rec_loss": 16.327967330029136,
+      "imp_loss": 38856447.53947368,
+      "filtered_fraction": 0.0011612741570723685,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 17,
+      "weighted_factual_sum": 5126171.5,
+      "rec_loss": 16.296527617856075,
+      "imp_loss": 38605458.89473684,
+      "filtered_fraction": 0.0011468184621710527,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 18,
+      "weighted_factual_sum": 5121397.5,
+      "rec_loss": 16.275080398509377,
+      "imp_loss": 38885177.44736842,
+      "filtered_fraction": 0.0011243318256578948,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 19,
+      "weighted_factual_sum": 5112800.5,
+      "rec_loss": 16.250655080142774,
+      "imp_loss": 38904868.184210524,
+      "filtered_fraction": 0.0011853669819078948,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 20,
+      "weighted_factual_sum": 5109243.5,
+      "rec_loss": 16.23629543655797,
+      "imp_loss": 38807941.84210526,
+      "filtered_fraction": 0.0011982164884868421,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 21,
+      "weighted_factual_sum": 5102391.5,
+      "rec_loss": 16.208246720464604,
+      "imp_loss": 38657435.631578945,
+      "filtered_fraction": 0.0012367650082236842,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 22,
+      "weighted_factual_sum": 5093951.0,
+      "rec_loss": 16.177629207309923,
+      "imp_loss": 38482243.78947368,
+      "filtered_fraction": 0.0012367650082236842,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 23,
+      "weighted_factual_sum": 5096271.5,
+      "rec_loss": 16.18448937566657,
+      "imp_loss": 38474495.2631579,
+      "filtered_fraction": 0.001345985814144737,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 24,
+      "weighted_factual_sum": 5087760.5,
+      "rec_loss": 16.159262613246316,
+      "imp_loss": 38379481.40789474,
+      "filtered_fraction": 0.0012528268914473685,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 25,
+      "weighted_factual_sum": 5083613.0,
+      "rec_loss": 16.140184891851323,
+      "imp_loss": 38196919.434210524,
+      "filtered_fraction": 0.0013748972039473685,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 26,
+      "weighted_factual_sum": 5086954.5,
+      "rec_loss": 16.147857728757355,
+      "imp_loss": 38499407.44736842,
+      "filtered_fraction": 0.0013604415090460527,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 27,
+      "weighted_factual_sum": 5079103.0,
+      "rec_loss": 16.120347361815604,
+      "imp_loss": 38164111.184210524,
+      "filtered_fraction": 0.0014407509251644736,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 28,
+      "weighted_factual_sum": 5069375.0,
+      "rec_loss": 16.083623923753436,
+      "imp_loss": 38159891.618421055,
+      "filtered_fraction": 0.0014246890419407894,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 29,
+      "weighted_factual_sum": 5070412.5,
+      "rec_loss": 16.089635453726117,
+      "imp_loss": 38193087.881578945,
+      "filtered_fraction": 0.0014279014185855264,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 30,
+      "weighted_factual_sum": 5071241.5,
+      "rec_loss": 16.09405629885824,
+      "imp_loss": 38356818.10526316,
+      "filtered_fraction": 0.0014054147820723685,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 31,
+      "weighted_factual_sum": 5067064.0,
+      "rec_loss": 16.074477020062897,
+      "imp_loss": 38278802.2631579,
+      "filtered_fraction": 0.0015001798930921052,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 32,
+      "weighted_factual_sum": 5060688.0,
+      "rec_loss": 16.050808605394867,
+      "imp_loss": 38381538.28947368,
+      "filtered_fraction": 0.0014519942434210527,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 33,
+      "weighted_factual_sum": 5057967.0,
+      "rec_loss": 16.04426930452648,
+      "imp_loss": 38029202.89473684,
+      "filtered_fraction": 0.0015403346011513158,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 34,
+      "weighted_factual_sum": 5060080.0,
+      "rec_loss": 16.04535276638834,
+      "imp_loss": 38094271.53947368,
+      "filtered_fraction": 0.0015098170230263158,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 35,
+      "weighted_factual_sum": 5058812.0,
+      "rec_loss": 16.04249764743604,
+      "imp_loss": 38005586.96052632,
+      "filtered_fraction": 0.00152587890625,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 36,
+      "weighted_factual_sum": 5051249.0,
+      "rec_loss": 16.015247671227705,
+      "imp_loss": 37438838.776315786,
+      "filtered_fraction": 0.001567639802631579,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 37,
+      "weighted_factual_sum": 5045160.0,
+      "rec_loss": 15.994609594345093,
+      "imp_loss": 37532638.973684214,
+      "filtered_fraction": 0.0015820954975328948,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 38,
+      "weighted_factual_sum": 5045621.5,
+      "rec_loss": 15.99577870494441,
+      "imp_loss": 37361733.30263158,
+      "filtered_fraction": 0.0016045821340460527,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    },
+    {
+      "epoch": 39,
+      "weighted_factual_sum": 5047312.5,
+      "rec_loss": 15.996884854216324,
+      "imp_loss": 37647817.578947365,
+      "filtered_fraction": 0.0016495554070723685,
+      "observed_rows_used": 311296,
+      "observed_rows_dropped": 408
+    }
+  ],
+  "metrics": {
+    "NDCG@5": 0.655928916666389,
+    "Recall@5_bounded": 0.7312993827160493,
+    "AUC_global": 0.6849303841590881,
+    "users": 5400
+  },
+  "quick_run": false,
+  "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results"
+}

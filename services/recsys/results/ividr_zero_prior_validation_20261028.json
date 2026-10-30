@@ -1,0 +1,1249 @@
+{
+  "identity": {
+    "code_sha256": "742872d084e70591b7763b150b0c0d0652e1349dc7f44957e77ea59ce48b991d"
+  },
+  "runs": [
+    {
+      "seed": 2020,
+      "best_val_ndcg": 0.6699348906169417,
+      "best_epoch": 23,
+      "epochs_run": 23,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_released_v1",
+        "model": "cdr_released",
+        "dataset": "coat",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1000,
+          "lr": 0.05,
+          "weight_decay": 0.001,
+          "batch_size": 128,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 4,
+          "seed": 2020,
+          "device": "cpu",
+          "patience": 5,
+          "catalog_sampler": "permutation",
+          "loss": "bce",
+          "implementation": "cdr_released",
+          "method_reference": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "upstream_commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "paper_reproduction": false,
+          "initialization": "independent_source_xavier_rec_default_normal_imp",
+          "filter_mode": "variance",
+          "output_probability_dropout": true,
+          "imputation_bce": "BCE(imp,detached_rec)",
+          "propensity": "naive_bayes_validation",
+          "propensity_calibration": {
+            "method": "released_naive_bayes",
+            "calibration_rows": 69,
+            "calibration_positive_rate": 0.4492753744125366,
+            "train_positive_rate": 0.5204023122787476,
+            "population_denominator": 86411,
+            "observed_fraction": 0.08054530094548147,
+            "source": "random_validation_only",
+            "test_labels_used": false
+          },
+          "propensity_diagnostics": {
+            "inverse_propensity_max": 14.256641387939453,
+            "ips_ess": 6821.724229802261,
+            "imputation_weight_max": 2505.4413554860707,
+            "top_1pct_count": 70,
+            "top_1pct_imputation_weight_share": 0.014578763302313016
+          },
+          "propensity_sha256": "61c5682c072d32d45f98503a75335042dfac78216c6517015a6a92cdaee99d5b",
+          "selection": "source_train_loss_last",
+          "source_adaptations": [
+            "project labels/split/evaluator",
+            "validation-only propensity calibration",
+            "source_train_loss_last"
+          ]
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5
+        },
+        "data": {
+          "sha256": "14eff3a65a98902eb7d58497f980f21a0d2475492901d31b3a6af58ba27e4b83",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "742872d084e70591b7763b150b0c0d0652e1349dc7f44957e77ea59ce48b991d",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_zero_prior_validation_20261028\\coat_cdr_released_seed2020_v4_0fe6d38e399905d3.pt",
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 59285.734375,
+          "rec_loss": 2.663630105831005,
+          "imp_loss": 18285.443929036457,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 2,
+          "weighted_factual_sum": 54495.73828125,
+          "rec_loss": 2.478812230957879,
+          "imp_loss": 10922.359926576968,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 3,
+          "weighted_factual_sum": 49447.8984375,
+          "rec_loss": 2.2864773714983904,
+          "imp_loss": 19420.386664496527,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 4,
+          "weighted_factual_sum": 47298.3828125,
+          "rec_loss": 2.205382784207662,
+          "imp_loss": 17065.033293547454,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 5,
+          "weighted_factual_sum": 45441.71484375,
+          "rec_loss": 2.1343463239846407,
+          "imp_loss": 16687.81392867477,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 6,
+          "weighted_factual_sum": 44821.86328125,
+          "rec_loss": 2.112892601225111,
+          "imp_loss": 15588.817907262732,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 7,
+          "weighted_factual_sum": 44293.296875,
+          "rec_loss": 2.0918611773738154,
+          "imp_loss": 15581.980052806714,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 8,
+          "weighted_factual_sum": 43999.4921875,
+          "rec_loss": 2.083660372981319,
+          "imp_loss": 14495.685872395834,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 9,
+          "weighted_factual_sum": 43552.63671875,
+          "rec_loss": 2.0697092193144337,
+          "imp_loss": 14833.368543836805,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 10,
+          "weighted_factual_sum": 43562.4140625,
+          "rec_loss": 2.065773676942896,
+          "imp_loss": 14690.252061631945,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 11,
+          "weighted_factual_sum": 43316.80859375,
+          "rec_loss": 2.059800766132496,
+          "imp_loss": 14901.98923972801,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 12,
+          "weighted_factual_sum": 43333.76171875,
+          "rec_loss": 2.0604365004433527,
+          "imp_loss": 14187.166847511575,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 13,
+          "weighted_factual_sum": 43318.4609375,
+          "rec_loss": 2.0582546216470226,
+          "imp_loss": 14439.072536892361,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 14,
+          "weighted_factual_sum": 43057.30859375,
+          "rec_loss": 2.049546471348515,
+          "imp_loss": 14568.623842592593,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 15,
+          "weighted_factual_sum": 43085.02734375,
+          "rec_loss": 2.049146451331951,
+          "imp_loss": 14181.08203125,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 16,
+          "weighted_factual_sum": 42821.11328125,
+          "rec_loss": 2.0421055820253162,
+          "imp_loss": 14502.652416087964,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 17,
+          "weighted_factual_sum": 43056.92578125,
+          "rec_loss": 2.0487306162163064,
+          "imp_loss": 14628.637532552084,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 18,
+          "weighted_factual_sum": 42880.3984375,
+          "rec_loss": 2.0446302670019643,
+          "imp_loss": 14010.720486111111,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 19,
+          "weighted_factual_sum": 42893.37890625,
+          "rec_loss": 2.043696959813436,
+          "imp_loss": 14510.667100694445,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 20,
+          "weighted_factual_sum": 42939.109375,
+          "rec_loss": 2.0433901879522534,
+          "imp_loss": 14455.590856481482,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 21,
+          "weighted_factual_sum": 42700.84375,
+          "rec_loss": 2.03675083760862,
+          "imp_loss": 14085.253002025464,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 22,
+          "weighted_factual_sum": 42667.703125,
+          "rec_loss": 2.034007079071469,
+          "imp_loss": 14010.395652488425,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 23,
+          "weighted_factual_sum": 42700.515625,
+          "rec_loss": 2.0357169420630843,
+          "imp_loss": 14048.306694878473,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48,
+          "validation_ndcg": 0.6699348906169417
+        }
+      ]
+    },
+    {
+      "seed": 2021,
+      "best_val_ndcg": 0.6546685444276458,
+      "best_epoch": 35,
+      "epochs_run": 35,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_released_v1",
+        "model": "cdr_released",
+        "dataset": "coat",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1000,
+          "lr": 0.05,
+          "weight_decay": 0.001,
+          "batch_size": 128,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 4,
+          "seed": 2021,
+          "device": "cpu",
+          "patience": 5,
+          "catalog_sampler": "permutation",
+          "loss": "bce",
+          "implementation": "cdr_released",
+          "method_reference": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "upstream_commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "paper_reproduction": false,
+          "initialization": "independent_source_xavier_rec_default_normal_imp",
+          "filter_mode": "variance",
+          "output_probability_dropout": true,
+          "imputation_bce": "BCE(imp,detached_rec)",
+          "propensity": "naive_bayes_validation",
+          "propensity_calibration": {
+            "method": "released_naive_bayes",
+            "calibration_rows": 69,
+            "calibration_positive_rate": 0.43478259444236755,
+            "train_positive_rate": 0.5204023122787476,
+            "population_denominator": 86411,
+            "observed_fraction": 0.08054530094548147,
+            "source": "random_validation_only",
+            "test_labels_used": false
+          },
+          "propensity_diagnostics": {
+            "inverse_propensity_max": 14.631816864013672,
+            "ips_ess": 6761.40498933008,
+            "imputation_weight_max": 2718.9783070902286,
+            "top_1pct_count": 70,
+            "top_1pct_imputation_weight_share": 0.015378345206040023
+          },
+          "propensity_sha256": "a34047b022dbad216e9df37c8b1f16f74ba3dc89f1ed606c887b78beed8e50d3",
+          "selection": "source_train_loss_last",
+          "source_adaptations": [
+            "project labels/split/evaluator",
+            "validation-only propensity calibration",
+            "source_train_loss_last"
+          ]
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5
+        },
+        "data": {
+          "sha256": "14eff3a65a98902eb7d58497f980f21a0d2475492901d31b3a6af58ba27e4b83",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "742872d084e70591b7763b150b0c0d0652e1349dc7f44957e77ea59ce48b991d",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_zero_prior_validation_20261028\\coat_cdr_released_seed2021_v4_b4ebac3ffed13b74.pt",
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 59303.30078125,
+          "rec_loss": 2.663909731087861,
+          "imp_loss": 22215.0185546875,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 2,
+          "weighted_factual_sum": 54731.6640625,
+          "rec_loss": 2.4818439792703697,
+          "imp_loss": 12585.728190104166,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 3,
+          "weighted_factual_sum": 50556.375,
+          "rec_loss": 2.32335446940528,
+          "imp_loss": 18517.92409939236,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 4,
+          "weighted_factual_sum": 47939.5703125,
+          "rec_loss": 2.2275628690366394,
+          "imp_loss": 19239.577962239582,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 5,
+          "weighted_factual_sum": 46140.26171875,
+          "rec_loss": 2.162252492374844,
+          "imp_loss": 17692.456181278936,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 6,
+          "weighted_factual_sum": 45125.8359375,
+          "rec_loss": 2.1232903445208513,
+          "imp_loss": 17412.863154658564,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 7,
+          "weighted_factual_sum": 44517.3125,
+          "rec_loss": 2.1023457249005637,
+          "imp_loss": 16153.27150245949,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 8,
+          "weighted_factual_sum": 44050.66015625,
+          "rec_loss": 2.083490069265719,
+          "imp_loss": 16656.172706886573,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 9,
+          "weighted_factual_sum": 43819.65625,
+          "rec_loss": 2.077267743923046,
+          "imp_loss": 15795.085630063657,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 10,
+          "weighted_factual_sum": 43467.1796875,
+          "rec_loss": 2.0623975131246777,
+          "imp_loss": 15515.194046585648,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 11,
+          "weighted_factual_sum": 43505.8203125,
+          "rec_loss": 2.06404005156623,
+          "imp_loss": 15411.246166087964,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 12,
+          "weighted_factual_sum": 43409.27734375,
+          "rec_loss": 2.059077757376212,
+          "imp_loss": 15039.00218822338,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 13,
+          "weighted_factual_sum": 43278.4765625,
+          "rec_loss": 2.0553627146614923,
+          "imp_loss": 14881.871256510416,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 14,
+          "weighted_factual_sum": 43098.9140625,
+          "rec_loss": 2.0483397090876543,
+          "imp_loss": 15008.853714554398,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 15,
+          "weighted_factual_sum": 43096.1640625,
+          "rec_loss": 2.0464331242773266,
+          "imp_loss": 14866.96800853588,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 16,
+          "weighted_factual_sum": 43082.140625,
+          "rec_loss": 2.0448194764278553,
+          "imp_loss": 14374.966489438657,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 17,
+          "weighted_factual_sum": 43014.09375,
+          "rec_loss": 2.042680980982604,
+          "imp_loss": 14686.843044704861,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 18,
+          "weighted_factual_sum": 42957.50390625,
+          "rec_loss": 2.042278360437464,
+          "imp_loss": 14401.16185619213,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 19,
+          "weighted_factual_sum": 42948.078125,
+          "rec_loss": 2.0396045512623258,
+          "imp_loss": 14636.586841724536,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 20,
+          "weighted_factual_sum": 42919.66796875,
+          "rec_loss": 2.038234452406565,
+          "imp_loss": 14462.534758391204,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 21,
+          "weighted_factual_sum": 42731.359375,
+          "rec_loss": 2.031667956599483,
+          "imp_loss": 14229.038266782407,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 22,
+          "weighted_factual_sum": 42816.92578125,
+          "rec_loss": 2.03522237583443,
+          "imp_loss": 14707.00804759838,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 23,
+          "weighted_factual_sum": 42833.09375,
+          "rec_loss": 2.03527041276296,
+          "imp_loss": 14490.927029079861,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 24,
+          "weighted_factual_sum": 42731.12890625,
+          "rec_loss": 2.033200255146733,
+          "imp_loss": 14563.737232349536,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 25,
+          "weighted_factual_sum": 42764.4765625,
+          "rec_loss": 2.034355867792059,
+          "imp_loss": 14145.273961950232,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 26,
+          "weighted_factual_sum": 42752.91796875,
+          "rec_loss": 2.0319554496694496,
+          "imp_loss": 14351.538393373843,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 27,
+          "weighted_factual_sum": 42720.9609375,
+          "rec_loss": 2.031797488530477,
+          "imp_loss": 14258.71240234375,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 28,
+          "weighted_factual_sum": 42636.71484375,
+          "rec_loss": 2.029064447791488,
+          "imp_loss": 14435.320222077546,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 29,
+          "weighted_factual_sum": 42590.01171875,
+          "rec_loss": 2.0258266903735973,
+          "imp_loss": 14037.09910300926,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 30,
+          "weighted_factual_sum": 42502.6015625,
+          "rec_loss": 2.0241321016241005,
+          "imp_loss": 14207.539098668982,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 31,
+          "weighted_factual_sum": 42508.6015625,
+          "rec_loss": 2.0231531770141036,
+          "imp_loss": 14622.855052806714,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 32,
+          "weighted_factual_sum": 42506.515625,
+          "rec_loss": 2.023230274518331,
+          "imp_loss": 14418.792534722223,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 33,
+          "weighted_factual_sum": 42609.31640625,
+          "rec_loss": 2.026844280737418,
+          "imp_loss": 14458.445728443286,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 34,
+          "weighted_factual_sum": 42435.68359375,
+          "rec_loss": 2.0233998320720814,
+          "imp_loss": 14473.153049045139,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 35,
+          "weighted_factual_sum": 42615.7109375,
+          "rec_loss": 2.0288243337913796,
+          "imp_loss": 14283.695511429398,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48,
+          "validation_ndcg": 0.6546685444276458
+        }
+      ]
+    },
+    {
+      "seed": 2022,
+      "best_val_ndcg": 0.6669383509943496,
+      "best_epoch": 25,
+      "epochs_run": 25,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_released_v1",
+        "model": "cdr_released",
+        "dataset": "coat",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1000,
+          "lr": 0.05,
+          "weight_decay": 0.001,
+          "batch_size": 128,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 4,
+          "seed": 2022,
+          "device": "cpu",
+          "patience": 5,
+          "catalog_sampler": "permutation",
+          "loss": "bce",
+          "implementation": "cdr_released",
+          "method_reference": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "upstream_commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "paper_reproduction": false,
+          "initialization": "independent_source_xavier_rec_default_normal_imp",
+          "filter_mode": "variance",
+          "output_probability_dropout": true,
+          "imputation_bce": "BCE(imp,detached_rec)",
+          "propensity": "naive_bayes_validation",
+          "propensity_calibration": {
+            "method": "released_naive_bayes",
+            "calibration_rows": 69,
+            "calibration_positive_rate": 0.4202898442745209,
+            "train_positive_rate": 0.5204023122787476,
+            "population_denominator": 86411,
+            "observed_fraction": 0.08054530094548147,
+            "source": "random_validation_only",
+            "test_labels_used": false
+          },
+          "propensity_diagnostics": {
+            "inverse_propensity_max": 15.006991386413574,
+            "ips_ess": 6691.298236172817,
+            "imputation_weight_max": 2944.3087961903084,
+            "top_1pct_count": 70,
+            "top_1pct_imputation_weight_share": 0.016117444856145403
+          },
+          "propensity_sha256": "f36ea3f835e26057b83695c917a0f3f4359c8df82a8f399bca3d16e5a79d87bd",
+          "selection": "source_train_loss_last",
+          "source_adaptations": [
+            "project labels/split/evaluator",
+            "validation-only propensity calibration",
+            "source_train_loss_last"
+          ]
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5
+        },
+        "data": {
+          "sha256": "14eff3a65a98902eb7d58497f980f21a0d2475492901d31b3a6af58ba27e4b83",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "742872d084e70591b7763b150b0c0d0652e1349dc7f44957e77ea59ce48b991d",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_zero_prior_validation_20261028\\coat_cdr_released_seed2022_v4_890fefe510441e78.pt",
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 59073.3671875,
+          "rec_loss": 2.6549991810763323,
+          "imp_loss": 17455.843641493055,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 2,
+          "weighted_factual_sum": 53121.31640625,
+          "rec_loss": 2.4227936223701194,
+          "imp_loss": 15250.502925166378,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 3,
+          "weighted_factual_sum": 48312.82421875,
+          "rec_loss": 2.2417627528861717,
+          "imp_loss": 22884.592683015046,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 4,
+          "weighted_factual_sum": 46581.203125,
+          "rec_loss": 2.1792183143121227,
+          "imp_loss": 19067.38348162616,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 5,
+          "weighted_factual_sum": 45033.515625,
+          "rec_loss": 2.1211234441509954,
+          "imp_loss": 18083.69892939815,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 6,
+          "weighted_factual_sum": 44122.44140625,
+          "rec_loss": 2.0882362348062022,
+          "imp_loss": 16892.8738245081,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 7,
+          "weighted_factual_sum": 43858.5,
+          "rec_loss": 2.0763116633450545,
+          "imp_loss": 16568.53955078125,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 8,
+          "weighted_factual_sum": 43300.1015625,
+          "rec_loss": 2.0545766441910356,
+          "imp_loss": 16469.12498191551,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 9,
+          "weighted_factual_sum": 43280.8359375,
+          "rec_loss": 2.053160501850976,
+          "imp_loss": 16064.100477430555,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 10,
+          "weighted_factual_sum": 43183.3515625,
+          "rec_loss": 2.050168024169074,
+          "imp_loss": 15940.709689670139,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 11,
+          "weighted_factual_sum": 42906.609375,
+          "rec_loss": 2.0390477820678994,
+          "imp_loss": 15500.750271267361,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 12,
+          "weighted_factual_sum": 42900.5546875,
+          "rec_loss": 2.0377106997701855,
+          "imp_loss": 15733.810890480325,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 13,
+          "weighted_factual_sum": 42703.828125,
+          "rec_loss": 2.0307450316570423,
+          "imp_loss": 15578.038718894675,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 14,
+          "weighted_factual_sum": 42941.23046875,
+          "rec_loss": 2.039518298926177,
+          "imp_loss": 15440.260687934027,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 15,
+          "weighted_factual_sum": 42613.8984375,
+          "rec_loss": 2.028361313872867,
+          "imp_loss": 15478.893970630786,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 16,
+          "weighted_factual_sum": 42618.80859375,
+          "rec_loss": 2.025234149561988,
+          "imp_loss": 15204.896430121527,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 17,
+          "weighted_factual_sum": 42642.296875,
+          "rec_loss": 2.02831487081669,
+          "imp_loss": 15362.588415075232,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 18,
+          "weighted_factual_sum": 42384.484375,
+          "rec_loss": 2.0197800905616194,
+          "imp_loss": 15297.859646267361,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 19,
+          "weighted_factual_sum": 42481.85546875,
+          "rec_loss": 2.0226787394947476,
+          "imp_loss": 14895.695185908566,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 20,
+          "weighted_factual_sum": 42423.80859375,
+          "rec_loss": 2.018255458937751,
+          "imp_loss": 15220.93115234375,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 21,
+          "weighted_factual_sum": 42331.84375,
+          "rec_loss": 2.0155823760562472,
+          "imp_loss": 15192.553747106482,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 22,
+          "weighted_factual_sum": 42241.9375,
+          "rec_loss": 2.014862881766425,
+          "imp_loss": 14858.57177734375,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 23,
+          "weighted_factual_sum": 42248.10546875,
+          "rec_loss": 2.0123444530698986,
+          "imp_loss": 15394.761393229166,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 24,
+          "weighted_factual_sum": 42297.9765625,
+          "rec_loss": 2.0134294938158104,
+          "imp_loss": 15063.922435619214,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 25,
+          "weighted_factual_sum": 42329.3515625,
+          "rec_loss": 2.0185659373248064,
+          "imp_loss": 14745.280924479166,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48,
+          "validation_ndcg": 0.6669383509943496
+        }
+      ]
+    }
+  ],
+  "evaluation": "validation_only_no_held_out_test",
+  "previous_validation": "results/ividr_bce_validation_20261028.json",
+  "regression": "Exact validation scores and selected epochs after adding the optional IViDR zero prior mean"
+}

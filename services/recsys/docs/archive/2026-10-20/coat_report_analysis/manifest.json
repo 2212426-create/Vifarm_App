@@ -1,0 +1,29 @@
+{
+  "scope": "Exact bytes before latest Coat report analysis and iVAE tuned-checkpoint correction",
+  "files": [
+    {
+      "path": "docs/CURRENT_STATE.md",
+      "sha256": "2989c4bc5501747d455f494ea355542c71ba02ec9ad67b88c3582707454e8fd2"
+    },
+    {
+      "path": "docs/benchmarks/paper_model_alignment.md",
+      "sha256": "a6dd18450cde611a9c9254c86016a00f7682a96dca187e2ced34b3e9097eeeb4"
+    },
+    {
+      "path": "docs/benchmarks/root_cause_analysis.md",
+      "sha256": "48c88d46c791908f88a595fd5d6e5a0d2ba997f3330d5c82dd23cbd2125bcc58"
+    },
+    {
+      "path": "results/CATALOG.md",
+      "sha256": "979e36c2258a76585cdced493858cc9c5be08f8f6864d840af3cf0fbf12faf65"
+    },
+    {
+      "path": "docs/state_snapshot.json",
+      "sha256": "7d99a378a3015a5972368a8c1dfe38e30b0494973204d8a8074183c5a691bf98"
+    },
+    {
+      "path": "docs/catalog.json",
+      "sha256": "dfb3eea1dd57ecc0299f1746db48b8b3ae7be7f066147ef563e030d31f5d2d4b"
+    }
+  ]
+}

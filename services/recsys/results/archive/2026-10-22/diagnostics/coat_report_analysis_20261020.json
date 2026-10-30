@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-20",
+  "scope": "Read-only report, source and tensor inspection; no retraining, tuning or new held-out test evaluation",
+  "report": "results/benchmark_coat_all_429e263db0_v4.json",
+  "report_sha256": "72745ada1779371c334a1088df6d2fe430ed64a46a4959e35d7dc4388bdf40eb",
+  "models": {
+    "MF": {
+      "NDCG@5": 0.547611758415125,
+      "Recall@5": 0.5295358500448321,
+      "AUC": 0.6931237695272126,
+      "best_epoch": 23,
+      "best_val_ndcg": 0.6189874762100858
+    },
+    "iDCF": {
+      "NDCG@5": 0.4637451741598258,
+      "Recall@5": 0.4774987986065831,
+      "AUC": 0.6727571185467892,
+      "best_epoch": 3,
+      "best_val_ndcg": 0.5146730731530648
+    },
+    "DR-BIAS + CDR": {
+      "NDCG@5": 0.3769816064146252,
+      "Recall@5": 0.4007949967530806,
+      "AUC": 0.5608726519654664,
+      "best_epoch": 6,
+      "best_val_ndcg": 0.42560789410417477
+    }
+  },
+  "paper_reference_not_same_experiment": {
+    "idcf_paper_url": "https://arxiv.org/pdf/2302.05052",
+    "MF_NDCG5": 0.5524,
+    "MF_std": 0.0144,
+    "iDCF_NDCG5": 0.5744,
+    "iDCF_std": 0.0122,
+    "cdr_paper_url": "https://jiawei-chen.github.io/paper/CIKM23-CDR.pdf",
+    "DR_BIAS_CDR_NDCG5": 0.6567,
+    "directly_comparable": false
+  },
+  "idcf": {
+    "local_ivae": {
+      "best_val_loss": 120.40171432495117,
+      "best_epoch": 51,
+      "epochs_run": 56,
+      "config": {
+        "latent_dim": 32,
+        "hidden_dim": 64,
+        "n_layers": 2,
+        "lr": 0.0005,
+        "weight_decay": 1e-06,
+        "l2_penalty": 0.01,
+        "batch_size": 512,
+        "epochs": 2000,
+        "patience": 5,
+        "beta_max": 1.0,
+        "train_ratio": 0.8,
+        "split_seed": 1234,
+        "seed": 42,
+        "device": "cpu",
+        "validation_samples": 8,
+        "validation_seed": 1234,
+        "validation_metric": "mc_elbo_common_noise_v1"
+      }
+    },
+    "author_published_checkpoint": {
+      "url": "https://raw.githubusercontent.com/BgmLover/iDCF/main/tuned_models/coat_val_ivae_exposure_best.pt",
+      "sha256": "a37531edb98cdfa1cb0b47505f14d42388fd2e006416705ee7493046bcc4edd8",
+      "size_bytes": 155357,
+      "tensor_shapes": {
+        "prior_log_var_z.linear_nets.fc_0.weight": [
+          32,
+          14
+        ],
+        "prior_log_var_z.linear_nets.fc_0.bias": [
+          32
+        ],
+        "prior_log_var_z.linear_nets.fc_1.weight": [
+          32,
+          32
+        ],
+        "prior_log_var_z.linear_nets.fc_1.bias": [
+          32
+        ],
+        "prior_log_var_z.linear_nets.fc_2.weight": [
+          16,
+          32
+        ],
+        "prior_log_var_z.linear_nets.fc_2.bias": [
+          16
+        ],
+        "mean_z.linear_nets.fc_0.weight": [
+          32,
+          314
+        ],
+        "mean_z.linear_nets.fc_0.bias": [
+          32
+        ],
+        "mean_z.linear_nets.fc_1.weight": [
+          32,
+          32
+        ],
+        "mean_z.linear_nets.fc_1.bias": [
+          32
+        ],
+        "mean_z.linear_nets.fc_2.weight": [
+          16,
+          32
+        ],
+        "mean_z.linear_nets.fc_2.bias": [
+          16
+        ],
+        "log_var_z.linear_nets.fc_0.weight": [
+          32,
+          314
+        ],
+        "log_var_z.linear_nets.fc_0.bias": [
+          32
+        ],
+        "log_var_z.linear_nets.fc_1.weight": [
+          32,
+          32
+        ],
+        "log_var_z.linear_nets.fc_1.bias": [
+          32
+        ],
+        "log_var_z.linear_nets.fc_2.weight": [
+          16,
+          32
+        ],
+        "log_var_z.linear_nets.fc_2.bias": [
+          16
+        ],
+        "decoder.linear_nets.fc_0.weight": [
+          32,
+          16
+        ],
+        "decoder.linear_nets.fc_0.bias": [
+          32
+        ],
+        "decoder.linear_nets.fc_1.weight": [
+          32,
+          32
+        ],
+        "decoder.linear_nets.fc_1.bias": [
+          32
+        ],
+        "decoder.linear_nets.fc_2.weight": [
+          300,
+          32
+        ],
+        "decoder.linear_nets.fc_2.bias": [
+          300
+        ]
+      },
+      "derived_architecture": {
+        "latent_dim": 16,
+        "hidden_dim": 32,
+        "n_layers": 3
+      },
+      "inspection": "weights_only=True, CPU; architecture inferred from fc_0/fc_1/fc_2 shapes, not full training settings"
+    },
+    "author_export_notebook_url": "https://raw.githubusercontent.com/BgmLover/iDCF/main/save_ae_params.ipynb",
+    "local_kl_schedule": {
+      "train_users": 232,
+      "steps_per_epoch": 1,
+      "anneal_steps": 400,
+      "selected_epoch": 51,
+      "last_training_beta_selected_epoch": 0.125,
+      "epochs_run": 56,
+      "last_training_beta_stopping_epoch": 0.1375,
+      "validation_beta": 1
+    },
+    "confirmed": "Local sample_config differs from published tuned Coat checkpoint architecture; local checkpoint selected during KL warmup",
+    "not_proven": "Impact of either difference on ranking requires validation-only controlled comparisons; changing dimensions alone is not guaranteed to reproduce the paper"
+  },
+  "cdr": {
+    "metadata_config": {
+      "epochs": 100,
+      "lr": 0.05,
+      "batch_size": 128,
+      "patience": 5,
+      "alpha": 0.0,
+      "seed": 42,
+      "device": "cpu",
+      "weight_decay": 0.001,
+      "G": 4,
+      "training_profile": "paper",
+      "backbone": "paper_dot",
+      "loss": "bce",
+      "initialization": "random_independent",
+      "method_reference": "CDR_CIKM2023_Eq7_section3.1_DRBIAS",
+      "paper_reproduction": false,
+      "mc_samples": 10,
+      "objective_revision": "cdr_eq7_bce_v1",
+      "observed_fraction": 0.08,
+      "observed_pairs": 6960,
+      "raw_training_rows": 6960,
+      "pair_label_policy": "mean_label_per_observed_pair",
+      "effective_train_sha256": "51ec7778ecd267e7b8cfaf86b8c1af8ba2cc90df8a8583d31fdb1ad62343a07b",
+      "propensity_ess": 2210.9508269341727,
+      "propensity_sha256": "6bae755811ff6bc233516e94b61cac8ca63776ea92812bc94a534579db02815c",
+      "max_inverse_propensity": null,
+      "clipped_propensity_fraction": 0.0,
+      "population_counterfactual_weight": false,
+      "counterfactual_scale": 1.0,
+      "initial_rec_checkpoint": null,
+      "propensity": "provided_coat",
+      "counterfactuals": "all_catalog_pairs",
+      "counterfactual_pair_count": 87000,
+      "warm_start_selection": "not_used",
+      "optimizer": "Adam",
+      "scheduler": "none",
+      "filter_mode": "cv",
+      "ips_weighting": "paper",
+      "counterfactual_pool": "all"
+    },
+    "history": [
+      {
+        "epoch": 1,
+        "rec_loss": 0.6931362054564736,
+        "imp_loss": 2.9300697951154278,
+        "filtered_observed_fraction": 0.0,
+        "filtered_direct_fraction": 0.0,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 0,
+        "filtered_direct": 0,
+        "validation_ndcg": 0.31321725520998916
+      },
+      {
+        "epoch": 2,
+        "rec_loss": 0.6867919943549416,
+        "imp_loss": 29.793804985826664,
+        "filtered_observed_fraction": 0.0,
+        "filtered_direct_fraction": 3.591954022988506e-05,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 0,
+        "filtered_direct": 1,
+        "validation_ndcg": 0.3780223266805954
+      },
+      {
+        "epoch": 3,
+        "rec_loss": 0.6755937467921864,
+        "imp_loss": 60.92120750167153,
+        "filtered_observed_fraction": 0.005603448275862069,
+        "filtered_direct_fraction": 0.006716954022988506,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 39,
+        "filtered_direct": 187,
+        "validation_ndcg": 0.3515627213891785
+      },
+      {
+        "epoch": 4,
+        "rec_loss": 0.6857057159597223,
+        "imp_loss": 59.564977524497294,
+        "filtered_observed_fraction": 0.03045977011494253,
+        "filtered_direct_fraction": 0.031609195402298854,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 212,
+        "filtered_direct": 880,
+        "validation_ndcg": 0.3036066834546501
+      },
+      {
+        "epoch": 5,
+        "rec_loss": 0.6949220017953353,
+        "imp_loss": 75.05802415934475,
+        "filtered_observed_fraction": 0.04525862068965517,
+        "filtered_direct_fraction": 0.04798850574712644,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 315,
+        "filtered_direct": 1336,
+        "validation_ndcg": 0.37775298310261485
+      },
+      {
+        "epoch": 6,
+        "rec_loss": 0.6936628070744602,
+        "imp_loss": 15.828737753087823,
+        "filtered_observed_fraction": 0.05014367816091954,
+        "filtered_direct_fraction": 0.05183189655172414,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 349,
+        "filtered_direct": 1443,
+        "validation_ndcg": 0.42560789410417477
+      },
+      {
+        "epoch": 7,
+        "rec_loss": 0.6980674862861633,
+        "imp_loss": 12.217123954946345,
+        "filtered_observed_fraction": 0.06307471264367816,
+        "filtered_direct_fraction": 0.06648706896551725,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 439,
+        "filtered_direct": 1851,
+        "validation_ndcg": 0.3905801807341898
+      },
+      {
+        "epoch": 8,
+        "rec_loss": 0.6921765901825645,
+        "imp_loss": 7.154193064299497,
+        "filtered_observed_fraction": 0.05129310344827586,
+        "filtered_direct_fraction": 0.059985632183908046,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 357,
+        "filtered_direct": 1670,
+        "validation_ndcg": 0.35434975863701135
+      },
+      {
+        "epoch": 9,
+        "rec_loss": 0.6883584380149841,
+        "imp_loss": 7.6736069570888175,
+        "filtered_observed_fraction": 0.07155172413793104,
+        "filtered_direct_fraction": 0.08128591954022989,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 498,
+        "filtered_direct": 2263,
+        "validation_ndcg": 0.39934740847953704
+      },
+      {
+        "epoch": 10,
+        "rec_loss": 0.6988946221091531,
+        "imp_loss": 5.436157697981054,
+        "filtered_observed_fraction": 0.059770114942528735,
+        "filtered_direct_fraction": 0.06379310344827586,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 416,
+        "filtered_direct": 1776,
+        "validation_ndcg": 0.37370170940296044
+      },
+      {
+        "epoch": 11,
+        "rec_loss": 0.6997304840521379,
+        "imp_loss": 6.23069567897103,
+        "filtered_observed_fraction": 0.06221264367816092,
+        "filtered_direct_fraction": 0.06903735632183908,
+        "observed_count": 6960,
+        "direct_count": 27840,
+        "filtered_observed": 433,
+        "filtered_direct": 1922,
+        "validation_ndcg": 0.391680862083771
+      }
+    ],
+    "weight_diagnostic": {
+      "computed_from": "provided Coat propensities on 6960 observed training pairs only, float64",
+      "inverse_propensity_max": 245.06990884927646,
+      "inverse_propensity_quantiles_50_90_95_99": [
+        7.208571072789969,
+        34.53744374787214,
+        57.049794342891346,
+        95.72163018293728
+      ],
+      "ips_ess": 2210.950829237665,
+      "imputation_formula": "w**3 * (1-1/w)**2",
+      "imputation_weight_max": 14598843.977963883,
+      "top_1pct_count": 70,
+      "top_1pct_imputation_weight_share": 0.5012388594265684
+    },
+    "interpretation_limits": [
+      "Weight mass is not gradient mass; large weights alone do not prove numerical instability",
+      "Rec loss is an aggregate CDR risk, not proof all predictions equal 0.5",
+      "Different paper/source protocols do not quantify the cause of the current score gap",
+      "No test-based hyperparameter tuning performed"
+    ]
+  }
+}

@@ -1,0 +1,202 @@
+D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+...........................................................================================================================================
+ BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH TRÊN COAT / YAHOO / KUAIRAND
+ Thiết bị: cpu | Dataset: coat | Model: mf
+================================================================================
+ [CẤU HÌNH EPOCHS] Coat: 100 | Yahoo: 100 | KuaiRand-Pure: 100 (MF: 100)
+ [CDR SOURCE] seed 2020; epoch budgets: {'coat': 1000, 'yahoo': 1000, 'kuairand': 1000}; train-loss stopping
+
+################################################################################
+ PHẦN 1: THỰC NGHIỆM TRÊN TẬP DỮ LIỆU COAT (290 Users, 300 Items)
+################################################################################
+
+>>> Huấn luyện Baseline PyTorch MF (Coat)...
+[LỖI] Huấn luyện MF trên Coat thất bại: stop after capturing config
+....................s
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 1/2: iVAE: COAT
+ Thiết bị: cpu | Latent dim: 2 | Hidden dim: 32 | Layers: 3 | LR: 0.0005 | Batch: 4 | Seed: 42
+ Giao thức: Exposure-user validation | chọn ELBO sau full-beta warm-up
+========================================================================
+........
+========================================================================
+ HUẤN LUYỆN MF: COAT
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 512 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][COAT] Epoch 001/001 | Train Loss: 0.2715 | Val NDCG@5: 0.5000 | Val Recall@5: 0.5000 | Val HR@5: 0.5000
+[MF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.5000
+..
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 5e-05 | Batch: 4 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0209 | Val NDCG@5: 0.5000 | Val Recall@5: 0.5000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.5000
+.[Data Pipeline] Đang nạp Biased Train Set từ: C:\Users\phung\AppData\Local\Temp\tmp9v2stm8u\log_standard_4_08_to_4_21_pure.csv ...
+[Data Pipeline] Đang nạp Unbiased Test Set từ: C:\Users\phung\AppData\Local\Temp\tmp9v2stm8u\log_random_4_22_to_5_08_pure.csv ...
+[Data Pipeline] Không gian thực nghiệm: 4 Users | 2 Videos
+[Data Pipeline] Random validation: 2 users; held-out test: 2 users
+[Data Pipeline] Đã lưu bộ đệm KuaiRand is_click tại: C:\Users\phung\AppData\Local\Temp\tmp9v2stm8u\cache\kuairand_v7_10e1cb0df1d12f26.pkl
+[Data Pipeline] Đang nạp Biased Train Set từ: C:\Users\phung\AppData\Local\Temp\tmp9v2stm8u\log_standard_4_08_to_4_21_pure.csv ...
+[Data Pipeline] Đang nạp Unbiased Test Set từ: C:\Users\phung\AppData\Local\Temp\tmp9v2stm8u\log_random_4_22_to_5_08_pure.csv ...
+[Data Pipeline] Không gian thực nghiệm: 4 Users | 2 Videos
+[Data Pipeline] Random validation: 2 users; held-out test: 2 users
+[Data Pipeline] Đã lưu bộ đệm KuaiRand is_click tại: C:\Users\phung\AppData\Local\Temp\tmp9v2stm8u\cache\kuairand_v7_59da2863be18302b.pkl
+...
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+.
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.0005 | Batch: 4 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[iDCF/feedback][KUAIRAND] Epoch 001/002 | Train Loss: 0.5077 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[iDCF/feedback][KUAIRAND] Epoch 002/002 | Train Loss: 0.5055 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[iDCF/feedback][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+.......
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/002 | Train Loss: 0.4925 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Epoch 002/002 | Train Loss: 0.4923 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+..Report: C:\Users\phung\AppData\Local\Temp\tmp4mjv5x1d\mf_optimizers_coat_2ea4e4e9fb79c6a6.json
+{
+  "adam": {
+    "NDCG@5": {
+      "mean": 0.1,
+      "std": null,
+      "n_seeds": 1
+    },
+    "Recall@5": {
+      "mean": 0.2,
+      "std": null,
+      "n_seeds": 1
+    }
+  },
+  "sgd": {
+    "NDCG@5": {
+      "mean": 0.1,
+      "std": null,
+      "n_seeds": 1
+    },
+    "Recall@5": {
+      "mean": 0.2,
+      "std": null,
+      "n_seeds": 1
+    }
+  }
+}
+.
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: sgd | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.4925 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+.
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0398 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0398 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0001 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0001 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+...
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.5076 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+........
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.001 | Batch: 3 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/002 | Train Loss: 0.5072 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Epoch 002/002 | Train Loss: 0.5037 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.001 | Batch: 3 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/002 | Train Loss: 0.5072 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Epoch 002/002 | Train Loss: 0.5037 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val NDCG@5: 1.0000
+.=====================================================================================
+ BẮT ĐẦU QUY TRÌNH TINH CHỈNH SIÊU THAM SỐ (TUNING) TRÊN COAT DATASET
+ Mô hình: ['mf'] | Epochs: {'mf': 1} | Patience: {'mf': 5}
+=====================================================================================
+ Đang nạp dữ liệu Coat...
+
+#####################################################################################
+ >>> BẮT ĐẦU TINH CHỈNH MÔ HÌNH: MF (Tổng cộng: 2 trials)
+#####################################################################################
+
+--- [MF Trial 1/2] Cấu hình: {'lr': 0.01} ---
+ [KẾT QUẢ TRIAL 1] Best Val NDCG@5 = 0.0100 (tại epoch 1) | Thời gian: 0.0s
+
+--- [MF Trial 2/2] Cấu hình: {'lr': 0.02} ---
+ [KẾT QUẢ TRIAL 2] Best Val NDCG@5 = 0.0200 (tại epoch 1) | Thời gian: 0.0s
+
+>>> [LỰA CHỌN TỐI ƯU CHO MF] Cấu hình: {'lr': 0.02}
+    Điểm Validation NDCG@5 cao nhất: 0.0200 (epoch 1)
+    -> Đang tiến hành đánh giá DUY NHẤT 1 LẦN trên tập Held-Out Test...
+    -> KẾT QUẢ TEST: NDCG@5 = 0.5000 | Recall@5 = 0.5000 | AUC = N/A
+
++---------------------------------------------------------------------------------+
+|               KẾT QUẢ CUỐI CÙNG SAU KHI TUNING TRÊN COAT DATASET                |
++=========+=================+============+=============+===============+==========+
+| Mô Hình | Cấu Hình Tối Ưu | Val NDCG@5 | Test NDCG@5 | Test Recall@5 | Test AUC |
++=========+=================+============+=============+===============+==========+
+| MF      | {"lr": 0.02}    |   0.0200   |   0.5000    |    0.5000     |   N/A    |
++---------+-----------------+------------+-------------+---------------+----------+
+
+[HOÀN THÀNH] Báo cáo chi tiết JSON : C:\Users\phung\AppData\Local\Temp\tmpo__j9kru\tuning_coat_mf_e1_6aeee6a02b039060_c0de725c_v4.json
+[HOÀN THÀNH] Báo cáo khoa học Markdown: C:\Users\phung\AppData\Local\Temp\tmpo__j9kru\tuning_coat_mf_e1_6aeee6a02b039060_c0de725c_v4.md
+[HOÀN THÀNH] Toàn bộ nhật ký Log    : C:\Users\phung\AppData\Local\Temp\tmpo__j9kru\tuning_coat_mf_e1_6aeee6a02b039060_c0de725c_v4.log
+
+........
+----------------------------------------------------------------------
+Ran 126 tests in 15.279s
+
+OK (skipped=1)

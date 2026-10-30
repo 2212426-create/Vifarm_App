@@ -1,0 +1,65 @@
+{
+  "identity": {
+    "code_sha256": "abc819e34351677e9a81fa880d92bf4c8d80472e3b50d9e79dc183621e315845"
+  },
+  "status": "passed_cpu",
+  "tests": {
+    "total": 113,
+    "passed": 112,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-20/cdr_source_default/model_tests.log"
+  },
+  "full_source_runs": {
+    "coat": "results/cdr_source_coat_20261020_225009_a07819d9.json",
+    "yahoo": "results/cdr_source_yahoo_20261020_225246_193982ea.json"
+  },
+  "source_coat_metrics": {
+    "NDCG@5": 0.6566651228158734,
+    "Recall@5_bounded": 0.667816091954023,
+    "AUC_global": 0.7512927651405334,
+    "users": 290
+  },
+  "source_yahoo_metrics": {
+    "NDCG@5": 0.655928916666389,
+    "Recall@5_bounded": 0.7312993827160493,
+    "AUC_global": 0.6849303841590881,
+    "users": 5400
+  },
+  "source_checkpoint_reload": {
+    "coat": {
+      "path": "results/cdr_source_coat_20261020_225009_a07819d9.json",
+      "metrics": 0.6566651228158734
+    },
+    "yahoo": {
+      "path": "results/cdr_source_yahoo_20261020_225246_193982ea.json",
+      "metrics": 0.655928916666389
+    }
+  },
+  "benchmark_reports": [
+    "results/benchmark_coat_all_quick_f07c1965db_20261020_224958_c1be1bf7_v4.json",
+    "results/benchmark_coat_cdr_a8d27b91f8_20261020_224913_af558386_v4.json",
+    "results/benchmark_kuairand_all_quick_db610a538f_20261020_225029_401b7143_v4.json",
+    "results/benchmark_yahoo_all_quick_7f2613dc8c_20261020_225005_acf377b2_v4.json"
+  ],
+  "smoke_reports": {
+    "coat": "results/benchmark_coat_all_quick_f07c1965db_20261020_224958_c1be1bf7_v4.json",
+    "kuairand": "results/benchmark_kuairand_all_quick_db610a538f_20261020_225029_401b7143_v4.json",
+    "yahoo": "results/benchmark_yahoo_all_quick_7f2613dc8c_20261020_225005_acf377b2_v4.json"
+  },
+  "seed_reports": [
+    "results/coat_seeds_73aeaea0873a3298_20261020_224946_b292cb89.json"
+  ],
+  "tuning_smokes": [
+    "results/tuning_coat_cdr_e1_a8a81b00f8660f52_ee1f3f4b_v4.json"
+  ],
+  "validation_diagnostic": "results/cdr_source_estimator_validation_20261020.json",
+  "serving": "ReleasedCDR asserted by API tests; item-frequency propensity/replacement sampling recorded",
+  "limits": [
+    "Source Coat/Yahoo uses evaluation labels for calibration; not independent held-out test",
+    "KuaiRand uses local preprocessing and array/bounded-memory sampling adaptations",
+    "Tuning uses validation calibration/selection; separate from default source protocol",
+    "API lacks randomized log; serving adaptation",
+    "CUDA unverified"
+  ]
+}

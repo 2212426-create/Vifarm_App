@@ -1,0 +1,25 @@
+{
+  "scope": "Archive old unreferenced result artifacts; no permanent deletion or training",
+  "source_before": "b0ede8b824a8290505cfb9367226ed70a36efbecf92c5f273a248eee6b73c788",
+  "source_after": "b0ede8b824a8290505cfb9367226ed70a36efbecf92c5f273a248eee6b73c788",
+  "archived_files": 155,
+  "archived_bytes": 2183282,
+  "root_files_before": 252,
+  "root_files_after": 97,
+  "original_artifacts_byte_verified": 256,
+  "mutable_result_indexes_backed_up": true,
+  "retained_dependency_paths_verified": true,
+  "permanent_deletions": 0,
+  "categories": {
+    "benchmark_history": 22,
+    "smoke": 36,
+    "diagnostics": 6,
+    "cdr_source_history": 88,
+    "validation": 1,
+    "logs": 2
+  },
+  "latest_user_mf_crib_report": "results/mf_crib_20261022_070114_6b5eeb3a.json",
+  "checkpoints_and_data_touched": false,
+  "model_tests_rerun": false,
+  "reason_no_training": "Source hash and all original result bytes are unchanged; validation milestone remains applicable"
+}

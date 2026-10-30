@@ -1,0 +1,575 @@
+{
+  "identity": {
+    "models": [
+      "cdr"
+    ],
+    "epochs": {
+      "cdr": 1
+    },
+    "patience": {
+      "cdr": 5
+    },
+    "seed": 42,
+    "version": 4,
+    "grids": {
+      "cdr": [
+        {
+          "embedding_dim": 4,
+          "lr": 0.05,
+          "weight_decay": 0.001,
+          "batch_size": 128,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 4
+        }
+      ]
+    },
+    "data": {
+      "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+      "source": {
+        "files": [
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+            8410,
+            1464639084219620000
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+            20100,
+            1464639084209131700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+            2175000,
+            1464633536347328900
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+            174290,
+            1464639084284743700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+            174290,
+            1464639084419860100
+          ]
+        ]
+      },
+      "split": {
+        "protocol": "paper_idcf",
+        "split_unit": "user",
+        "seed": 1234,
+        "validation_users": 87,
+        "test_users": 203,
+        "validation_rows": 1392,
+        "test_rows": 3248,
+        "train_random_overlap_pairs": 366,
+        "validation_overlap_pairs": 119,
+        "test_overlap_pairs": 247,
+        "test_overlap_positive_pairs": 63
+      },
+      "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+      "n_users": 290,
+      "n_items": 300
+    },
+    "cdr_data": {
+      "sha256": "14eff3a65a98902eb7d58497f980f21a0d2475492901d31b3a6af58ba27e4b83",
+      "source": {
+        "files": [
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+            8410,
+            1464639084219620000
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+            20100,
+            1464639084209131700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+            2175000,
+            1464633536347328900
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+            174290,
+            1464639084284743700
+          ],
+          [
+            "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+            174290,
+            1464639084419860100
+          ]
+        ]
+      },
+      "split": {
+        "protocol": "paper_idcf",
+        "split_unit": "user",
+        "seed": 1234,
+        "validation_users": 87,
+        "test_users": 203,
+        "validation_rows": 1392,
+        "test_rows": 3248,
+        "train_random_overlap_pairs": 366,
+        "validation_overlap_pairs": 119,
+        "test_overlap_pairs": 247,
+        "test_overlap_positive_pairs": 131
+      },
+      "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+      "n_users": 290,
+      "n_items": 300
+    },
+    "code_sha256": "ac77d11b906692b1bde3f23de0e47fc26318eed684f98d2dcb382cb6108e473d"
+  },
+  "protocol": "paper_idcf_30_70_user_seed1234",
+  "evaluation_protocol": {
+    "metric_revision": "logged_binary_v1",
+    "reference": "iDCF_KDD2023",
+    "implementation": "idcf_aligned_local",
+    "k": 5,
+    "primary_metrics": [
+      "NDCG@5",
+      "Recall@5"
+    ],
+    "candidates": "logged_exposures",
+    "relevance": "binary_any_positive_per_user_item",
+    "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+    "recall_denominator": "all_positive_items_in_candidate_pool",
+    "aggregation": "macro_by_user",
+    "include_zero_positive_users": false,
+    "tie_break": "score_desc_then_item_id_asc",
+    "train_overlap": "retain_and_disclose",
+    "selection": "validation_ndcg",
+    "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+    "seed_std_ddof": 1,
+    "split": {
+      "protocol": "paper_idcf",
+      "split_unit": "user",
+      "seed": 1234,
+      "validation_users": 87,
+      "test_users": 203,
+      "validation_rows": 1392,
+      "test_rows": 3248,
+      "train_random_overlap_pairs": 366,
+      "validation_overlap_pairs": 119,
+      "test_overlap_pairs": 247,
+      "test_overlap_positive_pairs": 63
+    },
+    "paper_scores_directly_comparable": false,
+    "limitations": [
+      "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+      "Binary duplicate aggregation and deterministic score ties are local conventions.",
+      "Local model architectures, loss and tuning differ from original implementations."
+    ]
+  },
+  "selection": "validation_ndcg_only",
+  "cdr_protocol": "released estimator; train-loss last; seed2020; 5% validation calibration; tuning only, not source-protocol benchmark",
+  "epochs": {
+    "cdr": 1
+  },
+  "patience": {
+    "cdr": 5
+  },
+  "grids": {
+    "cdr": [
+      {
+        "embedding_dim": 4,
+        "lr": 0.05,
+        "weight_decay": 0.001,
+        "batch_size": 128,
+        "un_thres": 10.0,
+        "dropout_rate": 0.5,
+        "G": 4
+      }
+    ]
+  },
+  "trials": [
+    {
+      "epochs": 1,
+      "patience": 5,
+      "model": "cdr",
+      "config": {
+        "embedding_dim": 4,
+        "lr": 0.05,
+        "weight_decay": 0.001,
+        "batch_size": 128,
+        "un_thres": 10.0,
+        "dropout_rate": 0.5,
+        "G": 4
+      },
+      "best_val_ndcg": 0.5072348241574413,
+      "best_epoch": 1,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\cdr_released\\coat_cdr_released_tune_coat_e1_8670e2cdba_v4_f08eae1d59a3a3de.pt",
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_released_v1",
+        "model": "cdr_released",
+        "dataset": "coat",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1,
+          "lr": 0.05,
+          "weight_decay": 0.001,
+          "batch_size": 128,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 4,
+          "seed": 2020,
+          "device": "cpu",
+          "patience": 5,
+          "catalog_sampler": "permutation",
+          "loss": "bce",
+          "implementation": "cdr_released",
+          "method_reference": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "upstream_commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "paper_reproduction": false,
+          "initialization": "independent_source_xavier_rec_default_normal_imp",
+          "filter_mode": "variance",
+          "output_probability_dropout": true,
+          "imputation_bce": "BCE(imp,detached_rec)",
+          "propensity": "naive_bayes_validation",
+          "propensity_calibration": {
+            "method": "released_naive_bayes",
+            "calibration_rows": 69,
+            "calibration_positive_rate": 0.4492753744125366,
+            "train_positive_rate": 0.5204023122787476,
+            "population_denominator": 86411,
+            "observed_fraction": 0.08054530094548147,
+            "source": "random_validation_only",
+            "test_labels_used": false
+          },
+          "propensity_diagnostics": {
+            "inverse_propensity_max": 14.256641387939453,
+            "ips_ess": 6821.724229802261,
+            "imputation_weight_max": 2505.4413554860707,
+            "top_1pct_count": 70,
+            "top_1pct_imputation_weight_share": 0.014578763302313016
+          },
+          "propensity_sha256": "61c5682c072d32d45f98503a75335042dfac78216c6517015a6a92cdaee99d5b",
+          "selection": "source_train_loss_last",
+          "source_adaptations": [
+            "project labels/split/evaluator",
+            "validation-only propensity calibration",
+            "source_train_loss_last"
+          ]
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5
+        },
+        "data": {
+          "sha256": "14eff3a65a98902eb7d58497f980f21a0d2475492901d31b3a6af58ba27e4b83",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "ac77d11b906692b1bde3f23de0e47fc26318eed684f98d2dcb382cb6108e473d",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 131
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "cdr_training": null,
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 59285.734375,
+          "rec_loss": 2.663630105831005,
+          "imp_loss": 18285.443929036457,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48,
+          "validation_ndcg": 0.5072348241574413
+        }
+      ],
+      "elapsed_seconds": 4.45
+    }
+  ],
+  "selected": {
+    "cdr": {
+      "config": {
+        "embedding_dim": 4,
+        "lr": 0.05,
+        "weight_decay": 0.001,
+        "batch_size": 128,
+        "un_thres": 10.0,
+        "dropout_rate": 0.5,
+        "G": 4
+      },
+      "validation_ndcg": 0.5072348241574413,
+      "best_epoch": 1,
+      "test": {
+        "metric_revision": "logged_binary_v1",
+        "candidate_users": 203,
+        "candidate_pairs": 3248,
+        "empty_candidate_users": 0,
+        "NDCG@5": 0.5154931694500089,
+        "Recall@5": 0.3592752965819976,
+        "Recall@5_bounded": 0.5211340206185566,
+        "Precision@5": 0.45463917525773195,
+        "HitRate@5": 0.8711340206185567,
+        "eval_users": 194,
+        "zero_positive_users": 9,
+        "NDCG@5_CI95_halfwidth": 0.04241449911461294,
+        "elapsed_seconds": 0.03,
+        "AUC": 0.5472395843427589,
+        "auc_users": 189,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\cdr_released\\coat_cdr_released_tune_coat_e1_8670e2cdba_v4_f08eae1d59a3a3de.pt",
+        "best_epoch": 1,
+        "best_val_ndcg": 0.5072348241574413,
+        "metadata": {
+          "artifact_version": 4,
+          "architecture_version": "cdr_released_v1",
+          "model": "cdr_released",
+          "dataset": "coat",
+          "config": {
+            "embedding_dim": 4,
+            "epochs": 1,
+            "lr": 0.05,
+            "weight_decay": 0.001,
+            "batch_size": 128,
+            "un_thres": 10.0,
+            "dropout_rate": 0.5,
+            "G": 4,
+            "seed": 2020,
+            "device": "cpu",
+            "patience": 5,
+            "catalog_sampler": "permutation",
+            "loss": "bce",
+            "implementation": "cdr_released",
+            "method_reference": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+            "upstream_commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+            "paper_reproduction": false,
+            "initialization": "independent_source_xavier_rec_default_normal_imp",
+            "filter_mode": "variance",
+            "output_probability_dropout": true,
+            "imputation_bce": "BCE(imp,detached_rec)",
+            "propensity": "naive_bayes_validation",
+            "propensity_calibration": {
+              "method": "released_naive_bayes",
+              "calibration_rows": 69,
+              "calibration_positive_rate": 0.4492753744125366,
+              "train_positive_rate": 0.5204023122787476,
+              "population_denominator": 86411,
+              "observed_fraction": 0.08054530094548147,
+              "source": "random_validation_only",
+              "test_labels_used": false
+            },
+            "propensity_diagnostics": {
+              "inverse_propensity_max": 14.256641387939453,
+              "ips_ess": 6821.724229802261,
+              "imputation_weight_max": 2505.4413554860707,
+              "top_1pct_count": 70,
+              "top_1pct_imputation_weight_share": 0.014578763302313016
+            },
+            "propensity_sha256": "61c5682c072d32d45f98503a75335042dfac78216c6517015a6a92cdaee99d5b",
+            "selection": "source_train_loss_last",
+            "source_adaptations": [
+              "project labels/split/evaluator",
+              "validation-only propensity calibration",
+              "source_train_loss_last"
+            ]
+          },
+          "model_kwargs": {
+            "num_users": 290,
+            "num_items": 300,
+            "embedding_dim": 4,
+            "un_thres": 10.0,
+            "dropout_rate": 0.5
+          },
+          "data": {
+            "sha256": "14eff3a65a98902eb7d58497f980f21a0d2475492901d31b3a6af58ba27e4b83",
+            "source": {
+              "files": [
+                [
+                  "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                  8410,
+                  1464639084219620000
+                ],
+                [
+                  "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                  20100,
+                  1464639084209131700
+                ],
+                [
+                  "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                  2175000,
+                  1464633536347328900
+                ],
+                [
+                  "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                  174290,
+                  1464639084284743700
+                ],
+                [
+                  "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                  174290,
+                  1464639084419860100
+                ]
+              ]
+            },
+            "split": {
+              "protocol": "paper_idcf",
+              "split_unit": "user",
+              "seed": 1234,
+              "validation_users": 87,
+              "test_users": 203,
+              "validation_rows": 1392,
+              "test_rows": 3248,
+              "train_random_overlap_pairs": 366,
+              "validation_overlap_pairs": 119,
+              "test_overlap_pairs": 247,
+              "test_overlap_positive_pairs": 131
+            },
+            "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+            "n_users": 290,
+            "n_items": 300
+          },
+          "code_sha256": "ac77d11b906692b1bde3f23de0e47fc26318eed684f98d2dcb382cb6108e473d",
+          "protocol": {
+            "metric_revision": "logged_binary_v1",
+            "reference": "iDCF_KDD2023",
+            "implementation": "idcf_aligned_local",
+            "k": 5,
+            "primary_metrics": [
+              "NDCG@5",
+              "Recall@5"
+            ],
+            "candidates": "logged_exposures",
+            "relevance": "binary_any_positive_per_user_item",
+            "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+            "recall_denominator": "all_positive_items_in_candidate_pool",
+            "aggregation": "macro_by_user",
+            "include_zero_positive_users": false,
+            "tie_break": "score_desc_then_item_id_asc",
+            "train_overlap": "retain_and_disclose",
+            "selection": "validation_ndcg",
+            "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+            "seed_std_ddof": 1,
+            "split": {
+              "protocol": "paper_idcf",
+              "split_unit": "user",
+              "seed": 1234,
+              "validation_users": 87,
+              "test_users": 203,
+              "validation_rows": 1392,
+              "test_rows": 3248,
+              "train_random_overlap_pairs": 366,
+              "validation_overlap_pairs": 119,
+              "test_overlap_pairs": 247,
+              "test_overlap_positive_pairs": 131
+            },
+            "paper_scores_directly_comparable": false,
+            "limitations": [
+              "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+              "Binary duplicate aggregation and deterministic score ties are local conventions.",
+              "Local model architectures, loss and tuning differ from original implementations."
+            ]
+          },
+          "environment": {
+            "torch": "2.14.1+cpu",
+            "numpy": "2.5.4"
+          }
+        },
+        "selection_origin": "cdr_update",
+        "objective_revision": "cdr_released_v1",
+        "cdr_training": {
+          "epoch": 1,
+          "weighted_factual_sum": 59285.734375,
+          "rec_loss": 2.663630105831005,
+          "imp_loss": 18285.443929036457,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48,
+          "validation_ndcg": 0.5072348241574413
+        }
+      }
+    }
+  }
+}

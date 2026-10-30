@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "code_sha256": "88769819bd670011c7a4667b0bff82458549ef0de8abee3f63e4d050e68a2943"
+  },
+  "status": "passed_cpu",
+  "tests": {
+    "total": 109,
+    "passed": 108,
+    "skipped": 1,
+    "reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-20/yahoo_source_integration/model_tests.log",
+    "upstream_parameter_parity": "3 CPU epochs; rtol=atol=0"
+  },
+  "shared_protocol_smokes": {
+    "coat": "results/benchmark_coat_all_quick_f91c57579a_20261020_222119_147e6ae1_v4.json",
+    "yahoo": "results/benchmark_yahoo_all_quick_73a6598a78_20261020_222127_b44aa7e9_v4.json",
+    "kuairand": "results/benchmark_kuairand_all_quick_907333adfb_20261020_222130_447f113a_v4.json",
+    "yahoo_full_data": "results/benchmark_yahoo_all_quick_5c628bd4b7_20261020_222302_b3d1e0bf_v4.json"
+  },
+  "source_protocol": {
+    "coat": "results/cdr_source_coat_20261020_222318_c9e8d6e9.json",
+    "yahoo": "results/cdr_source_yahoo_20261020_222146_a4c6d011.json"
+  },
+  "source_coat_metrics": {
+    "NDCG@5": 0.6566651228158734,
+    "Recall@5_bounded": 0.667816091954023,
+    "AUC_global": 0.7512927651405334,
+    "users": 290
+  },
+  "validation_only": "results/released_cdr_coat_validation_20261020_yahoo_integration.json",
+  "yahoo_data_manifest": "data/raw/yahoo/source_manifest.json",
+  "limitations": [
+    "No complete Yahoo quality benchmark at this milestone",
+    "Source protocol uses evaluation labels for calibration; not shared held-out test",
+    "Yahoo iDCF is a local dataset extension with missing survey categories",
+    "CUDA unverified"
+  ]
+}

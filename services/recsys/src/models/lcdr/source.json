@@ -1,0 +1,23 @@
+{
+  "model": "LCDR",
+  "paper": {
+    "title": "A Novel Generative Model with Causality Constraint for Mitigating Biases in Recommender Systems",
+    "authors": ["Jianfeng Deng", "Qingfeng Chen", "Debo Cheng", "Jiuyong Li", "Lin Liu", "Shichao Zhang"],
+    "arxiv": "2505.16708v1",
+    "pdf": "docs/papers/LCDR.pdf",
+    "latex": "docs/papers/LCDR_arxiv_v1_source.tex"
+  },
+  "source": {"public_code": false, "implementation": "re-implementation from the paper text; not a reproduction"},
+  "from_paper": [
+    "Algorithm 1: iVAE(A, W) and LCVAE(A) in parallel with reparameterized Z and Z_lc, then a recommender on Z_lc",
+    "Eq. (6): LCVAE ELBO with N(0, I) prior, Bernoulli decoder and lambda * non-squared L2 ||Z_lc - Z||",
+    "lambda = 0.9 Coat, 0.1 Yahoo!R3, 0.9 KuaiRand; Adam; lr/wd inside {1e-3..1e-5} x {1e-5, 1e-6}",
+    "MF backbone P_u^T Q_i + B_u + B_i; data split and NDCG@5/Recall@5 following iDCF"
+  ],
+  "local_choices": [
+    "iVAE, data inputs, proxy W, network sizes, KL anneal, L2 penalty and 80/20 user validation reuse the project iDCF configuration",
+    "iVAE keeps its own ELBO in the joint loss; Z is detached inside the constraint",
+    "Eq. (18) is read as MF(u, i) + <e_i, Z_lc,u> (iDCF MFMF form) trained with MSE and validation NDCG@5 selection",
+    "Stage 1 model selection uses the summed validation loss of both branches after full-beta warm-up"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "identity": {
+    "code_sha256": "70897b831d4faa0fc73aaed139cab2cd04f3a214215eac5f49dac4de552cde33"
+  },
+  "reviewed_on": "2026-10-21",
+  "implementation": "learned IV + dual iVAE + validation-grid BCE feedback",
+  "paper_reproduction": false,
+  "test_suite": {
+    "total": 126,
+    "passed": 125,
+    "skipped": 1,
+    "log": "docs/archive/2026-10-21/ividr_bce/model_tests.log"
+  },
+  "full_coat_report": "results/benchmark_coat_all_b384ff80db_20261021_115348_e8c7d044_v4.json",
+  "test": {
+    "NDCG@5": 0.5291247296700528,
+    "Recall@5": 0.5352791253988859,
+    "Recall@5_bounded": 0.5904191616766467
+  },
+  "model_checkpoint": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_115348_e8c7d044\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial1_v4_59ac8e47182d2816.pt",
+  "stage1_checkpoint": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_115348_e8c7d044\\coat\\ividr\\coat_v4_e100_full_a27f307e7c_exposure_92c8413b.pt",
+  "feedback_reload_metrics_exact": true,
+  "stage1_reload_latents_exact": true,
+  "unchanged_models_regression": [
+    {
+      "model": "MF",
+      "all_parameter_tensors_exact": true,
+      "all_primary_metrics_exact": true
+    },
+    {
+      "model": "iDCF",
+      "all_parameter_tensors_exact": true,
+      "all_primary_metrics_exact": true
+    },
+    {
+      "model": "DR-BIAS + CDR",
+      "all_parameter_tensors_exact": true,
+      "all_primary_metrics_exact": true
+    }
+  ],
+  "smoke": [
+    {
+      "dataset": "coat",
+      "report": "results/benchmark_coat_all_quick_13ce12c300_20261021_115348_37d07c8a_v4.json",
+      "scope": "smoke_not_quality"
+    },
+    {
+      "dataset": "yahoo",
+      "report": "results/benchmark_yahoo_all_quick_d092f21a3d_20261021_115359_0a36a034_v4.json",
+      "scope": "smoke_not_quality"
+    },
+    {
+      "dataset": "kuairand",
+      "report": "results/benchmark_kuairand_all_quick_9f5708a8a7_20261021_115447_b4e87d6b_v4.json",
+      "scope": "smoke_not_quality"
+    }
+  ],
+  "validation_artifact": "results/ividr_bce_validation_20261021.json",
+  "comparison_artifact": "results/ividr_mse_bce_ablation_20261021.json"
+}

@@ -1,0 +1,1274 @@
+================================================================================
+ BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH TRÊN COAT / YAHOO / KUAIRAND
+ Thiết bị: cpu | Dataset: kuairand | Model: ividr
+================================================================================
+ [CẤU HÌNH EPOCHS] Coat: 100 | Yahoo: 100 | KuaiRand-Pure: 100 (MF: 100)
+ [CDR SOURCE] seed 2020; epoch budgets: {'coat': 1000, 'yahoo': 1000, 'kuairand': 1000}; train-loss stopping
+
+################################################################################
+ PHẦN 2: THỰC NGHIỆM KUAIRAND-PURE (IS_CLICK, IDCF DATA SPLIT)
+################################################################################
+
+>>> Huấn luyện IViDR (KuaiRand)...
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/100 | Train Loss: 0.4472 | Val NDCG@5: 0.3445 | Val Recall@5: 0.3065 | Val HR@5: 0.7242
+[MF][KUAIRAND] Epoch 002/100 | Train Loss: 0.4232 | Val NDCG@5: 0.3598 | Val Recall@5: 0.3154 | Val HR@5: 0.7302
+[MF][KUAIRAND] Epoch 003/100 | Train Loss: 0.3909 | Val NDCG@5: 0.3650 | Val Recall@5: 0.3185 | Val HR@5: 0.7352
+[MF][KUAIRAND] Epoch 004/100 | Train Loss: 0.3443 | Val NDCG@5: 0.3655 | Val Recall@5: 0.3190 | Val HR@5: 0.7364
+[MF][KUAIRAND] Epoch 005/100 | Train Loss: 0.2992 | Val NDCG@5: 0.3675 | Val Recall@5: 0.3214 | Val HR@5: 0.7395
+[MF][KUAIRAND] Epoch 006/100 | Train Loss: 0.2656 | Val NDCG@5: 0.3692 | Val Recall@5: 0.3230 | Val HR@5: 0.7405
+[MF][KUAIRAND] Epoch 007/100 | Train Loss: 0.2434 | Val NDCG@5: 0.3700 | Val Recall@5: 0.3231 | Val HR@5: 0.7421
+[MF][KUAIRAND] Epoch 008/100 | Train Loss: 0.2291 | Val NDCG@5: 0.3724 | Val Recall@5: 0.3239 | Val HR@5: 0.7424
+[MF][KUAIRAND] Epoch 009/100 | Train Loss: 0.2196 | Val NDCG@5: 0.3740 | Val Recall@5: 0.3243 | Val HR@5: 0.7436
+[MF][KUAIRAND] Epoch 010/100 | Train Loss: 0.2131 | Val NDCG@5: 0.3751 | Val Recall@5: 0.3248 | Val HR@5: 0.7460
+[MF][KUAIRAND] Epoch 011/100 | Train Loss: 0.2083 | Val NDCG@5: 0.3765 | Val Recall@5: 0.3251 | Val HR@5: 0.7462
+[MF][KUAIRAND] Epoch 012/100 | Train Loss: 0.2048 | Val NDCG@5: 0.3774 | Val Recall@5: 0.3254 | Val HR@5: 0.7481
+[MF][KUAIRAND] Epoch 013/100 | Train Loss: 0.2020 | Val NDCG@5: 0.3783 | Val Recall@5: 0.3264 | Val HR@5: 0.7496
+[MF][KUAIRAND] Epoch 014/100 | Train Loss: 0.1999 | Val NDCG@5: 0.3782 | Val Recall@5: 0.3269 | Val HR@5: 0.7508
+[MF][KUAIRAND] Epoch 015/100 | Train Loss: 0.1981 | Val NDCG@5: 0.3792 | Val Recall@5: 0.3282 | Val HR@5: 0.7549
+[MF][KUAIRAND] Epoch 016/100 | Train Loss: 0.1967 | Val NDCG@5: 0.3790 | Val Recall@5: 0.3276 | Val HR@5: 0.7546
+[MF][KUAIRAND] Epoch 017/100 | Train Loss: 0.1956 | Val NDCG@5: 0.3792 | Val Recall@5: 0.3281 | Val HR@5: 0.7537
+[MF][KUAIRAND] Epoch 018/100 | Train Loss: 0.1946 | Val NDCG@5: 0.3810 | Val Recall@5: 0.3300 | Val HR@5: 0.7546
+[MF][KUAIRAND] Epoch 019/100 | Train Loss: 0.1937 | Val NDCG@5: 0.3808 | Val Recall@5: 0.3315 | Val HR@5: 0.7560
+[MF][KUAIRAND] Epoch 020/100 | Train Loss: 0.1930 | Val NDCG@5: 0.3805 | Val Recall@5: 0.3311 | Val HR@5: 0.7554
+[MF][KUAIRAND] Epoch 021/100 | Train Loss: 0.1923 | Val NDCG@5: 0.3801 | Val Recall@5: 0.3300 | Val HR@5: 0.7553
+[MF][KUAIRAND] Epoch 022/100 | Train Loss: 0.1917 | Val NDCG@5: 0.3799 | Val Recall@5: 0.3302 | Val HR@5: 0.7558
+[MF][KUAIRAND] Epoch 023/100 | Train Loss: 0.1912 | Val NDCG@5: 0.3787 | Val Recall@5: 0.3296 | Val HR@5: 0.7544
+[MF][KUAIRAND] Dừng sớm tại epoch 23 | Chọn epoch: 18 | Best Val NDCG@5: 0.3810
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 1/2: KUAIRAND
+ Seed: 42 | Feedback loss: BCEWithLogits | IV: learned MLP0/MLP1/MLP2
+ Giao thức: Biased-exposure user split; full-beta ELBO selection
+========================================================================
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 001/2000 | Train ELBO: 4611.9425 | Val ELBO: 4479.7397 | Beta: 0.0022
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 002/2000 | Train ELBO: 4208.3602 | Val ELBO: 3928.5325 | Beta: 0.0047
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 003/2000 | Train ELBO: 3314.2347 | Val ELBO: 3583.4889 | Beta: 0.0073
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 004/2000 | Train ELBO: 2358.8456 | Val ELBO: 2613.2210 | Beta: 0.0097
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 005/2000 | Train ELBO: 1587.4233 | Val ELBO: 1782.4358 | Beta: 0.0123
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 006/2000 | Train ELBO: 968.1646 | Val ELBO: 1168.0860 | Beta: 0.0147
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 007/2000 | Train ELBO: 612.6419 | Val ELBO: 656.1887 | Beta: 0.0173
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 008/2000 | Train ELBO: 479.2384 | Val ELBO: 537.0282 | Beta: 0.0198
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 009/2000 | Train ELBO: 432.0605 | Val ELBO: 499.5130 | Beta: 0.0222
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 010/2000 | Train ELBO: 403.2893 | Val ELBO: 467.3721 | Beta: 0.0248
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 011/2000 | Train ELBO: 383.8305 | Val ELBO: 448.7724 | Beta: 0.0272
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 012/2000 | Train ELBO: 368.2297 | Val ELBO: 431.8444 | Beta: 0.0297
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 013/2000 | Train ELBO: 357.5137 | Val ELBO: 414.0421 | Beta: 0.0323
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 014/2000 | Train ELBO: 348.3861 | Val ELBO: 399.0872 | Beta: 0.0348
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 015/2000 | Train ELBO: 339.3014 | Val ELBO: 389.3754 | Beta: 0.0372
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 016/2000 | Train ELBO: 331.3194 | Val ELBO: 380.2263 | Beta: 0.0398
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 017/2000 | Train ELBO: 324.2125 | Val ELBO: 371.6539 | Beta: 0.0423
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 018/2000 | Train ELBO: 317.8785 | Val ELBO: 362.4284 | Beta: 0.0447
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 019/2000 | Train ELBO: 312.0159 | Val ELBO: 354.7616 | Beta: 0.0473
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 020/2000 | Train ELBO: 306.2485 | Val ELBO: 349.4288 | Beta: 0.0498
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 021/2000 | Train ELBO: 301.3287 | Val ELBO: 341.4377 | Beta: 0.0522
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 022/2000 | Train ELBO: 296.2709 | Val ELBO: 335.7924 | Beta: 0.0548
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 023/2000 | Train ELBO: 292.1155 | Val ELBO: 329.4190 | Beta: 0.0573
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 024/2000 | Train ELBO: 287.6201 | Val ELBO: 325.2649 | Beta: 0.0597
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 025/2000 | Train ELBO: 284.2043 | Val ELBO: 322.5487 | Beta: 0.0622
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 026/2000 | Train ELBO: 281.6825 | Val ELBO: 319.5042 | Beta: 0.0648
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 027/2000 | Train ELBO: 279.2590 | Val ELBO: 316.5061 | Beta: 0.0673
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 028/2000 | Train ELBO: 277.5044 | Val ELBO: 315.0968 | Beta: 0.0698
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 029/2000 | Train ELBO: 276.1889 | Val ELBO: 312.9124 | Beta: 0.0722
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 030/2000 | Train ELBO: 274.7203 | Val ELBO: 311.8875 | Beta: 0.0747
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 031/2000 | Train ELBO: 273.5295 | Val ELBO: 310.4816 | Beta: 0.0772
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 032/2000 | Train ELBO: 272.6135 | Val ELBO: 309.5930 | Beta: 0.0798
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 033/2000 | Train ELBO: 271.7594 | Val ELBO: 309.0178 | Beta: 0.0823
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 034/2000 | Train ELBO: 271.0896 | Val ELBO: 308.3111 | Beta: 0.0848
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 035/2000 | Train ELBO: 270.4737 | Val ELBO: 308.1471 | Beta: 0.0872
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 036/2000 | Train ELBO: 270.0690 | Val ELBO: 307.0832 | Beta: 0.0897
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 037/2000 | Train ELBO: 269.4909 | Val ELBO: 306.6624 | Beta: 0.0922
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 038/2000 | Train ELBO: 268.9519 | Val ELBO: 306.5688 | Beta: 0.0948
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 039/2000 | Train ELBO: 268.6270 | Val ELBO: 306.3153 | Beta: 0.0973
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 040/2000 | Train ELBO: 268.2690 | Val ELBO: 306.1324 | Beta: 0.0998
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 041/2000 | Train ELBO: 268.0487 | Val ELBO: 305.6730 | Beta: 0.1022
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 042/2000 | Train ELBO: 267.6868 | Val ELBO: 305.3449 | Beta: 0.1047
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 043/2000 | Train ELBO: 267.5438 | Val ELBO: 304.9958 | Beta: 0.1072
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 044/2000 | Train ELBO: 267.5491 | Val ELBO: 304.9239 | Beta: 0.1098
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 045/2000 | Train ELBO: 267.0529 | Val ELBO: 304.3810 | Beta: 0.1123
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 046/2000 | Train ELBO: 266.6883 | Val ELBO: 304.3617 | Beta: 0.1148
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 047/2000 | Train ELBO: 266.4582 | Val ELBO: 303.7695 | Beta: 0.1172
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 048/2000 | Train ELBO: 266.2377 | Val ELBO: 303.6853 | Beta: 0.1197
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 049/2000 | Train ELBO: 266.1113 | Val ELBO: 303.9420 | Beta: 0.1222
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 050/2000 | Train ELBO: 266.1564 | Val ELBO: 302.5568 | Beta: 0.1247
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 051/2000 | Train ELBO: 265.6917 | Val ELBO: 302.2875 | Beta: 0.1273
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 052/2000 | Train ELBO: 265.5197 | Val ELBO: 301.9372 | Beta: 0.1298
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 053/2000 | Train ELBO: 265.1994 | Val ELBO: 301.5547 | Beta: 0.1323
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 054/2000 | Train ELBO: 265.0369 | Val ELBO: 301.1935 | Beta: 0.1348
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 055/2000 | Train ELBO: 264.7898 | Val ELBO: 300.6653 | Beta: 0.1373
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 056/2000 | Train ELBO: 264.5447 | Val ELBO: 300.1487 | Beta: 0.1398
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 057/2000 | Train ELBO: 264.2913 | Val ELBO: 299.5552 | Beta: 0.1422
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 058/2000 | Train ELBO: 264.0524 | Val ELBO: 299.0829 | Beta: 0.1447
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 059/2000 | Train ELBO: 263.8584 | Val ELBO: 298.8984 | Beta: 0.1472
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 060/2000 | Train ELBO: 263.7768 | Val ELBO: 298.1050 | Beta: 0.1497
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 061/2000 | Train ELBO: 263.7195 | Val ELBO: 298.4545 | Beta: 0.1522
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 062/2000 | Train ELBO: 263.5053 | Val ELBO: 297.2019 | Beta: 0.1547
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 063/2000 | Train ELBO: 262.7999 | Val ELBO: 296.4805 | Beta: 0.1573
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 064/2000 | Train ELBO: 262.4116 | Val ELBO: 296.1100 | Beta: 0.1598
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 065/2000 | Train ELBO: 262.1272 | Val ELBO: 295.7414 | Beta: 0.1623
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 066/2000 | Train ELBO: 261.7130 | Val ELBO: 294.9316 | Beta: 0.1648
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 067/2000 | Train ELBO: 261.3986 | Val ELBO: 294.3522 | Beta: 0.1673
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 068/2000 | Train ELBO: 261.0449 | Val ELBO: 293.8895 | Beta: 0.1698
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 069/2000 | Train ELBO: 260.9602 | Val ELBO: 295.3870 | Beta: 0.1722
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 070/2000 | Train ELBO: 263.1223 | Val ELBO: 293.2499 | Beta: 0.1747
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 071/2000 | Train ELBO: 261.0848 | Val ELBO: 292.5406 | Beta: 0.1772
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 072/2000 | Train ELBO: 260.2947 | Val ELBO: 291.7981 | Beta: 0.1797
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 073/2000 | Train ELBO: 259.6637 | Val ELBO: 291.2696 | Beta: 0.1822
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 074/2000 | Train ELBO: 259.2623 | Val ELBO: 290.7602 | Beta: 0.1847
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 075/2000 | Train ELBO: 258.9012 | Val ELBO: 290.1921 | Beta: 0.1872
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 076/2000 | Train ELBO: 258.5585 | Val ELBO: 289.6817 | Beta: 0.1898
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 077/2000 | Train ELBO: 258.2328 | Val ELBO: 289.2837 | Beta: 0.1923
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 078/2000 | Train ELBO: 258.0239 | Val ELBO: 288.7382 | Beta: 0.1948
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 079/2000 | Train ELBO: 257.6533 | Val ELBO: 288.0410 | Beta: 0.1973
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 080/2000 | Train ELBO: 257.3747 | Val ELBO: 287.9795 | Beta: 0.1998
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 081/2000 | Train ELBO: 257.2236 | Val ELBO: 287.1936 | Beta: 0.2023
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 082/2000 | Train ELBO: 256.9002 | Val ELBO: 286.6415 | Beta: 0.2047
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 083/2000 | Train ELBO: 256.5764 | Val ELBO: 286.0992 | Beta: 0.2072
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 084/2000 | Train ELBO: 256.3745 | Val ELBO: 285.7870 | Beta: 0.2097
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 085/2000 | Train ELBO: 256.1643 | Val ELBO: 285.5261 | Beta: 0.2122
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 086/2000 | Train ELBO: 255.8623 | Val ELBO: 285.0644 | Beta: 0.2147
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 087/2000 | Train ELBO: 255.5583 | Val ELBO: 284.3511 | Beta: 0.2172
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 088/2000 | Train ELBO: 255.2339 | Val ELBO: 284.0179 | Beta: 0.2198
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 089/2000 | Train ELBO: 254.9929 | Val ELBO: 283.5696 | Beta: 0.2223
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 090/2000 | Train ELBO: 254.7431 | Val ELBO: 282.9997 | Beta: 0.2248
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 091/2000 | Train ELBO: 254.5063 | Val ELBO: 282.7270 | Beta: 0.2273
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 092/2000 | Train ELBO: 254.3248 | Val ELBO: 282.1805 | Beta: 0.2298
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 093/2000 | Train ELBO: 253.9421 | Val ELBO: 281.6241 | Beta: 0.2323
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 094/2000 | Train ELBO: 253.6261 | Val ELBO: 281.3222 | Beta: 0.2347
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 095/2000 | Train ELBO: 253.4505 | Val ELBO: 281.1793 | Beta: 0.2372
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 096/2000 | Train ELBO: 253.2845 | Val ELBO: 280.3183 | Beta: 0.2397
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 097/2000 | Train ELBO: 253.2173 | Val ELBO: 279.9335 | Beta: 0.2422
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 098/2000 | Train ELBO: 252.8209 | Val ELBO: 279.7687 | Beta: 0.2447
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 099/2000 | Train ELBO: 252.5287 | Val ELBO: 279.3573 | Beta: 0.2472
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 100/2000 | Train ELBO: 252.2246 | Val ELBO: 278.8056 | Beta: 0.2497
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 101/2000 | Train ELBO: 251.9545 | Val ELBO: 278.5968 | Beta: 0.2522
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 102/2000 | Train ELBO: 251.7197 | Val ELBO: 277.9579 | Beta: 0.2547
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 103/2000 | Train ELBO: 251.5339 | Val ELBO: 277.6115 | Beta: 0.2572
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 104/2000 | Train ELBO: 251.4074 | Val ELBO: 278.3677 | Beta: 0.2597
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 105/2000 | Train ELBO: 251.4537 | Val ELBO: 276.9812 | Beta: 0.2622
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 106/2000 | Train ELBO: 250.8993 | Val ELBO: 276.4509 | Beta: 0.2647
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 107/2000 | Train ELBO: 250.5277 | Val ELBO: 276.0212 | Beta: 0.2672
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 108/2000 | Train ELBO: 250.3471 | Val ELBO: 275.6169 | Beta: 0.2697
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 109/2000 | Train ELBO: 250.0988 | Val ELBO: 275.2394 | Beta: 0.2722
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 110/2000 | Train ELBO: 249.9086 | Val ELBO: 275.3026 | Beta: 0.2747
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 111/2000 | Train ELBO: 249.7467 | Val ELBO: 274.4794 | Beta: 0.2772
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 112/2000 | Train ELBO: 249.3980 | Val ELBO: 274.0284 | Beta: 0.2797
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 113/2000 | Train ELBO: 249.0608 | Val ELBO: 273.5607 | Beta: 0.2823
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 114/2000 | Train ELBO: 248.8033 | Val ELBO: 273.3301 | Beta: 0.2848
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 115/2000 | Train ELBO: 248.5354 | Val ELBO: 272.7398 | Beta: 0.2873
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 116/2000 | Train ELBO: 248.2350 | Val ELBO: 272.3211 | Beta: 0.2898
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 117/2000 | Train ELBO: 247.9651 | Val ELBO: 271.8592 | Beta: 0.2923
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 118/2000 | Train ELBO: 247.6681 | Val ELBO: 271.5378 | Beta: 0.2948
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 119/2000 | Train ELBO: 247.4866 | Val ELBO: 271.1891 | Beta: 0.2973
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 120/2000 | Train ELBO: 247.2004 | Val ELBO: 270.5346 | Beta: 0.2998
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 121/2000 | Train ELBO: 246.8482 | Val ELBO: 270.1615 | Beta: 0.3023
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 122/2000 | Train ELBO: 246.5010 | Val ELBO: 269.6371 | Beta: 0.3048
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 123/2000 | Train ELBO: 246.1141 | Val ELBO: 269.1259 | Beta: 0.3073
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 124/2000 | Train ELBO: 245.8493 | Val ELBO: 268.7137 | Beta: 0.3098
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 125/2000 | Train ELBO: 245.5973 | Val ELBO: 268.1643 | Beta: 0.3123
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 126/2000 | Train ELBO: 245.2416 | Val ELBO: 267.7094 | Beta: 0.3147
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 127/2000 | Train ELBO: 244.7731 | Val ELBO: 267.0994 | Beta: 0.3172
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 128/2000 | Train ELBO: 244.4167 | Val ELBO: 266.7601 | Beta: 0.3197
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 129/2000 | Train ELBO: 244.2981 | Val ELBO: 266.4802 | Beta: 0.3222
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 130/2000 | Train ELBO: 243.8383 | Val ELBO: 265.8033 | Beta: 0.3247
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 131/2000 | Train ELBO: 243.3009 | Val ELBO: 265.3355 | Beta: 0.3272
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 132/2000 | Train ELBO: 242.8365 | Val ELBO: 264.6040 | Beta: 0.3297
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 133/2000 | Train ELBO: 242.4683 | Val ELBO: 264.0396 | Beta: 0.3322
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 134/2000 | Train ELBO: 242.0931 | Val ELBO: 263.8138 | Beta: 0.3347
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 135/2000 | Train ELBO: 241.7058 | Val ELBO: 263.1009 | Beta: 0.3372
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 136/2000 | Train ELBO: 241.3119 | Val ELBO: 262.7316 | Beta: 0.3397
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 137/2000 | Train ELBO: 240.9775 | Val ELBO: 262.1999 | Beta: 0.3422
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 138/2000 | Train ELBO: 240.6916 | Val ELBO: 261.7210 | Beta: 0.3448
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 139/2000 | Train ELBO: 240.4736 | Val ELBO: 261.1957 | Beta: 0.3473
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 140/2000 | Train ELBO: 240.0509 | Val ELBO: 261.0559 | Beta: 0.3498
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 141/2000 | Train ELBO: 239.7926 | Val ELBO: 260.3888 | Beta: 0.3523
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 142/2000 | Train ELBO: 239.4234 | Val ELBO: 260.0497 | Beta: 0.3548
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 143/2000 | Train ELBO: 239.1103 | Val ELBO: 259.5034 | Beta: 0.3573
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 144/2000 | Train ELBO: 238.8596 | Val ELBO: 259.2015 | Beta: 0.3598
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 145/2000 | Train ELBO: 238.5730 | Val ELBO: 258.8246 | Beta: 0.3623
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 146/2000 | Train ELBO: 238.2713 | Val ELBO: 258.5009 | Beta: 0.3648
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 147/2000 | Train ELBO: 238.0470 | Val ELBO: 257.9258 | Beta: 0.3673
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 148/2000 | Train ELBO: 237.7405 | Val ELBO: 257.4654 | Beta: 0.3698
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 149/2000 | Train ELBO: 237.5233 | Val ELBO: 257.2391 | Beta: 0.3723
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 150/2000 | Train ELBO: 237.3610 | Val ELBO: 256.7251 | Beta: 0.3748
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 151/2000 | Train ELBO: 237.0619 | Val ELBO: 256.4825 | Beta: 0.3772
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 152/2000 | Train ELBO: 236.7932 | Val ELBO: 256.1389 | Beta: 0.3797
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 153/2000 | Train ELBO: 236.5016 | Val ELBO: 255.6684 | Beta: 0.3822
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 154/2000 | Train ELBO: 236.3398 | Val ELBO: 255.6285 | Beta: 0.3847
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 155/2000 | Train ELBO: 236.1910 | Val ELBO: 255.0513 | Beta: 0.3872
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 156/2000 | Train ELBO: 235.8063 | Val ELBO: 254.4680 | Beta: 0.3897
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 157/2000 | Train ELBO: 235.4824 | Val ELBO: 254.0423 | Beta: 0.3922
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 158/2000 | Train ELBO: 235.3743 | Val ELBO: 253.6611 | Beta: 0.3947
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 159/2000 | Train ELBO: 235.1093 | Val ELBO: 253.4716 | Beta: 0.3972
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 160/2000 | Train ELBO: 234.9012 | Val ELBO: 253.2715 | Beta: 0.3997
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 161/2000 | Train ELBO: 234.6606 | Val ELBO: 252.8685 | Beta: 0.4022
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 162/2000 | Train ELBO: 234.5166 | Val ELBO: 252.5407 | Beta: 0.4047
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 163/2000 | Train ELBO: 234.2385 | Val ELBO: 252.2063 | Beta: 0.4073
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 164/2000 | Train ELBO: 234.0070 | Val ELBO: 251.7620 | Beta: 0.4098
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 165/2000 | Train ELBO: 233.7946 | Val ELBO: 251.6822 | Beta: 0.4123
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 166/2000 | Train ELBO: 233.6488 | Val ELBO: 251.2348 | Beta: 0.4148
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 167/2000 | Train ELBO: 233.4278 | Val ELBO: 250.8931 | Beta: 0.4173
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 168/2000 | Train ELBO: 233.2639 | Val ELBO: 250.3999 | Beta: 0.4198
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 169/2000 | Train ELBO: 233.0736 | Val ELBO: 250.0730 | Beta: 0.4223
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 170/2000 | Train ELBO: 232.8687 | Val ELBO: 249.9221 | Beta: 0.4248
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 171/2000 | Train ELBO: 232.7109 | Val ELBO: 249.5702 | Beta: 0.4273
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 172/2000 | Train ELBO: 232.6318 | Val ELBO: 249.2200 | Beta: 0.4298
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 173/2000 | Train ELBO: 232.6638 | Val ELBO: 248.9667 | Beta: 0.4323
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 174/2000 | Train ELBO: 232.2508 | Val ELBO: 248.6846 | Beta: 0.4348
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 175/2000 | Train ELBO: 231.9674 | Val ELBO: 248.2057 | Beta: 0.4373
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 176/2000 | Train ELBO: 231.7551 | Val ELBO: 248.2654 | Beta: 0.4397
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 177/2000 | Train ELBO: 231.6027 | Val ELBO: 247.7807 | Beta: 0.4422
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 178/2000 | Train ELBO: 231.4324 | Val ELBO: 247.4234 | Beta: 0.4447
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 179/2000 | Train ELBO: 231.2856 | Val ELBO: 247.0548 | Beta: 0.4472
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 180/2000 | Train ELBO: 231.2083 | Val ELBO: 246.8039 | Beta: 0.4497
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 181/2000 | Train ELBO: 230.9357 | Val ELBO: 246.6067 | Beta: 0.4522
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 182/2000 | Train ELBO: 231.0483 | Val ELBO: 246.2585 | Beta: 0.4547
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 183/2000 | Train ELBO: 230.6446 | Val ELBO: 245.9638 | Beta: 0.4572
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 184/2000 | Train ELBO: 230.4185 | Val ELBO: 245.6413 | Beta: 0.4597
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 185/2000 | Train ELBO: 230.1934 | Val ELBO: 245.3204 | Beta: 0.4622
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 186/2000 | Train ELBO: 230.0720 | Val ELBO: 245.1701 | Beta: 0.4647
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 187/2000 | Train ELBO: 229.9786 | Val ELBO: 244.7323 | Beta: 0.4672
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 188/2000 | Train ELBO: 229.7095 | Val ELBO: 244.4155 | Beta: 0.4698
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 189/2000 | Train ELBO: 229.5492 | Val ELBO: 244.4804 | Beta: 0.4723
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 190/2000 | Train ELBO: 229.5855 | Val ELBO: 243.9788 | Beta: 0.4748
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 191/2000 | Train ELBO: 229.3200 | Val ELBO: 243.5858 | Beta: 0.4773
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 192/2000 | Train ELBO: 229.1075 | Val ELBO: 243.3088 | Beta: 0.4798
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 193/2000 | Train ELBO: 228.9798 | Val ELBO: 243.0114 | Beta: 0.4823
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 194/2000 | Train ELBO: 228.7478 | Val ELBO: 242.8294 | Beta: 0.4848
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 195/2000 | Train ELBO: 228.6613 | Val ELBO: 242.5886 | Beta: 0.4873
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 196/2000 | Train ELBO: 228.4718 | Val ELBO: 242.2961 | Beta: 0.4898
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 197/2000 | Train ELBO: 228.2990 | Val ELBO: 242.0779 | Beta: 0.4923
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 198/2000 | Train ELBO: 228.0829 | Val ELBO: 241.7434 | Beta: 0.4948
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 199/2000 | Train ELBO: 228.0330 | Val ELBO: 241.5432 | Beta: 0.4973
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 200/2000 | Train ELBO: 227.8241 | Val ELBO: 241.2489 | Beta: 0.4998
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 201/2000 | Train ELBO: 227.6844 | Val ELBO: 241.0331 | Beta: 0.5022
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 202/2000 | Train ELBO: 227.5913 | Val ELBO: 240.8142 | Beta: 0.5048
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 203/2000 | Train ELBO: 227.3598 | Val ELBO: 240.5394 | Beta: 0.5072
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 204/2000 | Train ELBO: 227.2326 | Val ELBO: 240.3142 | Beta: 0.5098
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 205/2000 | Train ELBO: 227.0449 | Val ELBO: 240.0432 | Beta: 0.5122
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 206/2000 | Train ELBO: 226.9311 | Val ELBO: 239.9149 | Beta: 0.5148
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 207/2000 | Train ELBO: 226.8279 | Val ELBO: 239.7505 | Beta: 0.5172
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 208/2000 | Train ELBO: 226.7830 | Val ELBO: 239.2833 | Beta: 0.5198
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 209/2000 | Train ELBO: 226.5544 | Val ELBO: 238.9848 | Beta: 0.5222
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 210/2000 | Train ELBO: 226.3802 | Val ELBO: 238.9113 | Beta: 0.5248
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 211/2000 | Train ELBO: 226.1553 | Val ELBO: 238.9092 | Beta: 0.5272
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 212/2000 | Train ELBO: 226.1445 | Val ELBO: 238.4883 | Beta: 0.5298
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 213/2000 | Train ELBO: 225.9784 | Val ELBO: 238.3224 | Beta: 0.5323
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 214/2000 | Train ELBO: 225.7712 | Val ELBO: 237.8324 | Beta: 0.5347
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 215/2000 | Train ELBO: 225.5477 | Val ELBO: 237.5670 | Beta: 0.5373
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 216/2000 | Train ELBO: 225.4052 | Val ELBO: 237.3086 | Beta: 0.5397
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 217/2000 | Train ELBO: 225.2430 | Val ELBO: 237.0742 | Beta: 0.5423
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 218/2000 | Train ELBO: 225.0875 | Val ELBO: 236.8830 | Beta: 0.5447
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 219/2000 | Train ELBO: 224.9528 | Val ELBO: 236.8176 | Beta: 0.5473
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 220/2000 | Train ELBO: 224.8751 | Val ELBO: 236.4455 | Beta: 0.5497
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 221/2000 | Train ELBO: 224.6867 | Val ELBO: 236.0885 | Beta: 0.5523
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 222/2000 | Train ELBO: 224.4467 | Val ELBO: 235.9046 | Beta: 0.5547
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 223/2000 | Train ELBO: 224.3415 | Val ELBO: 235.6459 | Beta: 0.5573
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 224/2000 | Train ELBO: 224.1371 | Val ELBO: 235.3795 | Beta: 0.5597
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 225/2000 | Train ELBO: 223.9917 | Val ELBO: 235.1617 | Beta: 0.5623
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 226/2000 | Train ELBO: 223.8489 | Val ELBO: 234.9421 | Beta: 0.5647
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 227/2000 | Train ELBO: 223.6839 | Val ELBO: 234.7603 | Beta: 0.5673
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 228/2000 | Train ELBO: 223.5470 | Val ELBO: 234.5433 | Beta: 0.5697
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 229/2000 | Train ELBO: 223.4175 | Val ELBO: 234.3668 | Beta: 0.5723
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 230/2000 | Train ELBO: 223.2982 | Val ELBO: 234.0541 | Beta: 0.5747
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 231/2000 | Train ELBO: 223.1499 | Val ELBO: 233.8534 | Beta: 0.5773
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 232/2000 | Train ELBO: 222.9272 | Val ELBO: 233.6247 | Beta: 0.5797
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 233/2000 | Train ELBO: 222.8232 | Val ELBO: 233.4645 | Beta: 0.5823
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 234/2000 | Train ELBO: 222.7085 | Val ELBO: 233.2301 | Beta: 0.5847
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 235/2000 | Train ELBO: 222.5882 | Val ELBO: 232.9967 | Beta: 0.5873
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 236/2000 | Train ELBO: 222.3682 | Val ELBO: 232.7269 | Beta: 0.5897
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 237/2000 | Train ELBO: 222.2379 | Val ELBO: 232.6859 | Beta: 0.5923
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 238/2000 | Train ELBO: 222.1294 | Val ELBO: 232.3226 | Beta: 0.5948
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 239/2000 | Train ELBO: 221.9857 | Val ELBO: 232.0590 | Beta: 0.5972
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 240/2000 | Train ELBO: 221.8513 | Val ELBO: 231.9040 | Beta: 0.5998
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 241/2000 | Train ELBO: 221.7533 | Val ELBO: 231.7294 | Beta: 0.6022
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 242/2000 | Train ELBO: 221.6178 | Val ELBO: 231.6033 | Beta: 0.6048
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 243/2000 | Train ELBO: 221.4664 | Val ELBO: 231.3102 | Beta: 0.6072
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 244/2000 | Train ELBO: 221.2856 | Val ELBO: 231.1500 | Beta: 0.6098
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 245/2000 | Train ELBO: 221.1686 | Val ELBO: 231.0919 | Beta: 0.6122
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 246/2000 | Train ELBO: 221.0990 | Val ELBO: 230.7324 | Beta: 0.6148
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 247/2000 | Train ELBO: 220.9564 | Val ELBO: 230.6233 | Beta: 0.6172
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 248/2000 | Train ELBO: 220.8301 | Val ELBO: 230.3858 | Beta: 0.6198
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 249/2000 | Train ELBO: 220.7543 | Val ELBO: 230.1787 | Beta: 0.6222
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 250/2000 | Train ELBO: 220.5856 | Val ELBO: 229.9831 | Beta: 0.6248
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 251/2000 | Train ELBO: 220.4379 | Val ELBO: 229.8099 | Beta: 0.6272
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 252/2000 | Train ELBO: 220.2651 | Val ELBO: 229.6863 | Beta: 0.6298
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 253/2000 | Train ELBO: 220.2190 | Val ELBO: 229.4632 | Beta: 0.6322
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 254/2000 | Train ELBO: 220.1501 | Val ELBO: 229.2515 | Beta: 0.6348
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 255/2000 | Train ELBO: 219.9415 | Val ELBO: 229.0149 | Beta: 0.6372
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 256/2000 | Train ELBO: 219.8687 | Val ELBO: 228.8740 | Beta: 0.6398
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 257/2000 | Train ELBO: 219.7073 | Val ELBO: 228.6803 | Beta: 0.6422
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 258/2000 | Train ELBO: 219.5603 | Val ELBO: 228.5631 | Beta: 0.6448
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 259/2000 | Train ELBO: 219.5232 | Val ELBO: 228.3335 | Beta: 0.6472
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 260/2000 | Train ELBO: 219.4429 | Val ELBO: 228.1710 | Beta: 0.6498
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 261/2000 | Train ELBO: 219.3204 | Val ELBO: 228.0009 | Beta: 0.6522
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 262/2000 | Train ELBO: 219.1867 | Val ELBO: 227.7930 | Beta: 0.6548
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 263/2000 | Train ELBO: 219.0786 | Val ELBO: 227.6638 | Beta: 0.6573
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 264/2000 | Train ELBO: 218.9875 | Val ELBO: 227.4730 | Beta: 0.6597
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 265/2000 | Train ELBO: 218.8252 | Val ELBO: 227.5671 | Beta: 0.6623
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 266/2000 | Train ELBO: 218.8273 | Val ELBO: 227.2421 | Beta: 0.6647
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 267/2000 | Train ELBO: 218.7215 | Val ELBO: 227.0703 | Beta: 0.6673
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 268/2000 | Train ELBO: 218.5492 | Val ELBO: 226.8687 | Beta: 0.6697
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 269/2000 | Train ELBO: 218.4320 | Val ELBO: 226.6765 | Beta: 0.6723
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 270/2000 | Train ELBO: 218.3531 | Val ELBO: 226.5426 | Beta: 0.6747
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 271/2000 | Train ELBO: 218.2873 | Val ELBO: 226.3971 | Beta: 0.6773
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 272/2000 | Train ELBO: 218.2269 | Val ELBO: 226.3042 | Beta: 0.6797
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 273/2000 | Train ELBO: 218.0562 | Val ELBO: 226.1883 | Beta: 0.6823
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 274/2000 | Train ELBO: 217.9934 | Val ELBO: 225.9802 | Beta: 0.6847
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 275/2000 | Train ELBO: 217.9341 | Val ELBO: 225.8525 | Beta: 0.6873
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 276/2000 | Train ELBO: 217.7753 | Val ELBO: 225.7393 | Beta: 0.6897
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 277/2000 | Train ELBO: 217.7403 | Val ELBO: 225.6076 | Beta: 0.6923
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 278/2000 | Train ELBO: 217.6916 | Val ELBO: 225.4796 | Beta: 0.6947
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 279/2000 | Train ELBO: 217.5979 | Val ELBO: 225.3389 | Beta: 0.6973
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 280/2000 | Train ELBO: 217.4950 | Val ELBO: 225.1875 | Beta: 0.6997
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 281/2000 | Train ELBO: 217.4161 | Val ELBO: 225.0434 | Beta: 0.7023
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 282/2000 | Train ELBO: 217.2968 | Val ELBO: 224.8798 | Beta: 0.7047
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 283/2000 | Train ELBO: 217.2905 | Val ELBO: 224.8029 | Beta: 0.7073
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 284/2000 | Train ELBO: 217.1650 | Val ELBO: 224.6758 | Beta: 0.7097
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 285/2000 | Train ELBO: 217.0980 | Val ELBO: 224.5770 | Beta: 0.7123
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 286/2000 | Train ELBO: 216.9819 | Val ELBO: 224.4176 | Beta: 0.7147
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 287/2000 | Train ELBO: 216.9208 | Val ELBO: 224.2702 | Beta: 0.7173
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 288/2000 | Train ELBO: 216.8565 | Val ELBO: 224.2200 | Beta: 0.7198
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 289/2000 | Train ELBO: 216.8004 | Val ELBO: 224.1039 | Beta: 0.7222
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 290/2000 | Train ELBO: 216.7059 | Val ELBO: 223.9991 | Beta: 0.7248
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 291/2000 | Train ELBO: 216.6557 | Val ELBO: 223.8086 | Beta: 0.7272
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 292/2000 | Train ELBO: 216.5407 | Val ELBO: 223.7233 | Beta: 0.7298
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 293/2000 | Train ELBO: 216.4425 | Val ELBO: 223.6119 | Beta: 0.7322
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 294/2000 | Train ELBO: 216.3972 | Val ELBO: 223.4662 | Beta: 0.7348
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 295/2000 | Train ELBO: 216.2903 | Val ELBO: 223.4656 | Beta: 0.7372
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 296/2000 | Train ELBO: 216.3581 | Val ELBO: 223.3114 | Beta: 0.7398
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 297/2000 | Train ELBO: 216.2019 | Val ELBO: 223.1153 | Beta: 0.7422
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 298/2000 | Train ELBO: 216.1153 | Val ELBO: 223.0206 | Beta: 0.7448
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 299/2000 | Train ELBO: 216.0398 | Val ELBO: 222.9098 | Beta: 0.7472
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 300/2000 | Train ELBO: 215.9192 | Val ELBO: 222.8070 | Beta: 0.7498
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 301/2000 | Train ELBO: 215.8691 | Val ELBO: 222.7176 | Beta: 0.7522
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 302/2000 | Train ELBO: 215.8151 | Val ELBO: 222.6045 | Beta: 0.7548
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 303/2000 | Train ELBO: 215.7199 | Val ELBO: 222.5901 | Beta: 0.7572
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 304/2000 | Train ELBO: 215.7809 | Val ELBO: 222.3986 | Beta: 0.7598
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 305/2000 | Train ELBO: 215.6590 | Val ELBO: 222.3417 | Beta: 0.7622
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 306/2000 | Train ELBO: 215.6353 | Val ELBO: 222.2001 | Beta: 0.7648
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 307/2000 | Train ELBO: 215.4853 | Val ELBO: 222.0965 | Beta: 0.7672
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 308/2000 | Train ELBO: 215.4645 | Val ELBO: 221.9984 | Beta: 0.7698
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 309/2000 | Train ELBO: 215.3294 | Val ELBO: 221.8657 | Beta: 0.7722
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 310/2000 | Train ELBO: 215.2774 | Val ELBO: 221.7859 | Beta: 0.7748
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 311/2000 | Train ELBO: 215.2363 | Val ELBO: 221.6779 | Beta: 0.7772
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 312/2000 | Train ELBO: 215.1081 | Val ELBO: 221.6227 | Beta: 0.7798
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 313/2000 | Train ELBO: 215.0995 | Val ELBO: 221.4498 | Beta: 0.7823
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 314/2000 | Train ELBO: 215.0455 | Val ELBO: 221.4085 | Beta: 0.7847
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 315/2000 | Train ELBO: 214.9597 | Val ELBO: 221.3200 | Beta: 0.7873
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 316/2000 | Train ELBO: 214.8971 | Val ELBO: 221.1608 | Beta: 0.7897
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 317/2000 | Train ELBO: 214.8445 | Val ELBO: 221.0936 | Beta: 0.7923
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 318/2000 | Train ELBO: 214.8014 | Val ELBO: 221.0010 | Beta: 0.7947
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 319/2000 | Train ELBO: 214.6882 | Val ELBO: 220.9179 | Beta: 0.7973
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 320/2000 | Train ELBO: 214.6535 | Val ELBO: 220.8882 | Beta: 0.7997
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 321/2000 | Train ELBO: 214.6048 | Val ELBO: 220.7331 | Beta: 0.8023
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 322/2000 | Train ELBO: 214.5358 | Val ELBO: 220.6493 | Beta: 0.8047
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 323/2000 | Train ELBO: 214.4637 | Val ELBO: 220.5340 | Beta: 0.8073
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 324/2000 | Train ELBO: 214.4086 | Val ELBO: 220.4464 | Beta: 0.8097
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 325/2000 | Train ELBO: 214.3066 | Val ELBO: 220.3752 | Beta: 0.8123
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 326/2000 | Train ELBO: 214.2535 | Val ELBO: 220.3337 | Beta: 0.8147
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 327/2000 | Train ELBO: 214.2258 | Val ELBO: 220.1977 | Beta: 0.8173
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 328/2000 | Train ELBO: 214.2030 | Val ELBO: 220.2054 | Beta: 0.8197
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 329/2000 | Train ELBO: 214.0964 | Val ELBO: 220.0478 | Beta: 0.8223
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 330/2000 | Train ELBO: 214.0794 | Val ELBO: 219.9272 | Beta: 0.8247
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 331/2000 | Train ELBO: 214.0167 | Val ELBO: 219.8234 | Beta: 0.8273
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 332/2000 | Train ELBO: 213.8905 | Val ELBO: 219.7262 | Beta: 0.8297
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 333/2000 | Train ELBO: 213.7661 | Val ELBO: 219.7101 | Beta: 0.8323
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 334/2000 | Train ELBO: 213.7865 | Val ELBO: 219.5580 | Beta: 0.8347
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 335/2000 | Train ELBO: 213.7292 | Val ELBO: 219.4945 | Beta: 0.8373
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 336/2000 | Train ELBO: 213.6432 | Val ELBO: 219.3401 | Beta: 0.8397
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 337/2000 | Train ELBO: 213.5844 | Val ELBO: 219.2968 | Beta: 0.8423
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 338/2000 | Train ELBO: 213.4413 | Val ELBO: 219.2014 | Beta: 0.8448
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 339/2000 | Train ELBO: 213.4432 | Val ELBO: 219.1066 | Beta: 0.8472
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 340/2000 | Train ELBO: 213.3681 | Val ELBO: 219.0130 | Beta: 0.8498
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 341/2000 | Train ELBO: 213.3250 | Val ELBO: 218.9212 | Beta: 0.8522
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 342/2000 | Train ELBO: 213.2273 | Val ELBO: 218.8475 | Beta: 0.8548
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 343/2000 | Train ELBO: 213.1680 | Val ELBO: 218.7597 | Beta: 0.8572
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 344/2000 | Train ELBO: 213.1044 | Val ELBO: 218.7032 | Beta: 0.8598
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 345/2000 | Train ELBO: 213.0612 | Val ELBO: 218.5700 | Beta: 0.8622
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 346/2000 | Train ELBO: 212.9701 | Val ELBO: 218.4551 | Beta: 0.8648
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 347/2000 | Train ELBO: 212.9295 | Val ELBO: 218.3993 | Beta: 0.8672
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 348/2000 | Train ELBO: 212.8761 | Val ELBO: 218.3105 | Beta: 0.8698
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 349/2000 | Train ELBO: 212.7959 | Val ELBO: 218.2202 | Beta: 0.8722
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 350/2000 | Train ELBO: 212.7509 | Val ELBO: 218.1636 | Beta: 0.8748
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 351/2000 | Train ELBO: 212.6903 | Val ELBO: 218.0945 | Beta: 0.8772
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 352/2000 | Train ELBO: 212.5631 | Val ELBO: 217.9906 | Beta: 0.8798
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 353/2000 | Train ELBO: 212.5062 | Val ELBO: 217.9034 | Beta: 0.8822
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 354/2000 | Train ELBO: 212.4913 | Val ELBO: 217.8515 | Beta: 0.8848
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 355/2000 | Train ELBO: 212.3532 | Val ELBO: 217.7602 | Beta: 0.8872
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 356/2000 | Train ELBO: 212.4105 | Val ELBO: 217.6857 | Beta: 0.8898
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 357/2000 | Train ELBO: 212.2916 | Val ELBO: 217.5980 | Beta: 0.8922
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 358/2000 | Train ELBO: 212.2168 | Val ELBO: 217.5046 | Beta: 0.8948
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 359/2000 | Train ELBO: 212.1395 | Val ELBO: 217.4177 | Beta: 0.8972
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 360/2000 | Train ELBO: 212.0642 | Val ELBO: 217.3216 | Beta: 0.8998
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 361/2000 | Train ELBO: 212.0274 | Val ELBO: 217.2240 | Beta: 0.9022
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 362/2000 | Train ELBO: 211.9558 | Val ELBO: 217.1586 | Beta: 0.9048
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 363/2000 | Train ELBO: 211.8950 | Val ELBO: 217.0736 | Beta: 0.9073
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 364/2000 | Train ELBO: 211.8327 | Val ELBO: 217.0290 | Beta: 0.9097
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 365/2000 | Train ELBO: 211.8443 | Val ELBO: 217.0040 | Beta: 0.9123
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 366/2000 | Train ELBO: 211.7685 | Val ELBO: 216.8529 | Beta: 0.9147
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 367/2000 | Train ELBO: 211.6504 | Val ELBO: 216.7308 | Beta: 0.9173
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 368/2000 | Train ELBO: 211.5547 | Val ELBO: 216.6470 | Beta: 0.9197
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 369/2000 | Train ELBO: 211.4982 | Val ELBO: 216.5671 | Beta: 0.9223
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 370/2000 | Train ELBO: 211.4788 | Val ELBO: 216.5057 | Beta: 0.9247
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 371/2000 | Train ELBO: 211.3927 | Val ELBO: 216.4112 | Beta: 0.9273
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 372/2000 | Train ELBO: 211.3268 | Val ELBO: 216.3297 | Beta: 0.9297
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 373/2000 | Train ELBO: 211.2716 | Val ELBO: 216.2663 | Beta: 0.9323
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 374/2000 | Train ELBO: 211.2223 | Val ELBO: 216.1807 | Beta: 0.9347
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 375/2000 | Train ELBO: 211.1635 | Val ELBO: 216.0921 | Beta: 0.9373
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 376/2000 | Train ELBO: 211.1210 | Val ELBO: 216.0138 | Beta: 0.9397
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 377/2000 | Train ELBO: 211.0563 | Val ELBO: 215.9512 | Beta: 0.9423
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 378/2000 | Train ELBO: 210.9900 | Val ELBO: 215.8877 | Beta: 0.9447
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 379/2000 | Train ELBO: 210.9546 | Val ELBO: 215.8886 | Beta: 0.9473
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 380/2000 | Train ELBO: 210.9285 | Val ELBO: 215.7283 | Beta: 0.9497
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 381/2000 | Train ELBO: 210.8370 | Val ELBO: 215.6889 | Beta: 0.9523
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 382/2000 | Train ELBO: 210.8281 | Val ELBO: 215.6008 | Beta: 0.9547
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 383/2000 | Train ELBO: 210.6818 | Val ELBO: 215.5018 | Beta: 0.9573
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 384/2000 | Train ELBO: 210.6349 | Val ELBO: 215.4437 | Beta: 0.9597
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 385/2000 | Train ELBO: 210.5731 | Val ELBO: 215.3718 | Beta: 0.9623
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 386/2000 | Train ELBO: 210.5330 | Val ELBO: 215.2900 | Beta: 0.9647
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 387/2000 | Train ELBO: 210.5427 | Val ELBO: 215.2276 | Beta: 0.9673
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 388/2000 | Train ELBO: 210.4768 | Val ELBO: 215.1658 | Beta: 0.9698
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 389/2000 | Train ELBO: 210.3830 | Val ELBO: 215.0742 | Beta: 0.9722
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 390/2000 | Train ELBO: 210.3830 | Val ELBO: 215.0169 | Beta: 0.9748
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 391/2000 | Train ELBO: 210.2855 | Val ELBO: 214.9407 | Beta: 0.9772
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 392/2000 | Train ELBO: 210.2379 | Val ELBO: 214.9265 | Beta: 0.9798
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 393/2000 | Train ELBO: 210.2284 | Val ELBO: 214.8112 | Beta: 0.9822
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 394/2000 | Train ELBO: 210.1454 | Val ELBO: 214.7639 | Beta: 0.9848
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 395/2000 | Train ELBO: 210.1171 | Val ELBO: 214.6933 | Beta: 0.9872
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 396/2000 | Train ELBO: 210.1247 | Val ELBO: 214.6606 | Beta: 0.9898
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 397/2000 | Train ELBO: 209.9953 | Val ELBO: 214.5853 | Beta: 0.9922
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 398/2000 | Train ELBO: 209.9534 | Val ELBO: 214.4974 | Beta: 0.9948
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 399/2000 | Train ELBO: 209.9596 | Val ELBO: 214.4418 | Beta: 0.9972
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 400/2000 | Train ELBO: 209.9355 | Val ELBO: 214.3982 | Beta: 0.9998
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 401/2000 | Train ELBO: 209.8389 | Val ELBO: 214.3174 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 402/2000 | Train ELBO: 209.7957 | Val ELBO: 214.2856 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 403/2000 | Train ELBO: 209.7261 | Val ELBO: 214.1869 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 404/2000 | Train ELBO: 209.6466 | Val ELBO: 214.1327 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 405/2000 | Train ELBO: 209.5568 | Val ELBO: 214.1691 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 406/2000 | Train ELBO: 209.5241 | Val ELBO: 214.0295 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 407/2000 | Train ELBO: 209.4369 | Val ELBO: 213.9482 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 408/2000 | Train ELBO: 209.3849 | Val ELBO: 213.9160 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 409/2000 | Train ELBO: 209.2596 | Val ELBO: 213.8552 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 410/2000 | Train ELBO: 209.2138 | Val ELBO: 213.7923 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 411/2000 | Train ELBO: 209.1395 | Val ELBO: 213.7923 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 412/2000 | Train ELBO: 209.0186 | Val ELBO: 213.6595 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 413/2000 | Train ELBO: 208.9728 | Val ELBO: 213.5921 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 414/2000 | Train ELBO: 208.9581 | Val ELBO: 213.5690 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 415/2000 | Train ELBO: 208.7785 | Val ELBO: 213.4782 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 416/2000 | Train ELBO: 208.7479 | Val ELBO: 213.4360 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 417/2000 | Train ELBO: 208.6579 | Val ELBO: 213.3939 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 418/2000 | Train ELBO: 208.6344 | Val ELBO: 213.3410 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 419/2000 | Train ELBO: 208.5371 | Val ELBO: 213.3902 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 420/2000 | Train ELBO: 208.5007 | Val ELBO: 213.2266 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 421/2000 | Train ELBO: 208.4233 | Val ELBO: 213.1984 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 422/2000 | Train ELBO: 208.3716 | Val ELBO: 213.1128 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 423/2000 | Train ELBO: 208.2675 | Val ELBO: 213.0569 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 424/2000 | Train ELBO: 208.1678 | Val ELBO: 212.9820 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 425/2000 | Train ELBO: 208.1173 | Val ELBO: 212.9521 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 426/2000 | Train ELBO: 208.0589 | Val ELBO: 212.8792 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 427/2000 | Train ELBO: 207.9715 | Val ELBO: 212.8365 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 428/2000 | Train ELBO: 207.9242 | Val ELBO: 212.8806 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 429/2000 | Train ELBO: 207.8782 | Val ELBO: 212.7506 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 430/2000 | Train ELBO: 207.7880 | Val ELBO: 212.6910 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 431/2000 | Train ELBO: 207.7017 | Val ELBO: 212.6396 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 432/2000 | Train ELBO: 207.6246 | Val ELBO: 212.5434 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 433/2000 | Train ELBO: 207.6207 | Val ELBO: 212.5846 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 434/2000 | Train ELBO: 207.4693 | Val ELBO: 212.5819 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 435/2000 | Train ELBO: 207.4019 | Val ELBO: 212.4313 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 436/2000 | Train ELBO: 207.3077 | Val ELBO: 212.3540 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 437/2000 | Train ELBO: 207.2486 | Val ELBO: 212.3221 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 438/2000 | Train ELBO: 207.2227 | Val ELBO: 212.3115 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 439/2000 | Train ELBO: 207.1308 | Val ELBO: 212.4225 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 440/2000 | Train ELBO: 207.0493 | Val ELBO: 212.1743 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 441/2000 | Train ELBO: 206.9901 | Val ELBO: 212.0784 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 442/2000 | Train ELBO: 206.9237 | Val ELBO: 212.1186 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 443/2000 | Train ELBO: 206.8644 | Val ELBO: 212.0083 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 444/2000 | Train ELBO: 206.7756 | Val ELBO: 211.9384 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 445/2000 | Train ELBO: 206.6950 | Val ELBO: 211.8430 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 446/2000 | Train ELBO: 206.6168 | Val ELBO: 211.7950 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 447/2000 | Train ELBO: 206.5501 | Val ELBO: 211.7302 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 448/2000 | Train ELBO: 206.4767 | Val ELBO: 211.6865 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 449/2000 | Train ELBO: 206.4175 | Val ELBO: 211.6402 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 450/2000 | Train ELBO: 206.3252 | Val ELBO: 211.5833 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 451/2000 | Train ELBO: 206.2651 | Val ELBO: 211.5343 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 452/2000 | Train ELBO: 206.1587 | Val ELBO: 211.4797 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 453/2000 | Train ELBO: 206.0930 | Val ELBO: 211.4459 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 454/2000 | Train ELBO: 206.0652 | Val ELBO: 211.3618 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 455/2000 | Train ELBO: 206.0164 | Val ELBO: 211.2729 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 456/2000 | Train ELBO: 205.8838 | Val ELBO: 211.2258 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 457/2000 | Train ELBO: 205.8638 | Val ELBO: 211.1920 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 458/2000 | Train ELBO: 205.7804 | Val ELBO: 211.1983 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 459/2000 | Train ELBO: 205.6863 | Val ELBO: 211.0437 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 460/2000 | Train ELBO: 205.6087 | Val ELBO: 211.0068 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 461/2000 | Train ELBO: 205.5595 | Val ELBO: 211.0119 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 462/2000 | Train ELBO: 205.4340 | Val ELBO: 210.9328 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 463/2000 | Train ELBO: 205.4018 | Val ELBO: 210.8289 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 464/2000 | Train ELBO: 205.2623 | Val ELBO: 210.7822 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 465/2000 | Train ELBO: 205.2676 | Val ELBO: 210.7225 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 466/2000 | Train ELBO: 205.1401 | Val ELBO: 210.7729 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 467/2000 | Train ELBO: 205.1230 | Val ELBO: 210.6264 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 468/2000 | Train ELBO: 205.0378 | Val ELBO: 210.5723 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 469/2000 | Train ELBO: 204.9432 | Val ELBO: 210.5297 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 470/2000 | Train ELBO: 204.9267 | Val ELBO: 210.4711 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 471/2000 | Train ELBO: 204.8082 | Val ELBO: 210.3930 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 472/2000 | Train ELBO: 204.7376 | Val ELBO: 210.3437 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 473/2000 | Train ELBO: 204.6604 | Val ELBO: 210.2805 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 474/2000 | Train ELBO: 204.5738 | Val ELBO: 210.6075 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 475/2000 | Train ELBO: 204.6482 | Val ELBO: 210.1718 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 476/2000 | Train ELBO: 204.4939 | Val ELBO: 210.2683 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 477/2000 | Train ELBO: 204.4234 | Val ELBO: 210.2010 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 478/2000 | Train ELBO: 204.3358 | Val ELBO: 210.0567 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 479/2000 | Train ELBO: 204.2939 | Val ELBO: 210.1663 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 480/2000 | Train ELBO: 204.1605 | Val ELBO: 209.8771 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 481/2000 | Train ELBO: 204.0639 | Val ELBO: 209.8757 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 482/2000 | Train ELBO: 204.0168 | Val ELBO: 209.7891 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 483/2000 | Train ELBO: 203.9192 | Val ELBO: 209.7247 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 484/2000 | Train ELBO: 203.8322 | Val ELBO: 209.7101 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 485/2000 | Train ELBO: 203.7903 | Val ELBO: 209.6435 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 486/2000 | Train ELBO: 203.6845 | Val ELBO: 209.5898 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 487/2000 | Train ELBO: 203.6235 | Val ELBO: 209.5084 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 488/2000 | Train ELBO: 203.6344 | Val ELBO: 209.4688 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 489/2000 | Train ELBO: 203.4820 | Val ELBO: 209.4121 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 490/2000 | Train ELBO: 203.4121 | Val ELBO: 209.3396 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 491/2000 | Train ELBO: 203.3560 | Val ELBO: 209.3258 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 492/2000 | Train ELBO: 203.3378 | Val ELBO: 209.2730 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 493/2000 | Train ELBO: 203.2046 | Val ELBO: 209.2694 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 494/2000 | Train ELBO: 203.1582 | Val ELBO: 209.1845 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 495/2000 | Train ELBO: 203.0342 | Val ELBO: 209.1021 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 496/2000 | Train ELBO: 203.0515 | Val ELBO: 209.0456 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 497/2000 | Train ELBO: 202.8879 | Val ELBO: 209.0164 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 498/2000 | Train ELBO: 202.8500 | Val ELBO: 208.9822 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 499/2000 | Train ELBO: 202.7486 | Val ELBO: 208.9515 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 500/2000 | Train ELBO: 202.7257 | Val ELBO: 208.8425 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 501/2000 | Train ELBO: 202.6215 | Val ELBO: 208.7804 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 502/2000 | Train ELBO: 202.6018 | Val ELBO: 208.7233 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 503/2000 | Train ELBO: 202.4770 | Val ELBO: 208.6786 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 504/2000 | Train ELBO: 202.4465 | Val ELBO: 208.6357 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 505/2000 | Train ELBO: 202.3451 | Val ELBO: 208.5675 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 506/2000 | Train ELBO: 202.3619 | Val ELBO: 208.4995 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 507/2000 | Train ELBO: 202.2276 | Val ELBO: 208.4743 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 508/2000 | Train ELBO: 202.1309 | Val ELBO: 208.4227 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 509/2000 | Train ELBO: 202.0855 | Val ELBO: 208.3818 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 510/2000 | Train ELBO: 202.0418 | Val ELBO: 208.3316 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 511/2000 | Train ELBO: 201.8864 | Val ELBO: 208.3049 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 512/2000 | Train ELBO: 201.8676 | Val ELBO: 208.2911 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 513/2000 | Train ELBO: 201.8184 | Val ELBO: 208.3283 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 514/2000 | Train ELBO: 201.7551 | Val ELBO: 208.1484 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 515/2000 | Train ELBO: 201.6727 | Val ELBO: 208.1293 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 516/2000 | Train ELBO: 201.5906 | Val ELBO: 208.0312 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 517/2000 | Train ELBO: 201.5109 | Val ELBO: 208.0033 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 518/2000 | Train ELBO: 201.4583 | Val ELBO: 207.9458 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 519/2000 | Train ELBO: 201.3940 | Val ELBO: 207.8925 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 520/2000 | Train ELBO: 201.2808 | Val ELBO: 207.8363 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 521/2000 | Train ELBO: 201.2386 | Val ELBO: 207.8677 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 522/2000 | Train ELBO: 201.1559 | Val ELBO: 207.7872 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 523/2000 | Train ELBO: 201.1225 | Val ELBO: 207.7536 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 524/2000 | Train ELBO: 201.0164 | Val ELBO: 207.6893 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 525/2000 | Train ELBO: 200.9916 | Val ELBO: 207.6739 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 526/2000 | Train ELBO: 200.9327 | Val ELBO: 207.6699 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 527/2000 | Train ELBO: 200.9362 | Val ELBO: 207.7585 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 528/2000 | Train ELBO: 200.8601 | Val ELBO: 207.5808 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 529/2000 | Train ELBO: 200.7134 | Val ELBO: 207.4474 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 530/2000 | Train ELBO: 200.7215 | Val ELBO: 207.4260 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 531/2000 | Train ELBO: 200.5943 | Val ELBO: 207.3770 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 532/2000 | Train ELBO: 200.5520 | Val ELBO: 207.3261 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 533/2000 | Train ELBO: 200.5328 | Val ELBO: 207.3136 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 534/2000 | Train ELBO: 200.3873 | Val ELBO: 207.2854 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 535/2000 | Train ELBO: 200.3376 | Val ELBO: 207.2179 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 536/2000 | Train ELBO: 200.2438 | Val ELBO: 207.2259 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 537/2000 | Train ELBO: 200.2377 | Val ELBO: 207.1759 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 538/2000 | Train ELBO: 200.1847 | Val ELBO: 207.1824 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 539/2000 | Train ELBO: 200.0875 | Val ELBO: 207.1053 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 540/2000 | Train ELBO: 200.0312 | Val ELBO: 207.0280 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 541/2000 | Train ELBO: 199.9635 | Val ELBO: 206.9865 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 542/2000 | Train ELBO: 199.8819 | Val ELBO: 206.9447 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 543/2000 | Train ELBO: 199.8551 | Val ELBO: 206.9075 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 544/2000 | Train ELBO: 199.7559 | Val ELBO: 206.9037 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 545/2000 | Train ELBO: 199.7709 | Val ELBO: 206.8602 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 546/2000 | Train ELBO: 199.6226 | Val ELBO: 206.7828 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 547/2000 | Train ELBO: 199.5577 | Val ELBO: 206.7581 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 548/2000 | Train ELBO: 199.5638 | Val ELBO: 206.7505 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 549/2000 | Train ELBO: 199.5202 | Val ELBO: 206.7073 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 550/2000 | Train ELBO: 199.4444 | Val ELBO: 206.6547 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 551/2000 | Train ELBO: 199.3817 | Val ELBO: 206.6351 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 552/2000 | Train ELBO: 199.3022 | Val ELBO: 206.5972 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 553/2000 | Train ELBO: 199.1948 | Val ELBO: 206.5548 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 554/2000 | Train ELBO: 199.2524 | Val ELBO: 206.5233 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 555/2000 | Train ELBO: 199.1044 | Val ELBO: 206.5004 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 556/2000 | Train ELBO: 199.0902 | Val ELBO: 206.4213 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 557/2000 | Train ELBO: 199.0005 | Val ELBO: 206.4665 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 558/2000 | Train ELBO: 198.9871 | Val ELBO: 206.4674 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 559/2000 | Train ELBO: 198.9608 | Val ELBO: 206.3682 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 560/2000 | Train ELBO: 198.8324 | Val ELBO: 206.3133 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 561/2000 | Train ELBO: 198.8357 | Val ELBO: 206.2665 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 562/2000 | Train ELBO: 198.7225 | Val ELBO: 206.2552 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 563/2000 | Train ELBO: 198.7331 | Val ELBO: 206.2755 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 564/2000 | Train ELBO: 198.7487 | Val ELBO: 206.1908 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 565/2000 | Train ELBO: 198.6146 | Val ELBO: 206.3647 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 566/2000 | Train ELBO: 198.5718 | Val ELBO: 206.2133 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 567/2000 | Train ELBO: 198.4913 | Val ELBO: 206.2095 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 568/2000 | Train ELBO: 198.4496 | Val ELBO: 206.0995 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 569/2000 | Train ELBO: 198.3601 | Val ELBO: 206.0847 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 570/2000 | Train ELBO: 198.3099 | Val ELBO: 206.0298 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 571/2000 | Train ELBO: 198.3003 | Val ELBO: 206.0665 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 572/2000 | Train ELBO: 198.2827 | Val ELBO: 206.0045 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 573/2000 | Train ELBO: 198.1567 | Val ELBO: 206.0795 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 574/2000 | Train ELBO: 198.1379 | Val ELBO: 205.9249 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 575/2000 | Train ELBO: 198.1384 | Val ELBO: 205.8904 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 576/2000 | Train ELBO: 198.0618 | Val ELBO: 205.8667 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 577/2000 | Train ELBO: 197.9589 | Val ELBO: 205.8519 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 578/2000 | Train ELBO: 197.9533 | Val ELBO: 205.8788 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 579/2000 | Train ELBO: 197.8958 | Val ELBO: 205.8258 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 580/2000 | Train ELBO: 197.8898 | Val ELBO: 205.7938 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 581/2000 | Train ELBO: 197.8120 | Val ELBO: 205.7693 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 582/2000 | Train ELBO: 197.7423 | Val ELBO: 205.7741 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 583/2000 | Train ELBO: 197.6816 | Val ELBO: 205.7594 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 584/2000 | Train ELBO: 197.6447 | Val ELBO: 205.6816 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 585/2000 | Train ELBO: 197.6173 | Val ELBO: 205.6853 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 586/2000 | Train ELBO: 197.5570 | Val ELBO: 205.6813 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 587/2000 | Train ELBO: 197.5081 | Val ELBO: 205.6382 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 588/2000 | Train ELBO: 197.4515 | Val ELBO: 205.6386 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 589/2000 | Train ELBO: 197.4378 | Val ELBO: 205.6334 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 590/2000 | Train ELBO: 197.3699 | Val ELBO: 205.5588 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 591/2000 | Train ELBO: 197.3367 | Val ELBO: 205.5524 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 592/2000 | Train ELBO: 197.2580 | Val ELBO: 205.5467 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 593/2000 | Train ELBO: 197.2522 | Val ELBO: 205.5008 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 594/2000 | Train ELBO: 197.2256 | Val ELBO: 205.4655 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 595/2000 | Train ELBO: 197.1826 | Val ELBO: 205.4232 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 596/2000 | Train ELBO: 197.1101 | Val ELBO: 205.4175 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 597/2000 | Train ELBO: 197.1103 | Val ELBO: 205.3956 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 598/2000 | Train ELBO: 197.0464 | Val ELBO: 205.3776 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 599/2000 | Train ELBO: 196.9862 | Val ELBO: 205.3600 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 600/2000 | Train ELBO: 196.9670 | Val ELBO: 205.3263 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 601/2000 | Train ELBO: 196.9260 | Val ELBO: 205.3184 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 602/2000 | Train ELBO: 196.8431 | Val ELBO: 205.2915 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 603/2000 | Train ELBO: 196.8859 | Val ELBO: 205.3290 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 604/2000 | Train ELBO: 196.7924 | Val ELBO: 205.2867 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 605/2000 | Train ELBO: 196.7163 | Val ELBO: 205.2201 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 606/2000 | Train ELBO: 196.7546 | Val ELBO: 205.2434 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 607/2000 | Train ELBO: 196.6766 | Val ELBO: 205.1938 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 608/2000 | Train ELBO: 196.6077 | Val ELBO: 205.3330 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 609/2000 | Train ELBO: 196.6061 | Val ELBO: 205.1507 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 610/2000 | Train ELBO: 196.5656 | Val ELBO: 205.1524 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 611/2000 | Train ELBO: 196.4793 | Val ELBO: 205.1428 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 612/2000 | Train ELBO: 196.4145 | Val ELBO: 205.1025 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 613/2000 | Train ELBO: 196.4082 | Val ELBO: 205.1155 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 614/2000 | Train ELBO: 196.4031 | Val ELBO: 205.1317 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 615/2000 | Train ELBO: 196.3327 | Val ELBO: 205.0561 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 616/2000 | Train ELBO: 196.2638 | Val ELBO: 205.0632 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 617/2000 | Train ELBO: 196.2534 | Val ELBO: 205.0087 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 618/2000 | Train ELBO: 196.1796 | Val ELBO: 204.9967 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 619/2000 | Train ELBO: 196.1714 | Val ELBO: 204.9983 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 620/2000 | Train ELBO: 196.1396 | Val ELBO: 204.9640 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 621/2000 | Train ELBO: 196.0963 | Val ELBO: 204.9414 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 622/2000 | Train ELBO: 196.0756 | Val ELBO: 204.9451 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 623/2000 | Train ELBO: 196.0240 | Val ELBO: 204.9033 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 624/2000 | Train ELBO: 195.9862 | Val ELBO: 204.8883 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 625/2000 | Train ELBO: 195.9370 | Val ELBO: 204.8915 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 626/2000 | Train ELBO: 195.9198 | Val ELBO: 204.8799 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 627/2000 | Train ELBO: 195.8165 | Val ELBO: 204.8155 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 628/2000 | Train ELBO: 195.8065 | Val ELBO: 204.8002 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 629/2000 | Train ELBO: 195.7531 | Val ELBO: 204.7779 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 630/2000 | Train ELBO: 195.6852 | Val ELBO: 204.7820 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 631/2000 | Train ELBO: 195.7013 | Val ELBO: 204.7596 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 632/2000 | Train ELBO: 195.6853 | Val ELBO: 204.7427 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 633/2000 | Train ELBO: 195.5881 | Val ELBO: 204.7065 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 634/2000 | Train ELBO: 195.5461 | Val ELBO: 204.6994 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 635/2000 | Train ELBO: 195.5352 | Val ELBO: 204.8118 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 636/2000 | Train ELBO: 195.4779 | Val ELBO: 204.6940 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 637/2000 | Train ELBO: 195.4772 | Val ELBO: 204.6587 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 638/2000 | Train ELBO: 195.3574 | Val ELBO: 204.6596 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 639/2000 | Train ELBO: 195.3177 | Val ELBO: 204.6510 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 640/2000 | Train ELBO: 195.2860 | Val ELBO: 204.5996 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 641/2000 | Train ELBO: 195.2724 | Val ELBO: 204.6754 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 642/2000 | Train ELBO: 195.2674 | Val ELBO: 204.5699 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 643/2000 | Train ELBO: 195.2146 | Val ELBO: 204.5393 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 644/2000 | Train ELBO: 195.1458 | Val ELBO: 204.5186 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 645/2000 | Train ELBO: 195.1101 | Val ELBO: 204.5113 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 646/2000 | Train ELBO: 195.0558 | Val ELBO: 204.4586 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 647/2000 | Train ELBO: 195.0567 | Val ELBO: 204.4543 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 648/2000 | Train ELBO: 194.9768 | Val ELBO: 204.4457 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 649/2000 | Train ELBO: 194.9747 | Val ELBO: 204.4661 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 650/2000 | Train ELBO: 194.9217 | Val ELBO: 204.4265 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 651/2000 | Train ELBO: 194.8278 | Val ELBO: 204.4523 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 652/2000 | Train ELBO: 194.8265 | Val ELBO: 204.3541 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 653/2000 | Train ELBO: 194.7655 | Val ELBO: 204.3488 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 654/2000 | Train ELBO: 194.7439 | Val ELBO: 204.2830 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 655/2000 | Train ELBO: 194.6825 | Val ELBO: 204.3118 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 656/2000 | Train ELBO: 194.6444 | Val ELBO: 204.3044 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 657/2000 | Train ELBO: 194.5742 | Val ELBO: 204.2497 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 658/2000 | Train ELBO: 194.5680 | Val ELBO: 204.2265 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 659/2000 | Train ELBO: 194.4848 | Val ELBO: 204.2085 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 660/2000 | Train ELBO: 194.5206 | Val ELBO: 204.1925 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 661/2000 | Train ELBO: 194.4556 | Val ELBO: 204.1545 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 662/2000 | Train ELBO: 194.3644 | Val ELBO: 204.1530 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 663/2000 | Train ELBO: 194.3401 | Val ELBO: 204.1357 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 664/2000 | Train ELBO: 194.3091 | Val ELBO: 204.1537 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 665/2000 | Train ELBO: 194.2686 | Val ELBO: 204.0929 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 666/2000 | Train ELBO: 194.2385 | Val ELBO: 204.0756 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 667/2000 | Train ELBO: 194.1483 | Val ELBO: 204.1934 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 668/2000 | Train ELBO: 194.1537 | Val ELBO: 204.0865 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 669/2000 | Train ELBO: 194.0941 | Val ELBO: 204.0382 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 670/2000 | Train ELBO: 194.0373 | Val ELBO: 204.0263 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 671/2000 | Train ELBO: 193.9925 | Val ELBO: 204.0026 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 672/2000 | Train ELBO: 193.9375 | Val ELBO: 204.0180 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 673/2000 | Train ELBO: 193.9095 | Val ELBO: 203.9562 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 674/2000 | Train ELBO: 193.8661 | Val ELBO: 203.9386 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 675/2000 | Train ELBO: 193.8444 | Val ELBO: 203.9195 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 676/2000 | Train ELBO: 193.7946 | Val ELBO: 203.9962 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 677/2000 | Train ELBO: 193.7370 | Val ELBO: 203.8966 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 678/2000 | Train ELBO: 193.6910 | Val ELBO: 203.9307 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 679/2000 | Train ELBO: 193.6728 | Val ELBO: 203.8801 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 680/2000 | Train ELBO: 193.6708 | Val ELBO: 203.8679 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 681/2000 | Train ELBO: 193.6105 | Val ELBO: 203.8057 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 682/2000 | Train ELBO: 193.5397 | Val ELBO: 203.8373 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 683/2000 | Train ELBO: 193.4992 | Val ELBO: 203.7678 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 684/2000 | Train ELBO: 193.4653 | Val ELBO: 203.7953 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 685/2000 | Train ELBO: 193.4278 | Val ELBO: 203.7420 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 686/2000 | Train ELBO: 193.3874 | Val ELBO: 203.7462 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 687/2000 | Train ELBO: 193.3449 | Val ELBO: 203.7528 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 688/2000 | Train ELBO: 193.3185 | Val ELBO: 203.6870 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 689/2000 | Train ELBO: 193.2488 | Val ELBO: 203.6962 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 690/2000 | Train ELBO: 193.2038 | Val ELBO: 203.6488 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 691/2000 | Train ELBO: 193.1392 | Val ELBO: 203.6483 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 692/2000 | Train ELBO: 193.1583 | Val ELBO: 203.6306 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 693/2000 | Train ELBO: 193.1122 | Val ELBO: 203.6088 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 694/2000 | Train ELBO: 193.0825 | Val ELBO: 203.6219 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 695/2000 | Train ELBO: 193.0235 | Val ELBO: 203.6022 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 696/2000 | Train ELBO: 192.9781 | Val ELBO: 203.5687 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 697/2000 | Train ELBO: 192.9153 | Val ELBO: 203.5686 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 698/2000 | Train ELBO: 192.8906 | Val ELBO: 203.5521 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 699/2000 | Train ELBO: 192.8360 | Val ELBO: 203.5549 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 700/2000 | Train ELBO: 192.7886 | Val ELBO: 203.5000 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 701/2000 | Train ELBO: 192.7213 | Val ELBO: 203.5509 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 702/2000 | Train ELBO: 192.7198 | Val ELBO: 203.4659 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 703/2000 | Train ELBO: 192.6884 | Val ELBO: 203.4126 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 704/2000 | Train ELBO: 192.6737 | Val ELBO: 203.4357 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 705/2000 | Train ELBO: 192.6342 | Val ELBO: 203.3911 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 706/2000 | Train ELBO: 192.5510 | Val ELBO: 203.3638 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 707/2000 | Train ELBO: 192.5422 | Val ELBO: 203.3690 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 708/2000 | Train ELBO: 192.5211 | Val ELBO: 203.3967 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 709/2000 | Train ELBO: 192.4510 | Val ELBO: 203.3198 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 710/2000 | Train ELBO: 192.3712 | Val ELBO: 203.3677 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 711/2000 | Train ELBO: 192.3717 | Val ELBO: 203.2794 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 712/2000 | Train ELBO: 192.3405 | Val ELBO: 203.3000 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 713/2000 | Train ELBO: 192.2769 | Val ELBO: 203.2714 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 714/2000 | Train ELBO: 192.2782 | Val ELBO: 203.2349 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 715/2000 | Train ELBO: 192.2177 | Val ELBO: 203.2360 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 716/2000 | Train ELBO: 192.1583 | Val ELBO: 203.2257 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 717/2000 | Train ELBO: 192.1467 | Val ELBO: 203.2122 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 718/2000 | Train ELBO: 192.0907 | Val ELBO: 203.2215 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 719/2000 | Train ELBO: 192.0448 | Val ELBO: 203.1380 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 720/2000 | Train ELBO: 192.0088 | Val ELBO: 203.1597 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 721/2000 | Train ELBO: 191.9657 | Val ELBO: 203.2077 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 722/2000 | Train ELBO: 191.9215 | Val ELBO: 203.1764 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 723/2000 | Train ELBO: 191.8797 | Val ELBO: 203.0900 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 724/2000 | Train ELBO: 191.8724 | Val ELBO: 203.1412 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 725/2000 | Train ELBO: 191.8358 | Val ELBO: 203.2297 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 726/2000 | Train ELBO: 191.8594 | Val ELBO: 203.0938 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 727/2000 | Train ELBO: 191.7865 | Val ELBO: 203.2248 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 728/2000 | Train ELBO: 191.7265 | Val ELBO: 203.0341 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 729/2000 | Train ELBO: 191.7012 | Val ELBO: 203.0177 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 730/2000 | Train ELBO: 191.6042 | Val ELBO: 203.0492 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 731/2000 | Train ELBO: 191.5631 | Val ELBO: 203.0444 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 732/2000 | Train ELBO: 191.5474 | Val ELBO: 203.0247 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 733/2000 | Train ELBO: 191.5226 | Val ELBO: 202.9734 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 734/2000 | Train ELBO: 191.5028 | Val ELBO: 203.0255 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 735/2000 | Train ELBO: 191.4551 | Val ELBO: 202.9400 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 736/2000 | Train ELBO: 191.3852 | Val ELBO: 202.9103 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 737/2000 | Train ELBO: 191.3576 | Val ELBO: 202.8900 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 738/2000 | Train ELBO: 191.2852 | Val ELBO: 202.9054 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 739/2000 | Train ELBO: 191.2752 | Val ELBO: 202.9429 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 740/2000 | Train ELBO: 191.2938 | Val ELBO: 202.8484 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 741/2000 | Train ELBO: 191.2101 | Val ELBO: 202.8358 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 742/2000 | Train ELBO: 191.1667 | Val ELBO: 202.8414 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 743/2000 | Train ELBO: 191.1240 | Val ELBO: 202.8309 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 744/2000 | Train ELBO: 191.0553 | Val ELBO: 202.8106 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 745/2000 | Train ELBO: 191.0274 | Val ELBO: 202.7818 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 746/2000 | Train ELBO: 191.0301 | Val ELBO: 202.7740 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 747/2000 | Train ELBO: 190.9589 | Val ELBO: 202.8138 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 748/2000 | Train ELBO: 190.9385 | Val ELBO: 202.7475 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 749/2000 | Train ELBO: 190.8696 | Val ELBO: 202.7829 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 750/2000 | Train ELBO: 190.8430 | Val ELBO: 202.8087 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 751/2000 | Train ELBO: 190.8385 | Val ELBO: 202.7174 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 752/2000 | Train ELBO: 190.8107 | Val ELBO: 202.7428 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 753/2000 | Train ELBO: 190.7465 | Val ELBO: 202.6934 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 754/2000 | Train ELBO: 190.7367 | Val ELBO: 202.7063 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 755/2000 | Train ELBO: 190.6482 | Val ELBO: 202.6697 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 756/2000 | Train ELBO: 190.6496 | Val ELBO: 202.6785 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 757/2000 | Train ELBO: 190.5679 | Val ELBO: 202.6280 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 758/2000 | Train ELBO: 190.5342 | Val ELBO: 202.6402 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 759/2000 | Train ELBO: 190.5057 | Val ELBO: 202.6813 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 760/2000 | Train ELBO: 190.4930 | Val ELBO: 202.5946 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 761/2000 | Train ELBO: 190.4650 | Val ELBO: 202.6134 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 762/2000 | Train ELBO: 190.3942 | Val ELBO: 202.6033 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 763/2000 | Train ELBO: 190.3177 | Val ELBO: 202.5818 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 764/2000 | Train ELBO: 190.3364 | Val ELBO: 202.5781 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 765/2000 | Train ELBO: 190.2835 | Val ELBO: 202.5024 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 766/2000 | Train ELBO: 190.2086 | Val ELBO: 202.5508 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 767/2000 | Train ELBO: 190.2235 | Val ELBO: 202.5498 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 768/2000 | Train ELBO: 190.1753 | Val ELBO: 202.5827 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 769/2000 | Train ELBO: 190.1457 | Val ELBO: 202.5172 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 770/2000 | Train ELBO: 190.0787 | Val ELBO: 202.4782 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 771/2000 | Train ELBO: 190.0331 | Val ELBO: 202.4838 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 772/2000 | Train ELBO: 189.9812 | Val ELBO: 202.4921 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 773/2000 | Train ELBO: 189.9915 | Val ELBO: 202.4738 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 774/2000 | Train ELBO: 189.9370 | Val ELBO: 202.4451 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 775/2000 | Train ELBO: 189.9156 | Val ELBO: 202.4110 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 776/2000 | Train ELBO: 189.8590 | Val ELBO: 202.3983 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 777/2000 | Train ELBO: 189.8206 | Val ELBO: 202.4025 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 778/2000 | Train ELBO: 189.8016 | Val ELBO: 202.3841 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 779/2000 | Train ELBO: 189.7316 | Val ELBO: 202.3921 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 780/2000 | Train ELBO: 189.7487 | Val ELBO: 202.3595 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 781/2000 | Train ELBO: 189.6643 | Val ELBO: 202.4616 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 782/2000 | Train ELBO: 189.7058 | Val ELBO: 202.3442 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 783/2000 | Train ELBO: 189.6265 | Val ELBO: 202.3547 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 784/2000 | Train ELBO: 189.5908 | Val ELBO: 202.3168 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 785/2000 | Train ELBO: 189.5567 | Val ELBO: 202.3414 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 786/2000 | Train ELBO: 189.4844 | Val ELBO: 202.3149 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 787/2000 | Train ELBO: 189.4596 | Val ELBO: 202.3100 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 788/2000 | Train ELBO: 189.4279 | Val ELBO: 202.2756 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 789/2000 | Train ELBO: 189.3927 | Val ELBO: 202.3134 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 790/2000 | Train ELBO: 189.3630 | Val ELBO: 202.2731 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 791/2000 | Train ELBO: 189.3105 | Val ELBO: 202.3254 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 792/2000 | Train ELBO: 189.3008 | Val ELBO: 202.2505 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 793/2000 | Train ELBO: 189.2431 | Val ELBO: 202.1914 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 794/2000 | Train ELBO: 189.1795 | Val ELBO: 202.2603 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 795/2000 | Train ELBO: 189.1872 | Val ELBO: 202.2554 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 796/2000 | Train ELBO: 189.1383 | Val ELBO: 202.2020 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 797/2000 | Train ELBO: 189.1275 | Val ELBO: 202.2712 | Beta: 1.0000
+[IViDR/learned IV+iVAE][KUAIRAND] Epoch 798/2000 | Train ELBO: 189.1099 | Val ELBO: 202.2513 | Beta: 1.0000
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 0.001 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.1757 | Val NDCG@5: 0.4102 | Val Recall@5: 0.3545 | Val HR@5: 0.7831
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.1513 | Val NDCG@5: 0.4036 | Val Recall@5: 0.3509 | Val HR@5: 0.7783
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1490 | Val NDCG@5: 0.3856 | Val Recall@5: 0.3401 | Val HR@5: 0.7627
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1479 | Val NDCG@5: 0.3743 | Val Recall@5: 0.3329 | Val HR@5: 0.7513
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1472 | Val NDCG@5: 0.3631 | Val Recall@5: 0.3274 | Val HR@5: 0.7431
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1467 | Val NDCG@5: 0.3521 | Val Recall@5: 0.3217 | Val HR@5: 0.7371
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1464 | Val NDCG@5: 0.3440 | Val Recall@5: 0.3183 | Val HR@5: 0.7285
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1462 | Val NDCG@5: 0.3370 | Val Recall@5: 0.3131 | Val HR@5: 0.7179
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1460 | Val NDCG@5: 0.3326 | Val Recall@5: 0.3120 | Val HR@5: 0.7187
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1459 | Val NDCG@5: 0.3263 | Val Recall@5: 0.3076 | Val HR@5: 0.7095
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1458 | Val NDCG@5: 0.3249 | Val Recall@5: 0.3078 | Val HR@5: 0.7120
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1457 | Val NDCG@5: 0.3230 | Val Recall@5: 0.3055 | Val HR@5: 0.7096
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1457 | Val NDCG@5: 0.3191 | Val Recall@5: 0.3040 | Val HR@5: 0.7067
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1456 | Val NDCG@5: 0.3160 | Val Recall@5: 0.3025 | Val HR@5: 0.7007
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1456 | Val NDCG@5: 0.3181 | Val Recall@5: 0.3046 | Val HR@5: 0.7041
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1456 | Val NDCG@5: 0.3169 | Val Recall@5: 0.3059 | Val HR@5: 0.7053
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1455 | Val NDCG@5: 0.3125 | Val Recall@5: 0.3018 | Val HR@5: 0.6983
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1455 | Val NDCG@5: 0.3135 | Val Recall@5: 0.3030 | Val HR@5: 0.6976
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1455 | Val NDCG@5: 0.3127 | Val Recall@5: 0.3014 | Val HR@5: 0.7007
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1455 | Val NDCG@5: 0.3096 | Val Recall@5: 0.2995 | Val HR@5: 0.6921
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1455 | Val NDCG@5: 0.3120 | Val Recall@5: 0.3023 | Val HR@5: 0.6992
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 21 | Chọn epoch: 1 | Best Val NDCG@5: 0.4102
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 0.001 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.1752 | Val NDCG@5: 0.4116 | Val Recall@5: 0.3559 | Val HR@5: 0.7862
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.1481 | Val NDCG@5: 0.4037 | Val Recall@5: 0.3486 | Val HR@5: 0.7731
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1444 | Val NDCG@5: 0.3832 | Val Recall@5: 0.3364 | Val HR@5: 0.7558
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1419 | Val NDCG@5: 0.3687 | Val Recall@5: 0.3301 | Val HR@5: 0.7489
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1392 | Val NDCG@5: 0.3525 | Val Recall@5: 0.3176 | Val HR@5: 0.7288
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1361 | Val NDCG@5: 0.3395 | Val Recall@5: 0.3135 | Val HR@5: 0.7246
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1326 | Val NDCG@5: 0.3274 | Val Recall@5: 0.3076 | Val HR@5: 0.7093
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1289 | Val NDCG@5: 0.3182 | Val Recall@5: 0.3015 | Val HR@5: 0.7022
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1251 | Val NDCG@5: 0.3137 | Val Recall@5: 0.3003 | Val HR@5: 0.6986
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1215 | Val NDCG@5: 0.3057 | Val Recall@5: 0.2943 | Val HR@5: 0.6877
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1179 | Val NDCG@5: 0.3003 | Val Recall@5: 0.2921 | Val HR@5: 0.6863
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1145 | Val NDCG@5: 0.2974 | Val Recall@5: 0.2904 | Val HR@5: 0.6799
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1113 | Val NDCG@5: 0.2938 | Val Recall@5: 0.2881 | Val HR@5: 0.6770
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1084 | Val NDCG@5: 0.2910 | Val Recall@5: 0.2854 | Val HR@5: 0.6700
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1057 | Val NDCG@5: 0.2891 | Val Recall@5: 0.2849 | Val HR@5: 0.6719
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1032 | Val NDCG@5: 0.2863 | Val Recall@5: 0.2834 | Val HR@5: 0.6691
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1009 | Val NDCG@5: 0.2851 | Val Recall@5: 0.2832 | Val HR@5: 0.6669
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.0987 | Val NDCG@5: 0.2839 | Val Recall@5: 0.2818 | Val HR@5: 0.6619
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.0968 | Val NDCG@5: 0.2824 | Val Recall@5: 0.2797 | Val HR@5: 0.6648
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.0950 | Val NDCG@5: 0.2789 | Val Recall@5: 0.2794 | Val HR@5: 0.6592
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.0933 | Val NDCG@5: 0.2797 | Val Recall@5: 0.2794 | Val HR@5: 0.6593
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 21 | Chọn epoch: 1 | Best Val NDCG@5: 0.4116
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.1915 | Val NDCG@5: 0.4126 | Val Recall@5: 0.3552 | Val HR@5: 0.7872
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.1536 | Val NDCG@5: 0.4144 | Val Recall@5: 0.3563 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1501 | Val NDCG@5: 0.4087 | Val Recall@5: 0.3549 | Val HR@5: 0.7826
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1484 | Val NDCG@5: 0.4015 | Val Recall@5: 0.3486 | Val HR@5: 0.7738
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1472 | Val NDCG@5: 0.3925 | Val Recall@5: 0.3434 | Val HR@5: 0.7647
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1464 | Val NDCG@5: 0.3844 | Val Recall@5: 0.3399 | Val HR@5: 0.7592
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1458 | Val NDCG@5: 0.3760 | Val Recall@5: 0.3371 | Val HR@5: 0.7542
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1454 | Val NDCG@5: 0.3689 | Val Recall@5: 0.3314 | Val HR@5: 0.7457
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1450 | Val NDCG@5: 0.3635 | Val Recall@5: 0.3289 | Val HR@5: 0.7412
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1447 | Val NDCG@5: 0.3561 | Val Recall@5: 0.3234 | Val HR@5: 0.7373
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1445 | Val NDCG@5: 0.3522 | Val Recall@5: 0.3211 | Val HR@5: 0.7321
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1443 | Val NDCG@5: 0.3491 | Val Recall@5: 0.3202 | Val HR@5: 0.7330
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1441 | Val NDCG@5: 0.3428 | Val Recall@5: 0.3173 | Val HR@5: 0.7276
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1440 | Val NDCG@5: 0.3396 | Val Recall@5: 0.3152 | Val HR@5: 0.7240
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1439 | Val NDCG@5: 0.3394 | Val Recall@5: 0.3162 | Val HR@5: 0.7251
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1438 | Val NDCG@5: 0.3351 | Val Recall@5: 0.3129 | Val HR@5: 0.7218
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1438 | Val NDCG@5: 0.3328 | Val Recall@5: 0.3141 | Val HR@5: 0.7201
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1437 | Val NDCG@5: 0.3303 | Val Recall@5: 0.3102 | Val HR@5: 0.7170
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1436 | Val NDCG@5: 0.3282 | Val Recall@5: 0.3099 | Val HR@5: 0.7153
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1436 | Val NDCG@5: 0.3273 | Val Recall@5: 0.3095 | Val HR@5: 0.7132
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1435 | Val NDCG@5: 0.3260 | Val Recall@5: 0.3100 | Val HR@5: 0.7156
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1435 | Val NDCG@5: 0.3237 | Val Recall@5: 0.3087 | Val HR@5: 0.7119
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 22 | Chọn epoch: 2 | Best Val NDCG@5: 0.4144
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.1912 | Val NDCG@5: 0.4128 | Val Recall@5: 0.3536 | Val HR@5: 0.7858
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.1511 | Val NDCG@5: 0.4163 | Val Recall@5: 0.3572 | Val HR@5: 0.7896
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1460 | Val NDCG@5: 0.4072 | Val Recall@5: 0.3504 | Val HR@5: 0.7779
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1435 | Val NDCG@5: 0.3993 | Val Recall@5: 0.3454 | Val HR@5: 0.7678
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1419 | Val NDCG@5: 0.3925 | Val Recall@5: 0.3419 | Val HR@5: 0.7615
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1405 | Val NDCG@5: 0.3819 | Val Recall@5: 0.3375 | Val HR@5: 0.7554
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1393 | Val NDCG@5: 0.3715 | Val Recall@5: 0.3304 | Val HR@5: 0.7496
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1380 | Val NDCG@5: 0.3634 | Val Recall@5: 0.3271 | Val HR@5: 0.7414
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1367 | Val NDCG@5: 0.3550 | Val Recall@5: 0.3225 | Val HR@5: 0.7354
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1353 | Val NDCG@5: 0.3467 | Val Recall@5: 0.3186 | Val HR@5: 0.7326
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1338 | Val NDCG@5: 0.3386 | Val Recall@5: 0.3141 | Val HR@5: 0.7234
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1322 | Val NDCG@5: 0.3341 | Val Recall@5: 0.3125 | Val HR@5: 0.7215
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1305 | Val NDCG@5: 0.3272 | Val Recall@5: 0.3083 | Val HR@5: 0.7127
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1287 | Val NDCG@5: 0.3214 | Val Recall@5: 0.3044 | Val HR@5: 0.7055
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1269 | Val NDCG@5: 0.3171 | Val Recall@5: 0.3018 | Val HR@5: 0.7007
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1250 | Val NDCG@5: 0.3137 | Val Recall@5: 0.3002 | Val HR@5: 0.6986
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1232 | Val NDCG@5: 0.3110 | Val Recall@5: 0.3000 | Val HR@5: 0.6952
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1213 | Val NDCG@5: 0.3080 | Val Recall@5: 0.2974 | Val HR@5: 0.6923
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1194 | Val NDCG@5: 0.3050 | Val Recall@5: 0.2956 | Val HR@5: 0.6889
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1176 | Val NDCG@5: 0.3020 | Val Recall@5: 0.2931 | Val HR@5: 0.6830
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1158 | Val NDCG@5: 0.3003 | Val Recall@5: 0.2923 | Val HR@5: 0.6841
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1140 | Val NDCG@5: 0.2983 | Val Recall@5: 0.2917 | Val HR@5: 0.6818
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 22 | Chọn epoch: 2 | Best Val NDCG@5: 0.4163
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 0.0001 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.2664 | Val NDCG@5: 0.3954 | Val Recall@5: 0.3425 | Val HR@5: 0.7778
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.1889 | Val NDCG@5: 0.4060 | Val Recall@5: 0.3502 | Val HR@5: 0.7870
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1676 | Val NDCG@5: 0.4101 | Val Recall@5: 0.3530 | Val HR@5: 0.7905
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1595 | Val NDCG@5: 0.4138 | Val Recall@5: 0.3555 | Val HR@5: 0.7891
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1556 | Val NDCG@5: 0.4155 | Val Recall@5: 0.3563 | Val HR@5: 0.7881
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1533 | Val NDCG@5: 0.4165 | Val Recall@5: 0.3571 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1518 | Val NDCG@5: 0.4152 | Val Recall@5: 0.3566 | Val HR@5: 0.7851
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1507 | Val NDCG@5: 0.4132 | Val Recall@5: 0.3554 | Val HR@5: 0.7820
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1498 | Val NDCG@5: 0.4118 | Val Recall@5: 0.3552 | Val HR@5: 0.7826
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1491 | Val NDCG@5: 0.4114 | Val Recall@5: 0.3549 | Val HR@5: 0.7827
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1485 | Val NDCG@5: 0.4103 | Val Recall@5: 0.3541 | Val HR@5: 0.7820
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1479 | Val NDCG@5: 0.4096 | Val Recall@5: 0.3538 | Val HR@5: 0.7815
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1475 | Val NDCG@5: 0.4079 | Val Recall@5: 0.3538 | Val HR@5: 0.7810
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1471 | Val NDCG@5: 0.4060 | Val Recall@5: 0.3518 | Val HR@5: 0.7771
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1467 | Val NDCG@5: 0.4045 | Val Recall@5: 0.3518 | Val HR@5: 0.7759
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1464 | Val NDCG@5: 0.4029 | Val Recall@5: 0.3507 | Val HR@5: 0.7736
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1461 | Val NDCG@5: 0.4005 | Val Recall@5: 0.3486 | Val HR@5: 0.7718
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1458 | Val NDCG@5: 0.3973 | Val Recall@5: 0.3465 | Val HR@5: 0.7690
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1455 | Val NDCG@5: 0.3951 | Val Recall@5: 0.3451 | Val HR@5: 0.7685
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1453 | Val NDCG@5: 0.3929 | Val Recall@5: 0.3437 | Val HR@5: 0.7675
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1451 | Val NDCG@5: 0.3915 | Val Recall@5: 0.3426 | Val HR@5: 0.7659
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1449 | Val NDCG@5: 0.3900 | Val Recall@5: 0.3421 | Val HR@5: 0.7654
+[IViDR/feedback][KUAIRAND] Epoch 023/100 | Train Loss: 0.1447 | Val NDCG@5: 0.3884 | Val Recall@5: 0.3411 | Val HR@5: 0.7637
+[IViDR/feedback][KUAIRAND] Epoch 024/100 | Train Loss: 0.1446 | Val NDCG@5: 0.3859 | Val Recall@5: 0.3392 | Val HR@5: 0.7604
+[IViDR/feedback][KUAIRAND] Epoch 025/100 | Train Loss: 0.1444 | Val NDCG@5: 0.3849 | Val Recall@5: 0.3393 | Val HR@5: 0.7591
+[IViDR/feedback][KUAIRAND] Epoch 026/100 | Train Loss: 0.1443 | Val NDCG@5: 0.3834 | Val Recall@5: 0.3395 | Val HR@5: 0.7584
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 26 | Chọn epoch: 6 | Best Val NDCG@5: 0.4165
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 0.0001 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.2664 | Val NDCG@5: 0.3944 | Val Recall@5: 0.3410 | Val HR@5: 0.7771
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.1887 | Val NDCG@5: 0.4059 | Val Recall@5: 0.3502 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1669 | Val NDCG@5: 0.4101 | Val Recall@5: 0.3527 | Val HR@5: 0.7898
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1582 | Val NDCG@5: 0.4139 | Val Recall@5: 0.3547 | Val HR@5: 0.7891
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1537 | Val NDCG@5: 0.4156 | Val Recall@5: 0.3564 | Val HR@5: 0.7898
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1509 | Val NDCG@5: 0.4177 | Val Recall@5: 0.3583 | Val HR@5: 0.7891
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1488 | Val NDCG@5: 0.4169 | Val Recall@5: 0.3580 | Val HR@5: 0.7884
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1473 | Val NDCG@5: 0.4151 | Val Recall@5: 0.3564 | Val HR@5: 0.7872
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1460 | Val NDCG@5: 0.4133 | Val Recall@5: 0.3555 | Val HR@5: 0.7857
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1450 | Val NDCG@5: 0.4124 | Val Recall@5: 0.3550 | Val HR@5: 0.7845
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1441 | Val NDCG@5: 0.4116 | Val Recall@5: 0.3553 | Val HR@5: 0.7843
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1433 | Val NDCG@5: 0.4096 | Val Recall@5: 0.3531 | Val HR@5: 0.7807
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1427 | Val NDCG@5: 0.4067 | Val Recall@5: 0.3499 | Val HR@5: 0.7771
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1421 | Val NDCG@5: 0.4047 | Val Recall@5: 0.3493 | Val HR@5: 0.7733
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1416 | Val NDCG@5: 0.4027 | Val Recall@5: 0.3480 | Val HR@5: 0.7709
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1411 | Val NDCG@5: 0.4004 | Val Recall@5: 0.3471 | Val HR@5: 0.7711
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1407 | Val NDCG@5: 0.3984 | Val Recall@5: 0.3462 | Val HR@5: 0.7683
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1403 | Val NDCG@5: 0.3955 | Val Recall@5: 0.3442 | Val HR@5: 0.7663
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1399 | Val NDCG@5: 0.3938 | Val Recall@5: 0.3434 | Val HR@5: 0.7649
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1396 | Val NDCG@5: 0.3911 | Val Recall@5: 0.3413 | Val HR@5: 0.7608
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1392 | Val NDCG@5: 0.3890 | Val Recall@5: 0.3403 | Val HR@5: 0.7601
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1389 | Val NDCG@5: 0.3863 | Val Recall@5: 0.3382 | Val HR@5: 0.7561
+[IViDR/feedback][KUAIRAND] Epoch 023/100 | Train Loss: 0.1386 | Val NDCG@5: 0.3847 | Val Recall@5: 0.3378 | Val HR@5: 0.7549
+[IViDR/feedback][KUAIRAND] Epoch 024/100 | Train Loss: 0.1383 | Val NDCG@5: 0.3828 | Val Recall@5: 0.3362 | Val HR@5: 0.7537
+[IViDR/feedback][KUAIRAND] Epoch 025/100 | Train Loss: 0.1380 | Val NDCG@5: 0.3810 | Val Recall@5: 0.3360 | Val HR@5: 0.7525
+[IViDR/feedback][KUAIRAND] Epoch 026/100 | Train Loss: 0.1378 | Val NDCG@5: 0.3796 | Val Recall@5: 0.3355 | Val HR@5: 0.7520
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 26 | Chọn epoch: 6 | Best Val NDCG@5: 0.4177
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.3011 | Val NDCG@5: 0.3761 | Val Recall@5: 0.3293 | Val HR@5: 0.7599
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.2297 | Val NDCG@5: 0.3946 | Val Recall@5: 0.3406 | Val HR@5: 0.7760
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1960 | Val NDCG@5: 0.4013 | Val Recall@5: 0.3456 | Val HR@5: 0.7800
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1785 | Val NDCG@5: 0.4053 | Val Recall@5: 0.3491 | Val HR@5: 0.7848
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1688 | Val NDCG@5: 0.4081 | Val Recall@5: 0.3506 | Val HR@5: 0.7889
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1630 | Val NDCG@5: 0.4099 | Val Recall@5: 0.3522 | Val HR@5: 0.7898
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1593 | Val NDCG@5: 0.4127 | Val Recall@5: 0.3544 | Val HR@5: 0.7887
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1569 | Val NDCG@5: 0.4140 | Val Recall@5: 0.3553 | Val HR@5: 0.7881
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1551 | Val NDCG@5: 0.4149 | Val Recall@5: 0.3555 | Val HR@5: 0.7881
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1538 | Val NDCG@5: 0.4156 | Val Recall@5: 0.3568 | Val HR@5: 0.7882
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1528 | Val NDCG@5: 0.4153 | Val Recall@5: 0.3565 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1520 | Val NDCG@5: 0.4152 | Val Recall@5: 0.3566 | Val HR@5: 0.7858
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1513 | Val NDCG@5: 0.4144 | Val Recall@5: 0.3563 | Val HR@5: 0.7857
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1507 | Val NDCG@5: 0.4129 | Val Recall@5: 0.3544 | Val HR@5: 0.7831
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1502 | Val NDCG@5: 0.4122 | Val Recall@5: 0.3544 | Val HR@5: 0.7812
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1497 | Val NDCG@5: 0.4121 | Val Recall@5: 0.3550 | Val HR@5: 0.7817
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1493 | Val NDCG@5: 0.4113 | Val Recall@5: 0.3548 | Val HR@5: 0.7827
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1489 | Val NDCG@5: 0.4103 | Val Recall@5: 0.3537 | Val HR@5: 0.7812
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1486 | Val NDCG@5: 0.4102 | Val Recall@5: 0.3535 | Val HR@5: 0.7814
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1483 | Val NDCG@5: 0.4099 | Val Recall@5: 0.3537 | Val HR@5: 0.7807
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1480 | Val NDCG@5: 0.4096 | Val Recall@5: 0.3537 | Val HR@5: 0.7819
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1477 | Val NDCG@5: 0.4095 | Val Recall@5: 0.3540 | Val HR@5: 0.7819
+[IViDR/feedback][KUAIRAND] Epoch 023/100 | Train Loss: 0.1475 | Val NDCG@5: 0.4087 | Val Recall@5: 0.3534 | Val HR@5: 0.7820
+[IViDR/feedback][KUAIRAND] Epoch 024/100 | Train Loss: 0.1472 | Val NDCG@5: 0.4079 | Val Recall@5: 0.3531 | Val HR@5: 0.7807
+[IViDR/feedback][KUAIRAND] Epoch 025/100 | Train Loss: 0.1470 | Val NDCG@5: 0.4072 | Val Recall@5: 0.3526 | Val HR@5: 0.7790
+[IViDR/feedback][KUAIRAND] Epoch 026/100 | Train Loss: 0.1468 | Val NDCG@5: 0.4061 | Val Recall@5: 0.3514 | Val HR@5: 0.7772
+[IViDR/feedback][KUAIRAND] Epoch 027/100 | Train Loss: 0.1466 | Val NDCG@5: 0.4054 | Val Recall@5: 0.3521 | Val HR@5: 0.7769
+[IViDR/feedback][KUAIRAND] Epoch 028/100 | Train Loss: 0.1464 | Val NDCG@5: 0.4044 | Val Recall@5: 0.3523 | Val HR@5: 0.7771
+[IViDR/feedback][KUAIRAND] Epoch 029/100 | Train Loss: 0.1463 | Val NDCG@5: 0.4029 | Val Recall@5: 0.3515 | Val HR@5: 0.7757
+[IViDR/feedback][KUAIRAND] Epoch 030/100 | Train Loss: 0.1461 | Val NDCG@5: 0.4021 | Val Recall@5: 0.3511 | Val HR@5: 0.7742
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 30 | Chọn epoch: 10 | Best Val NDCG@5: 0.4156
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.3011 | Val NDCG@5: 0.3759 | Val Recall@5: 0.3297 | Val HR@5: 0.7606
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.2297 | Val NDCG@5: 0.3946 | Val Recall@5: 0.3406 | Val HR@5: 0.7764
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.1959 | Val NDCG@5: 0.4006 | Val Recall@5: 0.3445 | Val HR@5: 0.7793
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.1783 | Val NDCG@5: 0.4049 | Val Recall@5: 0.3479 | Val HR@5: 0.7836
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.1683 | Val NDCG@5: 0.4075 | Val Recall@5: 0.3496 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.1622 | Val NDCG@5: 0.4101 | Val Recall@5: 0.3522 | Val HR@5: 0.7896
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.1583 | Val NDCG@5: 0.4123 | Val Recall@5: 0.3538 | Val HR@5: 0.7887
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.1556 | Val NDCG@5: 0.4142 | Val Recall@5: 0.3558 | Val HR@5: 0.7887
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.1536 | Val NDCG@5: 0.4148 | Val Recall@5: 0.3555 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.1520 | Val NDCG@5: 0.4156 | Val Recall@5: 0.3564 | Val HR@5: 0.7891
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1507 | Val NDCG@5: 0.4156 | Val Recall@5: 0.3575 | Val HR@5: 0.7884
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1496 | Val NDCG@5: 0.4159 | Val Recall@5: 0.3584 | Val HR@5: 0.7877
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1487 | Val NDCG@5: 0.4150 | Val Recall@5: 0.3570 | Val HR@5: 0.7870
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1479 | Val NDCG@5: 0.4140 | Val Recall@5: 0.3557 | Val HR@5: 0.7858
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1471 | Val NDCG@5: 0.4129 | Val Recall@5: 0.3548 | Val HR@5: 0.7843
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1464 | Val NDCG@5: 0.4122 | Val Recall@5: 0.3551 | Val HR@5: 0.7851
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1458 | Val NDCG@5: 0.4122 | Val Recall@5: 0.3551 | Val HR@5: 0.7846
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1453 | Val NDCG@5: 0.4114 | Val Recall@5: 0.3547 | Val HR@5: 0.7833
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1448 | Val NDCG@5: 0.4109 | Val Recall@5: 0.3541 | Val HR@5: 0.7829
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1443 | Val NDCG@5: 0.4106 | Val Recall@5: 0.3540 | Val HR@5: 0.7822
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1439 | Val NDCG@5: 0.4105 | Val Recall@5: 0.3538 | Val HR@5: 0.7826
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1435 | Val NDCG@5: 0.4096 | Val Recall@5: 0.3536 | Val HR@5: 0.7815
+[IViDR/feedback][KUAIRAND] Epoch 023/100 | Train Loss: 0.1431 | Val NDCG@5: 0.4080 | Val Recall@5: 0.3523 | Val HR@5: 0.7802
+[IViDR/feedback][KUAIRAND] Epoch 024/100 | Train Loss: 0.1427 | Val NDCG@5: 0.4069 | Val Recall@5: 0.3523 | Val HR@5: 0.7796
+[IViDR/feedback][KUAIRAND] Epoch 025/100 | Train Loss: 0.1424 | Val NDCG@5: 0.4066 | Val Recall@5: 0.3515 | Val HR@5: 0.7791
+[IViDR/feedback][KUAIRAND] Epoch 026/100 | Train Loss: 0.1421 | Val NDCG@5: 0.4047 | Val Recall@5: 0.3493 | Val HR@5: 0.7740
+[IViDR/feedback][KUAIRAND] Epoch 027/100 | Train Loss: 0.1418 | Val NDCG@5: 0.4037 | Val Recall@5: 0.3493 | Val HR@5: 0.7731
+[IViDR/feedback][KUAIRAND] Epoch 028/100 | Train Loss: 0.1415 | Val NDCG@5: 0.4026 | Val Recall@5: 0.3482 | Val HR@5: 0.7714
+[IViDR/feedback][KUAIRAND] Epoch 029/100 | Train Loss: 0.1413 | Val NDCG@5: 0.4014 | Val Recall@5: 0.3477 | Val HR@5: 0.7707
+[IViDR/feedback][KUAIRAND] Epoch 030/100 | Train Loss: 0.1410 | Val NDCG@5: 0.4001 | Val Recall@5: 0.3464 | Val HR@5: 0.7704
+[IViDR/feedback][KUAIRAND] Epoch 031/100 | Train Loss: 0.1408 | Val NDCG@5: 0.3988 | Val Recall@5: 0.3455 | Val HR@5: 0.7680
+[IViDR/feedback][KUAIRAND] Epoch 032/100 | Train Loss: 0.1406 | Val NDCG@5: 0.3980 | Val Recall@5: 0.3456 | Val HR@5: 0.7676
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 32 | Chọn epoch: 12 | Best Val NDCG@5: 0.4159
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 1e-05 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.3446 | Val NDCG@5: 0.2964 | Val Recall@5: 0.2719 | Val HR@5: 0.6686
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.3188 | Val NDCG@5: 0.3286 | Val Recall@5: 0.2923 | Val HR@5: 0.7038
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.2966 | Val NDCG@5: 0.3502 | Val Recall@5: 0.3083 | Val HR@5: 0.7294
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.2775 | Val NDCG@5: 0.3657 | Val Recall@5: 0.3213 | Val HR@5: 0.7465
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.2611 | Val NDCG@5: 0.3753 | Val Recall@5: 0.3274 | Val HR@5: 0.7573
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.2468 | Val NDCG@5: 0.3813 | Val Recall@5: 0.3316 | Val HR@5: 0.7661
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.2345 | Val NDCG@5: 0.3861 | Val Recall@5: 0.3344 | Val HR@5: 0.7706
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.2239 | Val NDCG@5: 0.3892 | Val Recall@5: 0.3364 | Val HR@5: 0.7721
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.2147 | Val NDCG@5: 0.3928 | Val Recall@5: 0.3394 | Val HR@5: 0.7742
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.2067 | Val NDCG@5: 0.3958 | Val Recall@5: 0.3427 | Val HR@5: 0.7779
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1998 | Val NDCG@5: 0.3980 | Val Recall@5: 0.3440 | Val HR@5: 0.7795
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1939 | Val NDCG@5: 0.3989 | Val Recall@5: 0.3442 | Val HR@5: 0.7793
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1889 | Val NDCG@5: 0.3996 | Val Recall@5: 0.3440 | Val HR@5: 0.7790
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1845 | Val NDCG@5: 0.4003 | Val Recall@5: 0.3452 | Val HR@5: 0.7795
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1807 | Val NDCG@5: 0.4012 | Val Recall@5: 0.3463 | Val HR@5: 0.7803
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1775 | Val NDCG@5: 0.4020 | Val Recall@5: 0.3472 | Val HR@5: 0.7819
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1747 | Val NDCG@5: 0.4027 | Val Recall@5: 0.3477 | Val HR@5: 0.7836
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1722 | Val NDCG@5: 0.4037 | Val Recall@5: 0.3481 | Val HR@5: 0.7843
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1701 | Val NDCG@5: 0.4045 | Val Recall@5: 0.3488 | Val HR@5: 0.7857
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1683 | Val NDCG@5: 0.4047 | Val Recall@5: 0.3484 | Val HR@5: 0.7862
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1667 | Val NDCG@5: 0.4049 | Val Recall@5: 0.3478 | Val HR@5: 0.7853
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1653 | Val NDCG@5: 0.4059 | Val Recall@5: 0.3488 | Val HR@5: 0.7858
+[IViDR/feedback][KUAIRAND] Epoch 023/100 | Train Loss: 0.1640 | Val NDCG@5: 0.4065 | Val Recall@5: 0.3491 | Val HR@5: 0.7853
+[IViDR/feedback][KUAIRAND] Epoch 024/100 | Train Loss: 0.1629 | Val NDCG@5: 0.4073 | Val Recall@5: 0.3495 | Val HR@5: 0.7853
+[IViDR/feedback][KUAIRAND] Epoch 025/100 | Train Loss: 0.1619 | Val NDCG@5: 0.4078 | Val Recall@5: 0.3501 | Val HR@5: 0.7850
+[IViDR/feedback][KUAIRAND] Epoch 026/100 | Train Loss: 0.1610 | Val NDCG@5: 0.4084 | Val Recall@5: 0.3510 | Val HR@5: 0.7862
+[IViDR/feedback][KUAIRAND] Epoch 027/100 | Train Loss: 0.1602 | Val NDCG@5: 0.4089 | Val Recall@5: 0.3518 | Val HR@5: 0.7872
+[IViDR/feedback][KUAIRAND] Epoch 028/100 | Train Loss: 0.1595 | Val NDCG@5: 0.4092 | Val Recall@5: 0.3522 | Val HR@5: 0.7872
+[IViDR/feedback][KUAIRAND] Epoch 029/100 | Train Loss: 0.1589 | Val NDCG@5: 0.4095 | Val Recall@5: 0.3524 | Val HR@5: 0.7870
+[IViDR/feedback][KUAIRAND] Epoch 030/100 | Train Loss: 0.1582 | Val NDCG@5: 0.4102 | Val Recall@5: 0.3527 | Val HR@5: 0.7872
+[IViDR/feedback][KUAIRAND] Epoch 031/100 | Train Loss: 0.1577 | Val NDCG@5: 0.4105 | Val Recall@5: 0.3527 | Val HR@5: 0.7867
+[IViDR/feedback][KUAIRAND] Epoch 032/100 | Train Loss: 0.1572 | Val NDCG@5: 0.4107 | Val Recall@5: 0.3532 | Val HR@5: 0.7875
+[IViDR/feedback][KUAIRAND] Epoch 033/100 | Train Loss: 0.1567 | Val NDCG@5: 0.4110 | Val Recall@5: 0.3535 | Val HR@5: 0.7875
+[IViDR/feedback][KUAIRAND] Epoch 034/100 | Train Loss: 0.1563 | Val NDCG@5: 0.4113 | Val Recall@5: 0.3532 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 035/100 | Train Loss: 0.1559 | Val NDCG@5: 0.4117 | Val Recall@5: 0.3533 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 036/100 | Train Loss: 0.1555 | Val NDCG@5: 0.4125 | Val Recall@5: 0.3539 | Val HR@5: 0.7875
+[IViDR/feedback][KUAIRAND] Epoch 037/100 | Train Loss: 0.1552 | Val NDCG@5: 0.4131 | Val Recall@5: 0.3546 | Val HR@5: 0.7877
+[IViDR/feedback][KUAIRAND] Epoch 038/100 | Train Loss: 0.1549 | Val NDCG@5: 0.4128 | Val Recall@5: 0.3543 | Val HR@5: 0.7877
+[IViDR/feedback][KUAIRAND] Epoch 039/100 | Train Loss: 0.1546 | Val NDCG@5: 0.4132 | Val Recall@5: 0.3547 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 040/100 | Train Loss: 0.1543 | Val NDCG@5: 0.4135 | Val Recall@5: 0.3552 | Val HR@5: 0.7875
+[IViDR/feedback][KUAIRAND] Epoch 041/100 | Train Loss: 0.1540 | Val NDCG@5: 0.4137 | Val Recall@5: 0.3554 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 042/100 | Train Loss: 0.1537 | Val NDCG@5: 0.4143 | Val Recall@5: 0.3560 | Val HR@5: 0.7894
+[IViDR/feedback][KUAIRAND] Epoch 043/100 | Train Loss: 0.1535 | Val NDCG@5: 0.4142 | Val Recall@5: 0.3557 | Val HR@5: 0.7884
+[IViDR/feedback][KUAIRAND] Epoch 044/100 | Train Loss: 0.1533 | Val NDCG@5: 0.4143 | Val Recall@5: 0.3560 | Val HR@5: 0.7884
+[IViDR/feedback][KUAIRAND] Epoch 045/100 | Train Loss: 0.1531 | Val NDCG@5: 0.4143 | Val Recall@5: 0.3562 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 046/100 | Train Loss: 0.1529 | Val NDCG@5: 0.4141 | Val Recall@5: 0.3558 | Val HR@5: 0.7872
+[IViDR/feedback][KUAIRAND] Epoch 047/100 | Train Loss: 0.1527 | Val NDCG@5: 0.4144 | Val Recall@5: 0.3563 | Val HR@5: 0.7881
+[IViDR/feedback][KUAIRAND] Epoch 048/100 | Train Loss: 0.1525 | Val NDCG@5: 0.4145 | Val Recall@5: 0.3565 | Val HR@5: 0.7887
+[IViDR/feedback][KUAIRAND] Epoch 049/100 | Train Loss: 0.1523 | Val NDCG@5: 0.4143 | Val Recall@5: 0.3565 | Val HR@5: 0.7884
+[IViDR/feedback][KUAIRAND] Epoch 050/100 | Train Loss: 0.1521 | Val NDCG@5: 0.4143 | Val Recall@5: 0.3566 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 051/100 | Train Loss: 0.1519 | Val NDCG@5: 0.4145 | Val Recall@5: 0.3569 | Val HR@5: 0.7881
+[IViDR/feedback][KUAIRAND] Epoch 052/100 | Train Loss: 0.1518 | Val NDCG@5: 0.4145 | Val Recall@5: 0.3566 | Val HR@5: 0.7865
+[IViDR/feedback][KUAIRAND] Epoch 053/100 | Train Loss: 0.1516 | Val NDCG@5: 0.4141 | Val Recall@5: 0.3560 | Val HR@5: 0.7855
+[IViDR/feedback][KUAIRAND] Epoch 054/100 | Train Loss: 0.1515 | Val NDCG@5: 0.4138 | Val Recall@5: 0.3558 | Val HR@5: 0.7850
+[IViDR/feedback][KUAIRAND] Epoch 055/100 | Train Loss: 0.1513 | Val NDCG@5: 0.4135 | Val Recall@5: 0.3554 | Val HR@5: 0.7841
+[IViDR/feedback][KUAIRAND] Epoch 056/100 | Train Loss: 0.1512 | Val NDCG@5: 0.4135 | Val Recall@5: 0.3555 | Val HR@5: 0.7838
+[IViDR/feedback][KUAIRAND] Epoch 057/100 | Train Loss: 0.1511 | Val NDCG@5: 0.4133 | Val Recall@5: 0.3550 | Val HR@5: 0.7833
+[IViDR/feedback][KUAIRAND] Epoch 058/100 | Train Loss: 0.1509 | Val NDCG@5: 0.4132 | Val Recall@5: 0.3550 | Val HR@5: 0.7833
+[IViDR/feedback][KUAIRAND] Epoch 059/100 | Train Loss: 0.1508 | Val NDCG@5: 0.4126 | Val Recall@5: 0.3549 | Val HR@5: 0.7829
+[IViDR/feedback][KUAIRAND] Epoch 060/100 | Train Loss: 0.1507 | Val NDCG@5: 0.4128 | Val Recall@5: 0.3553 | Val HR@5: 0.7829
+[IViDR/feedback][KUAIRAND] Epoch 061/100 | Train Loss: 0.1506 | Val NDCG@5: 0.4124 | Val Recall@5: 0.3547 | Val HR@5: 0.7826
+[IViDR/feedback][KUAIRAND] Epoch 062/100 | Train Loss: 0.1505 | Val NDCG@5: 0.4124 | Val Recall@5: 0.3544 | Val HR@5: 0.7826
+[IViDR/feedback][KUAIRAND] Epoch 063/100 | Train Loss: 0.1504 | Val NDCG@5: 0.4124 | Val Recall@5: 0.3542 | Val HR@5: 0.7822
+[IViDR/feedback][KUAIRAND] Epoch 064/100 | Train Loss: 0.1502 | Val NDCG@5: 0.4125 | Val Recall@5: 0.3547 | Val HR@5: 0.7831
+[IViDR/feedback][KUAIRAND] Epoch 065/100 | Train Loss: 0.1501 | Val NDCG@5: 0.4124 | Val Recall@5: 0.3545 | Val HR@5: 0.7833
+[IViDR/feedback][KUAIRAND] Epoch 066/100 | Train Loss: 0.1500 | Val NDCG@5: 0.4119 | Val Recall@5: 0.3538 | Val HR@5: 0.7819
+[IViDR/feedback][KUAIRAND] Epoch 067/100 | Train Loss: 0.1499 | Val NDCG@5: 0.4118 | Val Recall@5: 0.3538 | Val HR@5: 0.7817
+[IViDR/feedback][KUAIRAND] Epoch 068/100 | Train Loss: 0.1498 | Val NDCG@5: 0.4116 | Val Recall@5: 0.3537 | Val HR@5: 0.7808
+[IViDR/feedback][KUAIRAND] Epoch 069/100 | Train Loss: 0.1498 | Val NDCG@5: 0.4110 | Val Recall@5: 0.3529 | Val HR@5: 0.7793
+[IViDR/feedback][KUAIRAND] Epoch 070/100 | Train Loss: 0.1497 | Val NDCG@5: 0.4105 | Val Recall@5: 0.3529 | Val HR@5: 0.7795
+[IViDR/feedback][KUAIRAND] Epoch 071/100 | Train Loss: 0.1496 | Val NDCG@5: 0.4105 | Val Recall@5: 0.3528 | Val HR@5: 0.7800
+[IViDR/feedback][KUAIRAND] Epoch 072/100 | Train Loss: 0.1495 | Val NDCG@5: 0.4105 | Val Recall@5: 0.3531 | Val HR@5: 0.7800
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 72 | Chọn epoch: 52 | Best Val NDCG@5: 0.4145
+
+========================================================================
+ HUẤN LUYỆN IViDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 1e-05 | Batch: 2048 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR/feedback][KUAIRAND] Epoch 001/100 | Train Loss: 0.3446 | Val NDCG@5: 0.2955 | Val Recall@5: 0.2718 | Val HR@5: 0.6695
+[IViDR/feedback][KUAIRAND] Epoch 002/100 | Train Loss: 0.3188 | Val NDCG@5: 0.3284 | Val Recall@5: 0.2922 | Val HR@5: 0.7034
+[IViDR/feedback][KUAIRAND] Epoch 003/100 | Train Loss: 0.2966 | Val NDCG@5: 0.3491 | Val Recall@5: 0.3072 | Val HR@5: 0.7292
+[IViDR/feedback][KUAIRAND] Epoch 004/100 | Train Loss: 0.2775 | Val NDCG@5: 0.3650 | Val Recall@5: 0.3205 | Val HR@5: 0.7462
+[IViDR/feedback][KUAIRAND] Epoch 005/100 | Train Loss: 0.2610 | Val NDCG@5: 0.3754 | Val Recall@5: 0.3278 | Val HR@5: 0.7572
+[IViDR/feedback][KUAIRAND] Epoch 006/100 | Train Loss: 0.2468 | Val NDCG@5: 0.3811 | Val Recall@5: 0.3311 | Val HR@5: 0.7657
+[IViDR/feedback][KUAIRAND] Epoch 007/100 | Train Loss: 0.2345 | Val NDCG@5: 0.3857 | Val Recall@5: 0.3337 | Val HR@5: 0.7699
+[IViDR/feedback][KUAIRAND] Epoch 008/100 | Train Loss: 0.2238 | Val NDCG@5: 0.3893 | Val Recall@5: 0.3365 | Val HR@5: 0.7723
+[IViDR/feedback][KUAIRAND] Epoch 009/100 | Train Loss: 0.2146 | Val NDCG@5: 0.3922 | Val Recall@5: 0.3382 | Val HR@5: 0.7728
+[IViDR/feedback][KUAIRAND] Epoch 010/100 | Train Loss: 0.2067 | Val NDCG@5: 0.3955 | Val Recall@5: 0.3424 | Val HR@5: 0.7783
+[IViDR/feedback][KUAIRAND] Epoch 011/100 | Train Loss: 0.1998 | Val NDCG@5: 0.3979 | Val Recall@5: 0.3440 | Val HR@5: 0.7800
+[IViDR/feedback][KUAIRAND] Epoch 012/100 | Train Loss: 0.1939 | Val NDCG@5: 0.3989 | Val Recall@5: 0.3443 | Val HR@5: 0.7791
+[IViDR/feedback][KUAIRAND] Epoch 013/100 | Train Loss: 0.1888 | Val NDCG@5: 0.3997 | Val Recall@5: 0.3443 | Val HR@5: 0.7793
+[IViDR/feedback][KUAIRAND] Epoch 014/100 | Train Loss: 0.1844 | Val NDCG@5: 0.4002 | Val Recall@5: 0.3451 | Val HR@5: 0.7798
+[IViDR/feedback][KUAIRAND] Epoch 015/100 | Train Loss: 0.1806 | Val NDCG@5: 0.4011 | Val Recall@5: 0.3462 | Val HR@5: 0.7805
+[IViDR/feedback][KUAIRAND] Epoch 016/100 | Train Loss: 0.1773 | Val NDCG@5: 0.4022 | Val Recall@5: 0.3475 | Val HR@5: 0.7824
+[IViDR/feedback][KUAIRAND] Epoch 017/100 | Train Loss: 0.1745 | Val NDCG@5: 0.4029 | Val Recall@5: 0.3482 | Val HR@5: 0.7841
+[IViDR/feedback][KUAIRAND] Epoch 018/100 | Train Loss: 0.1720 | Val NDCG@5: 0.4039 | Val Recall@5: 0.3485 | Val HR@5: 0.7851
+[IViDR/feedback][KUAIRAND] Epoch 019/100 | Train Loss: 0.1699 | Val NDCG@5: 0.4043 | Val Recall@5: 0.3487 | Val HR@5: 0.7857
+[IViDR/feedback][KUAIRAND] Epoch 020/100 | Train Loss: 0.1680 | Val NDCG@5: 0.4047 | Val Recall@5: 0.3482 | Val HR@5: 0.7857
+[IViDR/feedback][KUAIRAND] Epoch 021/100 | Train Loss: 0.1664 | Val NDCG@5: 0.4051 | Val Recall@5: 0.3481 | Val HR@5: 0.7848
+[IViDR/feedback][KUAIRAND] Epoch 022/100 | Train Loss: 0.1649 | Val NDCG@5: 0.4059 | Val Recall@5: 0.3490 | Val HR@5: 0.7862
+[IViDR/feedback][KUAIRAND] Epoch 023/100 | Train Loss: 0.1636 | Val NDCG@5: 0.4065 | Val Recall@5: 0.3491 | Val HR@5: 0.7857
+[IViDR/feedback][KUAIRAND] Epoch 024/100 | Train Loss: 0.1625 | Val NDCG@5: 0.4073 | Val Recall@5: 0.3494 | Val HR@5: 0.7855
+[IViDR/feedback][KUAIRAND] Epoch 025/100 | Train Loss: 0.1615 | Val NDCG@5: 0.4075 | Val Recall@5: 0.3495 | Val HR@5: 0.7845
+[IViDR/feedback][KUAIRAND] Epoch 026/100 | Train Loss: 0.1605 | Val NDCG@5: 0.4084 | Val Recall@5: 0.3509 | Val HR@5: 0.7860
+[IViDR/feedback][KUAIRAND] Epoch 027/100 | Train Loss: 0.1597 | Val NDCG@5: 0.4087 | Val Recall@5: 0.3511 | Val HR@5: 0.7863
+[IViDR/feedback][KUAIRAND] Epoch 028/100 | Train Loss: 0.1589 | Val NDCG@5: 0.4094 | Val Recall@5: 0.3521 | Val HR@5: 0.7872
+[IViDR/feedback][KUAIRAND] Epoch 029/100 | Train Loss: 0.1583 | Val NDCG@5: 0.4095 | Val Recall@5: 0.3520 | Val HR@5: 0.7867
+[IViDR/feedback][KUAIRAND] Epoch 030/100 | Train Loss: 0.1576 | Val NDCG@5: 0.4104 | Val Recall@5: 0.3525 | Val HR@5: 0.7867
+[IViDR/feedback][KUAIRAND] Epoch 031/100 | Train Loss: 0.1570 | Val NDCG@5: 0.4107 | Val Recall@5: 0.3527 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 032/100 | Train Loss: 0.1565 | Val NDCG@5: 0.4105 | Val Recall@5: 0.3530 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 033/100 | Train Loss: 0.1560 | Val NDCG@5: 0.4111 | Val Recall@5: 0.3535 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 034/100 | Train Loss: 0.1555 | Val NDCG@5: 0.4115 | Val Recall@5: 0.3533 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 035/100 | Train Loss: 0.1551 | Val NDCG@5: 0.4119 | Val Recall@5: 0.3537 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 036/100 | Train Loss: 0.1547 | Val NDCG@5: 0.4123 | Val Recall@5: 0.3541 | Val HR@5: 0.7879
+[IViDR/feedback][KUAIRAND] Epoch 037/100 | Train Loss: 0.1543 | Val NDCG@5: 0.4128 | Val Recall@5: 0.3544 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 038/100 | Train Loss: 0.1539 | Val NDCG@5: 0.4126 | Val Recall@5: 0.3545 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 039/100 | Train Loss: 0.1536 | Val NDCG@5: 0.4133 | Val Recall@5: 0.3552 | Val HR@5: 0.7877
+[IViDR/feedback][KUAIRAND] Epoch 040/100 | Train Loss: 0.1532 | Val NDCG@5: 0.4134 | Val Recall@5: 0.3549 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 041/100 | Train Loss: 0.1529 | Val NDCG@5: 0.4138 | Val Recall@5: 0.3553 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 042/100 | Train Loss: 0.1526 | Val NDCG@5: 0.4139 | Val Recall@5: 0.3557 | Val HR@5: 0.7881
+[IViDR/feedback][KUAIRAND] Epoch 043/100 | Train Loss: 0.1523 | Val NDCG@5: 0.4138 | Val Recall@5: 0.3552 | Val HR@5: 0.7867
+[IViDR/feedback][KUAIRAND] Epoch 044/100 | Train Loss: 0.1521 | Val NDCG@5: 0.4137 | Val Recall@5: 0.3551 | Val HR@5: 0.7865
+[IViDR/feedback][KUAIRAND] Epoch 045/100 | Train Loss: 0.1518 | Val NDCG@5: 0.4141 | Val Recall@5: 0.3560 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 046/100 | Train Loss: 0.1515 | Val NDCG@5: 0.4137 | Val Recall@5: 0.3556 | Val HR@5: 0.7867
+[IViDR/feedback][KUAIRAND] Epoch 047/100 | Train Loss: 0.1513 | Val NDCG@5: 0.4139 | Val Recall@5: 0.3556 | Val HR@5: 0.7869
+[IViDR/feedback][KUAIRAND] Epoch 048/100 | Train Loss: 0.1511 | Val NDCG@5: 0.4141 | Val Recall@5: 0.3561 | Val HR@5: 0.7881
+[IViDR/feedback][KUAIRAND] Epoch 049/100 | Train Loss: 0.1508 | Val NDCG@5: 0.4140 | Val Recall@5: 0.3563 | Val HR@5: 0.7875
+[IViDR/feedback][KUAIRAND] Epoch 050/100 | Train Loss: 0.1506 | Val NDCG@5: 0.4138 | Val Recall@5: 0.3565 | Val HR@5: 0.7874
+[IViDR/feedback][KUAIRAND] Epoch 051/100 | Train Loss: 0.1504 | Val NDCG@5: 0.4137 | Val Recall@5: 0.3565 | Val HR@5: 0.7870
+[IViDR/feedback][KUAIRAND] Epoch 052/100 | Train Loss: 0.1502 | Val NDCG@5: 0.4138 | Val Recall@5: 0.3564 | Val HR@5: 0.7862
+[IViDR/feedback][KUAIRAND] Epoch 053/100 | Train Loss: 0.1500 | Val NDCG@5: 0.4131 | Val Recall@5: 0.3556 | Val HR@5: 0.7846
+[IViDR/feedback][KUAIRAND] Epoch 054/100 | Train Loss: 0.1498 | Val NDCG@5: 0.4129 | Val Recall@5: 0.3551 | Val HR@5: 0.7848
+[IViDR/feedback][KUAIRAND] Epoch 055/100 | Train Loss: 0.1496 | Val NDCG@5: 0.4135 | Val Recall@5: 0.3555 | Val HR@5: 0.7848
+[IViDR/feedback][KUAIRAND] Epoch 056/100 | Train Loss: 0.1494 | Val NDCG@5: 0.4136 | Val Recall@5: 0.3560 | Val HR@5: 0.7858
+[IViDR/feedback][KUAIRAND] Epoch 057/100 | Train Loss: 0.1492 | Val NDCG@5: 0.4131 | Val Recall@5: 0.3554 | Val HR@5: 0.7855
+[IViDR/feedback][KUAIRAND] Epoch 058/100 | Train Loss: 0.1490 | Val NDCG@5: 0.4130 | Val Recall@5: 0.3553 | Val HR@5: 0.7855
+[IViDR/feedback][KUAIRAND] Epoch 059/100 | Train Loss: 0.1489 | Val NDCG@5: 0.4130 | Val Recall@5: 0.3554 | Val HR@5: 0.7848
+[IViDR/feedback][KUAIRAND] Epoch 060/100 | Train Loss: 0.1487 | Val NDCG@5: 0.4129 | Val Recall@5: 0.3549 | Val HR@5: 0.7838
+[IViDR/feedback][KUAIRAND] Epoch 061/100 | Train Loss: 0.1485 | Val NDCG@5: 0.4127 | Val Recall@5: 0.3546 | Val HR@5: 0.7833
+[IViDR/feedback][KUAIRAND] Epoch 062/100 | Train Loss: 0.1483 | Val NDCG@5: 0.4129 | Val Recall@5: 0.3547 | Val HR@5: 0.7834
+[IViDR/feedback][KUAIRAND] Epoch 063/100 | Train Loss: 0.1482 | Val NDCG@5: 0.4127 | Val Recall@5: 0.3546 | Val HR@5: 0.7829
+[IViDR/feedback][KUAIRAND] Epoch 064/100 | Train Loss: 0.1480 | Val NDCG@5: 0.4123 | Val Recall@5: 0.3548 | Val HR@5: 0.7833
+[IViDR/feedback][KUAIRAND] Epoch 065/100 | Train Loss: 0.1479 | Val NDCG@5: 0.4123 | Val Recall@5: 0.3546 | Val HR@5: 0.7827
+[IViDR/feedback][KUAIRAND] Epoch 066/100 | Train Loss: 0.1477 | Val NDCG@5: 0.4121 | Val Recall@5: 0.3542 | Val HR@5: 0.7831
+[IViDR/feedback][KUAIRAND] Epoch 067/100 | Train Loss: 0.1476 | Val NDCG@5: 0.4118 | Val Recall@5: 0.3542 | Val HR@5: 0.7829
+[IViDR/feedback][KUAIRAND] Epoch 068/100 | Train Loss: 0.1474 | Val NDCG@5: 0.4116 | Val Recall@5: 0.3535 | Val HR@5: 0.7826
+[IViDR/feedback][KUAIRAND] Dừng sớm tại epoch 68 | Chọn epoch: 48 | Best Val NDCG@5: 0.4141
+
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_ividr_be219eee39_20261029_193713_d87515c9_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_ividr_be219eee39_20261029_193713_d87515c9_v4.md
+
++---------------------------------------------------------------------------------------------------------------------+
+|                                         KẾT QUẢ THEO GIAO THỨC TỪNG MÔ HÌNH                                         |
++===============+=========+===========+==========+==================+=============+===========+==========+============+
+|  Tập dữ liệu  | Mô hình | Giao thức |  NDCG@5  | Recall@5 bounded | Precision@5 | HitRate@5 |   AUC    |  Loại AUC  |
++===============+=========+===========+==========+==================+=============+===========+==========+============+
+| KuaiRand-Pure | IViDR   |    H30    | 0.409491 |         0.456803 |    0.309228 |  0.780995 | 0.611478 | macro-user |
++---------------+---------+-----------+----------+------------------+-------------+-----------+----------+------------+
+H30: held-out user split 30/70, Coat/Yahoo >=4.
+S-full: CDR Coat/Yahoo >=3, toàn random log, 5% nhãn random để calibration.
+S-KR: CDR KuaiRand local split, calibration 5% validation; adaptation theo metadata.
+Recall@5 bounded: hits/min(5, tổng positive). Recall/all positives vẫn lưu trong JSON.
+CDR S-full giữ quy ước empty-positive Recall=1; precision/hit-rate=0.
+Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức.
+

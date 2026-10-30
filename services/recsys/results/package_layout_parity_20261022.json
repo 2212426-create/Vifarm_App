@@ -1,0 +1,326 @@
+{
+  "identity": {
+    "code_sha256": "5cb6ca4bcf5d8963b8a7205290a80cf0d7a4ee15a979dcaaa1dde4438be91479"
+  },
+  "scope": "Package relocation; existing checkpoint re-evaluation, not retraining",
+  "original_report": "results/benchmark_coat_all_02b9e8eb46_20261022_073711_146173c9_v4.json",
+  "normalized_ast_equal": [
+    {
+      "before": "experiments/__init__.py",
+      "after": "experiments/__init__.py"
+    },
+    {
+      "before": "experiments/run.py",
+      "after": "experiments/run.py"
+    },
+    {
+      "before": "experiments/workflows/__init__.py",
+      "after": "experiments/workflows/__init__.py"
+    },
+    {
+      "before": "experiments/workflows/cdr_author_protocol.py",
+      "after": "experiments/workflows/cdr_author_protocol.py"
+    },
+    {
+      "before": "experiments/workflows/cdr_idcf_tune.py",
+      "after": "experiments/workflows/cdr_idcf_tune.py"
+    },
+    {
+      "before": "experiments/workflows/cdr_source.py",
+      "after": "experiments/workflows/cdr_source.py"
+    },
+    {
+      "before": "experiments/workflows/coat_seed_benchmark.py",
+      "after": "experiments/workflows/coat_seed_benchmark.py"
+    },
+    {
+      "before": "experiments/workflows/compare_mf_optimizers.py",
+      "after": "experiments/workflows/compare_mf_optimizers.py"
+    },
+    {
+      "before": "experiments/workflows/download_yahoo.py",
+      "after": "experiments/workflows/download_yahoo.py"
+    },
+    {
+      "before": "experiments/workflows/refresh_benchmark_report.py",
+      "after": "experiments/workflows/refresh_benchmark_report.py"
+    },
+    {
+      "before": "experiments/workflows/run_all_benchmarks.py",
+      "after": "experiments/workflows/run_all_benchmarks.py"
+    },
+    {
+      "before": "experiments/workflows/tune_coat_models.py",
+      "after": "experiments/workflows/tune_coat_models.py"
+    },
+    {
+      "before": "experiments/workflows/tune_kuairand_models.py",
+      "after": "experiments/workflows/tune_kuairand_models.py"
+    },
+    {
+      "before": "src/__init__.py",
+      "after": "src/__init__.py"
+    },
+    {
+      "before": "src/api/__init__.py",
+      "after": "src/api/__init__.py"
+    },
+    {
+      "before": "src/api/app.py",
+      "after": "src/api/app.py"
+    },
+    {
+      "before": "src/api/firebase_bridge.py",
+      "after": "src/api/firebase_bridge.py"
+    },
+    {
+      "before": "src/api/schemas.py",
+      "after": "src/api/schemas.py"
+    },
+    {
+      "before": "src/api/service.py",
+      "after": "src/api/service.py"
+    },
+    {
+      "before": "src/api/tunnel.py",
+      "after": "src/api/tunnel.py"
+    },
+    {
+      "before": "src/baselines/__init__.py",
+      "after": "src/baselines/__init__.py"
+    },
+    {
+      "before": "src/baselines/train_mf.py",
+      "after": "src/models/mf/train_mf.py"
+    },
+    {
+      "before": "src/causal/__init__.py",
+      "after": "src/causal/__init__.py"
+    },
+    {
+      "before": "src/causal/cdr/__init__.py",
+      "after": "src/models/cdr/__init__.py"
+    },
+    {
+      "before": "src/causal/cdr/cdr_model.py",
+      "after": "src/models/cdr/cdr_model.py"
+    },
+    {
+      "before": "src/causal/cdr/dr_bias_loss.py",
+      "after": "src/models/cdr/dr_bias_loss.py"
+    },
+    {
+      "before": "src/causal/cdr/imputation_model.py",
+      "after": "src/models/cdr/imputation_model.py"
+    },
+    {
+      "before": "src/causal/cdr/observations.py",
+      "after": "src/models/cdr/observations.py"
+    },
+    {
+      "before": "src/causal/cdr/propensity.py",
+      "after": "src/models/cdr/propensity.py"
+    },
+    {
+      "before": "src/causal/cdr/released.py",
+      "after": "src/models/cdr/released.py"
+    },
+    {
+      "before": "src/causal/cdr/sampling.py",
+      "after": "src/models/cdr/sampling.py"
+    },
+    {
+      "before": "src/causal/cdr/source_protocol.py",
+      "after": "src/models/cdr/source_protocol.py"
+    },
+    {
+      "before": "src/causal/cdr/train_dr_bias_cdr.py",
+      "after": "src/models/cdr/train_dr_bias_cdr.py"
+    },
+    {
+      "before": "src/causal/cdr/train_released_cdr.py",
+      "after": "src/models/cdr/train_released_cdr.py"
+    },
+    {
+      "before": "src/causal/idcf/__init__.py",
+      "after": "src/models/idcf/__init__.py"
+    },
+    {
+      "before": "src/causal/idcf/idcf_model.py",
+      "after": "src/models/idcf/idcf_model.py"
+    },
+    {
+      "before": "src/causal/idcf/ivae.py",
+      "after": "src/models/idcf/ivae.py"
+    },
+    {
+      "before": "src/causal/idcf/ividr_model.py",
+      "after": "src/models/ividr/ividr_model.py"
+    },
+    {
+      "before": "src/causal/idcf/ividr_reference.py",
+      "after": "src/models/ividr/ividr_reference.py"
+    },
+    {
+      "before": "src/causal/idcf/ividr_staged.py",
+      "after": "src/models/ividr/ividr_staged.py"
+    },
+    {
+      "before": "src/causal/idcf/train_idcf.py",
+      "after": "src/models/idcf/train_idcf.py"
+    },
+    {
+      "before": "src/causal/idcf/train_ividr.py",
+      "after": "src/models/ividr/train_ividr.py"
+    },
+    {
+      "before": "src/data_pipeline/__init__.py",
+      "after": "src/data_pipeline/__init__.py"
+    },
+    {
+      "before": "src/data_pipeline/coat_dataset.py",
+      "after": "src/data_pipeline/coat_dataset.py"
+    },
+    {
+      "before": "src/data_pipeline/kuairand_dataset.py",
+      "after": "src/data_pipeline/kuairand_dataset.py"
+    },
+    {
+      "before": "src/data_pipeline/yahoo_dataset.py",
+      "after": "src/data_pipeline/yahoo_dataset.py"
+    },
+    {
+      "before": "src/evaluation/__init__.py",
+      "after": "src/evaluation/__init__.py"
+    },
+    {
+      "before": "src/evaluation/diagnostics.py",
+      "after": "src/evaluation/diagnostics.py"
+    },
+    {
+      "before": "src/evaluation/evaluator.py",
+      "after": "src/evaluation/evaluator.py"
+    },
+    {
+      "before": "src/evaluation/metrics.py",
+      "after": "src/evaluation/metrics.py"
+    },
+    {
+      "before": "src/evaluation/protocol.py",
+      "after": "src/evaluation/protocol.py"
+    },
+    {
+      "before": "src/evaluation/table_formatter.py",
+      "after": "src/evaluation/table_formatter.py"
+    },
+    {
+      "before": "src/evaluation/vectorized_evaluator.py",
+      "after": "src/evaluation/vectorized_evaluator.py"
+    },
+    {
+      "before": "src/models/__init__.py",
+      "after": "src/models/__init__.py"
+    },
+    {
+      "before": "src/models/matrix_factorization.py",
+      "after": "src/models/mf/matrix_factorization.py"
+    },
+    {
+      "before": "src/training/__init__.py",
+      "after": "src/training/__init__.py"
+    },
+    {
+      "before": "src/training/config.py",
+      "after": "src/training/config.py"
+    },
+    {
+      "before": "src/training/train_pipeline.py",
+      "after": "src/training/train_pipeline.py"
+    },
+    {
+      "before": "src/utils/__init__.py",
+      "after": "src/utils/__init__.py"
+    },
+    {
+      "before": "src/utils/artifacts.py",
+      "after": "src/utils/artifacts.py"
+    },
+    {
+      "before": "src/utils/experiment_lock.py",
+      "after": "src/utils/experiment_lock.py"
+    },
+    {
+      "before": "src/utils/helpers.py",
+      "after": "src/utils/helpers.py"
+    },
+    {
+      "before": "src/utils/training_log.py",
+      "after": "src/utils/training_log.py"
+    }
+  ],
+  "checkpoint_reload": [
+    {
+      "model": "MF",
+      "metrics": {
+        "NDCG@5": 0.547611758415125,
+        "Recall@5": 0.5295358500448321,
+        "Recall@5_bounded": 0.5840319361277445,
+        "Precision@5": 0.3497005988023952,
+        "HitRate@5": 0.8502994011976048,
+        "NDCG@5_CI95_halfwidth": 0.05004015694367718,
+        "AUC": 0.6931237695272126
+      },
+      "metrics_exact": true,
+      "checkpoint_sha256": "04d91bf1ac7ed86151e817f602286fddee99b31d8428111b860e4d8992481f4f",
+      "checkpoint_bytes_unchanged": true,
+      "training_code_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556"
+    },
+    {
+      "model": "iDCF",
+      "metrics": {
+        "NDCG@5": 0.5698840836815878,
+        "Recall@5": 0.5519691220290022,
+        "Recall@5_bounded": 0.6022954091816367,
+        "Precision@5": 0.3473053892215569,
+        "HitRate@5": 0.8862275449101796,
+        "NDCG@5_CI95_halfwidth": 0.04797094063475966,
+        "AUC": 0.6859969849677934
+      },
+      "metrics_exact": true,
+      "checkpoint_sha256": "0b7306cf4ac61a4abab256a14bb596da7b61a107dfc7fe499402e3c39f6c4db3",
+      "checkpoint_bytes_unchanged": true,
+      "training_code_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556"
+    },
+    {
+      "model": "IViDR",
+      "metrics": {
+        "NDCG@5": 0.541201205693586,
+        "Recall@5": 0.5583448986143597,
+        "Recall@5_bounded": 0.6132734530938123,
+        "Precision@5": 0.3628742514970061,
+        "HitRate@5": 0.9041916167664671,
+        "NDCG@5_CI95_halfwidth": 0.045233780439974836,
+        "AUC": 0.6890576468607906
+      },
+      "metrics_exact": true,
+      "checkpoint_sha256": "ca631761c56bbcd75628e4830f65745e00d6373b2251172c8db8c2fe09428d0d",
+      "checkpoint_bytes_unchanged": true,
+      "training_code_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556"
+    },
+    {
+      "model": "DR-BIAS + CDR",
+      "metrics": {
+        "NDCG@5": 0.6566651228158734,
+        "Recall@5": 0.493414483026552,
+        "Recall@5_bounded": 0.667816091954023,
+        "Precision@5": 0.5324137931034482,
+        "HitRate@5": 0.9310344827586207,
+        "AUC_global": 0.7512927651405334
+      },
+      "metrics_exact": true,
+      "checkpoint_sha256": "249ad33b790c86d58976d604f5ae2b7cce449755c5f380fc507b5b5cdb30e896",
+      "checkpoint_bytes_unchanged": true,
+      "training_code_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556"
+    }
+  ]
+}

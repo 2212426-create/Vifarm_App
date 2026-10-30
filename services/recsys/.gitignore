@@ -21,3 +21,5 @@ firestore_data.json
 realtime_db_data.json
 auth_users_data.json
 # Keep source, documentation and compact JSON/Markdown reports reviewable.
+# Preserve this service's reading instructions across checkouts despite the root ignore.
+!AGENTS.md

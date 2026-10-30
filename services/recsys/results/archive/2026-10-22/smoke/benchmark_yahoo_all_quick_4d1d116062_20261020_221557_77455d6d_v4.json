@@ -1,0 +1,833 @@
+{
+  "artifact_version": 4,
+  "coat": {},
+  "kuairand": {},
+  "yahoo": {
+    "Random (expected)": {
+      "NDCG@5": 0.35372415484583114,
+      "Recall@5": 0.5,
+      "Precision@5": 0.19651162790697677,
+      "HitRate@5": 0.6786152639350314,
+      "AUC": 0.5
+    },
+    "Popularity": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 3780,
+      "candidate_pairs": 37800,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.49186880008976064,
+      "Recall@5": 0.6185889627168697,
+      "Recall@5_bounded": 0.6241472868217054,
+      "Precision@5": 0.23116279069767443,
+      "HitRate@5": 0.788953488372093,
+      "eval_users": 1720,
+      "zero_positive_users": 2060,
+      "NDCG@5_CI95_halfwidth": 0.016019306212569827,
+      "elapsed_seconds": 0.18,
+      "AUC": 0.6072337470695615,
+      "auc_users": 1713
+    },
+    "MF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 3780,
+      "candidate_pairs": 37800,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.5406721579028179,
+      "Recall@5": 0.6765903008490216,
+      "Recall@5_bounded": 0.6822093023255813,
+      "Precision@5": 0.2518604651162791,
+      "HitRate@5": 0.8308139534883721,
+      "eval_users": 1720,
+      "zero_positive_users": 2060,
+      "NDCG@5_CI95_halfwidth": 0.015755031725414717,
+      "elapsed_seconds": 0.17,
+      "AUC": 0.659452645039335,
+      "auc_users": 1713,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_221557_77455d6d\\yahoo\\mf\\yahoo_mf_manual_v4_739fabe3935c6cfc.pt",
+      "best_epoch": 1,
+      "best_val_ndcg": 0.5268623359632667,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "mf_v4",
+        "model": "mf",
+        "dataset": "yahoo",
+        "config": {
+          "epochs": 1,
+          "lr": 0.0005,
+          "batch_size": 2048,
+          "patience": 5,
+          "alpha": 0.0,
+          "weight_decay": 1e-06,
+          "seed": 42,
+          "device": "cpu",
+          "optimizer": "adam",
+          "loss": "mse",
+          "decay_scope": "all",
+          "scheduler": "none",
+          "adam_fused": false,
+          "init_scheme": "author_uniform",
+          "method_reference": "iDCF_KDD2023_MF.py_models/mf.py",
+          "method_profile": "idcf_author_mf",
+          "paper_reproduction": false,
+          "momentum": null
+        },
+        "model_kwargs": {
+          "num_users": 15400,
+          "num_items": 1000,
+          "embedding_dim": 64,
+          "use_bias": true,
+          "train_global_bias": false,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "a57c6754ff5e936c4fdd856c9c04b6dd5b5ecea28de0e2b8b7a139ddcc589318",
+          "source": {
+            "repository": "CrazyDumpling/CDR_CIKM2023",
+            "commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+            "files": [
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-train.txt",
+                "size": 3459357,
+                "sha256": "85538b3c4a93eafc4f0ce2d39a6cd178e32a6b615ce775b9d635f7995706269d"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-test.txt",
+                "size": 577233,
+                "sha256": "f27a73bef8c7ccedb17576fe2d4cc52b80c2d5fa60f13529596f003ffd0d8533"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-survey-answers.txt",
+                "size": 75600,
+                "sha256": "d683b965ae7aed511213440415a1719c102ba6efd92eec36465366c3ecca8b72"
+              }
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo",
+          "n_users": 15400,
+          "n_items": 1000
+        },
+        "code_sha256": "861a87f65f7f59fc14a1e07de46d6d98330a2d88c361b20c1da9cb2419856685",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      }
+    },
+    "iDCF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 3780,
+      "candidate_pairs": 37800,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.5495205886417005,
+      "Recall@5": 0.7005832410483573,
+      "Recall@5_bounded": 0.7061627906976744,
+      "Precision@5": 0.2582558139534884,
+      "HitRate@5": 0.8505813953488373,
+      "eval_users": 1720,
+      "zero_positive_users": 2060,
+      "NDCG@5_CI95_halfwidth": 0.01538072696390508,
+      "elapsed_seconds": 0.17,
+      "AUC": 0.6695303885321399,
+      "auc_users": 1713,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_221557_77455d6d\\yahoo\\idcf\\yahoo_idcf_v4_e1_quick_16217416e1_v4_86095ceff358849e.pt",
+      "best_epoch": 1,
+      "best_val_ndcg": 0.534598987216579,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "idcf_v1",
+        "model": "idcf",
+        "dataset": "yahoo",
+        "config": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "batch_size": 2048,
+          "epochs": 1,
+          "patience": 5,
+          "seed": 42,
+          "loss": "mse",
+          "device": "cpu",
+          "confounders_sha256": "247f9da3d4f967c9",
+          "method_reference": "iDCF_KDD2023_MFMF",
+          "paper_reproduction": false,
+          "variant": "idcf",
+          "confounder_training": {
+            "best_val_loss": 529.1190372318416,
+            "best_epoch": 2,
+            "epochs_run": 2,
+            "selection": "post_warmup_full_beta",
+            "anneal_steps": 10,
+            "first_full_beta_epoch": 1,
+            "selected_training_beta": 1.0,
+            "last_training_beta": 1.0,
+            "config": {
+              "latent_dim": 16,
+              "hidden_dim": 32,
+              "n_layers": 3,
+              "lr": 0.0005,
+              "weight_decay": 1e-06,
+              "l2_penalty": 0.01,
+              "batch_size": 512,
+              "epochs": 2,
+              "patience": 100,
+              "beta_max": 1.0,
+              "train_ratio": 0.8,
+              "split_seed": 1234,
+              "seed": 42,
+              "device": "cpu",
+              "validation_samples": 8,
+              "validation_seed": 1234,
+              "validation_metric": "mc_elbo_common_noise_v1"
+            }
+          },
+          "proxy_features": {
+            "source": "observed_yahoo_survey_answers",
+            "questions": 7,
+            "encoding": "one_hot_per_question_with_missing_category_0",
+            "dimensions": 39,
+            "surveyed_users": 5400,
+            "missing_proxy_users": 10000,
+            "proxy_sha256": "e415d2d3e8d7ff16187776a430f84e155cd21e2ab9fa3fa95aafd6c63082a833",
+            "limitation": "Yahoo extension; iDCF identification assumptions not verified for missing-survey users"
+          },
+          "dataset_extension": "Yahoo survey proxies; no original iDCF Yahoo result claimed"
+        },
+        "model_kwargs": {
+          "num_users": 15400,
+          "num_items": 1000,
+          "latent_dim": 16,
+          "embedding_dim": 64,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "a57c6754ff5e936c4fdd856c9c04b6dd5b5ecea28de0e2b8b7a139ddcc589318",
+          "source": {
+            "repository": "CrazyDumpling/CDR_CIKM2023",
+            "commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+            "files": [
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-train.txt",
+                "size": 3459357,
+                "sha256": "85538b3c4a93eafc4f0ce2d39a6cd178e32a6b615ce775b9d635f7995706269d"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-test.txt",
+                "size": 577233,
+                "sha256": "f27a73bef8c7ccedb17576fe2d4cc52b80c2d5fa60f13529596f003ffd0d8533"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-survey-answers.txt",
+                "size": 75600,
+                "sha256": "d683b965ae7aed511213440415a1719c102ba6efd92eec36465366c3ecca8b72"
+              }
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo",
+          "n_users": 15400,
+          "n_items": 1000
+        },
+        "code_sha256": "861a87f65f7f59fc14a1e07de46d6d98330a2d88c361b20c1da9cb2419856685",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "epochs_run": 1,
+      "confounder_info": {
+        "best_val_loss": 529.1190372318416,
+        "best_epoch": 2,
+        "epochs_run": 2,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 10,
+        "first_full_beta_epoch": 1,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 512,
+          "epochs": 2,
+          "patience": 100,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 42,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "validation_metric": "mc_elbo_common_noise_v1"
+        }
+      }
+    },
+    "DR-BIAS + CDR": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 3780,
+      "candidate_pairs": 37800,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.4310682537879051,
+      "Recall@5": 0.5967637966039129,
+      "Recall@5_bounded": 0.6019670542635658,
+      "Precision@5": 0.22348837209302325,
+      "HitRate@5": 0.766860465116279,
+      "eval_users": 1720,
+      "zero_positive_users": 2060,
+      "NDCG@5_CI95_halfwidth": 0.014934366162500313,
+      "elapsed_seconds": 0.16,
+      "AUC": 0.5734976927139799,
+      "auc_users": 1713,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_221557_77455d6d\\yahoo\\cdr\\yahoo_cdr_released_v4_e1_quick_4e6fe6623e_v4_757fb30460dc66f5.pt",
+      "best_epoch": 1,
+      "best_val_ndcg": 0.4242766713896376,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "cdr_released_v1",
+        "model": "cdr_released",
+        "dataset": "yahoo",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1,
+          "lr": 0.05,
+          "weight_decay": 0.0001,
+          "batch_size": 2048,
+          "un_thres": 10.0,
+          "dropout_rate": 0.7,
+          "G": 1,
+          "seed": 42,
+          "device": "cpu",
+          "patience": 5,
+          "loss": "bce",
+          "implementation": "cdr_released",
+          "method_reference": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "upstream_commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+          "paper_reproduction": false,
+          "initialization": "independent_source_xavier_rec_default_normal_imp",
+          "filter_mode": "variance",
+          "output_probability_dropout": true,
+          "imputation_bce": "BCE(imp,detached_rec)",
+          "propensity": "naive_bayes_validation",
+          "propensity_calibration": {
+            "method": "released_naive_bayes",
+            "calibration_rows": 16200,
+            "calibration_positive_rate": 0.08450617641210556,
+            "train_positive_rate": 0.40126851201057434,
+            "population_denominator": 15400000,
+            "observed_fraction": 0.02024051948051948,
+            "source": "random_validation_only",
+            "test_labels_used": false
+          },
+          "propensity_diagnostics": {
+            "inverse_propensity_max": 75.54429626464844,
+            "ips_ess": 219875.61559196643,
+            "imputation_weight_max": 419788.48176365334,
+            "top_1pct_count": 3118,
+            "top_1pct_imputation_weight_share": 0.016682610580623463
+          },
+          "propensity_sha256": "7877d2c007cf92352f71138b7735dc61c22ec477288cd8e7fc028d1e76ad89a8",
+          "selection": "validation_ndcg",
+          "source_adaptations": [
+            "project labels/split/evaluator",
+            "validation-only propensity calibration",
+            "exact catalog population for propensity",
+            "validation early stopping"
+          ]
+        },
+        "model_kwargs": {
+          "num_users": 15400,
+          "num_items": 1000,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.7
+        },
+        "data": {
+          "sha256": "a57c6754ff5e936c4fdd856c9c04b6dd5b5ecea28de0e2b8b7a139ddcc589318",
+          "source": {
+            "repository": "CrazyDumpling/CDR_CIKM2023",
+            "commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+            "files": [
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-train.txt",
+                "size": 3459357,
+                "sha256": "85538b3c4a93eafc4f0ce2d39a6cd178e32a6b615ce775b9d635f7995706269d"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-test.txt",
+                "size": 577233,
+                "sha256": "f27a73bef8c7ccedb17576fe2d4cc52b80c2d5fa60f13529596f003ffd0d8533"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-survey-answers.txt",
+                "size": 75600,
+                "sha256": "d683b965ae7aed511213440415a1719c102ba6efd92eec36465366c3ecca8b72"
+              }
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo",
+          "n_users": 15400,
+          "n_items": 1000
+        },
+        "code_sha256": "861a87f65f7f59fc14a1e07de46d6d98330a2d88c361b20c1da9cb2419856685",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "selection_origin": "cdr_update",
+      "objective_revision": "cdr_released_v1",
+      "cdr_training": {
+        "epoch": 1,
+        "weighted_factual_sum": 6839637.5,
+        "rec_loss": 21.947531806795222,
+        "imp_loss": 126706079.46710527,
+        "filtered_fraction": 8.834035773026316e-05,
+        "observed_rows_used": 311296,
+        "observed_rows_dropped": 408,
+        "validation_ndcg": 0.4242766713896376
+      },
+      "epochs_run": 1,
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 6839637.5,
+          "rec_loss": 21.947531806795222,
+          "imp_loss": 126706079.46710527,
+          "filtered_fraction": 8.834035773026316e-05,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408,
+          "validation_ndcg": 0.4242766713896376
+        }
+      ]
+    }
+  },
+  "diagnostics": {
+    "yahoo": {
+      "users": 3780,
+      "zero_positive_users": 2060,
+      "evaluated_users": 1720,
+      "candidate_pairs": 37800,
+      "positive_pairs": 3380,
+      "pooled_positive_rate": 0.08941798941798942,
+      "mean_user_positive_rate": 0.08941798941798942,
+      "candidate_size_p10_p50_p90": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.35372415484583114,
+        "Recall@5": 0.5,
+        "Precision@5": 0.19651162790697677,
+        "HitRate@5": 0.6786152639350314,
+        "AUC": 0.5
+      }
+    },
+    "yahoo_validation": {
+      "users": 1620,
+      "zero_positive_users": 904,
+      "evaluated_users": 716,
+      "candidate_pairs": 16200,
+      "positive_pairs": 1369,
+      "pooled_positive_rate": 0.08450617283950618,
+      "mean_user_positive_rate": 0.08450617283950618,
+      "candidate_size_p10_p50_p90": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.35026500629822577,
+        "Recall@5": 0.5,
+        "Precision@5": 0.1912011173184358,
+        "HitRate@5": 0.6695763500931099,
+        "AUC": 0.5
+      }
+    }
+  },
+  "significance": {
+    "yahoo": {
+      "MF vs Popularity": {
+        "mean_delta_ndcg": 0.04880335781305733,
+        "CI95_halfwidth": 0.010229672191516923,
+        "wilcoxon_p": 2.687426005784715e-23,
+        "users": 1720,
+        "users_changed": 993,
+        "wins": 656,
+        "losses": 337
+      },
+      "iDCF vs Popularity": {
+        "mean_delta_ndcg": 0.05765178855193994,
+        "CI95_halfwidth": 0.01299298426626376,
+        "wilcoxon_p": 7.914617378981285e-15,
+        "users": 1720,
+        "users_changed": 1138,
+        "wins": 684,
+        "losses": 454
+      },
+      "iDCF vs MF": {
+        "mean_delta_ndcg": 0.008848430738882607,
+        "CI95_halfwidth": 0.011456624360339243,
+        "wilcoxon_p": 0.4933810796286481,
+        "users": 1720,
+        "users_changed": 1054,
+        "wins": 532,
+        "losses": 522
+      },
+      "DR-BIAS + CDR vs Popularity": {
+        "mean_delta_ndcg": -0.06080054630185562,
+        "CI95_halfwidth": 0.022115429043326786,
+        "wilcoxon_p": 7.0628128130630455e-09,
+        "users": 1720,
+        "users_changed": 1523,
+        "wins": 661,
+        "losses": 862
+      },
+      "DR-BIAS + CDR vs MF": {
+        "mean_delta_ndcg": -0.10960390411491294,
+        "CI95_halfwidth": 0.02053654668594236,
+        "wilcoxon_p": 5.647943313318686e-25,
+        "users": 1720,
+        "users_changed": 1471,
+        "wins": 551,
+        "losses": 920
+      }
+    }
+  },
+  "evaluation_protocol": {
+    "yahoo": {
+      "metric_revision": "logged_binary_v1",
+      "reference": "iDCF_KDD2023",
+      "implementation": "idcf_aligned_local",
+      "k": 5,
+      "primary_metrics": [
+        "NDCG@5",
+        "Recall@5"
+      ],
+      "candidates": "logged_exposures",
+      "relevance": "binary_any_positive_per_user_item",
+      "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+      "recall_denominator": "all_positive_items_in_candidate_pool",
+      "aggregation": "macro_by_user",
+      "include_zero_positive_users": false,
+      "tie_break": "score_desc_then_item_id_asc",
+      "train_overlap": "retain_and_disclose",
+      "selection": "validation_ndcg",
+      "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+      "seed_std_ddof": 1,
+      "split": {
+        "protocol": "paper_idcf",
+        "dataset_extension": "yahoo_survey_proxy",
+        "split_unit": "user",
+        "seed": 1234,
+        "positive_threshold": 4,
+        "validation_users": 1620,
+        "test_users": 3780,
+        "validation_rows": 16200,
+        "test_rows": 37800,
+        "train_random_overlap_pairs": 0,
+        "validation_overlap_pairs": 0,
+        "test_overlap_pairs": 0,
+        "test_overlap_positive_pairs": 0
+      },
+      "paper_scores_directly_comparable": false,
+      "limitations": [
+        "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+        "Binary duplicate aggregation and deterministic score ties are local conventions.",
+        "Local model architectures, loss and tuning differ from original implementations."
+      ]
+    }
+  },
+  "protocol": {
+    "selection": "validation_only",
+    "run_id": "20261020_221557_77455d6d",
+    "threads_override": 2,
+    "test": "held_out_final_evaluation",
+    "candidate_pool": "logged_exposures_only",
+    "include_zero_positive_users": {
+      "coat": false,
+      "kuairand": false,
+      "yahoo": false
+    },
+    "coat_protocol": "paper_idcf",
+    "idcf_config": {
+      "yahoo": {
+        "ivae": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "batch_size": 512,
+          "patience": 100
+        },
+        "train": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 2048,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      },
+      "coat": {
+        "ivae": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "batch_size": 512,
+          "patience": 100
+        },
+        "train": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 512,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      },
+      "kuairand": {
+        "ivae": {
+          "latent_dim": 32,
+          "hidden_dim": 64,
+          "n_layers": 2,
+          "batch_size": 2048,
+          "patience": 5
+        },
+        "train": {
+          "lr": 0.0001,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 2048,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      }
+    },
+    "ividr_alpha_residual": 0.0,
+    "ivae_epochs": 2,
+    "stage2_overrides": {},
+    "stage1_overrides": {},
+    "device": "cpu",
+    "kuairand_protocol": "paper_idcf",
+    "kuairand_random_val_fraction": 0.3,
+    "paper_scores_directly_comparable": false,
+    "coat_random_split_seed": 1234,
+    "alpha": 0.0,
+    "alpha_applies_to": [
+      "MF"
+    ],
+    "kuairand_cdr_propensity": "item_exposure_frequency_proxy_clipped_0.05_to_1.0",
+    "quick_run": true,
+    "seed": 42,
+    "epochs_coat": 1,
+    "epochs_kuairand": 1,
+    "epochs_yahoo": 1,
+    "cdr_implementation": "auto",
+    "dimension_override": null,
+    "learning_rate_override": null,
+    "batch_size_override": null,
+    "yahoo_split_info": {
+      "protocol": "paper_idcf",
+      "dataset_extension": "yahoo_survey_proxy",
+      "split_unit": "user",
+      "seed": 1234,
+      "positive_threshold": 4,
+      "validation_users": 1620,
+      "test_users": 3780,
+      "validation_rows": 16200,
+      "test_rows": 37800,
+      "train_random_overlap_pairs": 0,
+      "validation_overlap_pairs": 0,
+      "test_overlap_pairs": 0,
+      "test_overlap_positive_pairs": 0
+    },
+    "yahoo_proxy_features": {
+      "source": "observed_yahoo_survey_answers",
+      "questions": 7,
+      "encoding": "one_hot_per_question_with_missing_category_0",
+      "dimensions": 39,
+      "surveyed_users": 5400,
+      "missing_proxy_users": 10000,
+      "proxy_sha256": "e415d2d3e8d7ff16187776a430f84e155cd21e2ab9fa3fa95aafd6c63082a833",
+      "limitation": "Yahoo extension; iDCF identification assumptions not verified for missing-survey users"
+    },
+    "smoke_users": null
+  }
+}

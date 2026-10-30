@@ -1,0 +1,81 @@
+{
+    "reviewed_on":  "2026-10-21",
+    "identity":  {
+                     "code_sha256":  "4ca654f49942424708c3fd56fcfa9f8c939702831b59d4781bf168c5f2ceb883"
+                 },
+    "default_models":  [
+                           "MF",
+                           "iDCF",
+                           "IViDR",
+                           "DR-BIAS + CDR"
+                       ],
+    "ividr":  {
+                  "implementation":  "existing_ividr_staged",
+                  "display_name":  "IViDR-approx",
+                  "official":  false,
+                  "implementation_functions_unchanged":  true,
+                  "replacement_gate":  "not_met: objective and data-mapping differences vs arXiv; published ACM full text not accessible"
+              },
+    "test_suite":  {
+                       "total":  119,
+                       "passed":  118,
+                       "skipped":  1,
+                       "log":  "docs/archive/2026-10-21/four_model_default/final_tests.log"
+                   },
+    "smoke":  [
+                  {
+                      "dataset":  "coat",
+                      "report":  "results/benchmark_coat_all_quick_6631803986_20261021_095855_dfd64f42_v4.json",
+                      "models":  [
+                                     "DR-BIAS + CDR",
+                                     "IViDR",
+                                     "MF",
+                                     "iDCF"
+                                 ],
+                      "purpose":  "smoke_not_quality"
+                  },
+                  {
+                      "dataset":  "yahoo",
+                      "report":  "results/benchmark_yahoo_all_quick_10c32d3d92_20261021_095900_d04b30ec_v4.json",
+                      "models":  [
+                                     "DR-BIAS + CDR",
+                                     "IViDR",
+                                     "MF",
+                                     "iDCF"
+                                 ],
+                      "purpose":  "smoke_not_quality"
+                  },
+                  {
+                      "dataset":  "kuairand",
+                      "report":  "results/benchmark_kuairand_all_quick_e85ea190bb_20261021_095925_4fa70829_v4.json",
+                      "models":  [
+                                     "DR-BIAS + CDR",
+                                     "IViDR",
+                                     "MF",
+                                     "iDCF"
+                                 ],
+                      "purpose":  "smoke_not_quality"
+                  }
+              ],
+    "full_coat_report":  "results/benchmark_coat_all_e052d60c74_20261021_095855_83a07811_v4.json",
+    "training_code_sha256":  "35e5fcf0d0bdf71e04fb4b1c18c279c0dc497b51d990866d7c6874825c94b2f2",
+    "later_source_change":  "Only coat-seeds approximation caption corrected after full training; old training hash preserved",
+    "unchanged_models_regression":  [
+                                        {
+                                            "model":  "MF",
+                                            "all_parameter_tensors_exact":  true,
+                                            "metrics_exact":  true
+                                        },
+                                        {
+                                            "model":  "iDCF",
+                                            "all_parameter_tensors_exact":  true,
+                                            "metrics_exact":  true
+                                        },
+                                        {
+                                            "model":  "DR-BIAS + CDR",
+                                            "all_parameter_tensors_exact":  true,
+                                            "metrics_exact":  true
+                                        }
+                                    ],
+    "validation_artifact":  "results/four_model_default_final_validation_20261021.json"
+}

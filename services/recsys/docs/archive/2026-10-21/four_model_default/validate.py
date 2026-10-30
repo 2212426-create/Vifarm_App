@@ -1,0 +1,26 @@
+"""Validate unchanged CDR behavior after selecting the four-model default suite."""
+import json,sys
+from pathlib import Path
+import torch
+ROOT=Path(__file__).resolve().parents[4]
+sys.path.insert(0,str(ROOT))
+from src.utils.artifacts import source_signature
+from src.causal.cdr.train_released_cdr import train_released_cdr
+from src.data_pipeline.coat_dataset import load_coat_processed
+torch.set_num_threads(2)
+code=source_signature()
+previous=json.loads((ROOT/'results/bounded_recall_display_validation_20261021.json').read_text(encoding='utf-8'))
+data=load_coat_processed(pos_threshold=3)
+runs=[]
+for old in previous['runs']:
+    seed=old['seed']
+    r=train_released_cdr('coat',data,seed=seed,evaluate_test=False,device='cpu',
+        selection='source_train_loss_last',calibration_fraction=.05,
+        checkpoint_dir=ROOT/'checkpoints/four_model_default_validation',checkpoint_tag=f'seed{seed}')
+    assert (r['best_epoch'],r['best_val_ndcg'])==(old['best_epoch'],old['best_val_ndcg'])
+    runs.append(dict(seed=seed,**r))
+assert source_signature()==code
+with (ROOT/'results/four_model_default_validation_20261021.json').open('x',encoding='utf-8') as f:
+    json.dump(dict(identity=dict(code_sha256=code),runs=runs,evaluation='validation_only_no_held_out_test',
+        previous_validation='results/bounded_recall_display_validation_20261021.json',
+        regression='All three selected epochs and validation scores exactly match before the model-suite selection change'),f,indent=2)

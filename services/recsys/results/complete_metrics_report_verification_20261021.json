@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "code_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880"
+  },
+  "status": "passed_cpu",
+  "tests": {
+    "total": 118,
+    "passed": 117,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-21/complete_metrics_report/model_tests.log"
+  },
+  "report": "results/benchmark_report_20261021_072543_c37b107c.json",
+  "input_report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\benchmark_all_8e44de4472_20261020_232046_d992f0ff_v4.json",
+  "retrained": false,
+  "original_file_unchanged": true,
+  "original_primary_metrics_unchanged": true,
+  "mf_idcf_rows_and_training_metadata_unchanged": true,
+  "unified_rows": 9,
+  "undefined_metrics_in_this_report": 0,
+  "cdr_metrics": {
+    "coat": {
+      "NDCG@5": 0.6566651228158734,
+      "Recall@5": 0.493414483026552,
+      "Recall@5_bounded": 0.667816091954023,
+      "Precision@5": 0.5324137931034482,
+      "HitRate@5": 0.9310344827586207,
+      "AUC_global": 0.7512927651405334,
+      "users": 290
+    },
+    "yahoo": {
+      "NDCG@5": 0.655928916666389,
+      "Recall@5": 0.7060595972957084,
+      "Recall@5_bounded": 0.7312993827160493,
+      "Precision@5": 0.2637777777777778,
+      "HitRate@5": 0.6309259259259259,
+      "AUC_global": 0.6849303841590881,
+      "users": 5400
+    },
+    "kuairand": {
+      "NDCG@5": 0.2739622599746859,
+      "Recall@5": 0.2600890318669043,
+      "Recall@5_bounded": 0.32737248802646524,
+      "Precision@5": 0.21524218634276404,
+      "HitRate@5": 0.645311805658421,
+      "AUC_global": 0.6361510753631592,
+      "users": 13502
+    }
+  },
+  "validation_diagnostic": "results/complete_metrics_report_validation_20261021.json",
+  "metric_policy": "Both Recalls on source-eligible users; source empty-positive Recall=1, Precision/HitRate=0",
+  "limit": "Merged display preserves distinct protocols and AUC types; no cross-protocol significance tests"
+}

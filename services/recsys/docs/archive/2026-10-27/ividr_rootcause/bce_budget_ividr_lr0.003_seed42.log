@@ -1,0 +1,50 @@
+
+========================================================================
+ HUẤN LUYỆN IViDR-BCE | Giai đoạn 2/2: feedback: COAT
+ Thiết bị: cpu | Dim: 64 | LR: 0.003 | Batch: 512 | Optimizer: adam | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[IViDR-BCE/feedback][COAT] Epoch 001/300 | Train Loss: 0.6066 | Val NDCG@5: 0.4769 | Val Recall@5: 0.5336 | Val HR@5: 0.8571
+[IViDR-BCE/feedback][COAT] Epoch 002/300 | Train Loss: 0.5322 | Val NDCG@5: 0.4583 | Val Recall@5: 0.5241 | Val HR@5: 0.8429
+[IViDR-BCE/feedback][COAT] Epoch 003/300 | Train Loss: 0.5216 | Val NDCG@5: 0.4945 | Val Recall@5: 0.5423 | Val HR@5: 0.8571
+[IViDR-BCE/feedback][COAT] Epoch 004/300 | Train Loss: 0.5033 | Val NDCG@5: 0.5119 | Val Recall@5: 0.5459 | Val HR@5: 0.8571
+[IViDR-BCE/feedback][COAT] Epoch 005/300 | Train Loss: 0.4756 | Val NDCG@5: 0.4885 | Val Recall@5: 0.5466 | Val HR@5: 0.8571
+[IViDR-BCE/feedback][COAT] Epoch 006/300 | Train Loss: 0.4412 | Val NDCG@5: 0.4908 | Val Recall@5: 0.5485 | Val HR@5: 0.8429
+[IViDR-BCE/feedback][COAT] Epoch 007/300 | Train Loss: 0.3995 | Val NDCG@5: 0.5049 | Val Recall@5: 0.5499 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 008/300 | Train Loss: 0.3581 | Val NDCG@5: 0.5288 | Val Recall@5: 0.5625 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 009/300 | Train Loss: 0.3161 | Val NDCG@5: 0.5262 | Val Recall@5: 0.5598 | Val HR@5: 0.8571
+[IViDR-BCE/feedback][COAT] Epoch 010/300 | Train Loss: 0.2776 | Val NDCG@5: 0.5492 | Val Recall@5: 0.5915 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 011/300 | Train Loss: 0.2421 | Val NDCG@5: 0.5402 | Val Recall@5: 0.5666 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 012/300 | Train Loss: 0.2108 | Val NDCG@5: 0.5414 | Val Recall@5: 0.5733 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 013/300 | Train Loss: 0.1828 | Val NDCG@5: 0.5579 | Val Recall@5: 0.5830 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 014/300 | Train Loss: 0.1588 | Val NDCG@5: 0.5449 | Val Recall@5: 0.5585 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 015/300 | Train Loss: 0.1382 | Val NDCG@5: 0.5457 | Val Recall@5: 0.5626 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 016/300 | Train Loss: 0.1199 | Val NDCG@5: 0.5463 | Val Recall@5: 0.5583 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 017/300 | Train Loss: 0.1047 | Val NDCG@5: 0.5577 | Val Recall@5: 0.5779 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 018/300 | Train Loss: 0.0917 | Val NDCG@5: 0.5549 | Val Recall@5: 0.5689 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 019/300 | Train Loss: 0.0807 | Val NDCG@5: 0.5579 | Val Recall@5: 0.5641 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 020/300 | Train Loss: 0.0712 | Val NDCG@5: 0.5628 | Val Recall@5: 0.5737 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 021/300 | Train Loss: 0.0631 | Val NDCG@5: 0.5600 | Val Recall@5: 0.5719 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 022/300 | Train Loss: 0.0561 | Val NDCG@5: 0.5653 | Val Recall@5: 0.5742 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 023/300 | Train Loss: 0.0502 | Val NDCG@5: 0.5615 | Val Recall@5: 0.5737 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 024/300 | Train Loss: 0.0450 | Val NDCG@5: 0.5619 | Val Recall@5: 0.5719 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 025/300 | Train Loss: 0.0406 | Val NDCG@5: 0.5630 | Val Recall@5: 0.5719 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 026/300 | Train Loss: 0.0368 | Val NDCG@5: 0.5588 | Val Recall@5: 0.5671 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 027/300 | Train Loss: 0.0334 | Val NDCG@5: 0.5578 | Val Recall@5: 0.5671 | Val HR@5: 0.8714
+[IViDR-BCE/feedback][COAT] Epoch 028/300 | Train Loss: 0.0305 | Val NDCG@5: 0.5604 | Val Recall@5: 0.5784 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 029/300 | Train Loss: 0.0280 | Val NDCG@5: 0.5574 | Val Recall@5: 0.5713 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 030/300 | Train Loss: 0.0257 | Val NDCG@5: 0.5574 | Val Recall@5: 0.5713 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 031/300 | Train Loss: 0.0237 | Val NDCG@5: 0.5585 | Val Recall@5: 0.5713 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 032/300 | Train Loss: 0.0219 | Val NDCG@5: 0.5552 | Val Recall@5: 0.5677 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 033/300 | Train Loss: 0.0203 | Val NDCG@5: 0.5548 | Val Recall@5: 0.5665 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 034/300 | Train Loss: 0.0189 | Val NDCG@5: 0.5529 | Val Recall@5: 0.5617 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 035/300 | Train Loss: 0.0176 | Val NDCG@5: 0.5526 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 036/300 | Train Loss: 0.0164 | Val NDCG@5: 0.5533 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 037/300 | Train Loss: 0.0154 | Val NDCG@5: 0.5588 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 038/300 | Train Loss: 0.0145 | Val NDCG@5: 0.5586 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 039/300 | Train Loss: 0.0136 | Val NDCG@5: 0.5590 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 040/300 | Train Loss: 0.0128 | Val NDCG@5: 0.5588 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 041/300 | Train Loss: 0.0121 | Val NDCG@5: 0.5588 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Epoch 042/300 | Train Loss: 0.0114 | Val NDCG@5: 0.5588 | Val Recall@5: 0.5629 | Val HR@5: 0.8857
+[IViDR-BCE/feedback][COAT] Dừng sớm tại epoch 42 | Chọn epoch: 22 | Best Val NDCG@5: 0.5653
+{"latents": "ividr", "lr": 0.003, "seed": 42, "val": 0.5653270539181351, "test": 0.5349722302815039, "epoch": 22}

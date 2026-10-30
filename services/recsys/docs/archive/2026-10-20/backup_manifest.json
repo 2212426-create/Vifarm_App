@@ -1,0 +1,26 @@
+{
+  "captured_on": "2026-10-20",
+  "purpose": "exact original bytes before documentation cleanup; not current guidance",
+  "zip_sha256": "e24220b88e514fd8b43a370129a6c14f5068af20f3e6a549779b072403e3c52a",
+  "members": {
+    "README.md": "9f279eb8bdf044f413b21ac1e67a16aaa518e76e3a9a6c84868ccdb2f8f1f039",
+    "results/README.md": "31e8bc991128ff60da5cab23b00a774f12ac0379213068f09951b332deeab78d",
+    "docs/api/colab_api_guide.md": "ba663a88a6340d8b83004c290b79ca9259dc3ecdb7fbd67ea7c0f8df6b212341",
+    "docs/benchmarks/evaluation_protocol.md": "5e9de40059169e92922ce0007d06a571f6003cc7e336b1f31cd77803e22d1d43",
+    "docs/benchmarks/mf_optimizer_audit.md": "1deae8ddb5aaed263c4e67eda6d1356cf0bc7cf1f2ef2e43910cfda5a9e1de34",
+    "docs/benchmarks/paper_model_alignment.md": "cbf833a7b87e2a38d837e3c8c16c0b270659121545f29501cc4a186b125d909a",
+    "docs/benchmarks/paper_reference_comparison.md": "560d3aa47fbbcb635b8295d422d07964a471a507e492f8db221d85114304504a",
+    "docs/benchmarks/review_2026-10-19.md": "a863013d7f878689a48b91bebcb7636c30a815d04af4065ed9ee4018eb9db527",
+    "docs/benchmarks/root_cause_analysis.md": "0db5b4f40d47045386afa585804cc3db8f91a8547bccf3d905383cc6778103f0",
+    "docs/de_cuong/DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md": "1797feb7d3eddc9cdc2ab24bb75603b60ac5069928aae9ee3f9ebe67b8d01057",
+    "docs/de_cuong/DeCuong_Phan1_LocCongTac_CF.md": "bc199dbbb84fe8d682e8c3234900e025ef7948097b0eea236c6a9f57af39b242",
+    "docs/de_cuong/DeCuong_Phan2_HocSau_DeepLearning.md": "e0c23f4903e5accf6a2753f248e7b20b11a64b43bf6253112115a740a94b592c",
+    "docs/paper_summaries/CDR.md": "d11c6ef4a60f84b5291beeb7585f48b2410031fa31d0b1cbe9be6766672c903b",
+    "docs/paper_summaries/iDCF.md": "32c06936a75774289b91049a78ce62dc441d5f082bf6b63f6b58970552d112bb",
+    "docs/paper_summaries/IViDR.md": "51a94d806bf551d24f3335e8a011844c937a4af7b91194810a9e24c8b2c45855",
+    "docs/paper_summaries/ReCRec.md": "590324ced41aa12871aaf2cc2854e84a17d286a047b52ddb90b2af02bb9b633d",
+    "docs/presentation/presentation_script.md": "092e9b110c040702bb44875d1fd5252bf31a783fc7910ac6239cd37a794dc6cf",
+    "docs/presentation/presentation_slides.md": "5b26e965a78663486ac229f9563c29a8782c23d14020c4f61878b8a3cd6bad1f",
+    "docs/README.md": "4cef9add92a6e2b3bc1aa0cbbab442275916313c6e3e59d67a8126f9384d6966"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "scope": "Exact documentation bytes before latest full Coat CDR audit and UTF-8 repair",
+  "files": [
+    {
+      "path": "docs/CURRENT_STATE.md",
+      "sha256": "52dfd4ce460fe5573e1275c104dbbe52043ccecf5ef57f8e703c847d168aa0a3"
+    },
+    {
+      "path": "docs/benchmarks/root_cause_analysis.md",
+      "sha256": "dd0a92723f517b6171440c4e241b2d72381ba76f49020b0b46d755bcd06b2f23"
+    },
+    {
+      "path": "docs/state_snapshot.json",
+      "sha256": "ae81a41350b7be5a5cddd7e48cc2f7fc276d263928ac92db3f2544ced641455d"
+    },
+    {
+      "path": "docs/catalog.json",
+      "sha256": "476e62c9ddad706dc0bc7118d349604313212e2f2b6a0dd1cc211ab2e965b735"
+    },
+    {
+      "path": "results/CATALOG.md",
+      "sha256": "029bc601acefbbfebf3bdf574f6d78464a06b4ccb788d80ba2b1dc6c68b8b95a"
+    },
+    {
+      "path": "results/README.md",
+      "sha256": "ce98d7b7dd46df8264af495ccb1267a7d1d8fdacfeedebb2eadef0ef7a64c56c"
+    }
+  ]
+}

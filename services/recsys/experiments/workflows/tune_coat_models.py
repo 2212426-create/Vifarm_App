@@ -5,7 +5,7 @@ Workflow Tìm Kiếm & Tối Ưu Hóa Siêu Tham Số (Hyperparameter Tuning) Ch
 Tuân thủ nghiêm ngặt nguyên tắc thực nghiệm khoa học:
 1. Toàn bộ các trial trong Grid Search chỉ được lựa chọn dựa trên điểm số Validation NDCG@5 (30% Random split).
 2. Checkpoint tối ưu nhất của mỗi mô hình mới được đánh giá DUY NHẤT 1 LẦN trên tập Held-Out Test (70% Random split).
-3. Hỗ trợ Warm-start MF cho CDR, hiển thị tiến độ thời gian thực (TeeLogger) và xuất bảng đối sánh khoa học.
+3. CDR huấn luyện độc lập theo loss và backbone riêng, không nạp MF-MSE.
 
 ViFarm Project (services/recsys)
 """
@@ -15,19 +15,25 @@ import hashlib
 import json
 import sys
 import time
+from uuid import uuid4
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.baselines.train_mf import train_baseline_mf
-from src.causal.cdr.train_dr_bias_cdr import train_dr_bias_cdr
+from src.models.mf.train_mf import train_baseline_mf
+from src.models.cdr.train_released_cdr import train_released_cdr
 from src.utils.helpers import RESULTS_DIR
 from src.utils.artifacts import evaluate_checkpoint, data_signature, source_signature, digest
 from src.data_pipeline.coat_dataset import load_coat_processed
+from src.training.config import mf_config, released_cdr_config, released_tuning_grids
+
 from src.evaluation.protocol import protocol_metadata
 from src.evaluation.table_formatter import format_grid_table
+
+def cdr_config(dataset, **overrides):
+    return dict(released_cdr_config(dataset, **overrides), patience=overrides.get("patience") or 5)
 
 
 class TeeLogger:
@@ -53,65 +59,30 @@ class TeeLogger:
 # =============================================================================
 # LƯỚI TÌM KIẾM SIÊU THAM SỐ (SEARCH GRIDS) ĐÃ TINH CHỈNH CHO COAT DATASET
 # =============================================================================
-# Lưới un_thres của CDR bên dưới theo thang hệ số biến thiên (cấu hình cũ), không phải chế độ tác giả.
-LEGACY_CDR_MODE = {"filter_mode": "cv", "ips_weighting": "dr", "counterfactual_pool": "unobserved"}
-
-GRIDS = {
-    "mf": [
-        {"embedding_dim": 16, "lr": 1e-3, "weight_decay": 1e-5, "batch_size": 512},
-        {"embedding_dim": 32, "lr": 1e-3, "weight_decay": 1e-5, "batch_size": 512},
-        {"embedding_dim": 32, "lr": 5e-4, "weight_decay": 1e-5, "batch_size": 512},
-        {"embedding_dim": 64, "lr": 1e-3, "weight_decay": 1e-5, "batch_size": 512},
-        {"embedding_dim": 64, "lr": 2e-3, "weight_decay": 1e-5, "batch_size": 512},
-        {"embedding_dim": 128, "lr": 1e-3, "weight_decay": 1e-4, "batch_size": 512},
-    ],
-    "cdr": [
-        {"embedding_dim": 32, "lr": 0.001, "un_thres": 0.05, "max_inverse_propensity": 20.0, "batch_size": 128},
-        {"embedding_dim": 32, "lr": 0.002, "un_thres": 0.01, "max_inverse_propensity": 20.0, "batch_size": 128},
-        {"embedding_dim": 32, "lr": 0.002, "un_thres": 0.05, "max_inverse_propensity": 20.0, "batch_size": 128},
-        {"embedding_dim": 32, "lr": 0.002, "un_thres": 0.10, "max_inverse_propensity": 20.0, "batch_size": 128},
-        {"embedding_dim": 32, "lr": 0.005, "un_thres": 0.05, "max_inverse_propensity": 20.0, "batch_size": 128},
-        {"embedding_dim": 64, "lr": 0.001, "un_thres": 0.05, "max_inverse_propensity": 20.0, "batch_size": 128},
-        {"embedding_dim": 64, "lr": 0.002, "un_thres": 0.05, "max_inverse_propensity": 20.0, "batch_size": 128},
-        {"embedding_dim": 64, "lr": 0.003, "un_thres": 0.05, "max_inverse_propensity": 10.0, "batch_size": 128},
-    ],
-}
+GRIDS = released_tuning_grids("coat")
 
 
 def train_model(name: str, config: dict, epochs: int, evaluate_test: bool, tag: str,
-                data_dict: dict = None, patience: int = 7):
+                data_dict: dict = None, patience: int = None):
     common = {
         "dataset_name": "coat",
         "epochs": epochs,
-        "patience": patience,
+        "patience": patience if patience is not None else (mf_config if name == "mf" else cdr_config)("coat")["patience"],
         "evaluate_test": evaluate_test,
         "checkpoint_tag": tag,
     }
     if data_dict is not None:
         common["data_dict"] = data_dict
     if name == "mf":
-        return train_baseline_mf(**common, **config)
+        effective = mf_config(common["dataset_name"], **config)
+        effective.pop("epochs")
+        effective.pop("patience")
+        return train_baseline_mf(**common, **effective)
     if name == "cdr":
-        cfg = dict(config)
-        dim = cfg.get("embedding_dim", 32)
-        initial_ckpt = cfg.get("initial_rec_checkpoint")
-        if initial_ckpt is None:
-            mf_tag = f"coat_mf_warm_{dim}_e{epochs}"
-            mf_res = train_baseline_mf(
-                dataset_name="coat",
-                embedding_dim=dim,
-                epochs=epochs,
-                lr=1e-3,
-                weight_decay=1e-5,
-                batch_size=512,
-                patience=patience,
-                evaluate_test=False,
-                checkpoint_tag=mf_tag,
-                **({"data_dict": data_dict} if data_dict is not None else {})
-            )
-            initial_ckpt = mf_res["checkpoint_path"]
-            cfg["initial_rec_checkpoint"] = initial_ckpt
-        return train_dr_bias_cdr(**common, **LEGACY_CDR_MODE, **cfg)
+        cfg = cdr_config("coat", **config)
+        cfg.pop("epochs")
+        cfg.pop("patience")
+        return train_released_cdr(**common, **cfg, selection="source_train_loss_last", calibration_fraction=.05, seed=2020)
     raise ValueError(f"Mô hình không được hỗ trợ: {name}")
 
 
@@ -125,6 +96,8 @@ def write_report(payload: dict, json_path: Path):
         f"- **Số Epoch Tối Đa**: {payload['epochs']} epochs (kèm Early Stopping)",
         f"- **Giao thức thực nghiệm**: Chọn cấu hình tốt nhất hoàn toàn bằng tập Validation (30% Random log).",
         f"- **Đánh giá khách quan**: Chỉ chấm điểm Held-Out Test DUY NHẤT 1 LẦN cho mô hình được chọn.",
+        "",
+        "CDR tuning uses the released estimator, source train-loss stopping and 5% validation calibration. It is not the default source-protocol benchmark; Coat labels: CDR >=3, MF >=4. Do not compare these rows as identical protocols.",
         "",
         "| Mô hình | Cấu hình tối ưu | Val NDCG@5 | Test NDCG@5 | Test Recall@5 | Test Precision@5 | Test HitRate@5 | Test AUC |",
         "| :-- | :-- | --: | --: | --: | --: | --: | --: |"
@@ -140,6 +113,10 @@ def write_report(payload: dict, json_path: Path):
             f"{test['NDCG@5']:.4f} | {test['Recall@5']:.4f} | {prec_str} | {hr_str} | {auc_str} |"
         )
     
+    for name, selected in payload["selected"].items():
+        if selected.get("best_epoch") == 0 and name == "cdr":
+            lines.extend(["", "CDR selected epoch 0: retained MF warm start; no CDR update improved validation."])
+
     lines.extend([
         "",
         "### Chi Tiết Toàn Bộ Các Trials Trong Grid Search",
@@ -195,18 +172,23 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", choices=("all", "mf", "cdr"), default="all",
                         help="Chọn mô hình cần tuning (mặc định: all)")
-    parser.add_argument("--epochs", type=int, default=50,
-                        help="Số epoch tối đa cho mỗi trial (mặc định: 50)")
-    parser.add_argument("--patience", type=int, default=10,
-                        help="Số epoch Early Stopping patience (mặc định: 10)")
+    parser.add_argument("--epochs", type=int, default=None,
+                        help="Override epoch budget; default follows each model's benchmark config")
+    parser.add_argument("--patience", type=int, default=None,
+                        help="Override early stopping patience; default follows benchmark config")
     parser.add_argument("--quick", action="store_true",
                         help="Chế độ chạy nhanh (lấy mẫu nhỏ grid để kiểm tra pipeline)")
     args = parser.parse_args(argv)
 
-    if args.epochs < 1:
+    if args.epochs is not None and args.epochs < 1:
         parser.error("--epochs phải lớn hơn 0")
 
+    if args.patience is not None and args.patience < 1:
+        parser.error("--patience must be positive")
+
     names = list(GRIDS) if args.model == "all" else [args.model]
+    budgets = {name: (mf_config if name == "mf" else cdr_config)("coat",
+                epochs=args.epochs, patience=args.patience) for name in names}
     
     effective_grids = {}
     for name in names:
@@ -217,21 +199,24 @@ def main(argv=None):
 
     print("=" * 85)
     print(" BẮT ĐẦU QUY TRÌNH TINH CHỈNH SIÊU THAM SỐ (TUNING) TRÊN COAT DATASET")
-    print(f" Mô hình: {names} | Epochs: {args.epochs} | Patience: {args.patience}")
+    print(f" Mô hình: {names} | Epochs: { {n: c['epochs'] for n, c in budgets.items()} } | Patience: { {n: c['patience'] for n, c in budgets.items()} }")
     print("=" * 85)
     
     print(" Đang nạp dữ liệu Coat...")
     data = load_coat_processed()
+    cdr_data = load_coat_processed(pos_threshold=3) if 'cdr' in names else None
     identity = {
         "models": names,
-        "epochs": args.epochs,
+        "epochs": {name: cfg["epochs"] for name, cfg in budgets.items()},
+        "patience": {name: cfg["patience"] for name, cfg in budgets.items()},
         "seed": 42,
         "version": 4,
         "grids": effective_grids,
         "data": data_signature(data),
+        "cdr_data": data_signature(cdr_data) if cdr_data is not None else None,
         "code_sha256": source_signature()
     }
-    run_digest = digest(identity)
+    run_digest = digest(identity) + "_" + uuid4().hex[:8]
     json_path = Path(RESULTS_DIR) / f"tuning_coat_{args.model}_e{args.epochs}_{run_digest}_v4.json"
     log_path = json_path.with_suffix(".log")
     
@@ -240,7 +225,9 @@ def main(argv=None):
         "protocol": "paper_idcf_30_70_user_seed1234",
         "evaluation_protocol": protocol_metadata(data),
         "selection": "validation_ndcg_only",
-        "epochs": args.epochs,
+        "cdr_protocol": "released estimator; train-loss last; seed2020; 5% validation calibration; tuning only, not source-protocol benchmark",
+        "epochs": {name: cfg["epochs"] for name, cfg in budgets.items()},
+        "patience": {name: cfg["patience"] for name, cfg in budgets.items()},
         "grids": effective_grids,
         "trials": [],
         "selected": {}
@@ -252,30 +239,10 @@ def main(argv=None):
     sys.stdout = tee
 
     try:
-        mf_checkpoints = {}
-        # Nếu có tuning CDR, tiền huấn luyện MF checkpoints làm warm-start
-        if "cdr" in names:
-            print("\n>>> [TIỀN HUẤN LUYỆN MF ĐỂ WARM-START CHO CDR]...")
-            needed_dims = sorted(list(set(c["embedding_dim"] for c in effective_grids["cdr"])))
-            for dim in needed_dims:
-                mf_tag = f"coat_mf_warm_{dim}_e{args.epochs}"
-                mf_res = train_baseline_mf(
-                    dataset_name="coat",
-                    embedding_dim=dim,
-                    epochs=args.epochs,
-                    lr=1e-3,
-                    weight_decay=1e-5,
-                    batch_size=512,
-                    patience=args.patience,
-                    evaluate_test=False,
-                    data_dict=data,
-                    checkpoint_tag=mf_tag
-                )
-                mf_checkpoints[dim] = mf_res["checkpoint_path"]
-                print(f"    -> Đã tạo MF Warm-start checkpoint cho dim={dim} (Val NDCG={mf_res['best_val_ndcg']:.4f})")
-
         for name in names:
             candidates = []
+            trial_epochs = budgets[name]["epochs"]
+            trial_patience = budgets[name]["patience"]
             grid_list = effective_grids[name]
             total_trials = len(grid_list)
             print(f"\n" + "#" * 85)
@@ -284,21 +251,26 @@ def main(argv=None):
 
             for idx, config in enumerate(grid_list, 1):
                 config_digest = hashlib.sha256(json.dumps(config, sort_keys=True).encode()).hexdigest()[:10]
-                tag = f"tune_coat_e{args.epochs}_{config_digest}"
+                tag = f"tune_coat_e{trial_epochs}_{config_digest}"
                 
                 print(f"\n--- [{name.upper()} Trial {idx}/{total_trials}] Cấu hình: {config} ---")
                 started = time.perf_counter()
                 
-                result = train_model(name, config, args.epochs, False, tag)
+                effective_config = dict(config)
+                result = train_model(name, effective_config, trial_epochs, False, tag,
+                                     data_dict=cdr_data if name=='cdr' else data, patience=trial_patience)
                 
                 elapsed = time.perf_counter() - started
                 trial = {
+                    "epochs": trial_epochs, "patience": trial_patience,
                     "model": name,
                     "config": config,
                     "best_val_ndcg": result["best_val_ndcg"],
                     "best_epoch": result["best_epoch"],
                     "checkpoint_path": result["checkpoint_path"],
                     "metadata": result["metadata"],
+                    "cdr_training": result.get("cdr_training"),
+                    "training_history": result.get("training_history"),
                     "elapsed_seconds": round(elapsed, 2)
                 }
                 payload["trials"].append(trial)
@@ -314,7 +286,7 @@ def main(argv=None):
             print(f"    Điểm Validation NDCG@5 cao nhất: {best['best_val_ndcg']:.4f} (epoch {best['best_epoch']})")
             print(f"    -> Đang tiến hành đánh giá DUY NHẤT 1 LẦN trên tập Held-Out Test...")
             
-            test_metrics = evaluate_checkpoint(best["checkpoint_path"], data)
+            test_metrics = evaluate_checkpoint(best["checkpoint_path"], cdr_data if name=='cdr' else data)
             payload["selected"][name] = {
                 "config": best_config,
                 "validation_ndcg": best["best_val_ndcg"],

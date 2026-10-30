@@ -1,0 +1,995 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-30",
+  "source_sha256": "eaaa557ae302485a39c88caade79c246fe4efa791bc02870c8c9d0a04f7e5db1",
+  "scope": "benchmark --model all runs six models (user request 30/10): MF, iDCF, IViDR, LCDR (H30), DR-BIAS + CDR, ConAlign (C-src); ConAlign KuaiRand defaults to the paper train window 22/04-05/05",
+  "default_models": [
+    "MF",
+    "iDCF",
+    "IViDR",
+    "LCDR",
+    "DR-BIAS + CDR",
+    "ConAlign"
+  ],
+  "experimental_models": [
+    "LCDR",
+    "ConAlign"
+  ],
+  "mf_defaults": {
+    "coat": {
+      "embedding_dim": 64,
+      "epochs": 100,
+      "lr": 0.0005,
+      "weight_decay": 1e-06,
+      "batch_size": 512,
+      "patience": 5,
+      "loss_name": "mse",
+      "decay_scope": "all",
+      "scheduler_name": "none",
+      "train_global_bias": false,
+      "init_scheme": "author_uniform"
+    },
+    "yahoo": {
+      "embedding_dim": 64,
+      "epochs": 100,
+      "lr": 0.0005,
+      "weight_decay": 1e-06,
+      "batch_size": 2048,
+      "patience": 5,
+      "loss_name": "mse",
+      "decay_scope": "all",
+      "scheduler_name": "none",
+      "train_global_bias": false,
+      "init_scheme": "author_uniform"
+    },
+    "kuairand": {
+      "embedding_dim": 64,
+      "epochs": 100,
+      "lr": 5e-05,
+      "weight_decay": 1e-06,
+      "batch_size": 2048,
+      "patience": 5,
+      "loss_name": "mse",
+      "decay_scope": "all",
+      "scheduler_name": "none",
+      "train_global_bias": false,
+      "init_scheme": "author_uniform"
+    }
+  },
+  "cdr_defaults": {
+    "coat": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.001,
+      "batch_size": 128,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 4
+    },
+    "yahoo": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.0001,
+      "batch_size": 2048,
+      "un_thres": 10.0,
+      "dropout_rate": 0.7,
+      "G": 1
+    },
+    "kuairand": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.0001,
+      "batch_size": 2048,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 1
+    }
+  },
+  "idcf_pipeline_defaults": {
+    "yahoo": {
+      "ivae": {
+        "latent_dim": 16,
+        "hidden_dim": 32,
+        "n_layers": 3,
+        "batch_size": 512,
+        "patience": 100
+      },
+      "train": {
+        "lr": 0.0005,
+        "weight_decay": 1e-06,
+        "embedding_dim": 64,
+        "batch_size": 2048,
+        "patience": 5,
+        "init_scheme": "author_uniform"
+      }
+    },
+    "coat": {
+      "ivae": {
+        "latent_dim": 16,
+        "hidden_dim": 32,
+        "n_layers": 3,
+        "batch_size": 512,
+        "patience": 100
+      },
+      "train": {
+        "lr": 0.0005,
+        "weight_decay": 1e-06,
+        "embedding_dim": 64,
+        "batch_size": 512,
+        "patience": 5,
+        "init_scheme": "author_uniform"
+      }
+    },
+    "kuairand": {
+      "ivae": {
+        "latent_dim": 32,
+        "hidden_dim": 64,
+        "n_layers": 2,
+        "batch_size": 2048,
+        "patience": 5
+      },
+      "train": {
+        "lr": 0.0001,
+        "weight_decay": 1e-06,
+        "embedding_dim": 64,
+        "batch_size": 2048,
+        "patience": 5,
+        "init_scheme": "author_uniform"
+      }
+    }
+  },
+  "grid_sizes": {
+    "coat": {
+      "mf": 10,
+      "cdr": 1120
+    },
+    "yahoo": {
+      "mf": 10,
+      "cdr": 1120
+    },
+    "kuairand": {
+      "mf": 10,
+      "cdr": 1120
+    }
+  },
+  "evaluation": {
+    "mf_idcf": "logged_binary_v1 / >=4 / random-user 30/70",
+    "cdr": "cdr_source_v1 / >=3 Coat/Yahoo / full random log / 5% calibration / train-loss last",
+    "cross_protocol_paired_tests": false,
+    "lcdr": "H30, iDCF data/evaluator",
+    "conalign": "conalign_source_protocol (C-src): source para(), seed 0, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
+  },
+  "test_suite": {
+    "total": 156,
+    "passed": 155,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-30/console_models/tests_final.log",
+    "first_run": "docs/archive/2026-10-30/console_models/tests.log: 2 failures from four-model expectations, tests updated"
+  },
+  "validation_artifact": "results/console_models_validation_20261030.json",
+  "independent_cdr_validation": [
+    {
+      "seed": 2020,
+      "epoch": 23,
+      "val_ndcg": 0.6699348906169417
+    },
+    {
+      "seed": 2021,
+      "epoch": 35,
+      "val_ndcg": 0.6546685444276458
+    },
+    {
+      "seed": 2022,
+      "epoch": 25,
+      "val_ndcg": 0.6669383509943496
+    }
+  ],
+  "limits": [
+    "Source Coat/Yahoo uses evaluation labels for calibration; not independent held-out test",
+    "KuaiRand uses local preprocessing and array/bounded-memory sampling adaptations",
+    "Tuning uses validation calibration/selection; separate from default source protocol",
+    "API lacks randomized log; serving adaptation",
+    "CUDA unverified"
+  ],
+  "full_coat_benchmark": {
+    "completion_artifact": "results/coat_full_20261020_185436_60df72/completion.json",
+    "report_artifact": "results/coat_full_20261020_185436_60df72/benchmark_coat_all_429e263db0_v4.json",
+    "source_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+    "seed": 42,
+    "quick_run": false,
+    "hyperparameter_tuning": false,
+    "models": {
+      "MF": {
+        "NDCG@5": 0.547611758415125,
+        "Recall@5": 0.5295358500448321,
+        "Precision@5": 0.3497005988023952,
+        "HitRate@5": 0.8502994011976048,
+        "AUC": 0.6931237695272126,
+        "best_epoch": 23,
+        "best_val_ndcg": 0.6189874762100858,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\coat_full_20261020_185436_60df72\\baselines\\coat_mf_v4_e100_full_675818c412_v4_798e7ba25c8ba554.pt",
+        "selection_origin": null
+      },
+      "iDCF": {
+        "NDCG@5": 0.4637451741598258,
+        "Recall@5": 0.4774987986065831,
+        "Precision@5": 0.3281437125748503,
+        "HitRate@5": 0.8143712574850299,
+        "AUC": 0.6727571185467892,
+        "best_epoch": 3,
+        "best_val_ndcg": 0.5146730731530648,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\coat_full_20261020_185436_60df72\\idcf\\coat_idcf_v4_e100_full_758db21f4e_v4_e65d63c8793847f5.pt",
+        "selection_origin": null
+      },
+      "DR-BIAS + CDR": {
+        "NDCG@5": 0.3769816064146252,
+        "Recall@5": 0.4007949967530806,
+        "Precision@5": 0.26826347305389225,
+        "HitRate@5": 0.7604790419161677,
+        "AUC": 0.5608726519654664,
+        "best_epoch": 6,
+        "best_val_ndcg": 0.42560789410417477,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\coat_full_20261020_185436_60df72\\cdr\\coat_cdr_v4_e100_full_f369878e25_v4_20052bd2a66220d0.pt",
+        "selection_origin": "cdr_update"
+      }
+    },
+    "environment": {
+      "python": "3.12.10",
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "torch": "2.14.1+cpu",
+      "cuda_available": false
+    },
+    "scope": "Historical pre-fix full test benchmark at source 36230d1cd908; not a benchmark of the fixed source"
+  },
+  "previous_milestone": {
+    "source_sha256": "36230d1cd908e7d9d2696a8d2936930fa8950c8549f27849f75e35ae82c0fca2",
+    "test_suite": {
+      "total": 97,
+      "passed": 96,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "provenance": "verification from preceding model-change task, not rerun during documentation cleanup",
+      "log": "docs/archive/2026-10-20/verification/test_suite_97.log"
+    },
+    "validation_artifact": "results/cdr_paper_method_validation_37b126f2c13fcea9.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 42,
+        "epoch": 6,
+        "val_ndcg": 0.42560789410417477
+      },
+      {
+        "seed": 43,
+        "epoch": 7,
+        "val_ndcg": 0.4175275563804492
+      },
+      {
+        "seed": 44,
+        "epoch": 17,
+        "val_ndcg": 0.4530520419271063
+      }
+    ]
+  },
+  "idcf_checkpoint_selection": "post_warmup_full_beta; short-budget fallback is explicitly labeled",
+  "validation_scope_note": "Validation-only source estimator diagnostic; not the default source-protocol benchmark",
+  "idcf_validation": [],
+  "search_artifact": "results/archive/2026-10-22/diagnostics/coat_pipeline_fix_search_20261020.json",
+  "pre_fix_coat_report_analysis": {
+    "artifact": "results/archive/2026-10-22/diagnostics/coat_report_analysis_20261020.json",
+    "report": "results/benchmark_coat_all_429e263db0_v4.json",
+    "read_only": true,
+    "runtime_changed": false,
+    "confirmed_idcf_architecture_mismatch": true,
+    "local_ivae_architecture": [
+      32,
+      64,
+      2
+    ],
+    "author_published_tuned_ivae_architecture": [
+      16,
+      32,
+      3
+    ],
+    "architecture_order": [
+      "latent_dim",
+      "hidden_dim",
+      "n_layers"
+    ],
+    "causal_impact_on_ranking": "not yet measured by controlled validation comparison"
+  },
+  "post_fix_coat_benchmark": {
+    "report_artifact": "results/benchmark_coat_all_16747d3add_20261020_194738_4bb0b674_v4.json",
+    "source_sha256": "d5bdd13e82c351964eaead1572d4d8d185dd0b045521203ad7f63f5cb26266a1",
+    "seed": 42,
+    "quick_run": false,
+    "models": {
+      "MF": {
+        "NDCG@5": 0.547611758415125,
+        "Recall@5": 0.5295358500448321,
+        "AUC": 0.6931237695272126,
+        "best_val_ndcg": 0.6189874762100858,
+        "best_epoch": 23
+      },
+      "iDCF": {
+        "NDCG@5": 0.5698840836815878,
+        "Recall@5": 0.5519691220290022,
+        "AUC": 0.6859969849677934,
+        "best_val_ndcg": 0.6058970553682123,
+        "best_epoch": 24
+      },
+      "DR-BIAS + CDR": {
+        "NDCG@5": 0.44851396860764564,
+        "Recall@5": 0.45814501533064406,
+        "AUC": 0.622095623106102,
+        "best_val_ndcg": 0.49856217421532867,
+        "best_epoch": 40
+      }
+    },
+    "scope": "Completed user-run held-out test after pipeline fix; not source-script or paper protocol; historical before released CDR integration"
+  },
+  "cdr_followup_audit": {
+    "artifact": "results/archive/2026-10-22/diagnostics/cdr_followup_audit_20261020.json",
+    "runtime_modified": false,
+    "published_script_ndcg5": 0.6566651228158734,
+    "published_script_recall5_bounded": 0.6678160988565149,
+    "published_script_is_project_held_out": false
+  },
+  "pre_yahoo_integration_milestone": {
+    "source_sha256": "d5bdd13e82c351964eaead1572d4d8d185dd0b045521203ad7f63f5cb26266a1",
+    "scope": "Coat pipeline fixes verified by regression tests, full-data validation-only fits and operational smoke; not paper reproduction",
+    "test_suite": {
+      "total": 104,
+      "passed": 103,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "provenance": "Rerun after freezing the Coat pipeline fix source",
+      "log": "docs/archive/2026-10-20/coat_pipeline_fix/model_tests.log"
+    },
+    "validation_artifact": "results/archive/2026-10-22/validation/coat_pipeline_fix_validation_20261020.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 42,
+        "epoch": 40,
+        "val_ndcg": 0.49856217421532867
+      },
+      {
+        "seed": 43,
+        "epoch": 50,
+        "val_ndcg": 0.49754674407305716
+      },
+      {
+        "seed": 44,
+        "epoch": 21,
+        "val_ndcg": 0.49186943933668203
+      }
+    ],
+    "idcf_validation": [
+      {
+        "seed": 42,
+        "epoch": 24,
+        "val_ndcg": 0.6058970553682123,
+        "ivae_epoch": 1379,
+        "selected_training_beta": 1.0
+      },
+      {
+        "seed": 43,
+        "epoch": 27,
+        "val_ndcg": 0.5892249829926378,
+        "ivae_epoch": 1395,
+        "selected_training_beta": 1.0
+      },
+      {
+        "seed": 44,
+        "epoch": 47,
+        "val_ndcg": 0.6022834064045596,
+        "ivae_epoch": 1249,
+        "selected_training_beta": 1.0
+      }
+    ],
+    "limits": [
+      "CDR seeds 42/43/44 also used for configuration selection; validation variability is descriptive, not independent generalization evidence",
+      "Architecture matches public Coat iVAE checkpoint dimensions; optimizer settings and schedule are local, not recovered from checkpoint",
+      "Limited paper-range search, not all 1120 CDR configurations",
+      "KuaiRand/API propensity remains item-frequency proxy",
+      "IViDR is not the paper implementation",
+      "Diagnostic CDR ports are not bitwise copies of published source",
+      "One completed held-out Coat seed at fixed source; published-script protocol diagnostic has different labels/calibration/metrics"
+    ]
+  },
+  "cdr_implementation": {
+    "coat": "released_source_protocol",
+    "yahoo": "released_source_protocol",
+    "kuairand": "released_source_protocol"
+  },
+  "equation_cdr_defaults": {
+    "coat": {
+      "embedding_dim": 4,
+      "epochs": 100,
+      "lr": 0.1,
+      "batch_size": 512,
+      "patience": 20,
+      "un_thres": 0.1,
+      "max_inverse_propensity": null,
+      "weight_decay": 0.0001,
+      "filter_mode": "cv",
+      "ips_weighting": "paper",
+      "counterfactual_pool": "all",
+      "mc_samples": 10,
+      "training_profile": "paper",
+      "backbone": "paper_dot",
+      "scheduler_name": "none",
+      "propensity_mode": "naive_bayes_validation"
+    },
+    "yahoo": {
+      "embedding_dim": 4,
+      "epochs": 100,
+      "lr": 0.05,
+      "batch_size": 2048,
+      "patience": 5,
+      "un_thres": 0.1,
+      "weight_decay": 0.0001,
+      "filter_mode": "cv",
+      "ips_weighting": "paper",
+      "counterfactual_pool": "all",
+      "mc_samples": 10,
+      "training_profile": "paper",
+      "backbone": "paper_dot",
+      "scheduler_name": "none",
+      "propensity_mode": "naive_bayes_validation"
+    },
+    "kuairand": {
+      "embedding_dim": 4,
+      "epochs": 100,
+      "lr": 0.05,
+      "batch_size": 2048,
+      "patience": 5,
+      "un_thres": 0.1,
+      "filter_mode": "cv",
+      "weight_decay": 0.0001,
+      "ips_weighting": "paper",
+      "counterfactual_pool": "all",
+      "mc_samples": 10,
+      "training_profile": "paper",
+      "backbone": "paper_dot",
+      "scheduler_name": "none"
+    }
+  },
+  "grid_scope": "Released estimator; validation adaptation, not default source-protocol scoring",
+  "verification_artifact": "results/ividr_reference_verification_20261022.json",
+  "pre_source_protocol_default_milestone": {
+    "source_sha256": "88769819bd670011c7a4667b0bff82458549ef0de8abee3f63e4d050e68a2943",
+    "scope": "Released CDR integration and Yahoo dataset extension; CPU parity, tests, smoke and validation verification",
+    "test_suite": {
+      "total": 109,
+      "passed": 108,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-20/yahoo_source_integration/model_tests.log"
+    },
+    "verification_artifact": "results/yahoo_source_integration_verification_20261020.json",
+    "validation_artifact": "results/released_cdr_coat_validation_20261020_yahoo_integration.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 42,
+        "epoch": 14,
+        "val_ndcg": 0.5072590417714429
+      },
+      {
+        "seed": 43,
+        "epoch": 8,
+        "val_ndcg": 0.4826854110272464
+      },
+      {
+        "seed": 44,
+        "epoch": 3,
+        "val_ndcg": 0.49583870445877704
+      }
+    ]
+  },
+  "source_protocol_benchmarks": {
+    "coat": "results/benchmark_coat_cdr_dd41848bc6_20261020_231233_64456c33_v4.json",
+    "yahoo": "results/cdr_source_yahoo_20261020_225246_193982ea.json"
+  },
+  "pre_logging_milestone": {
+    "source_sha256": "abc819e34351677e9a81fa880d92bf4c8d80472e3b50d9e79dc183621e315845",
+    "scope": "CDR source-protocol default; Coat/Yahoo full fits, three-dataset smoke, seed/tuning/API tests and checkpoint reload",
+    "test_suite": {
+      "total": 113,
+      "passed": 112,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-20/cdr_source_default/model_tests.log"
+    },
+    "verification_artifact": "results/cdr_source_default_verification_20261020.json",
+    "validation_artifact": "results/cdr_source_estimator_validation_20261020.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ]
+  },
+  "source_protocol_benchmark_sources": {
+    "coat": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+    "yahoo": "abc819e34351677e9a81fa880d92bf4c8d80472e3b50d9e79dc183621e315845"
+  },
+  "pre_complete_metric_report_milestone": {
+    "source_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+    "scope": "Unified console training logs; full Coat source parameters and validation diagnostics unchanged",
+    "test_suite": {
+      "total": 115,
+      "passed": 114,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-20/unified_training_logs/model_tests.log"
+    },
+    "verification_artifact": "results/unified_training_logs_verification_20261020.json",
+    "validation_artifact": "results/unified_training_logs_validation_20261020.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ]
+  },
+  "latest_merged_report": {
+    "path": "results/benchmark_report_bounded_20261021_074350_e29d0387.json",
+    "training_code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+    "evaluation_code_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880",
+    "retrained": false,
+    "render_code_sha256": "6497b9eefd6462927ee443fb949318b5df66849ad47788f9fff9ce4ff3e63a00"
+  },
+  "pre_bounded_recall_display_milestone": {
+    "source_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880",
+    "scope": "Source auxiliary metrics and unified protocol-labeled display; latest nine-model report refreshed from checkpoints, no retraining",
+    "test_suite": {
+      "total": 118,
+      "passed": 117,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-21/complete_metrics_report/model_tests.log"
+    },
+    "verification_artifact": "results/complete_metrics_report_verification_20261021.json",
+    "validation_artifact": "results/complete_metrics_report_validation_20261021.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ],
+    "latest_merged_report": {
+      "path": "results/benchmark_report_20261021_072543_c37b107c.json",
+      "training_code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+      "evaluation_code_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880",
+      "retrained": false
+    }
+  },
+  "displayed_recall": "Recall@5_bounded",
+  "latest_full_coat_benchmark": {
+    "report": "results/benchmark_coat_all_02b9e8eb46_20261022_073711_146173c9_v4.json",
+    "verification": "results/ividr_reference_verification_20261022.json",
+    "code_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556",
+    "scope": "Full four-model fit; IViDR feedback selected by validation-only 10-trial grid; MF/iDCF/CDR metric and tensor parity; one seed, not author-score reproduction"
+  },
+  "pre_four_model_default_milestone": {
+    "source_sha256": "6497b9eefd6462927ee443fb949318b5df66849ad47788f9fff9ce4ff3e63a00",
+    "scope": "Bounded-only recall display; JSON retains both metrics without recomputation",
+    "default_models": [
+      "MF",
+      "iDCF",
+      "DR-BIAS + CDR"
+    ],
+    "test_suite": {
+      "total": 118,
+      "passed": 117,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-21/bounded_recall_display/model_tests.log"
+    },
+    "validation_artifact": "results/bounded_recall_display_validation_20261021.json",
+    "verification_artifact": "results/bounded_recall_display_verification_20261021.json",
+    "latest_full_coat_benchmark": {
+      "report": "results/benchmark_coat_all_666cb1327c_20261021_074841_a3d6e730_v4.json",
+      "verification": "results/archive/2026-10-22/diagnostics/coat_reproducibility_20261021_074841.json",
+      "code_sha256": "6497b9eefd6462927ee443fb949318b5df66849ad47788f9fff9ce4ff3e63a00",
+      "scope": "Full retraining; metrics and all parameter tensors exactly match previous same-seed run"
+    }
+  },
+  "ividr_status": {
+    "implementation": "ividr_reference_bce_v2",
+    "display_name": "IViDR-BCE",
+    "included_by_user_request": true,
+    "paper_reproduction": false,
+    "review": "docs/benchmarks/ividr_reference_20261022.md",
+    "stage1_architecture": "paper_ivae_learned_instruments_v2",
+    "feedback_model": "ividr_reference",
+    "eq10_coordinate_completion_is_local": true,
+    "legacy_weights_remain_readable": true
+  },
+  "pre_ividr_bce_milestone": {
+    "source_sha256": "4ca654f49942424708c3fd56fcfa9f8c939702831b59d4781bf168c5f2ceb883",
+    "scope": "Historical local model state; see docs/benchmarks/ividr_bce_20261021.md",
+    "experimental_models": [
+      "IViDR-approx"
+    ],
+    "test_suite": {
+      "total": 119,
+      "passed": 118,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-21/four_model_default/final_tests.log"
+    },
+    "validation_artifact": "results/four_model_default_final_validation_20261021.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ],
+    "verification_artifact": "results/four_model_default_verification_20261021.json",
+    "latest_full_coat_benchmark": {
+      "report": "results/benchmark_coat_all_e052d60c74_20261021_095855_83a07811_v4.json",
+      "verification": "results/four_model_default_verification_20261021.json",
+      "code_sha256": "35e5fcf0d0bdf71e04fb4b1c18c279c0dc497b51d990866d7c6874825c94b2f2",
+      "scope": "Full four-model training before the final coat-seeds caption correction; MF/iDCF/CDR metrics and every tensor exactly match previous run; training hash preserved"
+    },
+    "ividr_status": {
+      "implementation": "ividr_staged",
+      "display_name": "IViDR-approx",
+      "included_by_user_request": true,
+      "paper_reproduction": false,
+      "review": "docs/benchmarks/ividr_bce_20261021.md"
+    }
+  },
+  "pre_paper_default_confirmation_milestone": {
+    "source_sha256": "70897b831d4faa0fc73aaed139cab2cd04f3a214215eac5f49dac4de552cde33",
+    "scope": "Four-model suite; IViDR learned instruments, dual iVAE and BCE with documented local choices; validation-only LR/WD selection",
+    "test_suite": {
+      "total": 126,
+      "passed": 125,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-21/ividr_bce/model_tests.log"
+    },
+    "validation_artifact": "results/ividr_bce_validation_20261021.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ],
+    "verification_artifact": "results/archive/2026-10-22/diagnostics/ividr_bce_verification_20261021.json"
+  },
+  "external_source_cleanup": {
+    "status": "complete",
+    "helper": "experiments/cleanup_external_source.ps1",
+    "no_archive_created_for_removed_material": true
+  },
+  "pre_ividr_reference_milestone": {
+    "source_sha256": "017c3601e4f3744c42e95e2eecaad571a761178b8c315d65cb31201f19591b39",
+    "scope": "IViDR paper BCE retained; active training/workflow restored exactly; legacy docstring cleaned; rejected-source file removal pending local execution",
+    "test_suite": {
+      "total": 126,
+      "passed": 125,
+      "skipped": 1,
+      "log": "docs/archive/2026-10-21/paper_default_confirmation/model_tests.log"
+    },
+    "validation_artifact": "results/paper_default_confirmation_validation_20261021.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ],
+    "verification_artifact": "results/archive/2026-10-22/diagnostics/paper_default_confirmation_20261021.json",
+    "latest_full_coat_benchmark": {
+      "report": "results/benchmark_coat_all_b384ff80db_20261021_115348_e8c7d044_v4.json",
+      "verification": "results/archive/2026-10-22/diagnostics/ividr_bce_verification_20261021.json",
+      "code_sha256": "70897b831d4faa0fc73aaed139cab2cd04f3a214215eac5f49dac4de552cde33",
+      "scope": "Full four-model training; IViDR validation-only 10-trial feedback grid, winner-only test; MF/iDCF/CDR metrics and tensors exactly match preceding run"
+    },
+    "ividr_status": {
+      "implementation": "ividr_equations_bce",
+      "display_name": "IViDR-BCE",
+      "included_by_user_request": true,
+      "paper_reproduction": false,
+      "review": "docs/benchmarks/ividr_bce_20261021.md",
+      "loss_ablation": "results/ividr_mse_bce_ablation_20261021.json",
+      "loss_ablation_scope": "One-seed controlled experiment; does not select defaults by test"
+    }
+  },
+  "ividr_reference_defaults": {
+    "treatment_dimensions": {
+      "coat": 32,
+      "yahoo": 96,
+      "kuairand": 128
+    },
+    "feature_embedding": "trainable_linear",
+    "feedback_loss": "bce",
+    "prediction": "E[sigmoid(score)]",
+    "train_mc_samples": 10,
+    "inference_quadrature_points": 32,
+    "phi": 1.0,
+    "lambda_mf": 1.0,
+    "rho": 0.9,
+    "tau": 0.9,
+    "eq10_adapter": "tied_item_lift",
+    "feedback_grid_size": 10,
+    "feedback_patience": 20,
+    "paper_reproduction": false
+  },
+  "pre_package_layout_milestone": {
+    "source_sha256": "dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556",
+    "scope": "IViDR arXiv-reference reimplementation: learned instruments, full-matrix factorized gates, tied-item coordinate adapter, probability marginalization before BCE; other three models unchanged",
+    "test_suite": {
+      "total": 132,
+      "passed": 131,
+      "skipped": 1,
+      "log": "docs/archive/2026-10-22/ividr_reference/tests.log"
+    },
+    "validation_artifact": "results/ividr_reference_validation_20261022.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ]
+  },
+  "package_layout": {
+    "guide": "docs/architecture/directory_layout.md",
+    "verification": "results/package_layout_verification_20261022.json",
+    "selected_next_models": [],
+    "integrated_next_models": []
+  },
+  "pre_short_video_integration_milestone": {
+    "source_sha256": "5cb6ca4bcf5d8963b8a7205290a80cf0d7a4ee15a979dcaaa1dde4438be91479",
+    "scope": "Per-model src/models packages; compatibility aliases; no algorithm/protocol changes; new model slots pending integration",
+    "test_suite": {
+      "total": 134,
+      "passed": 133,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-22/package_layout/tests.log"
+    },
+    "validation_artifact": "results/package_layout_validation_20261022.json",
+    "independent_cdr_validation": [
+      {
+        "seed": 2020,
+        "epoch": 23,
+        "val_ndcg": 0.6699348906169417
+      },
+      {
+        "seed": 2021,
+        "epoch": 35,
+        "val_ndcg": 0.6546685444276458
+      },
+      {
+        "seed": 2022,
+        "epoch": 25,
+        "val_ndcg": 0.6669383509943496
+      }
+    ],
+    "package_layout": {
+      "guide": "docs/architecture/directory_layout.md",
+      "verification": "results/package_layout_verification_20261022.json",
+      "selected_next_models": [],
+      "integrated_next_models": [
+        "MF-CRIB",
+        "EGMN"
+      ]
+    }
+  },
+  "results_cleanup": {
+    "reviewed_on": "2026-10-22",
+    "verification": "docs/archive/2026-10-22/results_cleanup/verification.json",
+    "archived_files": 155,
+    "root_files_before": 252,
+    "root_files_after": 97,
+    "source_unchanged": true,
+    "training_rerun": false
+  },
+  "pre_model_removal_milestone": {
+    "source_sha256": "2ee67c48c8d187f5faf9cb7e553454d5d93bacfdc24aea7408287e72a01ddd51",
+    "scope": "PDF review and runtime evaluation of MF-CRIB/EGMN on top of their integration",
+    "evidence_removed_on_user_request": true
+  },
+  "model_removal": {
+    "reviewed_on": "2026-10-27",
+    "removed_models": [
+      "MF-CRIB",
+      "EGMN"
+    ],
+    "removed_dataset": "data/raw/kuairand_1k",
+    "kept_dataset": "data/raw/kuairand_pure",
+    "removed_cli_commands": [
+      "mf-crib",
+      "egmn",
+      "short-video"
+    ],
+    "smoke_log": "docs/archive/2026-10-27/model_removal/smoke.log",
+    "validation_log": "docs/archive/2026-10-27/model_removal/validation.log",
+    "no_archive_created_for_removed_material": true
+  },
+  "pre_lcdr_conalign_milestone": {
+    "source_sha256": "5bfc0e4080fe8898526cbc19763db6e4fcd8e706e04cb60800dcf25424e8c438",
+    "scope": "MF-CRIB and EGMN removed at user request with their code, data, documents and evidence; four default models, losses, config and protocols unchanged",
+    "test_suite": {
+      "total": 134,
+      "passed": 133,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-27/model_removal/tests.log"
+    },
+    "validation_artifact": "results/model_removal_validation_20261027.json"
+  },
+  "experimental_models_20261027": {
+    "LCDR": {
+      "command": "lcdr",
+      "author_code": false,
+      "guide": "docs/benchmarks/lcdr_conalign_20261027.md",
+      "coat_report": "results/lcdr_coat_20261027_220934_6395e1a8.json"
+    },
+    "ConAlign": {
+      "command": "conalign",
+      "author_code": "third_party/conalign@f6171bb",
+      "license": "none declared",
+      "coat_report": "results/conalign_coat_20261027_220711_8da7d449.json"
+    },
+    "IViDR_eq10_v3": {
+      "default": false,
+      "default_bridge": "tied_item_lift",
+      "guide": "docs/benchmarks/ividr_eq10_ablation_20261027.md",
+      "validation_improvement": false
+    }
+  },
+  "pre_weighted_bce_milestone": {
+    "source_sha256": "2811a292168094fb238f02ca0cdaa6dac26382a2fea2132fed2ddf066a332061",
+    "scope": "LCDR (paper re-implementation) and ConAlign (author-source port) added as separate experimental commands; IViDR Eq. (10) v3/ablation options added, default stays reference v2; default four models unchanged",
+    "test_suite": {
+      "total": 151,
+      "passed": 150,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-27/lcdr_conalign/tests.log"
+    },
+    "validation_artifact": "results/lcdr_conalign_validation_20261027.json"
+  },
+  "ividr_root_cause": {
+    "guide": "docs/benchmarks/ividr_root_cause_20261027.md",
+    "main_cause": "BCE penalizes self-selected low-rated exposures",
+    "mf_bce_negative_weight_0.2_recovers_validation": true,
+    "ividr_gain_with_weighting": "within seed noise",
+    "default_changed": false,
+    "zero_prior_neg0.1": {
+      "val_ndcg": 0.6184,
+      "test_ndcg_mean": 0.5464,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "default_changed": false
+    }
+  },
+  "pre_zero_prior_milestone": {
+    "source_sha256": "48d72ed3f5872a7ed10c0b1792571fdf47d33e0669800fa4d21574980277426a",
+    "scope": "Optional negative_weight for BCE feedback (default 1, defaults unchanged); IViDR root-cause study",
+    "test_suite": {
+      "total": 151,
+      "passed": 150,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-28/ividr_bce/tests.log"
+    },
+    "validation_artifact": "results/ividr_bce_validation_20261028.json"
+  },
+  "pre_ividr_default_change_milestone": {
+    "source_sha256": "742872d084e70591b7763b150b0c0d0652e1349dc7f44957e77ea59ce48b991d",
+    "scope": "Optional IViDR stage-1 zero prior mean (iDCF-style, deviates from Eq. 42) and negative_weight passthrough; defaults unchanged",
+    "test_suite": {
+      "total": 152,
+      "passed": 151,
+      "skipped": 1,
+      "skip_reason": "CUDA unavailable",
+      "log": "docs/archive/2026-10-28/ividr_zero_prior/tests.log"
+    },
+    "validation_artifact": "results/ividr_zero_prior_validation_20261028.json"
+  },
+  "ividr_default": {
+    "display_name": "IViDR",
+    "ividr_version": "reference_v2_prior0_neg0.1",
+    "prior_mean": "zero",
+    "negative_weight": 0.1,
+    "eq10_bridge": "tied_item_lift",
+    "paper_literal_overrides": {
+      "ivae_overrides": {
+        "prior_mean": "learned"
+      },
+      "negative_weight": 1
+    },
+    "evidence": "results/ividr_ten_seed_summary_20261028.json",
+    "changed_on": "2026-10-28"
+  }
+}

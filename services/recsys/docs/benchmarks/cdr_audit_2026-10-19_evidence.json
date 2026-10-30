@@ -1,0 +1,143 @@
+{
+  "source_sha256": "071e78466a61b479db14624bc3e80485cfddb3ad7601d8e0a67f4caeb6240826",
+  "coat_data_sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+  "author_reproduction": {
+    "seed": 2020,
+    "train_positive_gte": 3,
+    "test_labels_used_for_propensity_fraction": 0.05,
+    "epochs": 27,
+    "fixed_model_rescoring": [
+      {
+        "rating_positive_gte": 3,
+        "scope": "all",
+        "zero_positive_policy": "exclude",
+        "NDCG@5": 0.6579336494514445,
+        "Recall@5": 0.48610272191233056,
+        "eval_users": 281
+      },
+      {
+        "rating_positive_gte": 3,
+        "scope": "test",
+        "zero_positive_policy": "exclude",
+        "NDCG@5": 0.6547697461256332,
+        "Recall@5": 0.48172838759178965,
+        "eval_users": 194
+      },
+      {
+        "rating_positive_gte": 3,
+        "scope": "all",
+        "zero_positive_policy": "one",
+        "NDCG@5": 0.668549501709848,
+        "Recall@5_bounded": 0.6764942602864628
+      },
+      {
+        "rating_positive_gte": 4,
+        "scope": "all",
+        "zero_positive_policy": "exclude",
+        "NDCG@5": 0.4954487511388589,
+        "Recall@5": 0.5197211953541068,
+        "eval_users": 237
+      },
+      {
+        "rating_positive_gte": 4,
+        "scope": "test",
+        "zero_positive_policy": "exclude",
+        "NDCG@5": 0.48319195657103026,
+        "Recall@5": 0.5058990743122479,
+        "eval_users": 167
+      },
+      {
+        "rating_positive_gte": 4,
+        "scope": "all",
+        "zero_positive_policy": "one",
+        "NDCG@5": 0.5876598414479641,
+        "Recall@5_bounded": 0.6420114987883074
+      }
+    ],
+    "warning": "Source-code reproduction; not the paper-stated protocol or an untouched-test benchmark"
+  },
+  "current_cdr": {
+    "seed": 42,
+    "warm_val_ndcg": 0.6160854087814722,
+    "best_epoch": 0,
+    "selection_origin": "warm_start",
+    "test_ndcg": 0.5226272143131622,
+    "test_recall": 0.5055118201824789,
+    "filtered_ratio_mean": 0.0,
+    "filtered_ratio_max": 0.0,
+    "batches": 385
+  },
+  "torch": "2.14.1+cpu",
+  "threads": 2,
+  "label_protocol_audit": {
+    "3": {
+      "train_positive_rate": 0.5204022988505748,
+      "random_positive_rate": 0.40129310344827585,
+      "zero_positive_users": 9,
+      "random_expected_ndcg_author_empty_one": 0.4603894501802209,
+      "random_expected_ndcg_exclude_empty": 0.4431065500080571
+    },
+    "4": {
+      "train_positive_rate": 0.27370689655172414,
+      "random_positive_rate": 0.1853448275862069,
+      "zero_positive_users": 53,
+      "random_expected_ndcg_author_empty_one": 0.4225599394762163,
+      "random_expected_ndcg_exclude_empty": 0.29342777404262754
+    }
+  },
+  "project_test_random_expected": {
+    "NDCG@5": 0.2985746891685095,
+    "Recall@5": 0.3125,
+    "Precision@5": 0.2346556886227545,
+    "HitRate@5": 0.6689272553793512,
+    "AUC": 0.5
+  },
+  "formula_audit": {
+    "author": 1.149999976158142,
+    "dr": 0.7499999403953552,
+    "paper_eq7_full_catalog": 0.5,
+    "perfect_imputation_population_mean": 0.5,
+    "setup": {
+      "e_observed": [
+        0.2,
+        0.8
+      ],
+      "e_full_catalog": [
+        0.2,
+        0.8,
+        0.3,
+        0.7
+      ],
+      "inverse_propensity": [
+        2.0,
+        4.0
+      ],
+      "imputation": "perfect",
+      "filter": "all_kept",
+      "direct_pool": "full_catalog"
+    }
+  },
+  "provided_propensity_audit": {
+    "inverse_weight_quantiles_p0_p10_p50_p90_p100": [
+      1.4487391710281372,
+      2.829019904136658,
+      7.208570957183838,
+      34.537444305419925,
+      245.06991577148438
+    ],
+    "fraction_capped20": 0.1182471264367816,
+    "ess_after_clip": 5088.9972578368,
+    "observed_pairs": 6960,
+    "catalog_pairs": 87000,
+    "direct_relative_scale_for_full_catalog": 3.125
+  },
+  "reversed_bce_probe": {
+    "prediction": 0.8,
+    "true_label": 1,
+    "true_error": 0.2231435513142097,
+    "minimum_reversed_bce": 0.5004024235381879,
+    "imp_probability": 0.6,
+    "error_used_in_rec_BCE_p_q": 0.777661295762166,
+    "error_used_in_imp_BCE_q_p": 0.5919186453876236
+  }
+}

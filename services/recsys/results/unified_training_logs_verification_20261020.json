@@ -1,0 +1,26 @@
+{
+  "identity": {
+    "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154"
+  },
+  "status": "passed_cpu",
+  "tests": {
+    "total": 115,
+    "passed": 114,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-20/unified_training_logs/model_tests.log"
+  },
+  "scope": "Console logging only; objectives, RNG, optimization, stopping and evaluation unchanged",
+  "smoke": "results/benchmark_coat_all_quick_7e3c020ae1_20261020_231221_e4861999_v4.json",
+  "full_coat_source": "results/benchmark_coat_cdr_dd41848bc6_20261020_231233_64456c33_v4.json",
+  "cdr_metrics": {
+    "NDCG@5": 0.6566651228158734,
+    "Recall@5_bounded": 0.667816091954023,
+    "AUC_global": 0.7512927651405334,
+    "users": 290
+  },
+  "full_coat_parameters": "All tensors bitwise equal to preceding source-default checkpoint",
+  "callback_tests": "CDR parameters/history/stopping and iVAE latent/selection identical with and without progress",
+  "validation_diagnostic": "results/unified_training_logs_validation_20261020.json",
+  "validation_regression": "All three selected epochs and validation scores exactly match before logging edits"
+}

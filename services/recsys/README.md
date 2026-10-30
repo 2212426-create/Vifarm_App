@@ -1,165 +1,173 @@
-# Benchmark MF, iDCF, IViDR và DR-BIAS + CDR
+# RecSys: MF, CDR, iDCF, IViDR, LCDR và ConAlign
 
-Benchmark dùng cấu hình MF của mã tác giả iDCF: **Adam + MSE trên điểm thô** của exposure
-đã quan sát (phân rã ma trận có bias, không phải ALS). iDCF và IViDR huấn luyện 2 giai đoạn
-như mã tác giả iDCF (`src/causal/idcf/`). Vì sao kết quả từng thấp hơn bài báo và đã sửa gì:
-[root_cause_analysis.md](docs/benchmarks/root_cause_analysis.md).
+[Trạng thái hiện hành](docs/CURRENT_STATE.md) · [Mục lục](docs/README.md) ·
+[Catalog kết quả](results/CATALOG.md).
+Theo yêu cầu ngày 21/10/2026, bộ mặc định gồm bốn mô hình trên
+**Coat, Yahoo! R3, KuaiRand-Pure**. **IViDR** học reconstruction và feature embedding,
+hai posterior iVAE và feedback BCE theo công thức arXiv, lấy kỳ vọng xác suất trước BCE;
+Eq. (10) dùng coordinate adapter được ghi rõ. Từ 28/10/2026 mặc định có hai điều chỉnh
+từ [phân tích nguyên nhân](docs/benchmarks/ividr_root_cause_20261027.md): prior mean giai đoạn 1
+bằng 0 (như mã iDCF) và mẫu âm trong BCE có trọng số .1. Chưa chứng nhận khớp mã tác giả.
+Các lựa chọn triển khai địa phương được ghi metadata; chưa chứng nhận tái lập paper.
+CDR mặc định dùng bản released và source protocol; Coat/Yahoo theo script khóa commit,
+KuaiRand có điều chỉnh dữ liệu/sampler được ghi metadata;
+MF/iDCF giữ MSE; IViDR và CDR dùng BCE. IViDR dùng MF làm treatment;
+CDR huấn luyện độc lập, không nạp checkpoint MF.
 
-## Một đầu chạy cho test và thí nghiệm
+## Cấu trúc mã nguồn
 
-Tất cả lệnh đi qua `experiments/run.py`; xem tùy chọn bằng `COMMAND --help`.
-Ba file test cũ đã gom thành `tests/test_suite.py`. Các triển khai thí nghiệm nằm
-trong `experiments/workflows/`, không chạy trực tiếp các file bên trong.
+Mỗi mô hình có package riêng trong `src/models/`: `mf/`, `cdr/`, `idcf/`, `ividr/`.
+Các import cũ được giữ tương thích; dữ liệu và artifact giữ đường dẫn hiện tại.
+Xem [cây thư mục, trách nhiệm và đường dẫn mã chuẩn](docs/architecture/directory_layout.md).
 
-| Lệnh | Mục đích |
-| :-- | :-- |
-| `test` | Toàn bộ kiểm thử dữ liệu, metric, gradient, checkpoint và CLI; cần raw Coat |
-| `smoke` | Chạy nhanh mọi mô hình trên Coat và mẫu 64 user KuaiRand |
-| `benchmark [--dataset coat/kuairand] [--model mf/idcf/ividr/cdr]` | Train/đánh giá trên dữ liệu đầy đủ, một seed; hỗ trợ grid MF KuaiRand |
-| `coat-seeds [--models ...]` | Coat, 10 seed: MF, iDCF, IViDR, DR-BIAS + CDR; Wilcoxon theo seed |
-| `cdr-author` / `cdr-tune` | CDR port mã tác giả: theo giao thức tác giả / theo giao thức dự án |
-| `mf` | Một lượt MF với optimizer/loss tùy chọn |
-| `tune` | Tuning Coat; chọn cấu hình bằng validation |
-| `tune-kr --model mf` | Ví dụ tuning KuaiRand-Pure trên validation; chỉ chấm test cho cấu hình được chọn |
-| `optimizers --dataset coat hoặc kuairand` | So sánh Adam/SGD, tune bằng validation rồi lặp seed |
-| `evaluate --dataset coat hoặc kuairand --checkpoint FILE` | Chấm checkpoint của dữ liệu đầy đủ, không train lại |
-| `protocol` | In toàn bộ quy tắc metric đang dùng |
-| `clean` / `clean --apply` | Xem trước / xóa checkpoint, `__pycache__` và log sinh ra |
+Từ 30/10/2026 `benchmark --model all` chạy thêm hai mô hình thực nghiệm: LCDR (cài đặt lại từ paper
+trên protocol H30 của iDCF) và ConAlign (port từ source tác giả, protocol riêng, ghi `C-src` trong bảng;
+KuaiRand dùng cửa sổ train của paper). Lệnh riêng vẫn dùng được:
 
 ```powershell
-.\venv\Scripts\python.exe experiments\run.py test
-.\venv\Scripts\python.exe experiments\run.py smoke
-.\venv\Scripts\python.exe experiments\run.py protocol
+.\venv\Scripts\python.exe experiments\run.py lcdr --dataset coat --smoke --compare-idcf
+.\venv\Scripts\python.exe experiments\run.py conalign --dataset coat --smoke
 ```
 
-Thống nhất NDCG@5/Recall@5 theo công thức và quy tắc user của iDCF; các lượt lặp
-seed mặc định **10 seed, 42–51**, báo mean ± sample std. Đây là dãy seed địa phương,
-không khẳng định trùng dãy của tác giả. `benchmark` một seed và `smoke` không phải
-kết quả nhiều seed. Xem [giao thức và khác biệt giữa các bài](docs/benchmarks/evaluation_protocol.md).
+Xem [lệnh chạy, giao thức và giới hạn](docs/benchmarks/lcdr_conalign_20261027.md).
 
-iDCF/IViDR dùng proxy W = đặc trưng user one-hot (Coat `user_features.ascii`; KuaiRand
-theo notebook tác giả) và exposure A của user. IViDR thêm biến công cụ Z (Coat: đặc trưng
-user; KuaiRand: tỷ lệ exposure theo `tab`) để tái tạo treatment bằng 2SLS — phần này là
-giả định địa phương vì tác giả IViDR chưa công bố mã. Báo cáo có kiểm định Wilcoxon theo
-cặp user cho từng mô hình so với Popularity và MF.
+## Chuẩn bị và dữ liệu
 
-## RecSys API cho app TopTop
-
-`src/api/` phục vụ MF và DR-BIAS + CDR huấn luyện trên tương tác TopTop, cùng
-popularity cho user mới. Xem [hướng dẫn API](docs/api/colab_api_guide.md).
-
-```powershell
-.\venv\Scripts\python.exe -m uvicorn src.api.app:app --port 8000
-```
-
-## Môi trường và dữ liệu
-
-Chạy lệnh từ thư mục `services/recsys`. Đã kiểm tra Python 3.12.10,
-PyTorch 2.14.1+cpu; máy hiện tại không có CUDA khả dụng.
+Chạy từ `services/recsys`. Môi trường venv hiện tại đã được kiểm chứng trên CPU.
+Nếu cài mới:
 
 ```powershell
 py -3.12 -m venv venv
 .\venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+Coat cần `train.ascii`, `test.ascii`, `propensities.ascii` và thư mục
+`user_item_features/` ở `data/raw/coat/`.
+KuaiRand cần hai standard log, random log và `user_features_pure.csv` trong
+`data/raw/kuairand_pure/data/` hoặc `kuairand_pure/`.
+Loader ưu tiên `./data/`, rồi `../data/`; data_dir tường minh không tự fallback.
+
+Yahoo đã tải đầy đủ vào `data/raw/yahoo/`. Để tải lại trên máy khác:
+
+```powershell
+.\venv\Scripts\python.exe experiments\run.py download-yahoo
+```
+
+Lệnh lấy đúng 6 file từ commit
+`6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9`, kiểm tra SHA-256 và giữ README
+Yahoo Webscope cùng điều kiện sử dụng đi kèm. Raw data không đưa vào Git.
+Dữ liệu: 15.400 user, 1.000 item, 311.704 biased / 54.000 random ratings.
+iDCF Yahoo dùng survey thật; nhóm thiếu survey có category thiếu. Đây là mở
+rộng dataset của dự án, chưa phải kết quả Yahoo từ paper iDCF.
+
+## Chạy thử và chạy đầy đủ
+
+Kiểm tra nhanh sáu mô hình trên Yahoo: MF/iDCF/IViDR/LCDR subset 64 user, CDR source và ConAlign toàn dữ liệu;
+1 epoch feedback / 2 epoch iVAE:
+
+```powershell
+.\venv\Scripts\python.exe experiments\run.py smoke --dataset yahoo
+```
+
+Chạy đầy đủ sáu mô hình trên Yahoo với ngân sách riêng của từng mô hình:
+
+```powershell
+.\venv\Scripts\python.exe experiments\run.py benchmark --dataset yahoo --model all --device cpu --threads 2
+```
+
+Chạy đầy đủ sáu mô hình trên Coat:
+
+```powershell
+.\venv\Scripts\python.exe experiments\run.py benchmark --dataset coat --model all --device cpu --threads 2
+```
+
+Đổi `--dataset all` để chạy cả Coat, Yahoo và KuaiRand.
+Đổi `--model mf|idcf|ividr|lcdr|cdr|conalign` để chạy riêng (chọn một giá trị).
+Mỗi lượt benchmark tạo JSON/Markdown riêng trong `results/`, checkpoint riêng
+trong `checkpoints/benchmark_runs/`. iVAE mặc định có trần 2000 epoch và chọn
+checkpoint sau full-beta warm-up, nên có thể cần nhiều thời gian.
+CDR có seed 2020, trần 1000 epoch, train-loss stopping và lấy trọng số cuối như source;
+không dùng epoch budget 100 mặc định của MF. `--epochs` là override tường minh cho cả bốn.
+MF/iDCF/IViDR chọn checkpoint bằng validation. Bảng tổng hợp có đủ 12 dòng, ghi giao thức
+và loại AUC ở mỗi dòng. Gộp bảng để đọc không có nghĩa các protocol tương đương.
+
+Log huấn luyện dùng chung định dạng `[Mô hình][DATASET] Epoch ...`.
+iDCF hiển thị tiến độ cả iVAE và feedback; CDR hiển thị rec/imp loss từng epoch.
+Kết quả cuối ghi rõ `TEST` hoặc `SOURCE EVAL`, metric đúng tên và đường dẫn checkpoint.
+Log mới có hiệu lực từ lần khởi chạy tiếp theo, không thay đổi thuật toán hoặc điểm số.
+
+Mỗi dòng chỉ hiển thị `Recall@5 bounded` (chia min(5, số positive)), Precision,
+HitRate. JSON vẫn giữ cả Recall/all positives và Recall bounded. CDR tính metric bổ sung từ cùng
+ranking và cùng tập user của source; với empty-positive, source giữ Recall=1,
+còn Precision/HitRate=0. AUC ghi rõ `macro-user` hoặc `global`.
+
+Cập nhật bảng cho báo cáo đã chạy, **không huấn luyện lại**:
+
+```powershell
+.\venv\Scripts\python.exe experiments\run.py report --input results\benchmark_all_8e44de4472_20261020_232046_d992f0ff_v4.json --threads 2
+```
+
+Lệnh đọc lại checkpoint CDR, kiểm tra điểm gốc không đổi và tạo JSON/Markdown mới.
+Báo cáo cũ và metadata source của lượt huấn luyện được giữ nguyên.
+
+Thử toàn dữ liệu Yahoo với ngân sách ngắn:
+`benchmark --dataset yahoo --model all --quick --epochs 1 --ivae-epochs 2 --device cpu --threads 2`.
+Điểm smoke/quick không dùng để so chất lượng với paper.
+
+## CDR source đã là mặc định
+
+```powershell
+.\venv\Scripts\python.exe experiments\run.py cdr-source --dataset coat --threads 2
+.\venv\Scripts\python.exe experiments\run.py cdr-source --dataset yahoo --threads 2
+```
+
+Lệnh này giữ điều kiện script: >=3, 5% nhãn random chấm điểm dùng cho propensity,
+toàn bộ random log, zero-positive nhận 1, Recall bounded và dừng theo train loss.
+Kết quả Coat kiểm chứng: NDCG .656665 / Recall bounded .667816.
+`benchmark --dataset coat --model cdr` gọi cùng hàm với lệnh trên và đạt cùng điểm.
+Yahoo source đầy đủ đã đạt NDCG .655929 / Recall bounded .731299 / AUC global .684930.
+Source protocol dùng nhãn tập chấm cho calibration, không phải held-out test độc lập.
+MF/iDCF vẫn dùng >=4, user split 30/70. Muốn so cùng protocol, chọn CDR
+`--cdr-implementation shared` tường minh; điểm này sẽ khác source protocol.
+Xem [định nghĩa và khác biệt paper/source](docs/benchmarks/paper_model_alignment.md).
+
+## Các lệnh khác
+
+| Lệnh sau `experiments/run.py` | Phạm vi |
+| :-- | :-- |
+| `test` | Suite kiểm thử |
+| `smoke` | MF/iDCF Yahoo/KuaiRand 64 user; CDR Coat/Yahoo toàn dữ liệu, KuaiRand 64 user; ngân sách ngắn |
+| `evaluate --dataset yahoo --checkpoint FILE` | Chấm checkpoint tương thích, không huấn luyện lại |
+| `coat-seeds` | MF/iDCF/IViDR/CDR released, seed 42–51; có `--cdr-implementation equation` |
+| `benchmark ... --cdr-implementation shared` | Released CDR trên giao thức held-out chung; lựa chọn đối chứng |
+| `benchmark ... --cdr-implementation equation` | Biến thể Eq. (7)/CV cũ; chỉ chạy tường minh |
+| `benchmark --dataset coat --model cdr --cdr-implementation equation --cdr-propensity provided_coat` | Đối chứng propensity file Coat của bản Eq. (7) |
+| `tune --model mf` / `tune-kr --model mf` | Tuning MF trên Coat / KuaiRand |
+| `tune --model cdr` / `tune-kr --model cdr` | Grid 1.120 cấu hình released estimator; calibration/chọn cấu hình chỉ validation; chưa có CLI tune Yahoo |
+| `mf --dataset yahoo` | MF riêng |
+| `optimizers` | Thí nghiệm Adam/SGD riêng |
+| `cdr-author` / `cdr-tune` | Alias của cdr-source / tuning released |
+| `protocol` | In giao thức đánh giá |
+| `clean` / `clean --apply` | Xem trước / dọn checkpoint, log, bytecode; giữ raw data và báo cáo |
+
+Mỗi lệnh có `--help`. IViDR thuộc bộ mặc định. Với budget feedback >=20 epoch
+và không override LR/weight decay, pipeline quét 10 cấu hình LR/WD theo khoảng
+paper, chọn bằng validation, rồi chỉ chấm test checkpoint thắng. Smoke không quét.
+Yahoo dùng survey địa phương/missing category, chưa tái lập dữ liệu tác giả.
+Xem [triển khai IViDR hiện hành](docs/benchmarks/ividr_reference_20261022.md)
+và [đối chiếu MSE/BCE của bản cũ](docs/benchmarks/ividr_bce_20261021.md).
+
+## Kiểm chứng và API
+
+```powershell
 .\venv\Scripts\python.exe experiments\run.py test
+.\venv\Scripts\python.exe docs\check_docs.py
+.\venv\Scripts\python.exe -m uvicorn src.api.app:app --port 8000
 ```
 
-File bắt buộc:
-
-```text
-data/raw/
-  coat/
-    train.ascii
-    test.ascii
-    propensities.ascii
-    user_item_features/user_features.ascii
-    user_item_features/item_features.ascii
-  kuairand_pure/data/
-    log_standard_4_08_to_4_21_pure.csv
-    log_standard_4_22_to_5_08_pure.csv
-    log_random_4_22_to_5_08_pure.csv
-    user_features_pure.csv
-```
-
-Loader ưu tiên `./data/` nếu tồn tại, nếu không dùng `../data/`. API `data_dir` chỉ đến
-dataset cụ thể, không fallback. KuaiRand cũng hỗ trợ file trực tiếp trong
-`kuairand_pure/`. User features cần cho IViDR; MF chỉ cần log.
-
-## Giao thức
-
-| Thành phần | Coat | KuaiRand-Pure |
-| :-- | :-- | :-- |
-| Positive | rating >= 4 | is_click = 1 |
-| Train | 6.960 biased ratings | Hai standard log; lọc user rồi item >=10 exposure một lượt |
-| Kích thước | 290 user, 300 item | 23.533 user, 6.712 video; 1.413.574 train exposure |
-| Random log | 4.640 ratings | 954.814 exposure sau lọc |
-| Validation/test | Chia user 30/70, seed 1234 | Cùng quy tắc |
-
-Giữ cả positive và negative đã quan sát; không tự gán unknown pairs thành negative.
-KuaiRand gộp cặp lặp trong candidate pool, positive nếu có ít nhất một click.
-NDCG@5/Recall@5 macro chỉ tính user có positive, báo số user bị loại. Recall chia
-cho tổng positive; `Recall@5_bounded` là metric riêng. AUC chỉ tính user có hai lớp.
-Coat giữ 366 cặp train/random trùng, trong đó 247 thuộc test; cần công bố khi so sánh.
-Đây là ranking trên logged candidates, không phải full-catalog ranking.
-
-## Chạy MF và so sánh bộ tối ưu
-
-```powershell
-# Baseline mặc định, chọn checkpoint bằng validation
-.\venv\Scripts\python.exe experiments\run.py benchmark --dataset coat --model mf --epochs 25
-
-# Chọn optimizer/loss rõ ràng qua trainer MF
-.\venv\Scripts\python.exe experiments\run.py mf --dataset coat --optimizer sgd --loss bce --lr 0.1 --epochs 50
-
-# MSE + Adam, regularize mọi tham số, không scheduler.
-# Đây vẫn là kiến trúc địa phương, KHÔNG phải tái lập nguyên bản iDCF.
-.\venv\Scripts\python.exe experiments\run.py mf --dataset coat --optimizer adam --loss mse --decay-scope all --scheduler none --lr 0.0005 --weight-decay 0.000001 --dim 64 --epochs 100
-
-# Adam/SGD: mỗi optimizer 3 learning rate x 2 weight decay, rồi cố định config và lặp seed
-.\venv\Scripts\python.exe experiments\run.py optimizers --dataset coat --epochs 50
-.\venv\Scripts\python.exe experiments\run.py optimizers --dataset kuairand --epochs 50
-```
-
-`experiments/run.py optimizers` dùng cùng loss, dim, batch, initialization, split và
-giới hạn epoch/patience. Learning rate mặc định Adam: .001/.005/.01;
-SGD thuần (momentum=0): .01/.1/1. Weight decay: 1e-5/1e-4.
-Mỗi optimizer chọn cấu hình trên validation seed đầu tiên, đóng băng cấu hình rồi
-chấm checkpoint thắng và lặp seed. Test không chọn cấu hình hay optimizer.
-Report JSON ghi mean/std, thời gian trial, seed, source/data hash và checkpoint.
-Ngân sách epoch bằng nhau không bảo đảm hội tụ hay thời gian bằng nhau.
-Thêm `--loss mse --decay-scope all` để so sánh với mục tiêu MSE; không trộn
-hai loss rồi diễn giải chênh lệch thành tác động riêng của optimizer.
-
-Runner `experiments/run.py benchmark`, tuning cũ và causal trainer vẫn mặc định Adam.
-`--quick` giảm epoch; `--smoke-users` mới giảm dữ liệu KuaiRand và chỉ dùng kèm
-`--quick --dataset kuairand`. Smoke không chứng minh chất lượng hay hội tụ.
-
-Benchmark mặc định dành tối đa 100 epoch cho Coat và 25 epoch cho KuaiRand;
-IViDR trên Coat dùng patience 20 vì validation có thể tiếp tục cải thiện sau
-epoch 25. Có thể đặt riêng bằng `--epochs-coat` và `--epochs-kr`; `--epochs`
-ghi đè cả hai. Cấu hình KuaiRand được ghi trong báo cáo tuning tương ứng.
-
-```powershell
-.\venv\Scripts\python.exe experiments\run.py benchmark --dataset coat --quick --epochs 1
-.\venv\Scripts\python.exe experiments\run.py benchmark --dataset kuairand --quick --smoke-users 64 --dim 16 --batch-size 256 --epochs 1
-.\venv\Scripts\python.exe experiments\run.py tune --model all --epochs 50
-```
-
-## Dọn dữ liệu sinh ra
-
-```powershell
-# Xem trước đường dẫn
-.\venv\Scripts\python.exe experiments\run.py clean
-# Xóa cache, checkpoint, report/log chạy và bytecode; giữ results/README.md
-.\venv\Scripts\python.exe experiments\run.py clean --apply
-```
-
-Script giữ raw datasets, venv, source và papers; từ chối đường dẫn vượt dự án
-hoặc qua junction/symlink. Chỉ dọn khi không có training đang chạy. Cache sẽ
-được dựng lại. Ngày 2026-09-27 đã dọn toàn bộ artifact chạy cũ; các báo cáo
-mới là kiểm chứng sau sửa. Xem [kết quả hiện tại](results/README.md).
-
-Checkpoint v4 ghi optimizer, loss, decay scope, scheduler, config, data/source
-hash. `evaluate_checkpoint` nạp checkpoint đã chọn, không train lại. Kiến trúc
-MF không đổi; tên file mới phân biệt thí nghiệm bằng metadata hash.
-Checkpoint thiếu `metric_revision=logged_binary_v1` bị từ chối khi chấm bằng
-giao thức mới; cần train lại. Không gộp report cũ vào bảng kết quả hiện tại.
+[Giao thức từng mô hình](docs/benchmarks/evaluation_protocol.md) ·
+[Config MF/CDR](src/training/config.py) · [Config iDCF](src/causal/idcf/train_idcf.py).
+API TopTop giữ cấu hình phục vụ riêng, user mới dùng popularity.
+CDR API dùng ReleasedCDR; không có random log nên ghi rõ propensity proxy và sampler
+có hoàn lại trong `training_stats.cdr`, không coi là thí nghiệm paper.
+[Hướng dẫn API/Colab](docs/api/colab_api_guide.md).

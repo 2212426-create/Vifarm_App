@@ -1,0 +1,110 @@
+{
+  "repository": "Ethan00Si/Instrumental-variables-for-recommendation",
+  "commit": "3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3",
+  "executed": false,
+  "integrated": false,
+  "files": [
+    {
+      "path": "readme.md",
+      "url": "https://raw.githubusercontent.com/Ethan00Si/Instrumental-variables-for-recommendation/3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3/readme.md",
+      "sha256": "38e23cfd70939fde309a9a23b3707a57f0d995add8bc89de9e6772d8d5b65bd6",
+      "bytes": 2711,
+      "relevant_lines": []
+    },
+    {
+      "path": "models/modules/phi.py",
+      "url": "https://raw.githubusercontent.com/Ethan00Si/Instrumental-variables-for-recommendation/3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3/models/modules/phi.py",
+      "sha256": "f6e89fadec8ab10fb58f30b2a41bf93de2bc2353c15c45a9278a9ff2dd8f1e6c",
+      "bytes": 1330,
+      "relevant_lines": []
+    },
+    {
+      "path": "models/IV_DIN.py",
+      "url": "https://raw.githubusercontent.com/Ethan00Si/Instrumental-variables-for-recommendation/3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3/models/IV_DIN.py",
+      "sha256": "de586dca5719d402be3736b5c6dab26bc1ae0828469f8b33fb1aefd97d17a2a0",
+      "bytes": 4703,
+      "relevant_lines": [
+        {
+          "line": 9,
+          "text": "from .modules.phi import MLP"
+        },
+        {
+          "line": 32,
+          "text": "self.phi = MLP(config.phi)"
+        },
+        {
+          "line": 35,
+          "text": "self.add_regularization_weight(self.phi.parameters(), l2=config.l2_lambda)"
+        },
+        {
+          "line": 38,
+          "text": "self.alpha = MLP(config.alpha)"
+        },
+        {
+          "line": 39,
+          "text": "self.add_regularization_weight(self.alpha.parameters(), l2=config.l2_lambda)"
+        },
+        {
+          "line": 59,
+          "text": "alpha = self.prob_sigmoid(self.alpha(torch.cat([photo,query_origin],dim=-1)))"
+        },
+        {
+          "line": 66,
+          "text": "q_t = torch.matmul(photo, alpha.unsqueeze(dim=-1))+\\"
+        },
+        {
+          "line": 81,
+          "text": "photo_embedding = self.phi(photo_embedding) #batch, 1, feature"
+        },
+        {
+          "line": 88,
+          "text": "browse_embedding = self.phi(browse_embedding)#batch, len, feature"
+        }
+      ]
+    },
+    {
+      "path": "models/IV_NRHUB.py",
+      "url": "https://raw.githubusercontent.com/Ethan00Si/Instrumental-variables-for-recommendation/3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3/models/IV_NRHUB.py",
+      "sha256": "4ac22403e53288f3cd96f5b23df53b1ade94c87898e6e68d2708270c486be4c2",
+      "bytes": 4436,
+      "relevant_lines": [
+        {
+          "line": 7,
+          "text": "from .modules.phi import MLP"
+        },
+        {
+          "line": 14,
+          "text": "self.name = 'IV_phi_mlp'"
+        },
+        {
+          "line": 26,
+          "text": "self.phi = MLP(config.phi)"
+        },
+        {
+          "line": 29,
+          "text": "self.add_regularization_weight(self.phi.parameters(), l2=config.l2_lambda)"
+        },
+        {
+          "line": 33,
+          "text": "self.alpha = MLP(config.alpha)"
+        },
+        {
+          "line": 65,
+          "text": "alpha = self.prob_sigmoid(self.alpha(torch.cat([photo,query_origin],dim=-1)))"
+        },
+        {
+          "line": 72,
+          "text": "q_t = torch.matmul(photo, alpha.unsqueeze(dim=-1))+\\"
+        },
+        {
+          "line": 85,
+          "text": "photo_embedding = self.phi(photo_embedding) #batch, 1, feature"
+        },
+        {
+          "line": 94,
+          "text": "browse_embedding = self.phi(browse_embedding)#batch, len, feature"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "identity": {
+    "code_sha256": "6497b9eefd6462927ee443fb949318b5df66849ad47788f9fff9ce4ff3e63a00"
+  },
+  "command": ".\\venv\\Scripts\\python.exe experiments\\run.py benchmark --dataset coat --model all --device cpu --threads 2",
+  "scope": "Full retraining on Coat; three models; not smoke",
+  "report": "results/benchmark_coat_all_666cb1327c_20261021_074841_a3d6e730_v4.json",
+  "reference_report": "results/benchmark_report_bounded_20261021_074350_e29d0387.json",
+  "source_report_sha256": "5916384763b20b6bd0a644adbaf655d2268feaa037f71f74e6c7c4fd5b9b6dbc",
+  "retrained": true,
+  "models": {
+    "MF": {
+      "metrics": {
+        "NDCG@5": 0.547611758415125,
+        "Recall@5": 0.5295358500448321,
+        "Recall@5_bounded": 0.5840319361277445,
+        "Precision@5": 0.3497005988023952,
+        "HitRate@5": 0.8502994011976048,
+        "AUC": 0.6931237695272126,
+        "best_epoch": 23,
+        "best_val_ndcg": 0.6189874762100858
+      },
+      "differences": {},
+      "parameters_bitwise_equal": true,
+      "data_identical": true,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_074841_a3d6e730\\coat\\mf\\coat_mf_v4_e100_full_675818c412_v4_b32cda7af5cf1d09.pt"
+    },
+    "iDCF": {
+      "metrics": {
+        "NDCG@5": 0.5698840836815878,
+        "Recall@5": 0.5519691220290022,
+        "Recall@5_bounded": 0.6022954091816367,
+        "Precision@5": 0.3473053892215569,
+        "HitRate@5": 0.8862275449101796,
+        "AUC": 0.6859969849677934,
+        "best_epoch": 24,
+        "best_val_ndcg": 0.6058970553682123
+      },
+      "differences": {},
+      "parameters_bitwise_equal": true,
+      "data_identical": true,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_074841_a3d6e730\\coat\\idcf\\coat_idcf_v4_e100_full_758db21f4e_v4_7e7b0de4b212fb06.pt"
+    },
+    "DR-BIAS + CDR": {
+      "metrics": {
+        "NDCG@5": 0.6566651228158734,
+        "Recall@5": 0.493414483026552,
+        "Recall@5_bounded": 0.667816091954023,
+        "Precision@5": 0.5324137931034482,
+        "HitRate@5": 0.9310344827586207,
+        "AUC_global": 0.7512927651405334,
+        "best_epoch": 29,
+        "best_val_ndcg": null
+      },
+      "differences": {},
+      "parameters_bitwise_equal": true,
+      "data_identical": true,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_074841_a3d6e730\\coat\\cdr\\20261021_074940_e49fe6f6\\coat.pt"
+    }
+  },
+  "outcome": "All original metrics, selected epochs and all parameter tensors exactly match prior run",
+  "note": "CDR source evaluation protocol differs from MF/iDCF H30; this check measures reproducibility within each model"
+}

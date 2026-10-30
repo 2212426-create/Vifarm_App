@@ -32,8 +32,8 @@ Chạy **Runtime → Run all**. Notebook:
 4. Mở Cloudflare Tunnel và ghi URL vào `server_config/recsys_url` để app tự kết nối.
 
 User chưa có lịch sử nhận gợi ý theo độ phổ biến. App gửi `model="ividr"`: dữ liệu TopTop chưa có đặc trưng user
-để làm biến công cụ/proxy cho IViDR, nên API phục vụ bằng MF và trả `fallback_reason` trong phản hồi.
-IViDR được đánh giá trên Coat/KuaiRand trong phần benchmark của repo.
+để làm biến công cụ/proxy cho IViDR, nên API chọn mô hình khả dụng và trả `fallback_reason` trong phản hồi.
+Benchmark mặc định chỉ chạy MF/iDCF/CDR; IViDR-approx chỉ chạy khi yêu cầu riêng và chưa đúng paper. MF dùng MSE; CDR dùng BCE và huấn luyện độc lập. Đọc docs/CURRENT_STATE.md ở đúng revision repo đang chạy.
 """),
     make_cell("code", f"""
 # 1. Cài repo, thư viện API và cloudflared

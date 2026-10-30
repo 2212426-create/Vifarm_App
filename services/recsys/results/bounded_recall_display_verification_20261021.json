@@ -1,0 +1,19 @@
+{
+  "identity": {
+    "code_sha256": "6497b9eefd6462927ee443fb949318b5df66849ad47788f9fff9ce4ff3e63a00"
+  },
+  "status": "passed_cpu",
+  "tests": {
+    "total": 118,
+    "passed": 117,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-21/bounded_recall_display/model_tests.log"
+  },
+  "report": "results/benchmark_report_bounded_20261021_074350_e29d0387.json",
+  "scope": "Display only: bounded recall column; all original JSON values preserved",
+  "original_values_unchanged": true,
+  "retrained": false,
+  "metrics_recomputed": false,
+  "validation_diagnostic": "results/bounded_recall_display_validation_20261021.json"
+}

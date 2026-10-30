@@ -1,0 +1,29 @@
+{
+  "cell": "ividr_lat+mse",
+  "seed": 42,
+  "code_sha256": "2811a292168094fb238f02ca0cdaa6dac26382a2fea2132fed2ddf066a332061",
+  "latent": {
+    "mean_abs": 4.349958419799805,
+    "std_mean": 0.6713669300079346,
+    "snr": 7.038502216339111
+  },
+  "trials": [
+    {
+      "lr": 0.0005,
+      "weight_decay": 1e-06,
+      "best_epoch": 2,
+      "best_val_ndcg": 0.49371011576690965
+    }
+  ],
+  "val_ndcg": 0.49371011576690965,
+  "test": {
+    "NDCG@5": 0.45058246017091885,
+    "Recall@5": 0.46614136030303693,
+    "Recall@5_bounded": 0.5199600798403194,
+    "best_epoch": 2
+  },
+  "ividr_stage1": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_tied_item_lift_full_seed42_exposure_3a6de1dd.pt",
+  "idcf_reference": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_idcf_reference\\coat_idcf_full_e100_r2000_seed42_v4_f5960bec3febe9bb.pt",
+  "seconds": 5.781234979629517,
+  "selection": "validation NDCG@5 only"
+}

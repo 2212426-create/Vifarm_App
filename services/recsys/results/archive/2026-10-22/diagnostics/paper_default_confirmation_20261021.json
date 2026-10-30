@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "code_sha256": "017c3601e4f3744c42e95e2eecaad571a761178b8c315d65cb31201f19591b39"
+  },
+  "runtime_model": "IViDR-BCE",
+  "feedback_loss": "bce",
+  "restored_active_code_exact": true,
+  "checked_files": [
+    "src/causal/idcf/train_ividr.py",
+    "src/causal/idcf/train_idcf.py",
+    "src/utils/artifacts.py",
+    "experiments/workflows/run_all_benchmarks.py",
+    "experiments/workflows/coat_seed_benchmark.py",
+    "tests/test_ividr_bce.py"
+  ],
+  "remaining_source_edit": "Legacy docstring cleanup only; no runtime logic change",
+  "test_suite": {
+    "total": 126,
+    "passed": 125,
+    "skipped": 1,
+    "log": "docs/archive/2026-10-21/paper_default_confirmation/model_tests.log"
+  },
+  "validation_artifact": "results/paper_default_confirmation_validation_20261021.json",
+  "checkpoint_reload_metrics_exact": true,
+  "checkpoint_training_code_sha256": "70897b831d4faa0fc73aaed139cab2cd04f3a214215eac5f49dac4de552cde33",
+  "checkpoint": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261021_115348_e8c7d044\\coat\\ividr\\coat_ividr_bce_v4_e100_full_a27f307e7c_bce_trial1_v4_59ac8e47182d2816.pt",
+  "metrics": {
+    "NDCG@5": 0.5291247296700528,
+    "Recall@5": 0.5352791253988859,
+    "Recall@5_bounded": 0.5904191616766467
+  },
+  "external_source_removal": {
+    "status": "pending_user_execution_due_to_tool_policy",
+    "helper": "experiments/cleanup_external_source.ps1",
+    "preview_verified": true,
+    "deletion_executed": false,
+    "policy_message": "blocked by policy"
+  },
+  "paper_reproduction": false
+}

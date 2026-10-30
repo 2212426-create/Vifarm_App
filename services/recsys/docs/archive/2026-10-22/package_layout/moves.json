@@ -1,0 +1,138 @@
+{
+  "moves": [
+    {
+      "old": "src/models/matrix_factorization.py",
+      "new": "src/models/mf/matrix_factorization.py",
+      "before_sha256": "bd727b8e51665849155f743f01598ea2a844513b04670ef2a3d061638d896c8a",
+      "after_sha256": "bd727b8e51665849155f743f01598ea2a844513b04670ef2a3d061638d896c8a"
+    },
+    {
+      "old": "src/baselines/train_mf.py",
+      "new": "src/models/mf/train_mf.py",
+      "before_sha256": "68d7214739be5555bbd6b9303fc0b5900472e93994cd57f730d748b83af09973",
+      "after_sha256": "5e217659cef1142ecf72bc1bbbdee25b80faa371fabb5a86b0222423d058a626"
+    },
+    {
+      "old": "src/causal/cdr/__init__.py",
+      "new": "src/models/cdr/__init__.py",
+      "before_sha256": "d4c2f074212b3d577aa75ce3bfc404529cf5cf574b83b1e8ba13eacec189e2ea",
+      "after_sha256": "1ece29193a8da5841db3db98ee8b3e70d98205bcd238c37ac6c0659be06de0d3"
+    },
+    {
+      "old": "src/causal/cdr/cdr_model.py",
+      "new": "src/models/cdr/cdr_model.py",
+      "before_sha256": "1950ba3947b606490b63298ff14a74ed08da215f4b13e33455f2d4d62bbfe904",
+      "after_sha256": "2b66a681684bcb3364d0266ff47ae20a5e901ab36738f3d2c2c105c5be4b42cb"
+    },
+    {
+      "old": "src/causal/cdr/CDR_UPSTREAM_LICENSE.txt",
+      "new": "src/models/cdr/CDR_UPSTREAM_LICENSE.txt",
+      "before_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "after_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "old": "src/causal/cdr/dr_bias_loss.py",
+      "new": "src/models/cdr/dr_bias_loss.py",
+      "before_sha256": "f6de56000edb194b8419808f517631175000404daea56b9b2309e7ca4008263f",
+      "after_sha256": "f6de56000edb194b8419808f517631175000404daea56b9b2309e7ca4008263f"
+    },
+    {
+      "old": "src/causal/cdr/imputation_model.py",
+      "new": "src/models/cdr/imputation_model.py",
+      "before_sha256": "baa0fcf5bb12e900809c867be42a8dd3aad21f9ea88648971f27461e1bf4147f",
+      "after_sha256": "e23173626d15228ec9f7af3fcbfda1082a1f20657ae31f8b92dacb1d2402dbbe"
+    },
+    {
+      "old": "src/causal/cdr/observations.py",
+      "new": "src/models/cdr/observations.py",
+      "before_sha256": "a0a3f0cb19bf4fa1db3a9a0ad9d095728318c0485b07e4d0d9c91f159badf65c",
+      "after_sha256": "a0a3f0cb19bf4fa1db3a9a0ad9d095728318c0485b07e4d0d9c91f159badf65c"
+    },
+    {
+      "old": "src/causal/cdr/propensity.py",
+      "new": "src/models/cdr/propensity.py",
+      "before_sha256": "763d9a9de5f274061f04e0b1193114fe925e6ab470e67d6823b9ef3ec651faca",
+      "after_sha256": "763d9a9de5f274061f04e0b1193114fe925e6ab470e67d6823b9ef3ec651faca"
+    },
+    {
+      "old": "src/causal/cdr/released.py",
+      "new": "src/models/cdr/released.py",
+      "before_sha256": "ed935fabe23f61f9964d6348b21aa8fa7676ec1551b49887aae90a75baa34825",
+      "after_sha256": "ed935fabe23f61f9964d6348b21aa8fa7676ec1551b49887aae90a75baa34825"
+    },
+    {
+      "old": "src/causal/cdr/sampling.py",
+      "new": "src/models/cdr/sampling.py",
+      "before_sha256": "aa2303225e6b2de1e134a1e3ad1659a092731b9d85d903be44c54d495fe56618",
+      "after_sha256": "aa2303225e6b2de1e134a1e3ad1659a092731b9d85d903be44c54d495fe56618"
+    },
+    {
+      "old": "src/causal/cdr/source_protocol.py",
+      "new": "src/models/cdr/source_protocol.py",
+      "before_sha256": "909e932b244822ec829c50be1cb9bf37321ff28ef72c8ddc5d2613d4433d791c",
+      "after_sha256": "10af843220bb8f2be71fc3e0b417ac038612aea95345305ec6c17a4a0b10090e"
+    },
+    {
+      "old": "src/causal/cdr/train_dr_bias_cdr.py",
+      "new": "src/models/cdr/train_dr_bias_cdr.py",
+      "before_sha256": "001f78ee8059f9065b7e3f37f69de6ea07925bda7d46584168ba41f2060aea0b",
+      "after_sha256": "a52746852097b01ae6bb8663b6a0d4794d755d5a1c7db08f74301bb3c5433d88"
+    },
+    {
+      "old": "src/causal/cdr/train_released_cdr.py",
+      "new": "src/models/cdr/train_released_cdr.py",
+      "before_sha256": "cac510f91a82da0df60e08c8573adec58ea74e3b1b28e2a19e17f9b51727f712",
+      "after_sha256": "72b9cb4589790e19c58a708b692b8d93c0354a8399e1d4aa0805ccc66601c7f9"
+    },
+    {
+      "old": "src/causal/idcf/__init__.py",
+      "new": "src/models/idcf/__init__.py",
+      "before_sha256": "2cfcab34f019cdad5e5f7e3747c5cc7b380a68f323b10e63c1fd7aa29de24441",
+      "after_sha256": "3d93b24781dbb03b025a29a1ba836fd369ba56b5fd719b47819cbc36e0867b82"
+    },
+    {
+      "old": "src/causal/idcf/idcf_model.py",
+      "new": "src/models/idcf/idcf_model.py",
+      "before_sha256": "cc2fb22ccba47cb2a465bc506f21a00d84d3ad1a6c28bbd16ca001feecdc0416",
+      "after_sha256": "df3b70118f01641f7f1c4b138ade578700c9243714b49af30db5265658e12fda"
+    },
+    {
+      "old": "src/causal/idcf/ivae.py",
+      "new": "src/models/idcf/ivae.py",
+      "before_sha256": "2873f7bfeaecc5853e917f5e60dcd593cb2c2d63590df735537f7b58c969f641",
+      "after_sha256": "2873f7bfeaecc5853e917f5e60dcd593cb2c2d63590df735537f7b58c969f641"
+    },
+    {
+      "old": "src/causal/idcf/ividr_model.py",
+      "new": "src/models/ividr/ividr_model.py",
+      "before_sha256": "446708d3979b738a7f3dba7f9c55b8a1f1422d4f56fabeb8ef0d3cf5b14fd9f2",
+      "after_sha256": "4cf19ee24b0ef3d36dae27956fbf01301458d167e29aba87a2fba74a3d745bc1"
+    },
+    {
+      "old": "src/causal/idcf/ividr_reference.py",
+      "new": "src/models/ividr/ividr_reference.py",
+      "before_sha256": "6eadcc626352a36c312c89707ecb6c1fd7101674b4bf8ca8514c27db74b84a45",
+      "after_sha256": "9c978c457aa17e5d8416132faac9ba83f9f3994a719bba3c6a3135993e3c6272"
+    },
+    {
+      "old": "src/causal/idcf/ividr_staged.py",
+      "new": "src/models/ividr/ividr_staged.py",
+      "before_sha256": "c5f91fa193b0848801b7b038605391c833ccceff71ee0ae99fc118459dfa75f1",
+      "after_sha256": "490537d0b751590d386f946ce610cce40e389ae94f3e31f2a42227026cd48fec"
+    },
+    {
+      "old": "src/causal/idcf/train_idcf.py",
+      "new": "src/models/idcf/train_idcf.py",
+      "before_sha256": "1d9702db2ba69b6c0e55311704e2f1e2a396923b22dbafeae03e5f8ae028233b",
+      "after_sha256": "e61d60392addf9a1efbee1b9316131a7f6027fcd543ac24b8f76d93ba670e745"
+    },
+    {
+      "old": "src/causal/idcf/train_ividr.py",
+      "new": "src/models/ividr/train_ividr.py",
+      "before_sha256": "ee5bef9fa08cc75e6009002741522a519465c0d152f92d03cc6766230323f0fd",
+      "after_sha256": "c744ef02f7fa80f2ec9fe9815a8ab808ebc8622b3f400b3025b4119d9f5f9b42"
+    }
+  ],
+  "compatibility": "Python module aliases; legacy non-Python license moved alongside implementation",
+  "snapshot_sha256": "0db2bd429350f9d3b6982ff03d3883fb37fef053427eceaef8edb2c5e5ed37b3"
+}

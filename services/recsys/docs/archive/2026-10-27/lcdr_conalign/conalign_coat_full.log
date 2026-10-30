@@ -1,0 +1,25 @@
+D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\src\models\conalign\data.py:71: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\Context.cpp:855.)
+  return torch.sparse_coo_tensor(indices, values, torch.Size(sparse_mx.shape))
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\conalign_coat_20261027_220711_8da7d449.json",
+  "stage1": {
+    "best_epoch": 84,
+    "best_val_auc": 0.741179883480072,
+    "epochs_run": 145
+  },
+  "stage2": {
+    "best_epoch": 486,
+    "best_val_auc": 0.796845555305481,
+    "epochs_run": 500
+  },
+  "unbiased_test_unbiased_tower": {
+    "BCE": 0.46830663084983826,
+    "AUC": 0.748970627784729,
+    "UAUC": 0.6732594758013769,
+    "UNDCG": 0.7100293011692587,
+    "Precision": 0.3236994219653183,
+    "Recall": 0.8849573355353704,
+    "NDCG": 0.7050009075479164
+  }
+}
+conalign exit 0

@@ -1,70 +1,55 @@
-# 📚 Trung Tâm Tài Liệu Nghiên Cứu & Kỹ Thuật (Documentation Hub)
+# Điểm đọc tài liệu RecSys
 
-Thư mục này quản lý tập trung toàn bộ tài liệu nghiên cứu lý thuyết, đề cương đồ án, bài báo khoa học gốc, hướng dẫn kỹ thuật triển khai API, tài liệu thuyết trình và báo cáo thực nghiệm của hệ thống gợi ý **TopTop RecSys** (`services/recsys`).
+**Bắt đầu tại [CURRENT_STATE.md](CURRENT_STATE.md).** Đây là trạng thái triển khai,
+bằng chứng và việc còn thiếu tại mốc 27/10/2026. Danh sách phân loại đầy đủ:
+[catalog.json](catalog.json). Các báo cáo lịch sử không tự thay thế trạng thái này.
 
----
+## Tài liệu hiện hành
 
-## 🗂️ Cấu Trúc Thư Mục Chuẩn Hóa
+| Tài liệu | Quyết định nội dung nào |
+| :-- | :-- |
+| [CURRENT_STATE](CURRENT_STATE.md) | Trạng thái, giới hạn, mốc source và bằng chứng đã có |
+| [README dịch vụ](../README.md) | Cài đặt và lệnh chạy |
+| [Cấu trúc thư mục](architecture/directory_layout.md) | Package từng mô hình và mã tương thích |
+| [Nguyên nhân IViDR thấp hơn paper](benchmarks/ividr_root_cause_20261027.md) | Hoán đổi latent/feedback, các giả thuyết đã bác bỏ, nguyên nhân BCE và thang latent |
+| [Ablation IViDR Eq. (10)](benchmarks/ividr_eq10_ablation_20261027.md) | Bản v3 chuẩn hóa phần cộng, ablation T/F/R trên Coat 3 seed; mặc định giữ v2 |
+| [LCDR và ConAlign](benchmarks/lcdr_conalign_20261027.md) | Hai mô hình thực nghiệm: lệnh chạy, protocol, đối chiếu paper/source và kết quả |
+| [Định nghĩa mô hình](benchmarks/paper_model_alignment.md) | Loss, backbone, khởi tạo, khác biệt với paper/source |
+| [IViDR hiện hành](benchmarks/ividr_reference_20261022.md) | Công thức, learned feature embedding, marginal BCE, coordinate adapter và cách chạy |
+| [Nghiên cứu tối ưu IViDR](benchmarks/ividr_optimization_research_20261023.md) | Điểm paper đúng phiên bản, chẩn đoán nhánh tái dựng, nguồn tham khảo và kế hoạch validation; chưa sửa model |
+| [IViDR-BCE cũ](benchmarks/ividr_bce_20261021.md) | Bằng chứng và loss ablation của phiên bản 21/10 |
+| [Giao thức](benchmarks/evaluation_protocol.md) | MF/iDCF held-out và CDR source protocol riêng; nhãn, split, calibration, metric |
+| [Chạy Yahoo/CDR source](../README.md) | Lệnh download, smoke, benchmark sáu mô hình và đối chứng script |
+| [Catalog kết quả](../results/CATALOG.md) | Phân biệt validation, smoke, lịch sử và điều kiện trích số |
+| [API](api/colab_api_guide.md) | Dữ liệu và endpoint phục vụ ứng dụng |
+| [MF/optimizer](benchmarks/mf_optimizer_audit.md) | Tên loss và phạm vi thí nghiệm Adam/SGD |
+| [Tham chiếu paper](benchmarks/paper_reference_comparison.md) | Nguồn bên ngoài, ghi đúng dataset/biến thể |
 
-```text
-services/recsys/docs/
-├── README.md                           # Bản chỉ mục trung tâm này
-│
-├── 📑 de_cuong/                         # Đề cương đồ án chuyên ngành & phân chia nhiệm vụ
-│   ├── DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md  # Đề cương tổng hợp (CF + Deep Learning + API)
-│   ├── DeCuong_Phan1_LocCongTac_CF.md                     # Đề cương chi tiết Phần 1: Lọc cộng tác (CF/MF/CDR)
-│   └── DeCuong_Phan2_HocSau_DeepLearning.md               # Đề cương chi tiết Phần 2: Học sâu (NCF/iVAE/IViDR)
-│
-├── 🎤 presentation/                     # Tài liệu báo cáo & thuyết trình bảo vệ đồ án
-│   ├── presentation_slides.md          # Nội dung trình chiếu Slide Marp chuẩn hóa (15 slides)
-│   └── presentation_script.md          # Kịch bản thuyết trình chi tiết (lời thoại, căn thời gian, Q&A)
-│
-├── 🚀 api/                              # Triển khai RESTful API & Google Colab Service
-│   ├── colab_api_guide.md              # Cẩm nang vận hành RecSys API (src/api), Colab & Cloudflare Tunnel
-│   └── colab_recsys_rest_api_plan.md   # Bản thiết kế cũ (lịch sử), đã được thay bằng src/api
-│
-├── 🔬 benchmarks/                       # Giao thức đánh giá khoa học & Nhật ký thực nghiệm
-│   ├── evaluation_protocol.md          # Giao thức đánh giá chuẩn (NDCG@5, Recall@5, Held-Out Split)
-│   ├── mf_optimizer_audit.md           # Kiểm toán thuật toán MF & so sánh thực nghiệm Adam vs SGD
-│   ├── paper_reference_comparison.md   # Đối chiếu kết quả với các công bố gốc (iDCF, IViDR, CDR)
-│   ├── benchmark_v2_plan_and_error_analysis.md # Phân tích lỗi và kế hoạch benchmark v2
-│   ├── kuairand_tuning_2026-09-29.md   # Nhật ký tinh chỉnh siêu tham số trên KuaiRand
-│   ├── table3_run.md                   # Lịch sử: Table 3 với IViDR joint (mã đã gỡ)
-│   └── root_cause_analysis.md          # Vì sao MF, CDR, IViDR thấp hơn bài báo & kế hoạch sửa
-│
-├── 📝 paper_summaries/                 # Tóm tắt lý thuyết & phân tích chi tiết bài báo khoa học
-│   ├── CDR.md                          # CIKM 2023 - Conservative Doubly Robust
-│   ├── iDCF.md                         # KDD 2023 - Identifiable Debiasing in Collaborative Filtering
-│   ├── IViDR.md                        # KDD 2023 - Instrumental Variable & Identifiable VAE
-│   └── ReCRec.md                       # WSDM 2023 - Representation Counterfactual Debiasing
-│
-└── 📄 papers/                           # Tệp PDF bài báo khoa học gốc
-    ├── CDR.pdf                         # Bản in gốc bài báo CDR (CIKM 2023)
-    ├── iDCF.pdf                        # Bản in gốc bài báo iDCF (KDD 2023)
-    ├── IViDR.pdf                       # Bản in gốc bài báo IViDR (KDD 2023)
-    └── ReCRec.pdf                      # Bản in gốc bài báo ReCRec (WSDM 2023)
-```
+Mỗi kết luận có một nơi chịu trách nhiệm. README và mục lục dẫn tới nơi đó thay vì
+chép lại bảng cấu hình hoặc kết quả rồi để các bản khác nhau theo thời gian.
 
----
+## Tài liệu tham khảo và lưu trữ
 
-## 📖 Hướng Dẫn Truy Cập Nhanh
+- [PDF nghiên cứu](papers/) và [chỉ dẫn đọc bản chép paper](paper_summaries/README.md):
+  mô tả nghiên cứu bên ngoài, không phải trạng thái triển khai của dự án.
+- [Đề cương](de_cuong/README.md): tài liệu kế hoạch, không xác nhận các phần đã triển khai.
+- [Tình trạng slide/kịch bản](presentation/README.md): bản cũ đã thu hồi vì nhận định
+  chưa đủ bằng chứng; chưa có bộ thuyết trình hiện hành được phê duyệt.
+- [Archive](archive/README.md): bản đọc lịch sử có nhãn và ZIP nguyên byte trước dọn.
+- [Review 19/10](benchmarks/review_2026-10-19.md) và
+  [điều tra CDR](benchmarks/root_cause_analysis.md): điểm dẫn vào lịch sử và đính chính,
+  không phải hướng dẫn phục hồi mô hình cũ.
 
-### 1. Đề Cương & Quản Lý Đồ Án Chuyên Ngành
-* **Đề cương tổng hợp:** [`de_cuong/DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md`](de_cuong/DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md) — Phân tách 2 trụ cột (CF & Deep Learning), 12 mốc tiến độ.
-* **Phần 1 (Lọc cộng tác):** [`de_cuong/DeCuong_Phan1_LocCongTac_CF.md`](de_cuong/DeCuong_Phan1_LocCongTac_CF.md) — Sinh viên Vũ Thế Huỳnh phụ trách.
-* **Phần 2 (Học sâu):** [`de_cuong/DeCuong_Phan2_HocSau_DeepLearning.md`](de_cuong/DeCuong_Phan2_HocSau_DeepLearning.md) — Sinh viên Phùng Nguyễn Hoài Bo phụ trách.
+## Khi cập nhật tài liệu
 
-### 2. Thuyết Trình & Bảo Vệ Đồ Án
-* **Slide báo cáo:** [`presentation/presentation_slides.md`](presentation/presentation_slides.md) — Nội dung 15 slide chuẩn Marp/PDF.
-* **Kịch bản thuyết minh:** [`presentation/presentation_script.md`](presentation/presentation_script.md) — Lời thoại chi tiết từng câu, phân bổ thời lượng 7-8.5 phút, cẩm nang 8 câu hỏi Q&A phản biện.
+1. Đối chiếu runtime config/logic và artifact; ghi rõ kết luận thuộc source nào.
+2. Lưu bản trước khi thay nhận định; giữ nguyên số và hash của artifact cũ.
+3. Thêm tài liệu mới vào catalog với đúng vai trò; snapshot cũ không ghi đè.
+4. Chạy `python docs/check_docs.py` từ thư mục dịch vụ.
 
-### 3. Vận Hành Kỹ Thuật & Tích Hợp API
-* **Hướng dẫn chạy Colab RecSys Server:** [`api/colab_api_guide.md`](api/colab_api_guide.md) — Khởi động FastAPI, Cloudflare Tunnel, Zero-Config URL discovery.
-* **Kiến trúc & Đặc tả API:** [`api/colab_recsys_rest_api_plan.md`](api/colab_recsys_rest_api_plan.md) — Chi tiết schema `/api/v1/recommend` và `/api/v1/interaction`.
+[Quy trình bảo toàn và cập nhật](MAINTENANCE.md) mô tả cách thêm mốc mới mà không
+đổi số liệu, checksum hoặc kết luận của artifact cũ.
 
-### 4. Nghiên Cứu Thực Nghiệm & Đo Lường
-* **Giao thức đo lường:** [`benchmarks/evaluation_protocol.md`](benchmarks/evaluation_protocol.md) — Quy chuẩn chia dữ liệu (30% Val / 70% Test với Seed 1234), chỉ số Macro-User NDCG@5, Recall@5, AUC.
-* **Phân tích Adam vs SGD:** [`benchmarks/mf_optimizer_audit.md`](benchmarks/mf_optimizer_audit.md) — Lý giải bản chất gradient thưa trong RecSys.
-* **Nguyên nhân chênh lệch với bài báo:** [`benchmarks/root_cause_analysis.md`](benchmarks/root_cause_analysis.md) — Loss MSE vs BCE, giao thức CDR, kiến trúc iDCF/IViDR.
-* **Đối chiếu số liệu paper:** [`benchmarks/paper_reference_comparison.md`](benchmarks/paper_reference_comparison.md) — Phân tích ranh giới khoa học giữa benchmark dự án và các bài báo gốc.
-* **Tóm tắt bài báo:** Tham khảo thư mục [`paper_summaries/`](paper_summaries/) kèm đối chiếu PDF trong [`papers/`](papers/).
+Ngày 20/10 đã dọn các nhận định mâu thuẫn trong bộ tài liệu đọc hiện tại.
+Đợt 19/10 trước đó đã gỡ bốn kế hoạch/hướng dẫn vận hành lỗi thời; danh sách nằm
+trong bản README cũ ở ZIP archive, không được coi là các file còn tồn tại.

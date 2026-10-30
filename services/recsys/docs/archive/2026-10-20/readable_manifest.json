@@ -1,0 +1,37 @@
+[
+  {
+    "original": "docs/benchmarks/root_cause_analysis.md",
+    "readable_copy": "docs/archive/2026-10-20/benchmarks/root_cause_analysis.md",
+    "original_sha256": "0db5b4f40d47045386afa585804cc3db8f91a8547bccf3d905383cc6778103f0",
+    "readable_sha256": "2bc8886fde3a397410e40824d10a054a8a589ba91c4bc679f0ac0d04391dd91e",
+    "status": "historical_superseded_not_current_guidance"
+  },
+  {
+    "original": "docs/benchmarks/review_2026-10-19.md",
+    "readable_copy": "docs/archive/2026-10-20/benchmarks/review_2026-10-19.md",
+    "original_sha256": "a863013d7f878689a48b91bebcb7636c30a815d04af4065ed9ee4018eb9db527",
+    "readable_sha256": "c713b3464ed78f23ad380bd8f9224da20b381d3b0fda044696caeb8934511819",
+    "status": "historical_superseded_not_current_guidance"
+  },
+  {
+    "original": "docs/benchmarks/paper_reference_comparison.md",
+    "readable_copy": "docs/archive/2026-10-20/benchmarks/paper_reference_comparison.md",
+    "original_sha256": "560d3aa47fbbcb635b8295d422d07964a471a507e492f8db221d85114304504a",
+    "readable_sha256": "f287333c48de8f1873de2abd2c7b7462bc5594f321f6eab633ddb7ac8a7804aa",
+    "status": "historical_superseded_not_current_guidance"
+  },
+  {
+    "original": "docs/presentation/presentation_slides.md",
+    "readable_copy": "docs/archive/2026-10-20/presentation/presentation_slides.md",
+    "original_sha256": "5b26e965a78663486ac229f9563c29a8782c23d14020c4f61878b8a3cd6bad1f",
+    "readable_sha256": "a59eb2cd952743e069f43bfa57d62870ad7da937a6e8dc40b475dedf2e46c1ef",
+    "status": "historical_superseded_not_current_guidance"
+  },
+  {
+    "original": "docs/presentation/presentation_script.md",
+    "readable_copy": "docs/archive/2026-10-20/presentation/presentation_script.md",
+    "original_sha256": "092e9b110c040702bb44875d1fd5252bf31a783fc7910ac6239cd37a794dc6cf",
+    "readable_sha256": "f33cc46383e258c23843d7e8227239799bce4ca0c0294990e1773681745627d1",
+    "status": "historical_superseded_not_current_guidance"
+  }
+]

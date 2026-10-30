@@ -1,0 +1,63 @@
+{
+  "accessed_on": "2026-10-27",
+  "documents": [
+    {
+      "file": "docs/papers/LCDR.pdf",
+      "title": "A Novel Generative Model with Causality Constraint for Mitigating Biases in Recommender Systems",
+      "authors": [
+        "Jianfeng Deng",
+        "Qingfeng Chen",
+        "Debo Cheng",
+        "Jiuyong Li",
+        "Lin Liu",
+        "Shichao Zhang"
+      ],
+      "source": "https://arxiv.org/pdf/2505.16708v1",
+      "version": "arXiv 2505.16708v1 (2025-05-22)",
+      "venue": "arXiv preprint; no journal-ref listed on 2026-10-27",
+      "sha256": "b54c53353a8df14d3c73469f2d0a36ba3a6e14af5e7ec9fa98d188249f2258fb",
+      "bytes": 1151871
+    },
+    {
+      "file": "docs/papers/LCDR_arxiv_v1_source.tex",
+      "title": "LCDR LaTeX source (main file only)",
+      "source": "https://arxiv.org/src/2505.16708v1",
+      "version": "arXiv 2505.16708v1",
+      "note": "Only LCDR.tex kept from the source bundle; class/bib/figure files omitted",
+      "sha256": "71cbb29d6b5848fdb20a728610d92672723eefc762296f1a4a473a6a607ff6e8",
+      "bytes": 60875
+    },
+    {
+      "file": "docs/papers/ConAlign_RecSys2026.pdf",
+      "title": "ConAlign: Conditional Alignment Framework for Balancing Biased and Unbiased Recommendation",
+      "authors": [
+        "Jingcheng Zhang",
+        "Yihan Wang",
+        "Qi Song",
+        "Liyin Hong"
+      ],
+      "source": "https://arxiv.org/pdf/2607.24092v1",
+      "version": "arXiv 2607.24092v1 (2026-07-27)",
+      "venue": "RecSys 2026 (ACM reference block in arXiv HTML); DOI 10.1145/3773078.3831873",
+      "sha256": "71fa58f5bcb3477285f02e278cb58ba7cb052ef129a5679a499c919c428f38b0",
+      "bytes": 1644476
+    }
+  ],
+  "code": {
+    "LCDR": {
+      "public_code": false,
+      "checked": [
+        "arXiv abstract/HTML/TeX: no repository link",
+        "GitHub search for LCDR: no repository",
+        "hfutmars/ACD suggested by a search result is an unrelated Digital Music/BERT project"
+      ]
+    },
+    "ConAlign": {
+      "public_code": true,
+      "repository": "https://github.com/JcZhangzz/ConAlign",
+      "commit": "f6171bb5871025be2a77a37c4c9ab151cbaaab6f",
+      "license": "none declared",
+      "vendored_at": "third_party/conalign"
+    }
+  }
+}
