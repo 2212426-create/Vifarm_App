@@ -93,6 +93,7 @@ def run_idcf_family(name, dataset, data, mf_result, mf_kwargs, tag, epochs, ivae
 
 def run_conalign(dataset, quick_run=False, smoke_users=None, device=None, checkpoint_dir=None):
     """ConAlign trên dữ liệu/protocol riêng của source; bảng hiển thị tháp unbiased trên test unbiased."""
+    device = get_device(device)  # Dữ liệu và mô hình phải cùng thiết bị.
     conalign_setup_seed(CONALIGN_SEED)  # Trước khi nạp dữ liệu, giữ thứ tự RNG như source.
     data = load_conalign_data(dataset, seed=CONALIGN_SEED, device=device,
                               smoke_users=smoke_users if dataset == "kuairand" else None)

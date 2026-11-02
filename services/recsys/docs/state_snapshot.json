@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "source_sha256": "eaaa557ae302485a39c88caade79c246fe4efa791bc02870c8c9d0a04f7e5db1",
-  "scope": "benchmark --model all runs six models (user request 30/10): MF, iDCF, IViDR, LCDR (H30), DR-BIAS + CDR, ConAlign (C-src); ConAlign KuaiRand defaults to the paper train window 22/04-05/05",
+  "source_sha256": "4e05072a90c309d7122c826e480cc921c095c56c2b505ebc10b1fbcfb32de5c6",
+  "scope": "ConAlign best-state fix (clone in EarlyStopping) with three-seed rerun; GPU device fixes for IViDR validation and automatic ConAlign benchmark device; IViDR metadata records its stage-1 l2_penalty of 0. Six-model benchmark unchanged",
   "default_models": [
     "MF",
     "iDCF",
@@ -159,16 +159,16 @@
     "cdr": "cdr_source_v1 / >=3 Coat/Yahoo / full random log / 5% calibration / train-loss last",
     "cross_protocol_paired_tests": false,
     "lcdr": "H30, iDCF data/evaluator",
-    "conalign": "conalign_source_protocol (C-src): source para(), seed 0, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
+    "conalign": "conalign_source_protocol (C-src): source para(), seeds 0-2, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
   },
   "test_suite": {
-    "total": 156,
-    "passed": 155,
+    "total": 160,
+    "passed": 159,
     "skipped": 1,
     "skip_reason": "CUDA unavailable",
-    "log": "docs/archive/2026-10-30/console_models/tests_final.log"
+    "log": "docs/archive/2026-11-02/conalign_fix/tests.log"
   },
-  "validation_artifact": "results/console_models_validation_20261030.json",
+  "validation_artifact": "results/conalign_fix_validation_20261102.json",
   "independent_cdr_validation": [
     {
       "seed": 2020,
@@ -191,8 +191,8 @@
     "KuaiRand uses local preprocessing and array/bounded-memory sampling adaptations",
     "Tuning uses validation calibration/selection; separate from default source protocol",
     "API lacks randomized log; serving adaptation",
-    "CUDA unverified",
-    "IViDR validation on CUDA likely fails: no device passed to the evaluator (code reading, not run)"
+    "CUDA unverified: device fixes are covered by unit tests only, no GPU run",
+    "IViDR stage 1 has l2_penalty 0 while iDCF and LCDR use .01; recorded in metadata, effect not measured"
   ],
   "cdr_implementation": {
     "coat": "released_source_protocol",

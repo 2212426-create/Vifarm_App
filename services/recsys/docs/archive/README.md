@@ -12,6 +12,7 @@ xem [cách khôi phục](../MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
 | `2026-10-28/full_benchmark/` | Chấm lại IViDR Coat/Yahoo từ checkpoint |
 | `2026-10-28/conalign_paper_window/` | Cửa sổ train KuaiRand của ConAlign |
 | `2026-10-28/lcdr_constraint/` | Biến thể ràng buộc và lưới LR × WD của LCDR |
-| `2026-10-30/console_models/` | Test, smoke, validation của mốc hiện hành; `summarize.py` tạo file tổng hợp LCDR/ConAlign |
+| `2026-10-30/console_models/` | `summarize.py` tạo file tổng hợp LCDR và cửa sổ KuaiRand của ConAlign |
+| `2026-11-02/conalign_fix/` | Test, smoke, validation của mốc hiện hành |
 
 Chạy từ `services/recsys`; lệnh mẫu ở đầu mỗi script. Script ghi báo cáo mới vào `results/`.

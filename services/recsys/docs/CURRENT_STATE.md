@@ -1,9 +1,9 @@
 # Trạng thái RecSys hiện hành
 
-Mốc mã đã kiểm chứng: **30/10/2026**, source
-`eaaa557ae302485a39c88caade79c246fe4efa791bc02870c8c9d0a04f7e5db1`.
-Tài liệu được dọn ngày **02/11/2026**; đợt dọn không đổi `src/` và `experiments/`.
-Lịch sử trước đó nằm trong Git, xem [cách khôi phục](MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
+Mốc mã đã kiểm chứng: **02/11/2026**, source
+`4e05072a90c309d7122c826e480cc921c095c56c2b505ebc10b1fbcfb32de5c6`.
+Mốc này sửa lỗi ConAlign không khôi phục checkpoint tốt nhất và chạy lại ConAlign 3 seed. MF, iDCF, IViDR, LCDR, CDR
+không đổi điểm. Lịch sử trước đó nằm trong Git, xem [cách khôi phục](MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
 
 ## Bộ mô hình và cách đọc điểm
 
@@ -13,7 +13,7 @@ Lịch sử trước đó nằm trong Git, xem [cách khôi phục](MAINTENANCE.
 | :-- | :-- | :-- |
 | **H30** | MF, iDCF, IViDR, LCDR | Coat/Yahoo ≥4, KuaiRand is_click; random log chia user 30/70; loại user không positive |
 | **S-full / S-KR** | DR-BIAS + CDR | Theo script tác giả: ≥3, toàn random log, 5% nhãn tập chấm để hiệu chỉnh, user không positive = 1 (S-full Coat/Yahoo; S-KR là KuaiRand địa phương) |
-| **C-src** | ConAlign | Theo source tác giả: chia ngẫu nhiên riêng, tháp unbiased, seed 0 |
+| **C-src** | ConAlign | Theo source tác giả: chia ngẫu nhiên riêng, tháp unbiased, seed 0–2 |
 
 **Chỉ so sánh được trong cùng nhóm.** CDR và ConAlign có điểm cao hơn trên Coat chủ yếu vì protocol dễ hơn:
 giữ nguyên checkpoint CDR script nhưng chấm theo ≥4/test pool H30 chỉ còn .4797
@@ -21,16 +21,22 @@ giữ nguyên checkpoint CDR script nhưng chấm theo ≥4/test pool H30 chỉ 
 
 ## Kết quả test NDCG@5
 
-Một seed cho mỗi ô. Nguồn và source hash: [catalog kết quả](../results/CATALOG.md).
+Mỗi ô một seed, riêng ConAlign là trung bình 3 seed với KuaiRand cửa sổ train của paper.
+Nguồn và source hash: [catalog kết quả](../results/CATALOG.md).
 
 | Dataset | MF | iDCF | IViDR | LCDR | CDR (S-full/S-KR) | ConAlign (C-src) |
 | :-- | --: | --: | --: | --: | --: | --: |
-| Coat | .5476 | .5699 | .5288 | .5629 | .6567 | .7050 |
-| Yahoo!R3 | .5797 | .6558 | .6460 | .6569 | .6559 | .7773 |
-| KuaiRand | .3772 | .4053 | .4095 | .4209 | .2740 | .5278 |
+| Coat | .5476 | .5699 | .5288 | .5629 | .6567 | .7016 |
+| Yahoo!R3 | .5797 | .6558 | .6460 | .6569 | .6559 | .7690 |
+| KuaiRand | .3772 | .4053 | .4095 | .4209 | .2740 | .5893 |
 
-Ô ConAlign KuaiRand dùng cửa sổ train của source; mặc định hiện tại là cửa sổ paper, 3 seed đạt
-NDCG .5369 / UAUC .6018 ([chi tiết](benchmarks/lcdr_conalign_20261027.md#cửa-sổ-train-kuairand-của-conalign-2830102026)).
+ConAlign đo theo metric của source, 3 seed ([chi tiết](benchmarks/lcdr_conalign_20261027.md#kết-quả-đầy-đủ-ba-dataset-2830102026)):
+
+| Dataset | UAUC | UAUC paper | UNDCG | "NDCG@5" paper |
+| :-- | --: | --: | --: | --: |
+| Coat | .6838 ± .0077 | .6856 | .7078 ± .0171 | .7066 |
+| Yahoo!R3 | .6771 ± .0077 | .6841 | .7783 ± .0055 | .7761 |
+| KuaiRand | .6607 ± .0002 | .6372 | .6141 ± .0003 | .5656 |
 
 Coat nhỏ nên phải đọc theo nhiều seed:
 
@@ -59,8 +65,8 @@ Chưa có mô hình nào trong nhóm H30 được chứng minh vượt iDCF trê
   Huấn luyện độc lập, không nạp checkpoint MF.
 - **LCDR:** không có mã tác giả; cài đặt lại từ paper trên pipeline iDCF, lựa chọn địa phương ghi ở
   `src/models/lcdr/source.json`.
-- **ConAlign:** port từ source `f6171bb`, seed 0; KuaiRand mặc định cửa sổ train của paper vì loader source
-  bỏ sót 01–05/05.
+- **ConAlign:** port từ source `f6171bb`, seed tác giả là 0; KuaiRand mặc định cửa sổ train của paper vì loader source
+  bỏ sót 01–05/05. `EarlyStopping` sao chép `best_state`, khác source trên CPU (source chỉ khôi phục đúng khi chạy GPU).
 - **API:** chỉ phục vụ MF và CDR released trên dữ liệu TopTop, user mới dùng popularity; yêu cầu `ividr` trả về
   mô hình thay thế kèm `fallback_reason`. Không có random log nên dùng propensity proxy, ghi ở `training_stats.cdr`.
 
@@ -69,10 +75,9 @@ Tham số chi tiết: [config MF/CDR](../src/training/config.py), `IDCF_CONFIG` 
 
 ## Kiểm chứng
 
-**156 test: 155 đạt, 1 CUDA skip** ([log 30/10](archive/2026-10-30/console_models/tests_final.log)); smoke sáu mô hình
-trên ba dataset ([log](archive/2026-10-30/console_models/smoke.log)); CDR validation ba seed khớp chính xác mốc trước
-([validation](../results/console_models_validation_20261030.json)).
-Sau đợt dọn tài liệu 02/11, chạy lại toàn bộ test trên cùng source: vẫn 155 đạt, 1 CUDA skip.
+**160 test: 159 đạt, 1 CUDA skip** ([log](archive/2026-11-02/conalign_fix/tests.log)); smoke sáu mô hình
+trên ba dataset ([log](archive/2026-11-02/conalign_fix/smoke.log)); CDR validation ba seed khớp chính xác mốc trước
+([validation](../results/conalign_fix_validation_20261102.json)).
 
 Môi trường: Python 3.12.10, PyTorch 2.14.1+cpu, NumPy 2.5.4, pandas 3.0.6, CPU.
 
@@ -86,8 +91,8 @@ Môi trường: Python 3.12.10, PyTorch 2.14.1+cpu, NumPy 2.5.4, pandas 3.0.6, C
 - **CDR source protocol** dùng nhãn tập chấm để hiệu chỉnh propensity, không phải held-out độc lập.
 - **MF/iDCF/CDR Yahoo và KuaiRand** thuộc lượt 20/10 (source `134b536cc623`); chỉ Coat được đối chiếu lại tensor ở các mốc sau.
 - **IViDR chạy song song trên CPU không tái lập từng bit** (giai đoạn 1 seed 44 từng tách nhánh).
-- **CUDA chưa kiểm chứng.** Đọc mã: `train_idcf` gọi `evaluate_unbiased_model` không truyền `device`, trong khi
-  `IViDRMarginalMF` không có factor shortcut, nên validation IViDR nhiều khả năng lỗi lệch thiết bị trên GPU.
-  Máy hiện không có CUDA nên chưa chạy được để xác nhận; test CUDA hiện có chỉ phủ iDCF.
+- **ConAlign KuaiRand cao hơn paper** (+.024 UAUC); paper mô tả tập 1.000 user, khác log thật 27.285 user, nên hai bên không cùng dữ liệu.
+- **IViDR giai đoạn 1 không có phạt L2 .01 như iDCF và LCDR.** Khác biệt được ghi trong metadata, chưa đo tác động lên điểm.
+- **CUDA chưa kiểm chứng.** Lỗi lệch thiết bị của IViDR và ConAlign đã sửa, có unit test, nhưng chưa chạy thật trên GPU.
 - **Đề cương `.docx` chính thức** (ngoài repo) vẫn ghi NCF và độ chính xác cao; `docs/de_cuong/` theo mã hiện hành và liệt kê
   [khác biệt](de_cuong/README.md#khác-biệt-với-bản-docx).

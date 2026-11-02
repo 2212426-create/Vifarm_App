@@ -1728,9 +1728,9 @@
     "semantic_hash": ""
   },
   "services/recsys/experiments/workflows/run_all_benchmarks.py": {
-    "mtime": 1793342323.8694997,
-    "seen": 1793342964.5725071,
-    "ast_hash": "2e73670eeb101d396899e621f67679ad",
+    "mtime": 1793619315.9499013,
+    "seen": 1793622305.4061837,
+    "ast_hash": "34679ecdcf49cef0881aeab2a9a2525c",
     "semantic_hash": ""
   },
   "services/recsys/experiments/workflows/tune_coat_models.py": {
@@ -2730,9 +2730,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/catalog.json": {
-    "mtime": 1793609285.5582454,
-    "seen": 1793609440.2969706,
-    "ast_hash": "c5e4aec04e9bf12b598044e2fd403793",
+    "mtime": 1793622253.0891988,
+    "seen": 1793622305.4061837,
+    "ast_hash": "b2b17ceebde8c7fcb11390ce784dcba5",
     "semantic_hash": ""
   },
   "services/recsys/docs/check_docs.py": {
@@ -2748,9 +2748,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/state_snapshot.json": {
-    "mtime": 1793609285.2652273,
-    "seen": 1793609440.2969706,
-    "ast_hash": "5e31cde7ac0699edeb2f184d727cf7f6",
+    "mtime": 1793622210.031539,
+    "seen": 1793622305.4061837,
+    "ast_hash": "79af574ad195b7cf260a226f5898477b",
     "semantic_hash": ""
   },
   "services/recsys/experiments/workflows/cdr_source.py": {
@@ -2928,9 +2928,9 @@
     "semantic_hash": ""
   },
   "services/recsys/src/models/idcf/train_idcf.py": {
-    "mtime": 1793149886.977394,
-    "seen": 1793342964.5731251,
-    "ast_hash": "b4328eff9db31144af8b84d07e54d184",
+    "mtime": 1793619315.1164248,
+    "seen": 1793622305.4066875,
+    "ast_hash": "024ff21eb11aa0c04034faacb9c34ce1",
     "semantic_hash": ""
   },
   "services/recsys/src/models/ividr/__init__.py": {
@@ -2958,9 +2958,9 @@
     "semantic_hash": ""
   },
   "services/recsys/src/models/ividr/train_ividr.py": {
-    "mtime": 1793149886.9758828,
-    "seen": 1793342964.5731251,
-    "ast_hash": "b01420571792d0e0acb87ae685b125c7",
+    "mtime": 1793619317.3149912,
+    "seen": 1793622305.4066875,
+    "ast_hash": "c9516ae32a5d2c8a6dca51a388f327e5",
     "semantic_hash": ""
   },
   "services/recsys/src/models/mf/__init__.py": {
@@ -3024,9 +3024,9 @@
     "semantic_hash": ""
   },
   "services/recsys/tests/test_ividr_reference.py": {
-    "mtime": 1792629343.3044813,
-    "seen": 1793107857.0208836,
-    "ast_hash": "b0a8db69f2810914e21755460a39a66a",
+    "mtime": 1793619259.936338,
+    "seen": 1793622305.4066875,
+    "ast_hash": "58699cec3ca58ed98aa3c97749dec770",
     "semantic_hash": ""
   },
   "services/recsys/tests/test_package_layout.py": {
@@ -3066,9 +3066,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/CURRENT_STATE.md": {
-    "mtime": 1793610635.1275613,
-    "seen": 1793611952.5360823,
-    "ast_hash": "bac29ee1c581f8770e6bfa42f8bdd974",
+    "mtime": 1793622215.4166837,
+    "seen": 1793622305.4066875,
+    "ast_hash": "e72de4e6f92ff9f4f192d09f79cf589b",
     "semantic_hash": ""
   },
   "services/recsys/docs/MAINTENANCE.md": {
@@ -3084,9 +3084,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/archive/README.md": {
-    "mtime": 1793609277.6463408,
-    "seen": 1793609440.2986293,
-    "ast_hash": "8e78fcb3db26a4a1ba415c334f6267ff",
+    "mtime": 1793622210.0375967,
+    "seen": 1793622305.4066875,
+    "ast_hash": "12b5406a0ffb305b265bb2b652efcb26",
     "semantic_hash": ""
   },
   "services/recsys/docs/benchmarks/ividr_reference_20261022.md": {
@@ -3096,9 +3096,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/benchmarks/paper_model_alignment.md": {
-    "mtime": 1793609285.054246,
-    "seen": 1793609440.2986293,
-    "ast_hash": "1b513adeeb8b7cb54d55a9e4fb697c0e",
+    "mtime": 1793622210.0360844,
+    "seen": 1793622305.4066875,
+    "ast_hash": "7174ac00c456fe69ef3c75a17f1962c5",
     "semantic_hash": ""
   },
   "services/recsys/docs/benchmarks/source_repository_review_20261021.md": {
@@ -3126,9 +3126,9 @@
     "semantic_hash": ""
   },
   "services/recsys/results/CATALOG.md": {
-    "mtime": 1793609374.0461316,
-    "seen": 1793609440.2986293,
-    "ast_hash": "fcb2eca984c7cf76efc1546a61ecf218",
+    "mtime": 1793622217.9461162,
+    "seen": 1793622305.4066875,
+    "ast_hash": "8f9e08d3fc2af44d68bf676d91d12df4",
     "semantic_hash": ""
   },
   "services/recsys/src/models/cdr/CDR_UPSTREAM_LICENSE.txt": {
@@ -3185,12 +3185,6 @@
     "ast_hash": "564e9bb92a5b3c32447011804d7dd310",
     "semantic_hash": ""
   },
-  "services/recsys/results/conalign_coat_20261027_220711_8da7d449.json": {
-    "mtime": 1793113768.0773442,
-    "seen": 1793115744.9967432,
-    "ast_hash": "030e684889ca73388fde2d6e392bf8dc",
-    "semantic_hash": ""
-  },
   "services/recsys/results/lcdr_coat_20261027_220934_6395e1a8.json": {
     "mtime": 1793114052.77269,
     "seen": 1793115744.9967432,
@@ -3222,15 +3216,15 @@
     "semantic_hash": ""
   },
   "services/recsys/src/models/conalign/source.json": {
-    "mtime": 1793342527.065219,
-    "seen": 1793342964.5731251,
-    "ast_hash": "5d7f5da4ae30ff7d29b6c7211de2dee3",
+    "mtime": 1793619318.0533893,
+    "seen": 1793622305.4066875,
+    "ast_hash": "97ca21dda86ba40a9e4868f605ef9f1d",
     "semantic_hash": ""
   },
   "services/recsys/src/models/conalign/train.py": {
-    "mtime": 1793113225.567391,
-    "seen": 1793115744.9978487,
-    "ast_hash": "8fcc77bc70fdf7987c8185f11b4faaf9",
+    "mtime": 1793619194.087389,
+    "seen": 1793622305.4066875,
+    "ast_hash": "6b11ae98929612a6dfc8194f305830e2",
     "semantic_hash": ""
   },
   "services/recsys/src/models/lcdr/__init__.py": {
@@ -3258,15 +3252,15 @@
     "semantic_hash": ""
   },
   "services/recsys/tests/test_conalign.py": {
-    "mtime": 1793342364.3368523,
-    "seen": 1793342964.5731251,
-    "ast_hash": "742494b969938e804ad963efef4f9956",
+    "mtime": 1793619262.556905,
+    "seen": 1793622305.4066875,
+    "ast_hash": "8d48fee15d7680d6435b142a6d7a51dc",
     "semantic_hash": ""
   },
   "services/recsys/tests/test_ividr_v3.py": {
-    "mtime": 1793149784.367368,
-    "seen": 1793342964.5731251,
-    "ast_hash": "4215d184a0c2edc3f96b94e77d6e56f3",
+    "mtime": 1793619260.969086,
+    "seen": 1793622305.4066875,
+    "ast_hash": "b1633f5dbdf0dc95d493bd2da9cd1504",
     "semantic_hash": ""
   },
   "services/recsys/tests/test_lcdr.py": {
@@ -3402,9 +3396,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/benchmarks/lcdr_conalign_20261027.md": {
-    "mtime": 1793609285.052246,
-    "seen": 1793609440.2986293,
-    "ast_hash": "8dc116ed74f78833afd46ff84d802299",
+    "mtime": 1793622210.0350678,
+    "seen": 1793622305.4066875,
+    "ast_hash": "f0c36d2866be722fe19dd94c4e335a9a",
     "semantic_hash": ""
   },
   "services/recsys/docs/paper_summaries/ConAlign.md": {
@@ -3516,45 +3510,15 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/archive/2026-10-30/console_models/summarize.py": {
-    "mtime": 1793609064.2158968,
-    "seen": 1793609440.2969706,
-    "ast_hash": "d63efa780d4fd6d06d211654b2fd910f",
-    "semantic_hash": ""
-  },
-  "services/recsys/docs/archive/2026-10-30/console_models/validate.py": {
-    "mtime": 1793342424.7549543,
-    "seen": 1793342964.570983,
-    "ast_hash": "a6d0c754fc2a680b35a5a103b59a13b5",
+    "mtime": 1793622210.0335555,
+    "seen": 1793622305.4061837,
+    "ast_hash": "88d4cdb7d6744de5381a80cba12b8f72",
     "semantic_hash": ""
   },
   "services/recsys/results/benchmark_kuairand_ividr_be219eee39_20261029_193713_d87515c9_v4.json": {
     "mtime": 1793342006.6327055,
     "seen": 1793342964.5725071,
     "ast_hash": "d2d1e90b7ad9d586723998f39d4f010f",
-    "semantic_hash": ""
-  },
-  "services/recsys/results/conalign_coat_20261028_081519_b614253e.json": {
-    "mtime": 1793150271.4681616,
-    "seen": 1793342964.5731251,
-    "ast_hash": "a612c516cd93106604e0e76da4bda14f",
-    "semantic_hash": ""
-  },
-  "services/recsys/results/conalign_kuairand_20261028_081519_b614253e.json": {
-    "mtime": 1793153743.675072,
-    "seen": 1793342964.5731251,
-    "ast_hash": "6bbdb89a68ce2de8e68623e9ebd9e777",
-    "semantic_hash": ""
-  },
-  "services/recsys/results/conalign_yahoo_20261028_081519_b614253e.json": {
-    "mtime": 1793151203.1315775,
-    "seen": 1793342964.5731251,
-    "ast_hash": "5b6bceaaf0d257bb74c7db6ed2b35750",
-    "semantic_hash": ""
-  },
-  "services/recsys/results/console_models_validation_20261030.json": {
-    "mtime": 1793342502.9829288,
-    "seen": 1793342964.5731251,
-    "ast_hash": "a423e934e2cf62cfbab6edbf1abe0a49",
     "semantic_hash": ""
   },
   "services/recsys/results/ividr_benchmark_recovered_coat_yahoo_20261029.json": {
@@ -4803,6 +4767,84 @@
     "mtime": 1793609279.0234725,
     "seen": 1793609440.2986293,
     "ast_hash": "04d4dd2ab0535f05dc104418681a3e37",
+    "semantic_hash": ""
+  },
+  "services/recsys/docs/archive/2026-11-02/conalign_fix/validate.py": {
+    "mtime": 1793619318.7078936,
+    "seen": 1793622305.4061837,
+    "ast_hash": "91a1a5388531cb20216965cc6e37b679",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_coat_20261102_183617_295b7a3c.json": {
+    "mtime": 1793619600.9410458,
+    "seen": 1793622305.4061837,
+    "ast_hash": "4c1f571aa0ada5aca925395eece6c522",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_coat_20261102_183617_8a54283a.json": {
+    "mtime": 1793619609.773084,
+    "seen": 1793622305.4061837,
+    "ast_hash": "fc1bf643f25e88cccc94bf3e76d24eb3",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_coat_20261102_183617_a3395fc6.json": {
+    "mtime": 1793619607.8824391,
+    "seen": 1793622305.4061837,
+    "ast_hash": "5b1415cdbd6cee77a6e50746c8de739b",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_fix_validation_20261102.json": {
+    "mtime": 1793619503.5649312,
+    "seen": 1793622305.4061837,
+    "ast_hash": "18529cb6bedff69a6d499c37e76b3c77",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_kuairand_20261102_183617_45d46e60.json": {
+    "mtime": 1793621909.9949028,
+    "seen": 1793622305.4061837,
+    "ast_hash": "2e4d2b613d453abf2ce73664e5eb0f30",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_kuairand_20261102_183617_46de0638.json": {
+    "mtime": 1793622030.3298228,
+    "seen": 1793622305.4061837,
+    "ast_hash": "0b4dfd7f0fe6ece73a9acd008c0fa394",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_kuairand_20261102_183617_526fb09a.json": {
+    "mtime": 1793621812.891828,
+    "seen": 1793622305.4061837,
+    "ast_hash": "e609d8e541e307637250abe5e9baf263",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_summary_20261102.json": {
+    "mtime": 1793622210.0132997,
+    "seen": 1793622305.4061837,
+    "ast_hash": "b08efbf5005b7c56fbb3da4e6469dc64",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_yahoo_20261102_183617_6d869b4c.json": {
+    "mtime": 1793620543.9546204,
+    "seen": 1793622305.4061837,
+    "ast_hash": "31133cd94d462c9b7ea480c9925666c4",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_yahoo_20261102_183617_d19d670a.json": {
+    "mtime": 1793620258.898972,
+    "seen": 1793622305.4061837,
+    "ast_hash": "4c380681fe2f75ac95e2e42b1dc5340a",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/conalign_yahoo_20261102_183617_f28ab036.json": {
+    "mtime": 1793620638.2884529,
+    "seen": 1793622305.4061837,
+    "ast_hash": "403892d9060c64d1d295d09ee544967b",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/studies/conalign_kuairand_20261028_081519_b614253e.json": {
+    "mtime": 1793153743.675072,
+    "seen": 1793622305.4061837,
+    "ast_hash": "6bbdb89a68ce2de8e68623e9ebd9e777",
     "semantic_hash": ""
   }
 }

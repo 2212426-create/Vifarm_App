@@ -1,4 +1,4 @@
-"""Fresh three-seed CDR validation after adding LCDR/ConAlign to the benchmark and the ConAlign KuaiRand window (30/10/2026)."""
+"""Fresh three-seed CDR validation after the ConAlign best-state fix and the device fixes (02/11/2026)."""
 import json
 from pathlib import Path
 import sys
@@ -12,22 +12,22 @@ from src.data_pipeline.coat_dataset import load_coat_processed
 
 torch.set_num_threads(2)
 code = source_signature()
-previous = json.loads((ROOT / 'results/ividr_default_validation_20261028.json').read_text())
+previous = json.loads((ROOT / 'docs/state_snapshot.json').read_text(encoding='utf-8'))['independent_cdr_validation']
 data = load_coat_processed(pos_threshold=3)
 runs = []
-for old in previous['runs']:
+for old in previous:
     seed = old['seed']
     result = train_released_cdr('coat', data, seed=seed, evaluate_test=False, device='cpu',
         selection='source_train_loss_last', calibration_fraction=.05,
-        checkpoint_dir=ROOT / 'checkpoints/console_models_validation_20261030',
+        checkpoint_dir=ROOT / 'checkpoints/conalign_fix_validation_20261102',
         checkpoint_tag=f'seed{seed}')
-    assert (result['best_epoch'], result['best_val_ndcg']) == (old['best_epoch'], old['best_val_ndcg'])
-    runs.append(dict(seed=seed, **result))
+    assert (result['best_epoch'], result['best_val_ndcg']) == (old['epoch'], old['val_ndcg'])
+    runs.append(dict(seed=seed, best_epoch=result['best_epoch'], best_val_ndcg=result['best_val_ndcg'],
+                     epochs_run=result['epochs_run'], checkpoint_path=str(result['checkpoint_path'])))
 assert source_signature() == code
-with (ROOT / 'results/console_models_validation_20261030.json').open('x', encoding='utf-8') as stream:
+with (ROOT / 'results/conalign_fix_validation_20261102.json').open('x', encoding='utf-8') as stream:
     json.dump(dict(identity=dict(code_sha256=code), runs=runs,
         evaluation='validation_only_no_held_out_test',
-        previous_validation='results/ividr_default_validation_20261028.json',
-        regression='Exact validation scores and selected epochs after adding LCDR/ConAlign to the benchmark'),
+        regression='Exact CDR validation scores and selected epochs after the ConAlign best-state and device fixes'),
         stream, indent=2)
 print(json.dumps([dict(seed=r['seed'], epoch=r['best_epoch'], val=r['best_val_ndcg']) for r in runs]))

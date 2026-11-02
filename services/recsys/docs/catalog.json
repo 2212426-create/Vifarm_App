@@ -84,27 +84,27 @@
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-10-30/console_models/smoke.log",
-      "role": "verification_log",
-      "immutable": false
-    },
-    {
       "path": "docs/archive/2026-10-30/console_models/summarize.py",
       "role": "historical_evidence",
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-10-30/console_models/tests_final.log",
+      "path": "docs/archive/2026-11-02/conalign_fix/smoke.log",
       "role": "verification_log",
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-10-30/console_models/validate.py",
+      "path": "docs/archive/2026-11-02/conalign_fix/tests.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-02/conalign_fix/validate.py",
       "role": "historical_evidence",
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-10-30/console_models/validation.log",
+      "path": "docs/archive/2026-11-02/conalign_fix/validation.log",
       "role": "verification_log",
       "immutable": false
     },
@@ -380,34 +380,70 @@
       "immutable": false
     },
     {
-      "path": "results/conalign_coat_20261027_220711_8da7d449.json",
+      "path": "results/conalign_coat_20261102_183617_295b7a3c.json",
       "role": "benchmark_result",
       "immutable": true,
-      "sha256": "26c307c433bcf166abca9a12c2e2b4e177a2348662a521f2198a32295b1b5164"
+      "sha256": "f87d016814515a4734e6dcfa5b2f40259b8aa3c611c4d28f72be43136861499c"
     },
     {
-      "path": "results/conalign_coat_20261028_081519_b614253e.json",
+      "path": "results/conalign_coat_20261102_183617_8a54283a.json",
       "role": "benchmark_result",
       "immutable": true,
-      "sha256": "03371dde404da6ac6c745ce80b08da18cf06fe6db376f8460bf52033bd2cadce"
+      "sha256": "b2b674715b342d66866aa2ef1f4d58a97b0cff8009eeee9fa52171b7c0fbb8ac"
     },
     {
-      "path": "results/conalign_kuairand_20261028_081519_b614253e.json",
+      "path": "results/conalign_coat_20261102_183617_a3395fc6.json",
       "role": "benchmark_result",
       "immutable": true,
-      "sha256": "2bc595c9fad874dd8db9e28b6e8094d9cd6851ef30fdc2d91b52e083f1762660"
+      "sha256": "b4c58940ba45063a61b78f70781ee92d3b816301df9d1a4f06cd744af1272e26"
     },
     {
-      "path": "results/conalign_yahoo_20261028_081519_b614253e.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "65c8b38b33fce206de04857ea04a862abbcd352bc1150f72b6c332121221b99d"
-    },
-    {
-      "path": "results/console_models_validation_20261030.json",
+      "path": "results/conalign_fix_validation_20261102.json",
       "role": "validation_result",
       "immutable": true,
-      "sha256": "27570076ed810825a1e015155f3f47ca90481a31083d5121986ede6c4ef25812"
+      "sha256": "2053b1ec86ebeb4ce53b60dfbe2482bcd1a7ab37fca84ae5215457dc6d1327f0"
+    },
+    {
+      "path": "results/conalign_kuairand_20261102_183617_45d46e60.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "6ee6768979b08e7d814127fcc1c53333be547849612551f8fff756e408074d00"
+    },
+    {
+      "path": "results/conalign_kuairand_20261102_183617_46de0638.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "15207bdb40431d555ff806f07be306d026b70250ee8efa0819f08c443955bdc8"
+    },
+    {
+      "path": "results/conalign_kuairand_20261102_183617_526fb09a.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "51b23312e9f2a3919e7b5f7d90b5ddaaace1ca49726caff8fc5e0e5c917924fd"
+    },
+    {
+      "path": "results/conalign_summary_20261102.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "9cb82d72723c26ca8efc9f118beb7c3df2776a024eb16037c9e2a438b2670157"
+    },
+    {
+      "path": "results/conalign_yahoo_20261102_183617_6d869b4c.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "947e2524bc40328a34e44591ba1722cdd704e0c7fd89658d23c72064f71d197d"
+    },
+    {
+      "path": "results/conalign_yahoo_20261102_183617_d19d670a.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "df2589b76afe5e97742b15e95dafc24b200d407684eebbe7314be2ee0714710f"
+    },
+    {
+      "path": "results/conalign_yahoo_20261102_183617_f28ab036.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "8f2513c8c4c496ef19e7be6bbb04e19437b355cd0b495aa44bdf2671036e4435"
     },
     {
       "path": "results/ividr_benchmark_recovered_coat_yahoo_20261029.json",
@@ -450,6 +486,12 @@
       "role": "benchmark_result",
       "immutable": true,
       "sha256": "b3e5d86b19175ed54d4029cd296a91fb1b8de4a775260cbf9d8cb257899e3201"
+    },
+    {
+      "path": "results/studies/conalign_kuairand_20261028_081519_b614253e.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "2bc595c9fad874dd8db9e28b6e8094d9cd6851ef30fdc2d91b52e083f1762660"
     },
     {
       "path": "results/studies/conalign_kuairand_window_intended_seed0_20261028.json",

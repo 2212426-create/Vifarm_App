@@ -111,7 +111,8 @@ class EarlyStopping:
             if value >= self.remembered_val and self.remembered_val != value:
                 self.best_epoch = epoch
                 self.remembered_val = value
-                self.best_state = {key: tensor.cpu() for key, tensor in self.model.state_dict().items()}
+                # clone(): on CPU, .cpu() returns the same tensor, so the state would follow later updates.
+                self.best_state = {key: tensor.detach().cpu().clone() for key, tensor in self.model.state_dict().items()}
         else:
             self.patience -= 1
         return self.patience == 0

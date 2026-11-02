@@ -54,13 +54,18 @@ Vì các điểm trên, kết quả là **cài đặt lại theo paper**, không
 ## ConAlign: port từ source
 
 Source đúng byte ở [third_party/conalign](../../third_party/conalign/upstream_manifest.json).
-Package `src/models/conalign/` giữ nguyên thuật toán, cấu hình `para()`, thứ tự tiêu thụ RNG và
-metric. Khác biệt duy nhất là đọc `data/raw` thay cho thư mục `datasets/` của repo; các dòng dựng
-lại trùng từng byte với `user.txt`/`random.txt` (Coat, Yahoo) và CSV KuaiRand-Pure (bỏ ký tự CR).
+Package `src/models/conalign/` giữ nguyên thuật toán, cấu hình `para()`, thứ tự tiêu thụ RNG và metric, với hai khác biệt:
 
-Kiểm chứng trong `tests/test_conalign.py`: 21 file source khớp SHA-256; dữ liệu trùng byte;
-khởi tạo và forward của DualTowerMF trùng tensor; chạy source gốc và bản port 2 + 2 epoch trên
-Coat, mọi dòng log epoch và mọi metric test trùng đến 4 chữ số in ra.
+- Đọc `data/raw` thay cho thư mục `datasets/` của repo; các dòng dựng lại trùng từng byte với `user.txt`/`random.txt`
+  (Coat, Yahoo) và CSV KuaiRand-Pure (bỏ ký tự CR).
+- **`EarlyStopping` sao chép `best_state`** (từ 02/11/2026). Source dùng `value.cpu()`: trên GPU đó là bản sao, nhưng trên CPU
+  nó trỏ vào trọng số đang chạy, nên epoch tốt nhất không được khôi phục. Bản port nay khôi phục đúng trên mọi thiết bị,
+  tức hành vi mà source có khi chạy GPU.
+
+Kiểm chứng trong `tests/test_conalign.py`: 21 file source khớp SHA-256; dữ liệu trùng byte; khởi tạo và forward của DualTowerMF
+trùng tensor; chạy source gốc và bản port 2 + 2 epoch trên Coat, mọi dòng log epoch và metric test trùng đến 4 chữ số in ra.
+Với ngân sách ngắn này epoch tốt nhất trùng epoch cuối, nên test parity không phân biệt được hai cách lưu; test riêng
+`ConAlignEarlyStoppingTest` kiểm tra `best_state` không đổi sau các bước huấn luyện tiếp theo.
 
 Protocol của source: Coat/Yahoo rating ≥ 4; biased chia ngẫu nhiên 70/10/20, unbiased 50/10/40
 cùng seed; KuaiRand validation 06/05, test 07–08/05. Cửa sổ train KuaiRand: xem
@@ -84,25 +89,10 @@ Khoảng cách $\lVert Z_{lc}-Z\rVert_2$ ở validation còn 6.4–7.5: ràng bu
 chưa kéo $Z_{lc}$ sát $Z$ trong cấu hình kiến trúc của project. Do paper thiếu nhiều chi tiết,
 kết quả này cho thấy giới hạn của việc cài đặt lại; nó không chứng minh phương pháp sai.
 
-**ConAlign** ([báo cáo](../../results/conalign_coat_20261027_220711_8da7d449.json)): seed 0
-của tác giả. Bước 1 dừng sớm ở epoch 145 (chọn epoch 84); bước 2 chạy hết 500 epoch, chọn epoch 486.
-
-| Tập test | Tháp | UAUC | UNDCG | NDCG (`calc`) | AUC |
-| :-- | :-- | --: | --: | --: | --: |
-| Unbiased (random) | unbiased | .6733 | .7100 | .7050 | .7490 |
-| Biased | unbiased | .6839 | .7734 | .7614 | .7108 |
-| Unbiased (random) | biased | .6839 | .7053 | .7002 | .7538 |
-
-Paper báo UAUC / NDCG@5 của ConAlign trên Coat: unbiased .6856 / .7066, biased .6954 / .7746.
-NDCG của project sát paper (.7100 / .7734), UAUC thấp hơn khoảng .012. Một seed, nên không dùng để
-khẳng định thắng/thua baseline. Bước 2 dừng vì chạm giới hạn 500 epoch của source, không phải do
-early stopping.
-
 ## Kết quả đầy đủ ba dataset, 28–30/10/2026
 
-Source `fd1df699561e` (mốc IViDR mặc định 28/10), một seed mỗi mô hình (LCDR/IViDR seed 42, ConAlign
-seed 0 của tác giả), chọn cấu hình theo validation, test chấm một lần. ConAlign dùng cửa sổ KuaiRand
-của source (trước khi đổi mặc định).
+LCDR và IViDR: source `fd1df699561e` (mốc IViDR mặc định 28/10), seed 42, chọn cấu hình theo validation, test chấm một lần.
+ConAlign: source `4e05072a90c3`, xem bảng riêng bên dưới.
 
 | Dataset | LCDR NDCG@5 / Recall@5 | Paper LCDR | IViDR NDCG@5 / Recall@5 | Paper IViDR |
 | :-- | :-- | :-- | :-- | :-- |
@@ -119,36 +109,28 @@ dừng vì máy khởi động lại khi đang ở KuaiRand; Coat/Yahoo được
 (cùng quy tắc với pipeline, [script](../archive/2026-10-28/full_benchmark/recover_coat_yahoo.py)), KuaiRand chạy lại
 riêng. Coat seed 42 trùng chính xác lượt 10 seed (.5288; trung bình 10 seed .5657 ± .0212).
 
-ConAlign, tháp unbiased trên test unbiased (C-src):
+ConAlign, tháp unbiased trên test unbiased (C-src), seed 0/1/2, KuaiRand cửa sổ paper, chạy lại ngày 02/11/2026
+sau khi sửa `best_state` ([tổng hợp](../../results/conalign_summary_20261102.json)):
 
-| Dataset | UAUC (project / paper) | NDCG (`calc`) | UNDCG | Paper "NDCG@5" |
-| :-- | :-- | --: | --: | --: |
-| Coat | .6733 / .6856 | .7050 | .7100 | .7066 |
-| Yahoo!R3 | .6892 / .6841 | .7773 | .7867 | .7761 |
-| KuaiRand (cửa sổ source) | .5958 / .6372 | .5278 | .5564 | .5656 |
+| Dataset | UAUC (project) | UAUC (paper) | UNDCG | NDCG (`calc`) | Paper "NDCG@5" |
+| :-- | --: | --: | --: | --: | --: |
+| Coat | .6838 ± .0077 | .6856 | .7078 ± .0171 | .7016 ± .0164 | .7066 |
+| Yahoo!R3 | .6771 ± .0077 | .6841 | .7783 ± .0055 | .7690 ± .0054 | .7761 |
+| KuaiRand | .6607 ± .0002 | .6372 | .6141 ± .0003 | .5893 ± .0003 | .5656 |
 
-Báo cáo: [Coat](../../results/conalign_coat_20261028_081519_b614253e.json),
-[Yahoo](../../results/conalign_yahoo_20261028_081519_b614253e.json),
-[KuaiRand](../../results/conalign_kuairand_20261028_081519_b614253e.json).
+Coat và Yahoo khớp paper trong khoảng dao động seed. KuaiRand cao hơn paper (+.024 UAUC, +.049 UNDCG); paper ghi KuaiRand-Pure có
+1.000 user và 7.388 video, khác log thật (27.285 user, 7.583 video trong 17 ngày), nên hai bên không cùng dữ liệu. Chỉ có 3 seed,
+không so ý nghĩa thống kê với paper. Mọi điểm ConAlign đo trước 02/11/2026 dùng trọng số epoch cuối, không còn hiệu lực.
 
 ## Cửa sổ train KuaiRand của ConAlign, 28–30/10/2026
 
 Paper (Sec. 4.1) dùng log 22/04–08/05: train 22/04–05/05, validation 06/05, test 07–08/05. Source
 `utils/load_kuairand.py` tạo ngày train bằng `20220408 + i` (i < 28): sau 20220430 là 20220431…20220435,
 không phải ngày thật, nên **01–05/05 không vào train** (khoảng 463 nghìn dòng random, 90 nghìn dòng biased).
-Ba cửa sổ, tháp unbiased trên test unbiased ([tổng hợp](../../results/lcdr_conalign_studies_summary_20261030.json),
-[script](../archive/2026-10-28/conalign_paper_window/run.py)):
-
-| Cửa sổ train | Seed | UAUC | NDCG (`calc`) | UNDCG |
-| :-- | :-: | --: | --: | --: |
-| source như công bố | 0, 1, 2 | .5967 ± .0009 | .5282 ± .0006 | .5568 |
-| đúng docstring source (08/04–05/05) | 0, 1 | .6015 ± .0014 | .5359 ± .0017 | .5640 |
-| paper (22/04–05/05) | 0, 1, 2 | .6018 ± .0033 | .5369 ± .0033 | .5650 |
-
-Cửa sổ paper cao hơn ở mọi seed (+.005 UAUC, +.009 NDCG); lợi ích đến từ việc đưa 01–05/05 vào train.
-UNDCG .5650 gần "NDCG@5" .5656 của paper, nhưng UAUC vẫn thấp hơn paper khoảng .035. Paper ghi
-KuaiRand-Pure có 1.000 user và 7.388 video, khác log thật (27.285 user, 7.583 video trong 17 ngày);
-không đủ thông tin để thu hẹp khoảng này.
+So sánh ba cửa sổ ngày 28/10 ([tổng hợp](../../results/lcdr_conalign_studies_summary_20261030.json),
+[script](../archive/2026-10-28/conalign_paper_window/run.py)) được đo **trước khi sửa `best_state`**: cửa sổ paper cao hơn cửa sổ
+source ở mọi seed, nhờ đưa 01–05/05 vào train. Chiều so sánh này là căn cứ chọn mặc định; điểm tuyệt đối của nó không còn hiệu lực
+và chưa chạy lại cho cửa sổ source sau khi sửa.
 
 **Mặc định từ 30/10:** `kuairand_window='paper'` (`--kuairand-window paper|source` ở lệnh `conalign`;
 benchmark dùng paper). Cửa sổ `source` cho dữ liệu trùng từng tensor với loader gốc (test
