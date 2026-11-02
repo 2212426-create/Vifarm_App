@@ -11,7 +11,8 @@ import torch
 from src.evaluation.protocol import METRIC_REVISION, protocol_metadata, validate_paper_split
 
 VERSION = 4
-ARCHITECTURES = {"mf": "mf_v4", "cdr": "cdr_v4", "idcf": "idcf_v1"}
+ARCHITECTURES = {"mf": "mf_v4", "cdr": "cdr_v4", "idcf": "idcf_v1", "cdr_released": "cdr_released_v1",
+                 "ividr_bce": "ividr_bce_v1", "ividr_reference": "ividr_reference_bce_v2", "lcdr": "lcdr_v1"}
 
 
 def digest(value):
@@ -28,7 +29,7 @@ def validate_training(**values):
 def data_signature(data):
     """Hash actual train arrays and evaluation pools, including small/subset runs."""
     h = hashlib.sha256()
-    for key in ("train_u", "train_i", "train_y", "train_c"):
+    for key in ("train_u", "train_i", "train_y", "train_c", "user_features"):
         if key in data:
             a = np.ascontiguousarray(data[key])
             h.update(key.encode())
@@ -110,12 +111,20 @@ def load_checkpoint(path, device="cpu", expected_metadata=None):
 
 def evaluate_checkpoint(path, data, device=None, return_user_ndcg=False):
     """Evaluate the selected checkpoint without training or reselecting an epoch."""
-    from src.models.matrix_factorization import MatrixFactorization
-    from src.causal.cdr.cdr_model import CDRFramework
-    from src.causal.idcf.idcf_model import IDCFModel
+    from src.models.mf.matrix_factorization import MatrixFactorization
+    from src.models.cdr.cdr_model import CDRFramework
+    from src.models.idcf.idcf_model import IDCFModel
+    from src.models.ividr.ividr_reference import IViDRMarginalMF
+    from src.models.cdr.released import ReleasedCDR
     from src.evaluation.evaluator import evaluate_unbiased_model
 
     device = device or torch.device("cpu")
+    raw_state = torch.load(path, map_location=device, weights_only=True)
+    if raw_state.get('metadata', {}).get('model') == 'cdr_source':
+        if return_user_ndcg:
+            raise ValueError('Source-protocol CDR cannot enter shared-protocol paired tests')
+        from src.models.cdr.source_protocol import evaluate_source_checkpoint
+        return evaluate_source_checkpoint(path, device)
     state = load_checkpoint(path, device)
     meta = state["metadata"]
     if meta.get("protocol", {}).get("metric_revision") != METRIC_REVISION:
@@ -123,10 +132,15 @@ def evaluate_checkpoint(path, data, device=None, return_user_ndcg=False):
     validate_paper_split(data)
     if meta["data"] != data_signature(data):
         raise ValueError("Selected checkpoint does not match evaluation data")
-    classes = {"mf": MatrixFactorization, "cdr": CDRFramework, "idcf": IDCFModel}
+    classes = {"mf": MatrixFactorization, "cdr": CDRFramework, "idcf": IDCFModel, "cdr_released": ReleasedCDR,
+               "ividr_bce": IDCFModel, "ividr_reference": IViDRMarginalMF, "lcdr": IDCFModel}
     if meta.get("architecture_version") != ARCHITECTURES[meta['model']]:
         raise ValueError("Incompatible architecture version")
-    model = classes[meta["model"]](**meta["model_kwargs"]).to(device)
+    model_kwargs = dict(meta["model_kwargs"])
+    if meta["model"] == "cdr":
+        # Old weights contain user/item/global biases. Never reinterpret them as dot MF.
+        model_kwargs.setdefault("backbone", "legacy_bias")
+    model = classes[meta["model"]](**model_kwargs).to(device)
     model.load_state_dict(state["model_state_dict"])
     result = evaluate_unbiased_model(
         model, data["test_candidates"], data["test_ground_truth"], device=device,
@@ -135,4 +149,9 @@ def evaluate_checkpoint(path, data, device=None, return_user_ndcg=False):
     )
     result.update(checkpoint_path=str(path), best_epoch=state["epoch"],
                   best_val_ndcg=state["validation"]["NDCG@5"], metadata=meta)
+    if meta["model"] in ("cdr", "cdr_released"):
+        result["selection_origin"] = "warm_start" if state["epoch"] == 0 else "cdr_update"
+        result["objective_revision"] = ("cdr_released_v1" if meta["model"] == "cdr_released" else
+                                        meta["config"].get("objective_revision", "legacy_unversioned"))
+        result["cdr_training"] = state["validation"].get("cdr_training")
     return result

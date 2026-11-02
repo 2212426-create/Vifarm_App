@@ -9,7 +9,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from src.baselines.train_mf import train_baseline_mf
+from src.models.mf.train_mf import train_baseline_mf
 from src.data_pipeline.coat_dataset import load_coat_processed
 from src.data_pipeline.kuairand_dataset import load_kuairand_processed
 from src.utils.artifacts import data_signature, digest, evaluate_checkpoint, source_signature, validate_training

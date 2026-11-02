@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "source_sha256": "eaaa557ae302485a39c88caade79c246fe4efa791bc02870c8c9d0a04f7e5db1",
+  "scope": "benchmark --model all runs six models (user request 30/10): MF, iDCF, IViDR, LCDR (H30), DR-BIAS + CDR, ConAlign (C-src); ConAlign KuaiRand defaults to the paper train window 22/04-05/05",
+  "default_models": [
+    "MF",
+    "iDCF",
+    "IViDR",
+    "LCDR",
+    "DR-BIAS + CDR",
+    "ConAlign"
+  ],
+  "experimental_models": [
+    "LCDR",
+    "ConAlign"
+  ],
+  "mf_defaults": {
+    "coat": {
+      "embedding_dim": 64,
+      "epochs": 100,
+      "lr": 0.0005,
+      "weight_decay": 1e-06,
+      "batch_size": 512,
+      "patience": 5,
+      "loss_name": "mse",
+      "decay_scope": "all",
+      "scheduler_name": "none",
+      "train_global_bias": false,
+      "init_scheme": "author_uniform"
+    },
+    "yahoo": {
+      "embedding_dim": 64,
+      "epochs": 100,
+      "lr": 0.0005,
+      "weight_decay": 1e-06,
+      "batch_size": 2048,
+      "patience": 5,
+      "loss_name": "mse",
+      "decay_scope": "all",
+      "scheduler_name": "none",
+      "train_global_bias": false,
+      "init_scheme": "author_uniform"
+    },
+    "kuairand": {
+      "embedding_dim": 64,
+      "epochs": 100,
+      "lr": 5e-05,
+      "weight_decay": 1e-06,
+      "batch_size": 2048,
+      "patience": 5,
+      "loss_name": "mse",
+      "decay_scope": "all",
+      "scheduler_name": "none",
+      "train_global_bias": false,
+      "init_scheme": "author_uniform"
+    }
+  },
+  "cdr_defaults": {
+    "coat": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.001,
+      "batch_size": 128,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 4
+    },
+    "yahoo": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.0001,
+      "batch_size": 2048,
+      "un_thres": 10.0,
+      "dropout_rate": 0.7,
+      "G": 1
+    },
+    "kuairand": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.0001,
+      "batch_size": 2048,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 1
+    }
+  },
+  "idcf_pipeline_defaults": {
+    "yahoo": {
+      "ivae": {
+        "latent_dim": 16,
+        "hidden_dim": 32,
+        "n_layers": 3,
+        "batch_size": 512,
+        "patience": 100
+      },
+      "train": {
+        "lr": 0.0005,
+        "weight_decay": 1e-06,
+        "embedding_dim": 64,
+        "batch_size": 2048,
+        "patience": 5,
+        "init_scheme": "author_uniform"
+      }
+    },
+    "coat": {
+      "ivae": {
+        "latent_dim": 16,
+        "hidden_dim": 32,
+        "n_layers": 3,
+        "batch_size": 512,
+        "patience": 100
+      },
+      "train": {
+        "lr": 0.0005,
+        "weight_decay": 1e-06,
+        "embedding_dim": 64,
+        "batch_size": 512,
+        "patience": 5,
+        "init_scheme": "author_uniform"
+      }
+    },
+    "kuairand": {
+      "ivae": {
+        "latent_dim": 32,
+        "hidden_dim": 64,
+        "n_layers": 2,
+        "batch_size": 2048,
+        "patience": 5
+      },
+      "train": {
+        "lr": 0.0001,
+        "weight_decay": 1e-06,
+        "embedding_dim": 64,
+        "batch_size": 2048,
+        "patience": 5,
+        "init_scheme": "author_uniform"
+      }
+    }
+  },
+  "grid_sizes": {
+    "coat": {
+      "mf": 10,
+      "cdr": 1120
+    },
+    "yahoo": {
+      "mf": 10,
+      "cdr": 1120
+    },
+    "kuairand": {
+      "mf": 10,
+      "cdr": 1120
+    }
+  },
+  "evaluation": {
+    "mf_idcf": "logged_binary_v1 / >=4 / random-user 30/70",
+    "cdr": "cdr_source_v1 / >=3 Coat/Yahoo / full random log / 5% calibration / train-loss last",
+    "cross_protocol_paired_tests": false,
+    "lcdr": "H30, iDCF data/evaluator",
+    "conalign": "conalign_source_protocol (C-src): source para(), seed 0, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
+  },
+  "test_suite": {
+    "total": 156,
+    "passed": 155,
+    "skipped": 1,
+    "skip_reason": "CUDA unavailable",
+    "log": "docs/archive/2026-10-30/console_models/tests_final.log"
+  },
+  "validation_artifact": "results/console_models_validation_20261030.json",
+  "independent_cdr_validation": [
+    {
+      "seed": 2020,
+      "epoch": 23,
+      "val_ndcg": 0.6699348906169417
+    },
+    {
+      "seed": 2021,
+      "epoch": 35,
+      "val_ndcg": 0.6546685444276458
+    },
+    {
+      "seed": 2022,
+      "epoch": 25,
+      "val_ndcg": 0.6669383509943496
+    }
+  ],
+  "limits": [
+    "Source Coat/Yahoo uses evaluation labels for calibration; not independent held-out test",
+    "KuaiRand uses local preprocessing and array/bounded-memory sampling adaptations",
+    "Tuning uses validation calibration/selection; separate from default source protocol",
+    "API lacks randomized log; serving adaptation",
+    "CUDA unverified",
+    "IViDR validation on CUDA likely fails: no device passed to the evaluator (code reading, not run)"
+  ],
+  "cdr_implementation": {
+    "coat": "released_source_protocol",
+    "yahoo": "released_source_protocol",
+    "kuairand": "released_source_protocol"
+  },
+  "displayed_recall": "Recall@5_bounded",
+  "ividr_reference_defaults": {
+    "treatment_dimensions": {
+      "coat": 32,
+      "yahoo": 96,
+      "kuairand": 128
+    },
+    "feature_embedding": "trainable_linear",
+    "feedback_loss": "bce",
+    "prediction": "E[sigmoid(score)]",
+    "train_mc_samples": 10,
+    "inference_quadrature_points": 32,
+    "phi": 1.0,
+    "lambda_mf": 1.0,
+    "rho": 0.9,
+    "tau": 0.9,
+    "eq10_adapter": "tied_item_lift",
+    "feedback_grid_size": 10,
+    "feedback_patience": 20,
+    "paper_reproduction": false
+  },
+  "ividr_default": {
+    "display_name": "IViDR",
+    "ividr_version": "reference_v2_prior0_neg0.1",
+    "prior_mean": "zero",
+    "negative_weight": 0.1,
+    "eq10_bridge": "tied_item_lift",
+    "paper_literal_overrides": {
+      "ivae_overrides": {
+        "prior_mean": "learned"
+      },
+      "negative_weight": 1
+    },
+    "evidence": "results/ividr_ten_seed_summary_20261028.json",
+    "changed_on": "2026-10-28"
+  },
+  "ividr_root_cause": {
+    "guide": "docs/benchmarks/ividr_root_cause_20261027.md",
+    "main_cause": "BCE penalizes self-selected low-rated exposures",
+    "mf_bce_negative_weight_0.2_recovers_validation": true,
+    "ividr_gain_with_weighting": "within seed noise",
+    "default_changed": true,
+    "evidence": "results/ividr_ten_seed_summary_20261028.json"
+  },
+  "reviewed_on": "2026-11-02"
+}

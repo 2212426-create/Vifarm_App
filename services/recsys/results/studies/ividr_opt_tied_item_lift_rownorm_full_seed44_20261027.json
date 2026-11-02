@@ -1,0 +1,119 @@
+{
+  "dataset": "coat",
+  "seed": 44,
+  "eq10_bridge": "tied_item_lift_rownorm",
+  "reconstruction": "full",
+  "code_sha256": "ca781b172f1504f7b15ed74cd0be3b9ed39c0309fe60e26a33a12feb74abdab6",
+  "mf_treatment_checkpoint": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_mf_treatment_seed44_v4_781ac56d7888baa4.pt",
+  "test": {
+    "NDCG@5": 0.5350782226669767,
+    "Recall@5": 0.5529612270630234,
+    "Recall@5_bounded": 0.6090818363273454,
+    "Precision@5": 0.3616766467065869,
+    "HitRate@5": 0.8802395209580839,
+    "AUC": 0.6993950826286155,
+    "best_epoch": 81,
+    "best_val_ndcg": 0.5725108739034485,
+    "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial2_v4_61256c3a0dc6678e.pt"
+  },
+  "validation_search": {
+    "trials": [
+      {
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "best_epoch": 37,
+        "best_val_ndcg": 0.5640980867838861,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial0_v4_2b8bab0f2091d97e.pt"
+      },
+      {
+        "lr": 0.001,
+        "weight_decay": 1e-06,
+        "best_epoch": 37,
+        "best_val_ndcg": 0.5588625386767009,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial1_v4_35c97b00b5fa8d76.pt"
+      },
+      {
+        "lr": 0.0005,
+        "weight_decay": 1e-05,
+        "best_epoch": 81,
+        "best_val_ndcg": 0.5725108739034485,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial2_v4_61256c3a0dc6678e.pt"
+      },
+      {
+        "lr": 0.0005,
+        "weight_decay": 1e-06,
+        "best_epoch": 75,
+        "best_val_ndcg": 0.5711516955722744,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial3_v4_68d8ed0c4a4dede7.pt"
+      },
+      {
+        "lr": 0.0001,
+        "weight_decay": 1e-05,
+        "best_epoch": 100,
+        "best_val_ndcg": 0.5068361252707073,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial4_v4_55ad6f77ccdd5717.pt"
+      },
+      {
+        "lr": 0.0001,
+        "weight_decay": 1e-06,
+        "best_epoch": 100,
+        "best_val_ndcg": 0.5097654616325852,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial5_v4_3de103b5657e1e01.pt"
+      },
+      {
+        "lr": 5e-05,
+        "weight_decay": 1e-05,
+        "best_epoch": 17,
+        "best_val_ndcg": 0.47324086309089913,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial6_v4_6f3c8bb8c11f5242.pt"
+      },
+      {
+        "lr": 5e-05,
+        "weight_decay": 1e-06,
+        "best_epoch": 17,
+        "best_val_ndcg": 0.47324086309089913,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial7_v4_97ff34d9553c11c8.pt"
+      },
+      {
+        "lr": 1e-05,
+        "weight_decay": 1e-05,
+        "best_epoch": 79,
+        "best_val_ndcg": 0.47078042352867805,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial8_v4_2d283418e4a72e21.pt"
+      },
+      {
+        "lr": 1e-05,
+        "weight_decay": 1e-06,
+        "best_epoch": 79,
+        "best_val_ndcg": 0.47078042352867805,
+        "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_ividr_reference_tied_item_lift_rownorm_full_seed44_bce_trial9_v4_b57b985443ca4ca8.pt"
+      }
+    ],
+    "selection": "max_validation_NDCG@5",
+    "test_used_for_selection": false
+  },
+  "stage1": {
+    "best_epoch": 584,
+    "epochs_run": 684,
+    "best_val_loss": 82.34418296813965,
+    "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_optimization_20261027\\coat_tied_item_lift_rownorm_full_seed44_exposure_46a27e04.pt"
+  },
+  "diagnostics": {
+    "perturbation_ratio": 1.0,
+    "posterior_mean_cosine": 0.999033510684967,
+    "posterior_mean_relative_difference": 0.0567082017660141,
+    "gate_fitted": {
+      "mean": -0.27660492062568665,
+      "min": -0.37514930963516235,
+      "max": -0.22517472505569458
+    },
+    "gate_residual": {
+      "mean": 0.08825512230396271,
+      "min": 0.025737687945365906,
+      "max": 0.1986367255449295
+    },
+    "exposure": "biased training exposure only"
+  },
+  "seconds": 328.00920701026917,
+  "selection": "validation NDCG@5 only; test reported once"
+}

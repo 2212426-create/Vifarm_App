@@ -1,0 +1,19 @@
+{
+  "model": "idcf",
+  "seed": 44,
+  "code_sha256": "742872d084e70591b7763b150b0c0d0652e1349dc7f44957e77ea59ce48b991d",
+  "test": {
+    "NDCG@5": 0.5836478342925536,
+    "Recall@5": 0.5477085954630865,
+    "Recall@5_bounded": 0.6013972055888223,
+    "Precision@5": 0.3520958083832335,
+    "HitRate@5": 0.8802395209580839,
+    "AUC": 0.6829096697547297,
+    "best_epoch": 47,
+    "best_val_ndcg": 0.6022834064045596,
+    "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\ividr_ten_seed_20261028\\coat_idcf_idcf_seed44_v4_5db43ce56a6f31f8.pt"
+  },
+  "validation_search": null,
+  "seconds": 51.98368716239929,
+  "selection": "validation NDCG@5 only; test reported once"
+}

@@ -1,5 +1,11 @@
 # CDR: Conservative Doubly Robust Learning for Debiased Recommendation
 
+> **Ghi chú đối chiếu triển khai (19/10/2026):** Nội dung dưới đây chép lại paper.
+> Paper và mã GitHub công bố khác nhau ở nhãn, bộ lọc, hệ số imputation và giao thức
+> chấm Coat. Xem [phân tích CDR và số đo kiểm chứng](../benchmarks/root_cause_analysis.md#dr-bias--cdr)
+> trước khi so trực tiếp điểm dự án với Table 2. Giữ nguyên phần paper bên dưới để
+> phân biệt mô tả nghiên cứu với hành vi của mã nguồn.
+
 **Zijie Song**  
 catshark@zju.edu.cn  
 Zhejiang University, HangZhou, ZheJiang, China  

@@ -1,0 +1,28 @@
+{
+  "variant": "lambda10",
+  "seed": 42,
+  "code_sha256": "fd1df699561e05415df720ee7bf5abdc9b4b556c2b37a321dc205949d5f27a1f",
+  "test": {
+    "NDCG@5": 0.5626379606001597,
+    "Recall@5": 0.5444372161438029,
+    "Recall@5_bounded": 0.6022954091816366,
+    "Precision@5": 0.3652694610778444,
+    "HitRate@5": 0.874251497005988,
+    "AUC": 0.7065733563675181,
+    "best_epoch": 24,
+    "best_val_ndcg": 0.6089874720075118,
+    "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_constraint_20261028\\coat_lcdr_lambda10_seed42_v4_235826e65e60bb65.pt"
+  },
+  "representation": {
+    "best_val_loss": 227.0027961730957,
+    "best_val_parts": {
+      "ivae": 82.76877403259277,
+      "lcvae": 144.23402214050293,
+      "constraint": 5.312231242656708
+    },
+    "best_epoch": 667,
+    "epochs_run": 767
+  },
+  "seconds": 36.178383350372314,
+  "selection": "validation NDCG@5 only; test reported once"
+}

@@ -1,0 +1,26 @@
+{
+  "rows": [
+    {
+      "seed": 42,
+      "val_ndcg": 0.6189874762100858,
+      "test_ndcg": 0.547611758415125,
+      "best_epoch": 23,
+      "loss": null
+    },
+    {
+      "seed": 43,
+      "val_ndcg": 0.5960476129052635,
+      "test_ndcg": 0.5078768894217887,
+      "best_epoch": 9,
+      "loss": null
+    },
+    {
+      "seed": 44,
+      "val_ndcg": 0.6179011739311588,
+      "test_ndcg": 0.5634102736030212,
+      "best_epoch": 24,
+      "loss": null
+    }
+  ],
+  "note": "MF-MSE treatment checkpoints of the ividr_opt runs, evaluated once"
+}

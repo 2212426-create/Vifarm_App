@@ -1,0 +1,17 @@
+# Script thực nghiệm và log mốc hiện hành
+
+Thư mục này chỉ còn những gì đứng sau số liệu đang được trích dẫn. Tài liệu và log cũ hơn nằm trong Git,
+xem [cách khôi phục](../MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
+
+| Thư mục | Tạo ra |
+| :-- | :-- |
+| `2026-10-27/ividr_optimization/` | Ablation Eq. (10) |
+| `2026-10-27/ividr_rootcause/` | Thí nghiệm hoán đổi latent/feedback, BCE budget, marginal inference |
+| `2026-10-28/ividr_bce/` | MF + BCE, BCE có trọng số mẫu âm, prior mean bằng 0 |
+| `2026-10-28/ividr_ten_seed/` | Xác nhận 10 seed trên Coat |
+| `2026-10-28/full_benchmark/` | Chấm lại IViDR Coat/Yahoo từ checkpoint |
+| `2026-10-28/conalign_paper_window/` | Cửa sổ train KuaiRand của ConAlign |
+| `2026-10-28/lcdr_constraint/` | Biến thể ràng buộc và lưới LR × WD của LCDR |
+| `2026-10-30/console_models/` | Test, smoke, validation của mốc hiện hành; `summarize.py` tạo file tổng hợp LCDR/ConAlign |
+
+Chạy từ `services/recsys`; lệnh mẫu ở đầu mỗi script. Script ghi báo cáo mới vào `results/`.

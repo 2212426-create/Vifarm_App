@@ -1,0 +1,16 @@
+{
+  "latents": "idcf",
+  "lr": 0.01,
+  "weight_decay": 1e-06,
+  "max_epochs": 300,
+  "seed": 42,
+  "code_sha256": "2811a292168094fb238f02ca0cdaa6dac26382a2fea2132fed2ddf066a332061",
+  "val_ndcg": 0.5296580675636727,
+  "best_epoch": 15,
+  "epochs_run": 35,
+  "test": {
+    "NDCG@5": 0.4604255566078921,
+    "Recall@5": 0.43972650769057947,
+    "Recall@5_bounded": 0.49281437125748495
+  }
+}

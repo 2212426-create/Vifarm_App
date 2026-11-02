@@ -152,7 +152,7 @@ class RegressionTests(unittest.TestCase):
                      imp_loss_obs=torch.tensor([0.0]), imp_unc_obs=torch.tensor([0.0]),
                      pred_unobs=torch.tensor([0.5]),
                      imp_loss_unobs=torch.tensor([2.0]),
-                     imp_unc_unobs=torch.tensor([0.0]), un_thres=1.0)
+                     imp_unc_unobs=torch.tensor([0.0]), un_thres=1.0, ips_weighting="author")
         base, _ = cdr_recommendation_loss(**terms, counterfactual_scale=1.0)
         scaled, _ = cdr_recommendation_loss(**terms, counterfactual_scale=3.0)
         torch.testing.assert_close(scaled - base, torch.tensor(4.0))
@@ -165,11 +165,11 @@ class RegressionTests(unittest.TestCase):
             u, i = torch.tensor([0, 1, 2]), torch.tensor([0, 1, 2])
             y, inv = torch.tensor([1., 0., 1.]), torch.tensor([2., 3., 2.])
             ru, ri = torch.tensor([3, 3]), torch.tensor([4, 5])
-            rec, imp, _ = model.compute_cdr_losses(u, i, y, inv, ru, ri, mc_samples=1)
+            rec, imp, _ = model.compute_cdr_losses(u, i, y, inv, ru, ri, mc_samples=1, observed_fraction=3/24)
             self.assertTrue(torch.isfinite(rec))
             rec.backward()
             self.assertTrue(all(p.grad is None for p in model.imp_model.parameters()))
-            ips = (F.binary_cross_entropy_with_logits(reference(u, i), y, reduction="none") * inv).sum() / len(ru)
+            ips = (F.binary_cross_entropy_with_logits(reference(u, i), y, reduction="none") * inv).mean() * (3/24)
             ips.backward()
             delta = max((a.grad - b.grad).abs().max().item()
                         for a, b in zip(model.rec_model.parameters(), reference.parameters()))
@@ -243,7 +243,7 @@ class RegressionTests(unittest.TestCase):
     def test_tuning_evaluates_only_selected_checkpoint(self):
         from experiments.workflows import tune_coat_models as tune
         calls = []
-        def trial(name, config, epochs, evaluate_test, tag):
+        def trial(name, config, epochs, evaluate_test, tag, **kwargs):
             self.assertFalse(evaluate_test)
             calls.append(config["lr"])
             return dict(best_val_ndcg=config["lr"], best_epoch=1,
@@ -281,6 +281,7 @@ class OptimizerTests(unittest.TestCase):
                     result = train_baseline_mf(
                         "kuairand", data_dict=data, epochs=1, embedding_dim=4, batch_size=6,
                         lr=.1, weight_decay=.02, optimizer_name="sgd", loss_name=loss_name,
+                        train_global_bias=True, init_scheme="normal",
                         decay_scope=scope, scheduler_name="none", checkpoint_dir=root, evaluate_test=False)
                     state = load_checkpoint(result["checkpoint_path"])
                 for name, value in expected.items():
@@ -420,10 +421,12 @@ class EntrypointTests(unittest.TestCase):
     def test_smoke_keeps_subset_out_of_full_benchmarks(self):
         with patch('experiments.workflows.run_all_benchmarks.run_all_benchmarks') as benchmark:
             entrypoint.main(['smoke'])
-            self.assertEqual(benchmark.call_count, 2)
-            coat, kuairand = [call.kwargs for call in benchmark.call_args_list]
+            self.assertEqual(benchmark.call_count, 3)
+            coat, yahoo, kuairand = [call.kwargs for call in benchmark.call_args_list]
             self.assertEqual(coat['dataset_filter'], 'coat')
             self.assertIsNone(coat['smoke_users'])
+            self.assertEqual(yahoo['dataset_filter'], 'yahoo')
+            self.assertEqual(yahoo['smoke_users'], 64)
             self.assertEqual(kuairand['smoke_users'], 64)
             self.assertTrue(all(call.kwargs['quick_run'] for call in benchmark.call_args_list))
 

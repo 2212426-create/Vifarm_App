@@ -5,23 +5,25 @@ from src.evaluation.table_formatter import format_grid_table
 
 def train_single_run(
     data_dict: dict,
-    embedding_dim: int = 128,
-    lr: float = 0.001,
-    weight_decay: float = 1e-4,
-    batch_size: int = 4096,
-    epochs: int = 25,
-    patience: int = 7,
+    embedding_dim: int = 64,
+    lr: float = None,
+    weight_decay: float = None,
+    batch_size: int = None,
+    epochs: int = None,
+    patience: int = None,
     checkpoint_dir: str = None,
     device: torch.device = None,
     evaluate_test: bool = True,
     seed: int = 42,
     optimizer_name: str = "adam",
-    loss_name: str = "bce",
-    decay_scope: str = "embeddings",
-    scheduler_name: str = "plateau",
+    loss_name: str = "mse",
+    decay_scope: str = "all",
+    scheduler_name: str = "none",
+    train_global_bias: bool = False,
+    init_scheme: str = "author_uniform",
 ):
     """Compatibility entrypoint delegating to the canonical MF trainer."""
-    from src.baselines.train_mf import train_baseline_mf
+    from src.models.mf.train_mf import train_baseline_mf
     from src.utils.artifacts import evaluate_checkpoint
     data = dict(data_dict)
     if "n_users" not in data:
@@ -35,6 +37,7 @@ def train_single_run(
         evaluate_test=False, seed=seed,
         optimizer_name=optimizer_name, loss_name=loss_name,
         decay_scope=decay_scope, scheduler_name=scheduler_name,
+        train_global_bias=train_global_bias, init_scheme=init_scheme,
     )
     output = {"validation": result["validation"], "checkpoint": result["checkpoint_path"],
               "metadata": result["metadata"]}
@@ -45,26 +48,32 @@ def train_single_run(
 
 def run_grid_search(
     data_dict: dict,
-    embedding_dim: int = 128,
+    embedding_dim: int = 64,
     lr_candidates: list = None,
     weight_decay_candidates: list = None,
-    batch_size: int = 4096,
-    epochs: int = 20,
-    device: torch.device = None
+    batch_size: int = 2048,
+    epochs: int = 100,
+    device: torch.device = None,
+    training_options: dict = None,
 ):
     """
     Validation-only grid used by this local MF benchmark:
-      - lr in [1e-3, 5e-4, 1e-4, 5e-5]
-      - weight_decay in [1e-4, 1e-5, 1e-6]
+      - lr in [1e-3, 5e-4, 1e-4, 5e-5, 1e-5]
+      - weight_decay in [1e-5, 1e-6] (iDCF MF.py)
     """
     from src.utils.artifacts import validate_training
+    from src.training.config import mf_config
+    defaults = mf_config("kuairand")
+    options = {key: defaults[key] for key in ("loss_name", "decay_scope", "scheduler_name",
+                                             "train_global_bias", "init_scheme", "patience")}
+    options.update(training_options or {})
     validate_training(embedding_dim=embedding_dim, batch_size=batch_size, epochs=epochs)
     if lr_candidates == [] or weight_decay_candidates == []:
         raise ValueError("Hyperparameter grids must not be empty")
     if lr_candidates is None:
-        lr_candidates = [1e-3, 5e-4, 1e-4, 5e-5]
+        lr_candidates = [1e-3, 5e-4, 1e-4, 5e-5, 1e-5]
     if weight_decay_candidates is None:
-        weight_decay_candidates = [1e-4, 1e-5, 1e-6]
+        weight_decay_candidates = [1e-5, 1e-6]
 
     print("\n" + "=" * 75)
     print(" BẮT ĐẦU QUÉT SIÊU THAM SỐ GRID SEARCH (MATRIX FACTORIZATION)")
@@ -84,13 +93,13 @@ def run_grid_search(
             trial_idx += 1
             print(f"\n>>> [Trial {trial_idx}/{total_trials}] Thử nghiệm lr={lr}, weight_decay={wd} ...")
             metrics = train_single_run(
+                **options,
                 data_dict=data_dict,
                 embedding_dim=embedding_dim,
                 lr=lr,
                 weight_decay=wd,
                 batch_size=batch_size,
                 epochs=epochs,
-                patience=5,
                 device=device,
                 evaluate_test=False,
             )

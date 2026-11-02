@@ -1,0 +1,28 @@
+{
+  "variant": "squared",
+  "seed": 42,
+  "code_sha256": "fd1df699561e05415df720ee7bf5abdc9b4b556c2b37a321dc205949d5f27a1f",
+  "test": {
+    "NDCG@5": 0.5614645669339107,
+    "Recall@5": 0.5498264377006892,
+    "Recall@5_bounded": 0.6070858283433134,
+    "Precision@5": 0.36646706586826355,
+    "HitRate@5": 0.874251497005988,
+    "AUC": 0.7050698116753505,
+    "best_epoch": 23,
+    "best_val_ndcg": 0.6128000085043471,
+    "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lcdr_constraint_20261028\\coat_lcdr_squared_seed42_v4_38e9455cddce85ab.pt"
+  },
+  "representation": {
+    "best_val_loss": 200.07386112213135,
+    "best_val_parts": {
+      "ivae": 82.76877403259277,
+      "lcvae": 117.30508708953857,
+      "constraint": 29.328259229660034
+    },
+    "best_epoch": 667,
+    "epochs_run": 767
+  },
+  "seconds": 36.009039878845215,
+  "selection": "validation NDCG@5 only; test reported once"
+}

@@ -15,19 +15,25 @@ import hashlib
 import json
 import sys
 import time
+from uuid import uuid4
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.baselines.train_mf import train_baseline_mf
-from src.causal.cdr.train_dr_bias_cdr import train_dr_bias_cdr
+from src.models.mf.train_mf import train_baseline_mf
+from src.models.cdr.train_released_cdr import train_released_cdr
 from src.utils.helpers import RESULTS_DIR
 from src.utils.artifacts import evaluate_checkpoint, data_signature, source_signature, digest
 from src.data_pipeline.kuairand_dataset import load_kuairand_processed
+from src.training.config import mf_config, released_cdr_config, released_tuning_grids
+
 from src.evaluation.protocol import protocol_metadata
 from src.evaluation.table_formatter import format_grid_table
+
+def cdr_config(dataset, **overrides):
+    return dict(released_cdr_config(dataset, **overrides), patience=overrides.get("patience") or 5)
 
 
 class TeeLogger:
@@ -53,40 +59,29 @@ class TeeLogger:
 # =============================================================================
 # LƯỚI TÌM KIẾM SIÊU THAM SỐ (SEARCH GRIDS) TINH CHỈNH CHO KUAIRAND-PURE
 # =============================================================================
-# Lưới un_thres của CDR bên dưới theo thang hệ số biến thiên (cấu hình cũ), không phải chế độ tác giả.
-LEGACY_CDR_MODE = {"filter_mode": "cv", "ips_weighting": "dr", "counterfactual_pool": "unobserved"}
-
-GRIDS = {
-    "mf": [
-        {"embedding_dim": 128, "lr": 1e-3, "weight_decay": 1e-5, "batch_size": 4096},
-        {"embedding_dim": 128, "lr": 5e-4, "weight_decay": 1e-5, "batch_size": 4096},
-        {"embedding_dim": 128, "lr": 2e-3, "weight_decay": 1e-5, "batch_size": 4096},
-        {"embedding_dim": 64, "lr": 1e-3, "weight_decay": 1e-5, "batch_size": 4096},
-    ],
-    "cdr": [
-        {"embedding_dim": 128, "un_thres": 0.005, "lr": 1e-3, "batch_size": 8192},
-        {"embedding_dim": 128, "un_thres": 0.002, "lr": 1e-3, "batch_size": 8192},
-        {"embedding_dim": 128, "un_thres": 0.010, "lr": 1e-3, "batch_size": 8192},
-        {"embedding_dim": 128, "un_thres": 0.005, "lr": 5e-4, "batch_size": 8192},
-        {"embedding_dim": 128, "un_thres": 0.005, "lr": 2e-3, "batch_size": 8192},
-    ],
-}
+GRIDS = released_tuning_grids("kuairand")
 
 
 def train_model(name: str, config: dict, epochs: int, evaluate_test: bool, tag: str,
-                data_dict: dict, patience: int = 7):
+                data_dict: dict, patience: int = None):
     common = {
         "dataset_name": "kuairand",
         "epochs": epochs,
-        "patience": patience,
+        "patience": patience if patience is not None else (mf_config if name == "mf" else cdr_config)("kuairand")["patience"],
         "evaluate_test": evaluate_test,
         "checkpoint_tag": tag,
         "data_dict": data_dict
     }
     if name == "mf":
-        return train_baseline_mf(**common, **config)
+        effective = mf_config(common["dataset_name"], **config)
+        effective.pop("epochs")
+        effective.pop("patience")
+        return train_baseline_mf(**common, **effective)
     if name == "cdr":
-        return train_dr_bias_cdr(**common, **LEGACY_CDR_MODE, **config)
+        effective = cdr_config("kuairand", **config)
+        effective.pop("epochs")
+        effective.pop("patience")
+        return train_released_cdr(**common, **effective, selection="source_train_loss_last", calibration_fraction=.05, seed=2020)
     raise ValueError(f"Mô hình không được hỗ trợ: {name}")
 
 
@@ -100,6 +95,8 @@ def write_report(payload: dict, json_path: Path):
         f"- **Số Epoch Tối Đa**: {payload['epochs']} epochs (kèm Early Stopping)",
         f"- **Giao thức thực nghiệm**: Chọn cấu hình tốt nhất hoàn toàn bằng tập Validation (30% Random log).",
         f"- **Đánh giá khách quan**: Chỉ chấm điểm Held-Out Test DUY NHẤT 1 LẦN cho mô hình được chọn.",
+        "",
+        "CDR tuning uses the released estimator, source train-loss stopping and 5% validation calibration. It is not the default source-protocol benchmark; Coat labels: CDR >=3, MF >=4. Do not compare these rows as identical protocols.",
         "",
         "| Mô hình | Cấu hình tối ưu | Val NDCG@5 | Test NDCG@5 | Test Recall@5 | Test Precision@5 | Test HitRate@5 | Test AUC |",
         "| :-- | :-- | --: | --: | --: | --: | --: | --: |"
@@ -115,6 +112,10 @@ def write_report(payload: dict, json_path: Path):
             f"{test['NDCG@5']:.4f} | {test['Recall@5']:.4f} | {prec_str} | {hr_str} | {auc_str} |"
         )
     
+    for name, selected in payload["selected"].items():
+        if selected.get("best_epoch") == 0 and name == "cdr":
+            lines.extend(["", "CDR selected epoch 0: retained MF warm start; no CDR update improved validation."])
+
     lines.extend([
         "",
         "### Chi Tiết Toàn Bộ Các Trials Trong Grid Search",
@@ -170,18 +171,23 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", choices=("all", "mf", "cdr"), default="all",
                         help="Chọn mô hình cần tuning (mặc định: all)")
-    parser.add_argument("--epochs", type=int, default=25,
-                        help="Số epoch tối đa cho mỗi trial (mặc định: 25)")
-    parser.add_argument("--patience", type=int, default=7,
-                        help="Số epoch Early Stopping patience (mặc định: 7)")
+    parser.add_argument("--epochs", type=int, default=None,
+                        help="Override epoch budget; default follows each model's benchmark config")
+    parser.add_argument("--patience", type=int, default=None,
+                        help="Override early stopping patience; default follows benchmark config")
     parser.add_argument("--quick", action="store_true",
                         help="Chế độ chạy nhanh (lấy mẫu nhỏ grid để kiểm tra pipeline)")
     args = parser.parse_args(argv)
 
-    if args.epochs < 1:
+    if args.epochs is not None and args.epochs < 1:
         parser.error("--epochs phải lớn hơn 0")
 
+    if args.patience is not None and args.patience < 1:
+        parser.error("--patience must be positive")
+
     names = list(GRIDS) if args.model == "all" else [args.model]
+    budgets = {name: (mf_config if name == "mf" else cdr_config)("kuairand",
+                epochs=args.epochs, patience=args.patience) for name in names}
     
     # Nếu bật --quick, chỉ lấy 1-2 config đầu tiên để test
     effective_grids = {}
@@ -193,21 +199,22 @@ def main(argv=None):
 
     print("=" * 85)
     print(" BẮT ĐẦU QUY TRÌNH TINH CHỈNH SIÊU THAM SỐ (TUNING) TRÊN KUAIRAND-PURE")
-    print(f" Mô hình: {names} | Epochs: {args.epochs} | Patience: {args.patience}")
+    print(f" Mô hình: {names} | Epochs: { {n: c['epochs'] for n, c in budgets.items()} } | Patience: { {n: c['patience'] for n, c in budgets.items()} }")
     print("=" * 85)
     
     print(" Đang nạp dữ liệu KuaiRand-Pure...")
     data = load_kuairand_processed()
     identity = {
         "models": names,
-        "epochs": args.epochs,
+        "epochs": {name: cfg["epochs"] for name, cfg in budgets.items()},
+        "patience": {name: cfg["patience"] for name, cfg in budgets.items()},
         "seed": 42,
         "version": 4,
         "grids": effective_grids,
         "data": data_signature(data),
         "code_sha256": source_signature()
     }
-    run_digest = digest(identity)
+    run_digest = digest(identity) + "_" + uuid4().hex[:8]
     json_path = Path(RESULTS_DIR) / f"tuning_kuairand_{args.model}_e{args.epochs}_{run_digest}_v4.json"
     log_path = json_path.with_suffix(".log")
     
@@ -216,7 +223,9 @@ def main(argv=None):
         "protocol": "paper_idcf_30_70_user",
         "evaluation_protocol": protocol_metadata(data),
         "selection": "validation_ndcg_only",
-        "epochs": args.epochs,
+        "cdr_protocol": "released estimator; train-loss last; seed2020; 5% validation calibration; tuning only, not source-protocol benchmark",
+        "epochs": {name: cfg["epochs"] for name, cfg in budgets.items()},
+        "patience": {name: cfg["patience"] for name, cfg in budgets.items()},
         "grids": effective_grids,
         "trials": [],
         "selected": {}
@@ -231,6 +240,8 @@ def main(argv=None):
     try:
         for name in names:
             candidates = []
+            trial_epochs = budgets[name]["epochs"]
+            trial_patience = budgets[name]["patience"]
             grid_list = effective_grids[name]
             total_trials = len(grid_list)
             print(f"\n" + "#" * 85)
@@ -239,7 +250,7 @@ def main(argv=None):
 
             for idx, config in enumerate(grid_list, 1):
                 config_digest = hashlib.sha256(json.dumps(config, sort_keys=True).encode()).hexdigest()[:10]
-                tag = f"tune_kr_e{args.epochs}_{config_digest}"
+                tag = f"tune_kr_e{trial_epochs}_{config_digest}"
                 
                 print(f"\n--- [{name.upper()} Trial {idx}/{total_trials}] Cấu hình: {config} ---")
                 started = time.perf_counter()
@@ -247,21 +258,24 @@ def main(argv=None):
                 result = train_model(
                     name=name,
                     config=config,
-                    epochs=args.epochs,
+                    epochs=trial_epochs,
                     evaluate_test=False,
                     tag=tag,
                     data_dict=data,
-                    patience=args.patience
+                    patience=trial_patience
                 )
                 
                 elapsed = time.perf_counter() - started
                 trial = {
+                    "epochs": trial_epochs, "patience": trial_patience,
                     "model": name,
                     "config": config,
                     "best_val_ndcg": result["best_val_ndcg"],
                     "best_epoch": result["best_epoch"],
                     "checkpoint_path": result["checkpoint_path"],
                     "metadata": result["metadata"],
+                    "cdr_training": result.get("cdr_training"),
+                    "training_history": result.get("training_history"),
                     "elapsed_seconds": round(elapsed, 2)
                 }
                 payload["trials"].append(trial)

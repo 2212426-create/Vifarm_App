@@ -1,0 +1,16 @@
+{
+  "latents": "ividr",
+  "lr": 0.01,
+  "weight_decay": 1e-06,
+  "max_epochs": 300,
+  "seed": 42,
+  "code_sha256": "2811a292168094fb238f02ca0cdaa6dac26382a2fea2132fed2ddf066a332061",
+  "val_ndcg": 0.5976696204604884,
+  "best_epoch": 7,
+  "epochs_run": 27,
+  "test": {
+    "NDCG@5": 0.5256220853451355,
+    "Recall@5": 0.5295256971903678,
+    "Recall@5_bounded": 0.5879241516966067
+  }
+}

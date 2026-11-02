@@ -87,6 +87,10 @@ class EngineTests(unittest.TestCase):
 
     def test_trains_real_models(self):
         self.assertEqual(sorted(self.engine.models), ["cdr", "mf"])
+        from src.causal.cdr.released import ReleasedCDR
+        self.assertIsInstance(self.engine.models['cdr'],ReleasedCDR)
+        self.assertEqual(self.engine.training_stats['cdr']['implementation'],'cdr_released')
+        self.assertEqual(self.engine.training_stats['cdr']['scope'],'serving_adaptation_not_paper_experiment')
 
     def test_mf_learns_user_preferences(self):
         def top(user):

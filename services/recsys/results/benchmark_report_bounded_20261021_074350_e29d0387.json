@@ -1,0 +1,2802 @@
+{
+  "artifact_version": 4,
+  "coat": {
+    "Random (expected)": {
+      "NDCG@5": 0.2985746891685095,
+      "Recall@5": 0.3125,
+      "Precision@5": 0.2346556886227545,
+      "HitRate@5": 0.6689272553793512,
+      "AUC": 0.5
+    },
+    "Popularity": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 203,
+      "candidate_pairs": 3248,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.3511061842200611,
+      "Recall@5": 0.365025842421052,
+      "Recall@5_bounded": 0.41187624750499,
+      "Precision@5": 0.2682634730538922,
+      "HitRate@5": 0.718562874251497,
+      "eval_users": 167,
+      "zero_positive_users": 36,
+      "NDCG@5_CI95_halfwidth": 0.04500201169456026,
+      "elapsed_seconds": 0.02,
+      "AUC": 0.550814720874601,
+      "auc_users": 167
+    },
+    "MF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 203,
+      "candidate_pairs": 3248,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.547611758415125,
+      "Recall@5": 0.5295358500448321,
+      "Recall@5_bounded": 0.5840319361277445,
+      "Precision@5": 0.3497005988023952,
+      "HitRate@5": 0.8502994011976048,
+      "eval_users": 167,
+      "zero_positive_users": 36,
+      "NDCG@5_CI95_halfwidth": 0.05004015694367718,
+      "elapsed_seconds": 0.02,
+      "AUC": 0.6931237695272126,
+      "auc_users": 167,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\coat\\mf\\coat_mf_v4_e100_full_675818c412_v4_d6f2536ef781e06c.pt",
+      "best_epoch": 23,
+      "best_val_ndcg": 0.6189874762100858,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "mf_v4",
+        "model": "mf",
+        "dataset": "coat",
+        "config": {
+          "epochs": 100,
+          "lr": 0.0005,
+          "batch_size": 512,
+          "patience": 5,
+          "alpha": 0.0,
+          "weight_decay": 1e-06,
+          "seed": 42,
+          "device": "cpu",
+          "optimizer": "adam",
+          "loss": "mse",
+          "decay_scope": "all",
+          "scheduler": "none",
+          "adam_fused": false,
+          "init_scheme": "author_uniform",
+          "method_reference": "iDCF_KDD2023_MF.py_models/mf.py",
+          "method_profile": "idcf_author_mf",
+          "paper_reproduction": false,
+          "momentum": null
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 64,
+          "use_bias": true,
+          "train_global_bias": false,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      }
+    },
+    "iDCF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 203,
+      "candidate_pairs": 3248,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.5698840836815878,
+      "Recall@5": 0.5519691220290022,
+      "Recall@5_bounded": 0.6022954091816367,
+      "Precision@5": 0.3473053892215569,
+      "HitRate@5": 0.8862275449101796,
+      "eval_users": 167,
+      "zero_positive_users": 36,
+      "NDCG@5_CI95_halfwidth": 0.04797094063475966,
+      "elapsed_seconds": 0.02,
+      "AUC": 0.6859969849677934,
+      "auc_users": 167,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\coat\\idcf\\coat_idcf_v4_e100_full_758db21f4e_v4_ccb246c89ff24a64.pt",
+      "best_epoch": 24,
+      "best_val_ndcg": 0.6058970553682123,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "idcf_v1",
+        "model": "idcf",
+        "dataset": "coat",
+        "config": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "batch_size": 512,
+          "epochs": 100,
+          "patience": 5,
+          "seed": 42,
+          "loss": "mse",
+          "device": "cpu",
+          "confounders_sha256": "7cf034ce91b25d8e",
+          "method_reference": "iDCF_KDD2023_MFMF",
+          "paper_reproduction": false,
+          "variant": "idcf",
+          "confounder_training": {
+            "best_val_loss": 76.5403995513916,
+            "best_epoch": 1379,
+            "epochs_run": 1479,
+            "selection": "post_warmup_full_beta",
+            "anneal_steps": 400,
+            "first_full_beta_epoch": 401,
+            "selected_training_beta": 1.0,
+            "last_training_beta": 1.0,
+            "config": {
+              "latent_dim": 16,
+              "hidden_dim": 32,
+              "n_layers": 3,
+              "lr": 0.0005,
+              "weight_decay": 1e-06,
+              "l2_penalty": 0.01,
+              "batch_size": 512,
+              "epochs": 2000,
+              "patience": 100,
+              "beta_max": 1.0,
+              "train_ratio": 0.8,
+              "split_seed": 1234,
+              "seed": 42,
+              "device": "cpu",
+              "validation_samples": 8,
+              "validation_seed": 1234,
+              "validation_metric": "mc_elbo_common_noise_v1"
+            }
+          }
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "latent_dim": 16,
+          "embedding_dim": 64,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "314c797e76745e659d14d7b603a7fb41debf0fbb119616242f1487afd2dcc861",
+          "source": {
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\user_features.ascii",
+                8410,
+                1464639084219620000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\user_item_features\\item_features.ascii",
+                20100,
+                1464639084209131700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\propensities.ascii",
+                2175000,
+                1464633536347328900
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\train.ascii",
+                174290,
+                1464639084284743700
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat\\test.ascii",
+                174290,
+                1464639084419860100
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+          "n_users": 290,
+          "n_items": 300
+        },
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_unit": "user",
+            "seed": 1234,
+            "validation_users": 87,
+            "test_users": 203,
+            "validation_rows": 1392,
+            "test_rows": 3248,
+            "train_random_overlap_pairs": 366,
+            "validation_overlap_pairs": 119,
+            "test_overlap_pairs": 247,
+            "test_overlap_positive_pairs": 63
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "epochs_run": 29,
+      "confounder_info": {
+        "best_val_loss": 76.5403995513916,
+        "best_epoch": 1379,
+        "epochs_run": 1479,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 400,
+        "first_full_beta_epoch": 401,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 512,
+          "epochs": 2000,
+          "patience": 100,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 42,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "validation_metric": "mc_elbo_common_noise_v1"
+        }
+      }
+    },
+    "DR-BIAS + CDR": {
+      "identity": {
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+        "seed": 2020,
+        "dataset": "coat"
+      },
+      "scope": "published_script_conditions_not_project_held_out",
+      "config": {
+        "embedding_dim": 4,
+        "epochs": 1000,
+        "lr": 0.05,
+        "weight_decay": 0.001,
+        "batch_size": 128,
+        "un_thres": 10.0,
+        "dropout_rate": 0.5,
+        "G": 4,
+        "tol": 1e-05,
+        "stop": 5,
+        "mc_samples": 10
+      },
+      "source_calibration": {
+        "method": "released_naive_bayes",
+        "calibration_rows": 232,
+        "calibration_positive_rate": 0.3706896551724138,
+        "train_positive_rate": 0.5204022988505748,
+        "population_denominator": 86411,
+        "observed_fraction": 0.08054530094548147
+      },
+      "test_labels_used_for_propensity": true,
+      "calibration_rows": 232,
+      "positive_threshold": 3,
+      "evaluation_pool": "entire_random_log",
+      "zero_positive_score": 1,
+      "recall_denominator": "min(k,n_positive)",
+      "raw_id_convention": "source_unchanged",
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\coat\\cdr\\20261020_232143_e94ef998\\coat.pt",
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 58886.06640625,
+          "rec_loss": 2.6465763648351035,
+          "imp_loss": 24896.10759367766,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 2,
+          "weighted_factual_sum": 51488.97265625,
+          "rec_loss": 2.355444003034521,
+          "imp_loss": 27278.030969690393,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 3,
+          "weighted_factual_sum": 48168.921875,
+          "rec_loss": 2.2255198690626354,
+          "imp_loss": 27120.206705729168,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 4,
+          "weighted_factual_sum": 45940.6015625,
+          "rec_loss": 2.1420206736635277,
+          "imp_loss": 22155.207465277777,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 5,
+          "weighted_factual_sum": 44390.76953125,
+          "rec_loss": 2.084415517471455,
+          "imp_loss": 20088.615288628473,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 6,
+          "weighted_factual_sum": 43822.078125,
+          "rec_loss": 2.0627295441097684,
+          "imp_loss": 19169.64675564236,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 7,
+          "weighted_factual_sum": 42999.6875,
+          "rec_loss": 2.032379009105541,
+          "imp_loss": 19114.481553819445,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 8,
+          "weighted_factual_sum": 42697.21875,
+          "rec_loss": 2.0223162174224854,
+          "imp_loss": 18112.002332899305,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 9,
+          "weighted_factual_sum": 42390.484375,
+          "rec_loss": 2.009733740930204,
+          "imp_loss": 18581.18923611111,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 10,
+          "weighted_factual_sum": 42000.80859375,
+          "rec_loss": 1.9952752700558416,
+          "imp_loss": 18335.76935040509,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 11,
+          "weighted_factual_sum": 41925.02734375,
+          "rec_loss": 1.991567247443729,
+          "imp_loss": 18414.638292100695,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 12,
+          "weighted_factual_sum": 41828.0546875,
+          "rec_loss": 1.9887824124760098,
+          "imp_loss": 18103.139539930555,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 13,
+          "weighted_factual_sum": 41855.91796875,
+          "rec_loss": 1.989179445637597,
+          "imp_loss": 18085.94012225116,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 14,
+          "weighted_factual_sum": 41723.98046875,
+          "rec_loss": 1.9855918773898371,
+          "imp_loss": 18273.586009837964,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 15,
+          "weighted_factual_sum": 41948.8828125,
+          "rec_loss": 1.991908938796432,
+          "imp_loss": 17955.462962962964,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 16,
+          "weighted_factual_sum": 41681.328125,
+          "rec_loss": 1.983621440551899,
+          "imp_loss": 17854.16337528935,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 17,
+          "weighted_factual_sum": 41572.15625,
+          "rec_loss": 1.9802878741864804,
+          "imp_loss": 18209.4812463831,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 18,
+          "weighted_factual_sum": 41631.546875,
+          "rec_loss": 1.9831704850550051,
+          "imp_loss": 17959.123137297454,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 19,
+          "weighted_factual_sum": 41566.4921875,
+          "rec_loss": 1.9794235737235457,
+          "imp_loss": 17811.666883680555,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 20,
+          "weighted_factual_sum": 41482.26953125,
+          "rec_loss": 1.9798335344703109,
+          "imp_loss": 17728.38458478009,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 21,
+          "weighted_factual_sum": 41468.37890625,
+          "rec_loss": 1.975171947920764,
+          "imp_loss": 17631.907823350695,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 22,
+          "weighted_factual_sum": 41447.39453125,
+          "rec_loss": 1.976367798116472,
+          "imp_loss": 17775.06374782986,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 23,
+          "weighted_factual_sum": 41295.359375,
+          "rec_loss": 1.9686265654034085,
+          "imp_loss": 17908.16263382523,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 24,
+          "weighted_factual_sum": 41476.57421875,
+          "rec_loss": 1.9758857599011175,
+          "imp_loss": 17512.006781684027,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 25,
+          "weighted_factual_sum": 41505.44921875,
+          "rec_loss": 1.9785846228952761,
+          "imp_loss": 17625.08273654514,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 26,
+          "weighted_factual_sum": 41451.81640625,
+          "rec_loss": 1.9761514045574047,
+          "imp_loss": 17962.985785590277,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 27,
+          "weighted_factual_sum": 41451.58984375,
+          "rec_loss": 1.9741862129282068,
+          "imp_loss": 17995.123444733796,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 28,
+          "weighted_factual_sum": 41405.828125,
+          "rec_loss": 1.9726194871796503,
+          "imp_loss": 17929.092158564814,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        },
+        {
+          "epoch": 29,
+          "weighted_factual_sum": 41614.48046875,
+          "rec_loss": 1.9807060780348602,
+          "imp_loss": 17628.627567997686,
+          "filtered_fraction": 0.0,
+          "observed_rows_used": 6912,
+          "observed_rows_dropped": 48
+        }
+      ],
+      "metrics": {
+        "NDCG@5": 0.6566651228158734,
+        "Recall@5": 0.493414483026552,
+        "Recall@5_bounded": 0.667816091954023,
+        "Precision@5": 0.5324137931034482,
+        "HitRate@5": 0.9310344827586207,
+        "AUC_global": 0.7512927651405334,
+        "users": 290
+      },
+      "quick_run": false,
+      "metadata": {
+        "model": "cdr_source",
+        "architecture_version": "cdr_released_v1",
+        "dataset": "coat",
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1000,
+          "lr": 0.05,
+          "weight_decay": 0.001,
+          "batch_size": 128,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 4,
+          "tol": 1e-05,
+          "stop": 5,
+          "mc_samples": 10,
+          "seed": 2020,
+          "selection": "source_train_loss_last",
+          "implementation": "cdr_released",
+          "catalog_sampler": "permutation"
+        },
+        "data": {
+          "sha256": "0237db4dd210747bebe119e1fedd3efa4218b408fff4855de51ef7044f1c796b"
+        },
+        "model_kwargs": {
+          "num_users": 290,
+          "num_items": 300,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5
+        },
+        "protocol": {
+          "metric_revision": "cdr_source_v1",
+          "scope": "cdr_source_protocol",
+          "recall_denominator": "min(k,n_positive)",
+          "calibration": "evaluation_5_percent",
+          "paper_scores_directly_comparable": false
+        },
+        "adaptations": [],
+        "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\coat",
+        "smoke_users": null
+      },
+      "evaluation_scope": "cdr_source_protocol",
+      "best_epoch": 29,
+      "best_val_ndcg": null,
+      "selection_origin": "source_train_loss_last",
+      "epochs_run": 29,
+      "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+      "NDCG@5": 0.6566651228158734,
+      "Recall@5_bounded": 0.667816091954023,
+      "AUC_global": 0.7512927651405334,
+      "users": 290,
+      "Recall@5": 0.493414483026552,
+      "Precision@5": 0.5324137931034482,
+      "HitRate@5": 0.9310344827586207,
+      "metric_evaluation_code_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880",
+      "supplementary_metric_policy": "same source-eligible users/ranking; empty users Recall=1, Precision/HitRate=0"
+    }
+  },
+  "kuairand": {
+    "Random (expected)": {
+      "NDCG@5": 0.25948148822731104,
+      "Recall@5": 0.24672725006251386,
+      "Precision@5": 0.20408431326403784,
+      "HitRate@5": 0.6306356242855898,
+      "AUC": 0.5
+    },
+    "Popularity": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 16473,
+      "candidate_pairs": 671360,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.35782628695047997,
+      "Recall@5": 0.3186886702332453,
+      "Recall@5_bounded": 0.41187478398261984,
+      "Precision@5": 0.2756332395200711,
+      "HitRate@5": 0.7435194785957636,
+      "eval_users": 13502,
+      "zero_positive_users": 2971,
+      "NDCG@5_CI95_halfwidth": 0.004944134269658572,
+      "elapsed_seconds": 1.56,
+      "AUC": 0.5806567287555894,
+      "auc_users": 13500
+    },
+    "MF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 16473,
+      "candidate_pairs": 671360,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.377203697170126,
+      "Recall@5": 0.326279770745481,
+      "Recall@5_bounded": 0.4255826297338666,
+      "Precision@5": 0.28908309880017774,
+      "HitRate@5": 0.7503332839579322,
+      "eval_users": 13502,
+      "zero_positive_users": 2971,
+      "NDCG@5_CI95_halfwidth": 0.0050588335448352026,
+      "elapsed_seconds": 1.7,
+      "AUC": 0.5905435475916971,
+      "auc_users": 13500,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\kuairand\\mf\\kuairand_mf_v4_e100_full_db4f6fedcc_v4_fe616cb25100482e.pt",
+      "best_epoch": 18,
+      "best_val_ndcg": 0.38096200350860815,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "mf_v4",
+        "model": "mf",
+        "dataset": "kuairand",
+        "config": {
+          "epochs": 100,
+          "lr": 5e-05,
+          "batch_size": 2048,
+          "patience": 5,
+          "alpha": 0.0,
+          "weight_decay": 1e-06,
+          "seed": 42,
+          "device": "cpu",
+          "optimizer": "adam",
+          "loss": "mse",
+          "decay_scope": "all",
+          "scheduler": "none",
+          "adam_fused": false,
+          "init_scheme": "author_uniform",
+          "method_reference": "iDCF_KDD2023_MF.py_models/mf.py",
+          "method_profile": "idcf_author_mf",
+          "paper_reproduction": false,
+          "momentum": null
+        },
+        "model_kwargs": {
+          "num_users": 23533,
+          "num_items": 6712,
+          "embedding_dim": 64,
+          "use_bias": true,
+          "train_global_bias": false,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "f164f1cd092d692ff75bccbb440c6c2d94088629c88a64d19d1817879ed74238",
+          "source": {
+            "version": 7,
+            "protocol": "paper_idcf",
+            "alpha": 0.0,
+            "random_val_fraction": 0.3,
+            "label": "is_click",
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data\\log_standard_4_08_to_4_21_pure.csv",
+                83961282,
+                1654608591000000000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data\\log_standard_4_22_to_5_08_pure.csv",
+                21765075,
+                1654609855000000000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data\\log_random_4_22_to_5_08_pure.csv",
+                87086116,
+                1654599915000000000
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_strategy": "seeded_by_user_1234",
+            "random_val_fraction": 0.3,
+            "val_rows": 283437,
+            "test_rows": 671377,
+            "train_rows": 1413574,
+            "val_users": 7060,
+            "test_users": 16473,
+            "val_max_time_ms": null,
+            "test_min_time_ms": null,
+            "label": "is_click"
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data",
+          "n_users": 23533,
+          "n_items": 6712
+        },
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_strategy": "seeded_by_user_1234",
+            "random_val_fraction": 0.3,
+            "val_rows": 283437,
+            "test_rows": 671377,
+            "train_rows": 1413574,
+            "val_users": 7060,
+            "test_users": 16473,
+            "val_max_time_ms": null,
+            "test_min_time_ms": null,
+            "label": "is_click"
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      }
+    },
+    "iDCF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 16473,
+      "candidate_pairs": 671360,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.4053407888683304,
+      "Recall@5": 0.3500417814915814,
+      "Recall@5_bounded": 0.45607934626968843,
+      "Precision@5": 0.30708043252851436,
+      "HitRate@5": 0.7796622722559621,
+      "eval_users": 13502,
+      "zero_positive_users": 2971,
+      "NDCG@5_CI95_halfwidth": 0.0051268956281670455,
+      "elapsed_seconds": 2.01,
+      "AUC": 0.6156359880728959,
+      "auc_users": 13500,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\kuairand\\idcf\\kuairand_idcf_v4_e100_full_324f225365_v4_158d3049f609dbc8.pt",
+      "best_epoch": 2,
+      "best_val_ndcg": 0.40602827075480186,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "idcf_v1",
+        "model": "idcf",
+        "dataset": "kuairand",
+        "config": {
+          "lr": 0.0001,
+          "weight_decay": 1e-06,
+          "batch_size": 2048,
+          "epochs": 100,
+          "patience": 5,
+          "seed": 42,
+          "loss": "mse",
+          "device": "cpu",
+          "confounders_sha256": "8614ab65b34a3381",
+          "method_reference": "iDCF_KDD2023_MFMF",
+          "paper_reproduction": false,
+          "variant": "idcf",
+          "confounder_training": {
+            "best_val_loss": 203.02770706810514,
+            "best_epoch": 764,
+            "epochs_run": 769,
+            "selection": "post_warmup_full_beta",
+            "anneal_steps": 4000,
+            "first_full_beta_epoch": 401,
+            "selected_training_beta": 1.0,
+            "last_training_beta": 1.0,
+            "config": {
+              "latent_dim": 32,
+              "hidden_dim": 64,
+              "n_layers": 2,
+              "lr": 0.0005,
+              "weight_decay": 1e-06,
+              "l2_penalty": 0.01,
+              "batch_size": 2048,
+              "epochs": 2000,
+              "patience": 5,
+              "beta_max": 1.0,
+              "train_ratio": 0.8,
+              "split_seed": 1234,
+              "seed": 42,
+              "device": "cpu",
+              "validation_samples": 8,
+              "validation_seed": 1234,
+              "validation_metric": "mc_elbo_common_noise_v1"
+            }
+          }
+        },
+        "model_kwargs": {
+          "num_users": 23533,
+          "num_items": 6712,
+          "latent_dim": 32,
+          "embedding_dim": 64,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "f164f1cd092d692ff75bccbb440c6c2d94088629c88a64d19d1817879ed74238",
+          "source": {
+            "version": 7,
+            "protocol": "paper_idcf",
+            "alpha": 0.0,
+            "random_val_fraction": 0.3,
+            "label": "is_click",
+            "files": [
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data\\log_standard_4_08_to_4_21_pure.csv",
+                83961282,
+                1654608591000000000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data\\log_standard_4_22_to_5_08_pure.csv",
+                21765075,
+                1654609855000000000
+              ],
+              [
+                "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data\\log_random_4_22_to_5_08_pure.csv",
+                87086116,
+                1654599915000000000
+              ]
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "split_strategy": "seeded_by_user_1234",
+            "random_val_fraction": 0.3,
+            "val_rows": 283437,
+            "test_rows": 671377,
+            "train_rows": 1413574,
+            "val_users": 7060,
+            "test_users": 16473,
+            "val_max_time_ms": null,
+            "test_min_time_ms": null,
+            "label": "is_click"
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data",
+          "n_users": 23533,
+          "n_items": 6712
+        },
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "split_strategy": "seeded_by_user_1234",
+            "random_val_fraction": 0.3,
+            "val_rows": 283437,
+            "test_rows": 671377,
+            "train_rows": 1413574,
+            "val_users": 7060,
+            "test_users": 16473,
+            "val_max_time_ms": null,
+            "test_min_time_ms": null,
+            "label": "is_click"
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "epochs_run": 7,
+      "confounder_info": {
+        "best_val_loss": 203.02770706810514,
+        "best_epoch": 764,
+        "epochs_run": 769,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 4000,
+        "first_full_beta_epoch": 401,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "latent_dim": 32,
+          "hidden_dim": 64,
+          "n_layers": 2,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 2048,
+          "epochs": 2000,
+          "patience": 5,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 42,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "validation_metric": "mc_elbo_common_noise_v1"
+        }
+      }
+    },
+    "DR-BIAS + CDR": {
+      "identity": {
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+        "seed": 2020,
+        "dataset": "kuairand"
+      },
+      "scope": "published_script_conditions_not_project_held_out",
+      "config": {
+        "embedding_dim": 4,
+        "epochs": 1000,
+        "lr": 0.05,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "un_thres": 10.0,
+        "dropout_rate": 0.5,
+        "G": 1,
+        "tol": 1e-05,
+        "stop": 5,
+        "mc_samples": 10
+      },
+      "source_calibration": {
+        "method": "released_naive_bayes",
+        "calibration_rows": 14170,
+        "calibration_positive_rate": 0.1757939308398024,
+        "train_positive_rate": 0.45916025620165624,
+        "population_denominator": 157923252,
+        "observed_fraction": 0.008951018815139395
+      },
+      "test_labels_used_for_propensity": false,
+      "calibration_rows": 14170,
+      "positive_threshold": 1,
+      "evaluation_pool": "local_held_out_random_log",
+      "zero_positive_score": null,
+      "recall_denominator": "all_positive",
+      "raw_id_convention": "source_unchanged",
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\kuairand\\cdr\\20261021_011931_8c9f1ada\\kuairand.pt",
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 79028784.0,
+          "rec_loss": 55.940285392429516,
+          "imp_loss": 739294746.9217391,
+          "filtered_fraction": 3.538269927536232e-07,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 2,
+          "weighted_factual_sum": 67229824.0,
+          "rec_loss": 47.580796504366226,
+          "imp_loss": 448164436.2202898,
+          "filtered_fraction": 1.0614809782608696e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 3,
+          "weighted_factual_sum": 66712756.0,
+          "rec_loss": 47.21142041855964,
+          "imp_loss": 437807012.54492754,
+          "filtered_fraction": 1.769134963768116e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 4,
+          "weighted_factual_sum": 66449744.0,
+          "rec_loss": 47.02457142152648,
+          "imp_loss": 435217442.59710145,
+          "filtered_fraction": 2.8306159420289855e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 5,
+          "weighted_factual_sum": 66326276.0,
+          "rec_loss": 46.93615196338598,
+          "imp_loss": 430797576.1623188,
+          "filtered_fraction": 4.599750905797102e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 6,
+          "weighted_factual_sum": 66338372.0,
+          "rec_loss": 46.944253788823666,
+          "imp_loss": 435729252.96231884,
+          "filtered_fraction": 5.307404891304348e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 7,
+          "weighted_factual_sum": 66332864.0,
+          "rec_loss": 46.93858042177947,
+          "imp_loss": 436372209.9942029,
+          "filtered_fraction": 7.076539855072464e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 8,
+          "weighted_factual_sum": 66385476.0,
+          "rec_loss": 46.97571690877279,
+          "imp_loss": 435217703.09565216,
+          "filtered_fraction": 1.0614809782608695e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 9,
+          "weighted_factual_sum": 66378632.0,
+          "rec_loss": 46.97077251379041,
+          "imp_loss": 434733005.68115944,
+          "filtered_fraction": 1.1322463768115942e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 10,
+          "weighted_factual_sum": 66351420.0,
+          "rec_loss": 46.9514639923538,
+          "imp_loss": 435473955.1072464,
+          "filtered_fraction": 1.2030117753623189e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 11,
+          "weighted_factual_sum": 66343796.0,
+          "rec_loss": 46.94627480990645,
+          "imp_loss": 435677340.3826087,
+          "filtered_fraction": 1.3445425724637681e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 12,
+          "weighted_factual_sum": 66385904.0,
+          "rec_loss": 46.97625503540039,
+          "imp_loss": 435644665.87826085,
+          "filtered_fraction": 1.0260982789855072e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 13,
+          "weighted_factual_sum": 66366220.0,
+          "rec_loss": 46.96193125075188,
+          "imp_loss": 438905038.09855074,
+          "filtered_fraction": 1.1322463768115942e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 14,
+          "weighted_factual_sum": 66335680.0,
+          "rec_loss": 46.94005062821982,
+          "imp_loss": 435034750.65507245,
+          "filtered_fraction": 1.769134963768116e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 15,
+          "weighted_factual_sum": 66386560.0,
+          "rec_loss": 46.97628178803817,
+          "imp_loss": 438047309.5884058,
+          "filtered_fraction": 9.907155797101449e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 16,
+          "weighted_factual_sum": 66363904.0,
+          "rec_loss": 46.96020111415697,
+          "imp_loss": 437302610.6434783,
+          "filtered_fraction": 1.0260982789855072e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 17,
+          "weighted_factual_sum": 66348764.0,
+          "rec_loss": 46.94961422353551,
+          "imp_loss": 436412887.37391305,
+          "filtered_fraction": 1.0614809782608695e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 18,
+          "weighted_factual_sum": 66347960.0,
+          "rec_loss": 46.94804085994112,
+          "imp_loss": 435627673.6,
+          "filtered_fraction": 6.368885869565217e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 19,
+          "weighted_factual_sum": 66342508.0,
+          "rec_loss": 46.945163450379304,
+          "imp_loss": 438082107.9652174,
+          "filtered_fraction": 9.553328804347827e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 20,
+          "weighted_factual_sum": 66338788.0,
+          "rec_loss": 46.94155172265094,
+          "imp_loss": 437642245.4724638,
+          "filtered_fraction": 1.2383944746376812e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 21,
+          "weighted_factual_sum": 66343116.0,
+          "rec_loss": 46.944800031357914,
+          "imp_loss": 434775803.45507246,
+          "filtered_fraction": 1.0968636775362319e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 22,
+          "weighted_factual_sum": 66353204.0,
+          "rec_loss": 46.95165980242301,
+          "imp_loss": 435331458.8289855,
+          "filtered_fraction": 1.2030117753623189e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 23,
+          "weighted_factual_sum": 66334304.0,
+          "rec_loss": 46.9387355528016,
+          "imp_loss": 437113761.6695652,
+          "filtered_fraction": 1.2030117753623189e-05,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        },
+        {
+          "epoch": 24,
+          "weighted_factual_sum": 66392540.0,
+          "rec_loss": 46.97986754818239,
+          "imp_loss": 437139926.9101449,
+          "filtered_fraction": 9.553328804347827e-06,
+          "observed_rows_used": 1413120,
+          "observed_rows_dropped": 454
+        }
+      ],
+      "metrics": {
+        "NDCG@5": 0.2739622599746859,
+        "Recall@5": 0.2600890318669043,
+        "Recall@5_bounded": 0.32737248802646524,
+        "Precision@5": 0.21524218634276404,
+        "HitRate@5": 0.645311805658421,
+        "AUC_global": 0.6361510753631592,
+        "users": 13502
+      },
+      "quick_run": false,
+      "metadata": {
+        "model": "cdr_source",
+        "architecture_version": "cdr_released_v1",
+        "dataset": "kuairand",
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1000,
+          "lr": 0.05,
+          "weight_decay": 0.0001,
+          "batch_size": 2048,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5,
+          "G": 1,
+          "tol": 1e-05,
+          "stop": 5,
+          "mc_samples": 10,
+          "seed": 2020,
+          "selection": "source_train_loss_last",
+          "implementation": "cdr_released",
+          "catalog_sampler": "replacement"
+        },
+        "data": {
+          "sha256": "7a1bb008cefc333c0079a09c408a09c7bb9d5aad925b8a4d1c0f761abf22b7de"
+        },
+        "model_kwargs": {
+          "num_users": 23533,
+          "num_items": 6712,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.5
+        },
+        "protocol": {
+          "metric_revision": "cdr_source_v1",
+          "scope": "cdr_source_protocol",
+          "recall_denominator": "all_positive",
+          "calibration": "validation_5_percent",
+          "paper_scores_directly_comparable": false
+        },
+        "adaptations": [
+          "local KuaiRand preprocessing/user split; original processed CSVs unavailable",
+          "array trainer sampling instead of source Torch DataLoader",
+          "zero-based local user IDs, including user 0 in evaluation",
+          "global AUC half-credit ties instead of source arbitrary tie ranks",
+          "bounded-memory catalog sampling with replacement"
+        ],
+        "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data",
+        "smoke_users": null
+      },
+      "evaluation_scope": "cdr_source_protocol",
+      "best_epoch": 24,
+      "best_val_ndcg": null,
+      "selection_origin": "source_train_loss_last",
+      "epochs_run": 24,
+      "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+      "NDCG@5": 0.2739622599746859,
+      "Recall@5": 0.2600890318669043,
+      "AUC_global": 0.6361510753631592,
+      "users": 13502,
+      "Recall@5_bounded": 0.32737248802646524,
+      "Precision@5": 0.21524218634276404,
+      "HitRate@5": 0.645311805658421,
+      "metric_evaluation_code_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880",
+      "supplementary_metric_policy": "same source-eligible users/ranking; empty users Recall=1, Precision/HitRate=0"
+    }
+  },
+  "yahoo": {
+    "Random (expected)": {
+      "NDCG@5": 0.35372415484583114,
+      "Recall@5": 0.5,
+      "Precision@5": 0.19651162790697677,
+      "HitRate@5": 0.6786152639350314,
+      "AUC": 0.5
+    },
+    "Popularity": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 3780,
+      "candidate_pairs": 37800,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.49186880008976064,
+      "Recall@5": 0.6185889627168697,
+      "Recall@5_bounded": 0.6241472868217054,
+      "Precision@5": 0.23116279069767443,
+      "HitRate@5": 0.788953488372093,
+      "eval_users": 1720,
+      "zero_positive_users": 2060,
+      "NDCG@5_CI95_halfwidth": 0.016019306212569827,
+      "elapsed_seconds": 0.19,
+      "AUC": 0.6072337470695615,
+      "auc_users": 1713
+    },
+    "MF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 3780,
+      "candidate_pairs": 37800,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.5796868264880134,
+      "Recall@5": 0.7253216131413807,
+      "Recall@5_bounded": 0.73093992248062,
+      "Precision@5": 0.26767441860465124,
+      "HitRate@5": 0.8680232558139535,
+      "eval_users": 1720,
+      "zero_positive_users": 2060,
+      "NDCG@5_CI95_halfwidth": 0.01524828079488383,
+      "elapsed_seconds": 0.2,
+      "AUC": 0.6983120905493936,
+      "auc_users": 1713,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\yahoo\\mf\\yahoo_mf_manual_v4_5301a41473369ea6.pt",
+      "best_epoch": 5,
+      "best_val_ndcg": 0.5809836193044328,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "mf_v4",
+        "model": "mf",
+        "dataset": "yahoo",
+        "config": {
+          "epochs": 100,
+          "lr": 0.0005,
+          "batch_size": 2048,
+          "patience": 5,
+          "alpha": 0.0,
+          "weight_decay": 1e-06,
+          "seed": 42,
+          "device": "cpu",
+          "optimizer": "adam",
+          "loss": "mse",
+          "decay_scope": "all",
+          "scheduler": "none",
+          "adam_fused": false,
+          "init_scheme": "author_uniform",
+          "method_reference": "iDCF_KDD2023_MF.py_models/mf.py",
+          "method_profile": "idcf_author_mf",
+          "paper_reproduction": false,
+          "momentum": null
+        },
+        "model_kwargs": {
+          "num_users": 15400,
+          "num_items": 1000,
+          "embedding_dim": 64,
+          "use_bias": true,
+          "train_global_bias": false,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "a57c6754ff5e936c4fdd856c9c04b6dd5b5ecea28de0e2b8b7a139ddcc589318",
+          "source": {
+            "repository": "CrazyDumpling/CDR_CIKM2023",
+            "commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+            "files": [
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-train.txt",
+                "size": 3459357,
+                "sha256": "85538b3c4a93eafc4f0ce2d39a6cd178e32a6b615ce775b9d635f7995706269d"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-test.txt",
+                "size": 577233,
+                "sha256": "f27a73bef8c7ccedb17576fe2d4cc52b80c2d5fa60f13529596f003ffd0d8533"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-survey-answers.txt",
+                "size": 75600,
+                "sha256": "d683b965ae7aed511213440415a1719c102ba6efd92eec36465366c3ecca8b72"
+              }
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo",
+          "n_users": 15400,
+          "n_items": 1000
+        },
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      }
+    },
+    "iDCF": {
+      "metric_revision": "logged_binary_v1",
+      "candidate_users": 3780,
+      "candidate_pairs": 37800,
+      "empty_candidate_users": 0,
+      "NDCG@5": 0.655799426965014,
+      "Recall@5": 0.7878375322997416,
+      "Recall@5_bounded": 0.7937790697674418,
+      "Precision@5": 0.2895348837209303,
+      "HitRate@5": 0.9093023255813953,
+      "eval_users": 1720,
+      "zero_positive_users": 2060,
+      "NDCG@5_CI95_halfwidth": 0.014661977107223504,
+      "elapsed_seconds": 0.19,
+      "AUC": 0.7582034210843318,
+      "auc_users": 1713,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\yahoo\\idcf\\yahoo_idcf_v4_e100_full_5ba402fd0e_v4_c4055d2710214a09.pt",
+      "best_epoch": 5,
+      "best_val_ndcg": 0.6645760984741818,
+      "metadata": {
+        "artifact_version": 4,
+        "architecture_version": "idcf_v1",
+        "model": "idcf",
+        "dataset": "yahoo",
+        "config": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "batch_size": 2048,
+          "epochs": 100,
+          "patience": 5,
+          "seed": 42,
+          "loss": "mse",
+          "device": "cpu",
+          "confounders_sha256": "5b6cfeb34e89b841",
+          "method_reference": "iDCF_KDD2023_MFMF",
+          "paper_reproduction": false,
+          "variant": "idcf",
+          "confounder_training": {
+            "best_val_loss": 71.72001383892902,
+            "best_epoch": 715,
+            "epochs_run": 815,
+            "selection": "post_warmup_full_beta",
+            "anneal_steps": 10000,
+            "first_full_beta_epoch": 401,
+            "selected_training_beta": 1.0,
+            "last_training_beta": 1.0,
+            "config": {
+              "latent_dim": 16,
+              "hidden_dim": 32,
+              "n_layers": 3,
+              "lr": 0.0005,
+              "weight_decay": 1e-06,
+              "l2_penalty": 0.01,
+              "batch_size": 512,
+              "epochs": 2000,
+              "patience": 100,
+              "beta_max": 1.0,
+              "train_ratio": 0.8,
+              "split_seed": 1234,
+              "seed": 42,
+              "device": "cpu",
+              "validation_samples": 8,
+              "validation_seed": 1234,
+              "validation_metric": "mc_elbo_common_noise_v1"
+            }
+          },
+          "proxy_features": {
+            "source": "observed_yahoo_survey_answers",
+            "questions": 7,
+            "encoding": "one_hot_per_question_with_missing_category_0",
+            "dimensions": 39,
+            "surveyed_users": 5400,
+            "missing_proxy_users": 10000,
+            "proxy_sha256": "e415d2d3e8d7ff16187776a430f84e155cd21e2ab9fa3fa95aafd6c63082a833",
+            "limitation": "Yahoo extension; iDCF identification assumptions not verified for missing-survey users"
+          },
+          "dataset_extension": "Yahoo survey proxies; no original iDCF Yahoo result claimed"
+        },
+        "model_kwargs": {
+          "num_users": 15400,
+          "num_items": 1000,
+          "latent_dim": 16,
+          "embedding_dim": 64,
+          "init_scheme": "author_uniform"
+        },
+        "data": {
+          "sha256": "a57c6754ff5e936c4fdd856c9c04b6dd5b5ecea28de0e2b8b7a139ddcc589318",
+          "source": {
+            "repository": "CrazyDumpling/CDR_CIKM2023",
+            "commit": "6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+            "files": [
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-train.txt",
+                "size": 3459357,
+                "sha256": "85538b3c4a93eafc4f0ce2d39a6cd178e32a6b615ce775b9d635f7995706269d"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-test.txt",
+                "size": 577233,
+                "sha256": "f27a73bef8c7ccedb17576fe2d4cc52b80c2d5fa60f13529596f003ffd0d8533"
+              },
+              {
+                "path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo\\ydata-ymusic-rating-study-v1_0-survey-answers.txt",
+                "size": 75600,
+                "sha256": "d683b965ae7aed511213440415a1719c102ba6efd92eec36465366c3ecca8b72"
+              }
+            ]
+          },
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo",
+          "n_users": 15400,
+          "n_items": 1000
+        },
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "protocol": {
+          "metric_revision": "logged_binary_v1",
+          "reference": "iDCF_KDD2023",
+          "implementation": "idcf_aligned_local",
+          "k": 5,
+          "primary_metrics": [
+            "NDCG@5",
+            "Recall@5"
+          ],
+          "candidates": "logged_exposures",
+          "relevance": "binary_any_positive_per_user_item",
+          "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+          "recall_denominator": "all_positive_items_in_candidate_pool",
+          "aggregation": "macro_by_user",
+          "include_zero_positive_users": false,
+          "tie_break": "score_desc_then_item_id_asc",
+          "train_overlap": "retain_and_disclose",
+          "selection": "validation_ndcg",
+          "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+          "seed_std_ddof": 1,
+          "split": {
+            "protocol": "paper_idcf",
+            "dataset_extension": "yahoo_survey_proxy",
+            "split_unit": "user",
+            "seed": 1234,
+            "positive_threshold": 4,
+            "validation_users": 1620,
+            "test_users": 3780,
+            "validation_rows": 16200,
+            "test_rows": 37800,
+            "train_random_overlap_pairs": 0,
+            "validation_overlap_pairs": 0,
+            "test_overlap_pairs": 0,
+            "test_overlap_positive_pairs": 0
+          },
+          "paper_scores_directly_comparable": false,
+          "limitations": [
+            "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+            "Binary duplicate aggregation and deterministic score ties are local conventions.",
+            "Local model architectures, loss and tuning differ from original implementations."
+          ]
+        },
+        "environment": {
+          "torch": "2.14.1+cpu",
+          "numpy": "2.5.4"
+        }
+      },
+      "epochs_run": 10,
+      "confounder_info": {
+        "best_val_loss": 71.72001383892902,
+        "best_epoch": 715,
+        "epochs_run": 815,
+        "selection": "post_warmup_full_beta",
+        "anneal_steps": 10000,
+        "first_full_beta_epoch": 401,
+        "selected_training_beta": 1.0,
+        "last_training_beta": 1.0,
+        "config": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "l2_penalty": 0.01,
+          "batch_size": 512,
+          "epochs": 2000,
+          "patience": 100,
+          "beta_max": 1.0,
+          "train_ratio": 0.8,
+          "split_seed": 1234,
+          "seed": 42,
+          "device": "cpu",
+          "validation_samples": 8,
+          "validation_seed": 1234,
+          "validation_metric": "mc_elbo_common_noise_v1"
+        }
+      }
+    },
+    "DR-BIAS + CDR": {
+      "identity": {
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+        "seed": 2020,
+        "dataset": "yahoo"
+      },
+      "scope": "published_script_conditions_not_project_held_out",
+      "config": {
+        "embedding_dim": 4,
+        "epochs": 1000,
+        "lr": 0.05,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "un_thres": 10.0,
+        "dropout_rate": 0.7,
+        "G": 1,
+        "tol": 1e-05,
+        "stop": 5,
+        "mc_samples": 10
+      },
+      "source_calibration": {
+        "method": "released_naive_bayes",
+        "calibration_rows": 2700,
+        "calibration_positive_rate": 0.2288888888888889,
+        "train_positive_rate": 0.5588892025768036,
+        "population_denominator": 15400000,
+        "observed_fraction": 0.02024051948051948
+      },
+      "test_labels_used_for_propensity": true,
+      "calibration_rows": 2700,
+      "positive_threshold": 3,
+      "evaluation_pool": "entire_random_log",
+      "zero_positive_score": 1,
+      "recall_denominator": "min(k,n_positive)",
+      "raw_id_convention": "source_unchanged",
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261020_232046_d992f0ff\\yahoo\\cdr\\20261020_233647_c7d307db\\yahoo.pt",
+      "training_history": [
+        {
+          "epoch": 1,
+          "weighted_factual_sum": 8465360.0,
+          "rec_loss": 27.187946332128423,
+          "imp_loss": 127003068.06578948,
+          "filtered_fraction": 1.606188322368421e-06,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 2,
+          "weighted_factual_sum": 5994468.0,
+          "rec_loss": 19.237283392956382,
+          "imp_loss": 73449010.55263157,
+          "filtered_fraction": 0.0004336708470394737,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 3,
+          "weighted_factual_sum": 5637975.0,
+          "rec_loss": 18.060191305060137,
+          "imp_loss": 45084280.921052635,
+          "filtered_fraction": 0.0008352179276315789,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 4,
+          "weighted_factual_sum": 5469133.0,
+          "rec_loss": 17.491598380239385,
+          "imp_loss": 42327006.473684214,
+          "filtered_fraction": 0.0009171335320723685,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 5,
+          "weighted_factual_sum": 5377412.5,
+          "rec_loss": 17.1827456574691,
+          "imp_loss": 41030156.868421055,
+          "filtered_fraction": 0.0009283768503289474,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 6,
+          "weighted_factual_sum": 5321457.5,
+          "rec_loss": 16.98815073465046,
+          "imp_loss": 40841960.315789476,
+          "filtered_fraction": 0.0009829872532894736,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 7,
+          "weighted_factual_sum": 5278315.0,
+          "rec_loss": 16.840507043035405,
+          "imp_loss": 40529850.2631579,
+          "filtered_fraction": 0.0009669253700657895,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 8,
+          "weighted_factual_sum": 5245625.5,
+          "rec_loss": 16.732863695997942,
+          "imp_loss": 40231773.94736842,
+          "filtered_fraction": 0.001010292454769737,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 9,
+          "weighted_factual_sum": 5220432.5,
+          "rec_loss": 16.638976919023616,
+          "imp_loss": 40037127.0,
+          "filtered_fraction": 0.0009749563116776315,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 10,
+          "weighted_factual_sum": 5209866.0,
+          "rec_loss": 16.59939023068077,
+          "imp_loss": 40190967.60526316,
+          "filtered_fraction": 0.00103759765625,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 11,
+          "weighted_factual_sum": 5188018.0,
+          "rec_loss": 16.523423916415165,
+          "imp_loss": 39382448.026315786,
+          "filtered_fraction": 0.0010986328125,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 12,
+          "weighted_factual_sum": 5178672.0,
+          "rec_loss": 16.487367291199533,
+          "imp_loss": 39657169.59210526,
+          "filtered_fraction": 0.0010118986430921052,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 13,
+          "weighted_factual_sum": 5160692.5,
+          "rec_loss": 16.430795230363543,
+          "imp_loss": 39359480.65789474,
+          "filtered_fraction": 0.0011050575657894736,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 14,
+          "weighted_factual_sum": 5155810.0,
+          "rec_loss": 16.403065430490596,
+          "imp_loss": 39667459.473684214,
+          "filtered_fraction": 0.001087389494243421,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 15,
+          "weighted_factual_sum": 5141193.0,
+          "rec_loss": 16.355826271207707,
+          "imp_loss": 38777231.10526316,
+          "filtered_fraction": 0.0010986328125,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 16,
+          "weighted_factual_sum": 5132299.0,
+          "rec_loss": 16.327967330029136,
+          "imp_loss": 38856447.53947368,
+          "filtered_fraction": 0.0011612741570723685,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 17,
+          "weighted_factual_sum": 5126171.5,
+          "rec_loss": 16.296527617856075,
+          "imp_loss": 38605458.89473684,
+          "filtered_fraction": 0.0011468184621710527,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 18,
+          "weighted_factual_sum": 5121397.5,
+          "rec_loss": 16.275080398509377,
+          "imp_loss": 38885177.44736842,
+          "filtered_fraction": 0.0011243318256578948,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 19,
+          "weighted_factual_sum": 5112800.5,
+          "rec_loss": 16.250655080142774,
+          "imp_loss": 38904868.184210524,
+          "filtered_fraction": 0.0011853669819078948,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 20,
+          "weighted_factual_sum": 5109243.5,
+          "rec_loss": 16.23629543655797,
+          "imp_loss": 38807941.84210526,
+          "filtered_fraction": 0.0011982164884868421,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 21,
+          "weighted_factual_sum": 5102391.5,
+          "rec_loss": 16.208246720464604,
+          "imp_loss": 38657435.631578945,
+          "filtered_fraction": 0.0012367650082236842,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 22,
+          "weighted_factual_sum": 5093951.0,
+          "rec_loss": 16.177629207309923,
+          "imp_loss": 38482243.78947368,
+          "filtered_fraction": 0.0012367650082236842,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 23,
+          "weighted_factual_sum": 5096271.5,
+          "rec_loss": 16.18448937566657,
+          "imp_loss": 38474495.2631579,
+          "filtered_fraction": 0.001345985814144737,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 24,
+          "weighted_factual_sum": 5087760.5,
+          "rec_loss": 16.159262613246316,
+          "imp_loss": 38379481.40789474,
+          "filtered_fraction": 0.0012528268914473685,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 25,
+          "weighted_factual_sum": 5083613.0,
+          "rec_loss": 16.140184891851323,
+          "imp_loss": 38196919.434210524,
+          "filtered_fraction": 0.0013748972039473685,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 26,
+          "weighted_factual_sum": 5086954.5,
+          "rec_loss": 16.147857728757355,
+          "imp_loss": 38499407.44736842,
+          "filtered_fraction": 0.0013604415090460527,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 27,
+          "weighted_factual_sum": 5079103.0,
+          "rec_loss": 16.120347361815604,
+          "imp_loss": 38164111.184210524,
+          "filtered_fraction": 0.0014407509251644736,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 28,
+          "weighted_factual_sum": 5069375.0,
+          "rec_loss": 16.083623923753436,
+          "imp_loss": 38159891.618421055,
+          "filtered_fraction": 0.0014246890419407894,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 29,
+          "weighted_factual_sum": 5070412.5,
+          "rec_loss": 16.089635453726117,
+          "imp_loss": 38193087.881578945,
+          "filtered_fraction": 0.0014279014185855264,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 30,
+          "weighted_factual_sum": 5071241.5,
+          "rec_loss": 16.09405629885824,
+          "imp_loss": 38356818.10526316,
+          "filtered_fraction": 0.0014054147820723685,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 31,
+          "weighted_factual_sum": 5067064.0,
+          "rec_loss": 16.074477020062897,
+          "imp_loss": 38278802.2631579,
+          "filtered_fraction": 0.0015001798930921052,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 32,
+          "weighted_factual_sum": 5060688.0,
+          "rec_loss": 16.050808605394867,
+          "imp_loss": 38381538.28947368,
+          "filtered_fraction": 0.0014519942434210527,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 33,
+          "weighted_factual_sum": 5057967.0,
+          "rec_loss": 16.04426930452648,
+          "imp_loss": 38029202.89473684,
+          "filtered_fraction": 0.0015403346011513158,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 34,
+          "weighted_factual_sum": 5060080.0,
+          "rec_loss": 16.04535276638834,
+          "imp_loss": 38094271.53947368,
+          "filtered_fraction": 0.0015098170230263158,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 35,
+          "weighted_factual_sum": 5058812.0,
+          "rec_loss": 16.04249764743604,
+          "imp_loss": 38005586.96052632,
+          "filtered_fraction": 0.00152587890625,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 36,
+          "weighted_factual_sum": 5051249.0,
+          "rec_loss": 16.015247671227705,
+          "imp_loss": 37438838.776315786,
+          "filtered_fraction": 0.001567639802631579,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 37,
+          "weighted_factual_sum": 5045160.0,
+          "rec_loss": 15.994609594345093,
+          "imp_loss": 37532638.973684214,
+          "filtered_fraction": 0.0015820954975328948,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 38,
+          "weighted_factual_sum": 5045621.5,
+          "rec_loss": 15.99577870494441,
+          "imp_loss": 37361733.30263158,
+          "filtered_fraction": 0.0016045821340460527,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        },
+        {
+          "epoch": 39,
+          "weighted_factual_sum": 5047312.5,
+          "rec_loss": 15.996884854216324,
+          "imp_loss": 37647817.578947365,
+          "filtered_fraction": 0.0016495554070723685,
+          "observed_rows_used": 311296,
+          "observed_rows_dropped": 408
+        }
+      ],
+      "metrics": {
+        "NDCG@5": 0.655928916666389,
+        "Recall@5": 0.7060595972957084,
+        "Recall@5_bounded": 0.7312993827160493,
+        "Precision@5": 0.2637777777777778,
+        "HitRate@5": 0.6309259259259259,
+        "AUC_global": 0.6849303841590881,
+        "users": 5400
+      },
+      "quick_run": false,
+      "metadata": {
+        "model": "cdr_source",
+        "architecture_version": "cdr_released_v1",
+        "dataset": "yahoo",
+        "code_sha256": "134b536cc623a5b925adc8b2e4b8fcb2d8880ff54ccfd0b4002b294b5c532154",
+        "config": {
+          "embedding_dim": 4,
+          "epochs": 1000,
+          "lr": 0.05,
+          "weight_decay": 0.0001,
+          "batch_size": 2048,
+          "un_thres": 10.0,
+          "dropout_rate": 0.7,
+          "G": 1,
+          "tol": 1e-05,
+          "stop": 5,
+          "mc_samples": 10,
+          "seed": 2020,
+          "selection": "source_train_loss_last",
+          "implementation": "cdr_released",
+          "catalog_sampler": "permutation"
+        },
+        "data": {
+          "sha256": "c2efe4114dbc501fb33373d327f7f8a4a623fb439800865c7016b2af1a20cc3e"
+        },
+        "model_kwargs": {
+          "num_users": 15401,
+          "num_items": 1001,
+          "embedding_dim": 4,
+          "un_thres": 10.0,
+          "dropout_rate": 0.7
+        },
+        "protocol": {
+          "metric_revision": "cdr_source_v1",
+          "scope": "cdr_source_protocol",
+          "recall_denominator": "min(k,n_positive)",
+          "calibration": "evaluation_5_percent",
+          "paper_scores_directly_comparable": false
+        },
+        "adaptations": [],
+        "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\yahoo",
+        "smoke_users": null
+      },
+      "evaluation_scope": "cdr_source_protocol",
+      "best_epoch": 39,
+      "best_val_ndcg": null,
+      "selection_origin": "source_train_loss_last",
+      "epochs_run": 39,
+      "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+      "NDCG@5": 0.655928916666389,
+      "Recall@5_bounded": 0.7312993827160493,
+      "AUC_global": 0.6849303841590881,
+      "users": 5400,
+      "Recall@5": 0.7060595972957084,
+      "Precision@5": 0.2637777777777778,
+      "HitRate@5": 0.6309259259259259,
+      "metric_evaluation_code_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880",
+      "supplementary_metric_policy": "same source-eligible users/ranking; empty users Recall=1, Precision/HitRate=0"
+    }
+  },
+  "diagnostics": {
+    "coat": {
+      "users": 203,
+      "zero_positive_users": 36,
+      "evaluated_users": 167,
+      "candidate_pairs": 3248,
+      "positive_pairs": 627,
+      "pooled_positive_rate": 0.19304187192118227,
+      "mean_user_positive_rate": 0.19304187192118227,
+      "candidate_size_p10_p50_p90": [
+        16.0,
+        16.0,
+        16.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.2985746891685095,
+        "Recall@5": 0.3125,
+        "Precision@5": 0.2346556886227545,
+        "HitRate@5": 0.6689272553793512,
+        "AUC": 0.5
+      }
+    },
+    "coat_validation": {
+      "users": 87,
+      "zero_positive_users": 17,
+      "evaluated_users": 70,
+      "candidate_pairs": 1392,
+      "positive_pairs": 233,
+      "pooled_positive_rate": 0.16738505747126436,
+      "mean_user_positive_rate": 0.16738505747126436,
+      "candidate_size_p10_p50_p90": [
+        16.0,
+        16.0,
+        16.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.281148705099452,
+        "Recall@5": 0.3125,
+        "Precision@5": 0.2080357142857143,
+        "HitRate@5": 0.6293400052328624,
+        "AUC": 0.5
+      }
+    },
+    "yahoo": {
+      "users": 3780,
+      "zero_positive_users": 2060,
+      "evaluated_users": 1720,
+      "candidate_pairs": 37800,
+      "positive_pairs": 3380,
+      "pooled_positive_rate": 0.08941798941798942,
+      "mean_user_positive_rate": 0.08941798941798942,
+      "candidate_size_p10_p50_p90": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.35372415484583114,
+        "Recall@5": 0.5,
+        "Precision@5": 0.19651162790697677,
+        "HitRate@5": 0.6786152639350314,
+        "AUC": 0.5
+      }
+    },
+    "yahoo_validation": {
+      "users": 1620,
+      "zero_positive_users": 904,
+      "evaluated_users": 716,
+      "candidate_pairs": 16200,
+      "positive_pairs": 1369,
+      "pooled_positive_rate": 0.08450617283950618,
+      "mean_user_positive_rate": 0.08450617283950618,
+      "candidate_size_p10_p50_p90": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.35026500629822577,
+        "Recall@5": 0.5,
+        "Precision@5": 0.1912011173184358,
+        "HitRate@5": 0.6695763500931099,
+        "AUC": 0.5
+      }
+    },
+    "kuairand": {
+      "users": 16473,
+      "zero_positive_users": 2971,
+      "evaluated_users": 13502,
+      "candidate_pairs": 671360,
+      "positive_pairs": 118420,
+      "pooled_positive_rate": 0.17638822688274547,
+      "mean_user_positive_rate": 0.16727653722400526,
+      "candidate_size_p10_p50_p90": [
+        10.0,
+        20.0,
+        93.0
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.25948148822731104,
+        "Recall@5": 0.24672725006251386,
+        "Precision@5": 0.20408431326403784,
+        "HitRate@5": 0.6306356242855898,
+        "AUC": 0.5
+      }
+    },
+    "kuairand_validation": {
+      "users": 7060,
+      "zero_positive_users": 1233,
+      "evaluated_users": 5827,
+      "candidate_pairs": 283408,
+      "positive_pairs": 50508,
+      "pooled_positive_rate": 0.17821656410545927,
+      "mean_user_positive_rate": 0.16936042681936214,
+      "candidate_size_p10_p50_p90": [
+        10.0,
+        20.0,
+        91.10000000000036
+      ],
+      "users_with_fewer_than_k": 0,
+      "cold_user_fraction": 0.0,
+      "cold_candidate_fraction": 0.0,
+      "random_expected": {
+        "NDCG@5": 0.26183992412399015,
+        "Recall@5": 0.2495672966727609,
+        "Precision@5": 0.20519729077478926,
+        "HitRate@5": 0.632827865145165,
+        "AUC": 0.5
+      }
+    }
+  },
+  "significance": {
+    "coat": {
+      "MF vs Popularity": {
+        "mean_delta_ndcg": 0.19650557419506384,
+        "CI95_halfwidth": 0.055009100897640925,
+        "wilcoxon_p": 3.3144075758512966e-10,
+        "users": 167,
+        "users_changed": 144,
+        "wins": 105,
+        "losses": 39
+      },
+      "iDCF vs Popularity": {
+        "mean_delta_ndcg": 0.21877789946152654,
+        "CI95_halfwidth": 0.05932520486397698,
+        "wilcoxon_p": 9.124122434425526e-11,
+        "users": 167,
+        "users_changed": 147,
+        "wins": 110,
+        "losses": 37
+      },
+      "iDCF vs MF": {
+        "mean_delta_ndcg": 0.02227232526646273,
+        "CI95_halfwidth": 0.033775249709062954,
+        "wilcoxon_p": 0.6214846271434473,
+        "users": 167,
+        "users_changed": 100,
+        "wins": 51,
+        "losses": 49
+      }
+    },
+    "yahoo": {
+      "MF vs Popularity": {
+        "mean_delta_ndcg": 0.0878180263982527,
+        "CI95_halfwidth": 0.01659857096190253,
+        "wilcoxon_p": 1.8922729233923613e-24,
+        "users": 1720,
+        "users_changed": 1321,
+        "wins": 826,
+        "losses": 495
+      },
+      "iDCF vs Popularity": {
+        "mean_delta_ndcg": 0.16393062687525356,
+        "CI95_halfwidth": 0.018425651596207508,
+        "wilcoxon_p": 4.126560405419987e-60,
+        "users": 1720,
+        "users_changed": 1379,
+        "wins": 973,
+        "losses": 406
+      },
+      "iDCF vs MF": {
+        "mean_delta_ndcg": 0.07611260047700082,
+        "CI95_halfwidth": 0.014629720978331802,
+        "wilcoxon_p": 1.0950590530966231e-25,
+        "users": 1720,
+        "users_changed": 1239,
+        "wins": 802,
+        "losses": 437
+      }
+    },
+    "kuairand": {
+      "MF vs Popularity": {
+        "mean_delta_ndcg": 0.019377410219645928,
+        "CI95_halfwidth": 0.003955665802985301,
+        "wilcoxon_p": 3.1559935112984033e-28,
+        "users": 13502,
+        "users_changed": 9836,
+        "wins": 5459,
+        "losses": 4377
+      },
+      "iDCF vs Popularity": {
+        "mean_delta_ndcg": 0.047514501917850435,
+        "CI95_halfwidth": 0.004828023102501248,
+        "wilcoxon_p": 2.1339087468938906e-82,
+        "users": 13502,
+        "users_changed": 10695,
+        "wins": 6238,
+        "losses": 4457
+      },
+      "iDCF vs MF": {
+        "mean_delta_ndcg": 0.028137091698204504,
+        "CI95_halfwidth": 0.0041879356409378265,
+        "wilcoxon_p": 5.0762876902567094e-37,
+        "users": 13502,
+        "users_changed": 10131,
+        "wins": 5615,
+        "losses": 4516
+      }
+    }
+  },
+  "evaluation_protocol": {
+    "coat": {
+      "metric_revision": "logged_binary_v1",
+      "reference": "iDCF_KDD2023",
+      "implementation": "idcf_aligned_local",
+      "k": 5,
+      "primary_metrics": [
+        "NDCG@5",
+        "Recall@5"
+      ],
+      "candidates": "logged_exposures",
+      "relevance": "binary_any_positive_per_user_item",
+      "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+      "recall_denominator": "all_positive_items_in_candidate_pool",
+      "aggregation": "macro_by_user",
+      "include_zero_positive_users": false,
+      "tie_break": "score_desc_then_item_id_asc",
+      "train_overlap": "retain_and_disclose",
+      "selection": "validation_ndcg",
+      "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+      "seed_std_ddof": 1,
+      "split": {
+        "protocol": "paper_idcf",
+        "split_unit": "user",
+        "seed": 1234,
+        "validation_users": 87,
+        "test_users": 203,
+        "validation_rows": 1392,
+        "test_rows": 3248,
+        "train_random_overlap_pairs": 366,
+        "validation_overlap_pairs": 119,
+        "test_overlap_pairs": 247,
+        "test_overlap_positive_pairs": 63
+      },
+      "paper_scores_directly_comparable": false,
+      "limitations": [
+        "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+        "Binary duplicate aggregation and deterministic score ties are local conventions.",
+        "Local model architectures, loss and tuning differ from original implementations."
+      ]
+    },
+    "yahoo": {
+      "metric_revision": "logged_binary_v1",
+      "reference": "iDCF_KDD2023",
+      "implementation": "idcf_aligned_local",
+      "k": 5,
+      "primary_metrics": [
+        "NDCG@5",
+        "Recall@5"
+      ],
+      "candidates": "logged_exposures",
+      "relevance": "binary_any_positive_per_user_item",
+      "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+      "recall_denominator": "all_positive_items_in_candidate_pool",
+      "aggregation": "macro_by_user",
+      "include_zero_positive_users": false,
+      "tie_break": "score_desc_then_item_id_asc",
+      "train_overlap": "retain_and_disclose",
+      "selection": "validation_ndcg",
+      "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+      "seed_std_ddof": 1,
+      "split": {
+        "protocol": "paper_idcf",
+        "dataset_extension": "yahoo_survey_proxy",
+        "split_unit": "user",
+        "seed": 1234,
+        "positive_threshold": 4,
+        "validation_users": 1620,
+        "test_users": 3780,
+        "validation_rows": 16200,
+        "test_rows": 37800,
+        "train_random_overlap_pairs": 0,
+        "validation_overlap_pairs": 0,
+        "test_overlap_pairs": 0,
+        "test_overlap_positive_pairs": 0
+      },
+      "paper_scores_directly_comparable": false,
+      "limitations": [
+        "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+        "Binary duplicate aggregation and deterministic score ties are local conventions.",
+        "Local model architectures, loss and tuning differ from original implementations."
+      ]
+    },
+    "kuairand": {
+      "metric_revision": "logged_binary_v1",
+      "reference": "iDCF_KDD2023",
+      "implementation": "idcf_aligned_local",
+      "k": 5,
+      "primary_metrics": [
+        "NDCG@5",
+        "Recall@5"
+      ],
+      "candidates": "logged_exposures",
+      "relevance": "binary_any_positive_per_user_item",
+      "ndcg": "sum(hit_r/log2(r+1))/sum(1/log2(r+1),r=1..min(k,n_positive))",
+      "recall_denominator": "all_positive_items_in_candidate_pool",
+      "aggregation": "macro_by_user",
+      "include_zero_positive_users": false,
+      "tie_break": "score_desc_then_item_id_asc",
+      "train_overlap": "retain_and_disclose",
+      "selection": "validation_ndcg",
+      "auc": "auxiliary_macro_by_user_with_both_classes_half_credit_for_ties",
+      "seed_std_ddof": 1,
+      "split": {
+        "protocol": "paper_idcf",
+        "split_strategy": "seeded_by_user_1234",
+        "random_val_fraction": 0.3,
+        "val_rows": 283437,
+        "test_rows": 671377,
+        "train_rows": 1413574,
+        "val_users": 7060,
+        "test_users": 16473,
+        "val_max_time_ms": null,
+        "test_min_time_ms": null,
+        "label": "is_click"
+      },
+      "paper_scores_directly_comparable": false,
+      "limitations": [
+        "CDR paper uses 10/90 validation/test; this benchmark uses iDCF 30/70 user split.",
+        "Binary duplicate aggregation and deterministic score ties are local conventions.",
+        "Local model architectures, loss and tuning differ from original implementations."
+      ]
+    }
+  },
+  "protocol": {
+    "selection": "validation_only",
+    "run_id": "20261020_232046_d992f0ff",
+    "threads_override": 2,
+    "test": "held_out_final_evaluation",
+    "candidate_pool": "logged_exposures_only",
+    "include_zero_positive_users": {
+      "coat": false,
+      "kuairand": false,
+      "yahoo": false
+    },
+    "coat_protocol": "paper_idcf",
+    "idcf_config": {
+      "yahoo": {
+        "ivae": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "batch_size": 512,
+          "patience": 100
+        },
+        "train": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 2048,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      },
+      "coat": {
+        "ivae": {
+          "latent_dim": 16,
+          "hidden_dim": 32,
+          "n_layers": 3,
+          "batch_size": 512,
+          "patience": 100
+        },
+        "train": {
+          "lr": 0.0005,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 512,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      },
+      "kuairand": {
+        "ivae": {
+          "latent_dim": 32,
+          "hidden_dim": 64,
+          "n_layers": 2,
+          "batch_size": 2048,
+          "patience": 5
+        },
+        "train": {
+          "lr": 0.0001,
+          "weight_decay": 1e-06,
+          "embedding_dim": 64,
+          "batch_size": 2048,
+          "patience": 5,
+          "init_scheme": "author_uniform"
+        }
+      }
+    },
+    "ividr_alpha_residual": 0.0,
+    "ivae_epochs": 2000,
+    "stage2_overrides": {},
+    "stage1_overrides": {},
+    "device": "cpu",
+    "kuairand_protocol": "paper_idcf",
+    "kuairand_random_val_fraction": 0.3,
+    "paper_scores_directly_comparable": false,
+    "coat_random_split_seed": 1234,
+    "alpha": 0.0,
+    "alpha_applies_to": [
+      "MF"
+    ],
+    "kuairand_cdr_propensity": "item_exposure_frequency_proxy_clipped_0.05_to_1.0",
+    "quick_run": false,
+    "seed": 42,
+    "epochs_coat": 100,
+    "epochs_kuairand": 100,
+    "epochs_yahoo": 100,
+    "cdr_implementation": "auto",
+    "dimension_override": null,
+    "learning_rate_override": null,
+    "batch_size_override": null,
+    "coat_split_info": {
+      "protocol": "paper_idcf",
+      "split_unit": "user",
+      "seed": 1234,
+      "validation_users": 87,
+      "test_users": 203,
+      "validation_rows": 1392,
+      "test_rows": 3248,
+      "train_random_overlap_pairs": 366,
+      "validation_overlap_pairs": 119,
+      "test_overlap_pairs": 247,
+      "test_overlap_positive_pairs": 63
+    },
+    "yahoo_split_info": {
+      "protocol": "paper_idcf",
+      "dataset_extension": "yahoo_survey_proxy",
+      "split_unit": "user",
+      "seed": 1234,
+      "positive_threshold": 4,
+      "validation_users": 1620,
+      "test_users": 3780,
+      "validation_rows": 16200,
+      "test_rows": 37800,
+      "train_random_overlap_pairs": 0,
+      "validation_overlap_pairs": 0,
+      "test_overlap_pairs": 0,
+      "test_overlap_positive_pairs": 0
+    },
+    "yahoo_proxy_features": {
+      "source": "observed_yahoo_survey_answers",
+      "questions": 7,
+      "encoding": "one_hot_per_question_with_missing_category_0",
+      "dimensions": 39,
+      "surveyed_users": 5400,
+      "missing_proxy_users": 10000,
+      "proxy_sha256": "e415d2d3e8d7ff16187776a430f84e155cd21e2ab9fa3fa95aafd6c63082a833",
+      "limitation": "Yahoo extension; iDCF identification assumptions not verified for missing-survey users"
+    },
+    "kuairand_split_info": {
+      "protocol": "paper_idcf",
+      "split_strategy": "seeded_by_user_1234",
+      "random_val_fraction": 0.3,
+      "val_rows": 283437,
+      "test_rows": 671377,
+      "train_rows": 1413574,
+      "val_users": 7060,
+      "test_users": 16473,
+      "val_max_time_ms": null,
+      "test_min_time_ms": null,
+      "label": "is_click"
+    },
+    "smoke_users": null
+  },
+  "report_refresh": {
+    "input_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\benchmark_all_8e44de4472_20261020_232046_d992f0ff_v4.json",
+    "input_sha256": "a0d7da718712e818124a4f81726125b26cc1f250e2d25a8086d9e7ce98a3d3f2",
+    "evaluation_code_sha256": "32455688780304a24245d831e7df78c7ec6ae6f59fc823a7fb1ebe35b6589880",
+    "retrained": false,
+    "added_metrics": {
+      "coat": [
+        "Recall@5",
+        "Precision@5",
+        "HitRate@5"
+      ],
+      "yahoo": [
+        "Recall@5",
+        "Precision@5",
+        "HitRate@5"
+      ],
+      "kuairand": [
+        "Recall@5_bounded",
+        "Precision@5",
+        "HitRate@5"
+      ]
+    },
+    "note": "Training metadata preserved; original scores checked, supplemental metrics recomputed from checkpoints"
+  },
+  "display_update": {
+    "input_path": "results\\benchmark_report_20261021_072543_c37b107c.json",
+    "input_sha256": "ce34b93d11cd0fc366ed9f663b554caa2ea1a9355bdfc4edb56991eb9e588e90",
+    "render_code_sha256": "6497b9eefd6462927ee443fb949318b5df66849ad47788f9fff9ce4ff3e63a00",
+    "recall_column": "Recall@5_bounded",
+    "retrained": false,
+    "metrics_recomputed": false
+  }
+}

@@ -2,12 +2,10 @@
 """
 Recommendation engine phục vụ app TopTop.
 
-Huấn luyện thật trên tương tác TopTop đã ghi log (BCE trên exposure quan sát,
-cùng hàm mục tiêu với benchmark):
-  - "mf":  MatrixFactorization (src/models/matrix_factorization.py)
-  - "cdr": DR-BIAS + CDR (src/causal/cdr/cdr_model.py), propensity = tần suất
-           exposure theo item (cùng proxy dùng cho KuaiRand)
-  - "popularity": log(1 + watchCount + 5 * totalLikes), dùng cho user mới.
+MF uses MSE. CDR uses the released DR-BIAS+CDR architecture and update rule.
+Serving has no random-exposure labels: item-frequency propensity and replacement
+catalog sampling are explicit adaptations in training_stats.cdr.
+Popularity serves new users.
 IViDR cần đặc trưng user làm biến công cụ và proxy; dữ liệu TopTop chưa có nên
 yêu cầu "ividr" được phục vụ bằng mô hình khả dụng và trả về lý do rõ ràng.
 Project: ViFarm (services/recsys)
@@ -21,8 +19,8 @@ import pandas as pd
 import torch
 import torch.nn.functional as F
 
-from src.causal.cdr.cdr_model import CDRFramework
-from src.models.matrix_factorization import MatrixFactorization
+from src.models.cdr.released import ReleasedCDR, fit_released
+from src.models.mf.matrix_factorization import MatrixFactorization
 from src.utils.helpers import set_seed
 from src.api.firebase_bridge import behavior_label
 
@@ -54,6 +52,7 @@ class RecEngine:
         self.watched = {}
         self.pending = []
         self.models = {}
+        self.cdr_training_info = None
         self.training_stats = {}
         self.refresh()
 
@@ -87,6 +86,7 @@ class RecEngine:
         self.u2idx = {uid: i for i, uid in enumerate(self.user_ids)}
         self.popularity = self._popularity(frame)
         self.models = {}
+        self.cdr_training_info = None
         n = len(frame)
         if n >= self.min_interactions and frame["label"].nunique() > 1:
             u = torch.tensor(frame["user_id"].map(self.u2idx).to_numpy(), dtype=torch.long, device=self.device)
@@ -102,6 +102,7 @@ class RecEngine:
             "trained_models": sorted(self.models),
             "train_seconds": round(time.time() - started, 3),
             "trained_at": int(time.time() * 1000),
+            "cdr": self.cdr_training_info,
         }
 
     def _popularity(self, frame):
@@ -115,22 +116,17 @@ class RecEngine:
     # -------------------------------------------------------------- training
     def _new_mf(self):
         return MatrixFactorization(len(self.user_ids), len(self.video_ids),
-                                   embedding_dim=self.embedding_dim).to(self.device)
+                                   embedding_dim=self.embedding_dim, train_global_bias=False,
+                                   init_scheme="author_uniform").to(self.device)
 
     def _train_mf(self, u, i, y):
         set_seed(self.seed)
         model = self._new_mf()
-        # L2 chỉ trên embedding, không phạt bias (như src/baselines/train_mf.py).
-        optimizer = torch.optim.Adam([
-            {"params": [model.user_embedding.weight, model.item_embedding.weight],
-             "weight_decay": self.weight_decay},
-            {"params": [model.user_bias.weight, model.item_bias.weight, model.global_bias],
-             "weight_decay": 0.0},
-        ], lr=self.lr)
+        optimizer = torch.optim.Adam(model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
         model.train()
         for _ in range(self.epochs):
             optimizer.zero_grad()
-            loss = F.binary_cross_entropy_with_logits(model(u, i), y)
+            loss = F.mse_loss(model(u, i), y)
             loss.backward()
             optimizer.step()
         model.eval()
@@ -138,27 +134,21 @@ class RecEngine:
 
     def _train_cdr(self, u, i, y):
         set_seed(self.seed)
-        model = CDRFramework(len(self.user_ids), len(self.video_ids),
-                             embedding_dim=self.embedding_dim, un_thres=10.0).to(self.device)
+        model = ReleasedCDR(len(self.user_ids), len(self.video_ids),
+                            embedding_dim=4,un_thres=10.,dropout_rate=.5).to(self.device)
         counts = torch.bincount(i, minlength=len(self.video_ids)).float()
         item_prop = torch.clamp(counts / (counts.max() + 1e-6), 0.05, 1.0)
         inv_p = 1.0 / item_prop[i]
-        opt_rec = torch.optim.Adam(model.rec_model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
-        opt_imp = torch.optim.Adam(model.imp_model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
-        gen = torch.Generator(device="cpu").manual_seed(self.seed)
-        model.train()
-        for _ in range(self.epochs):
-            u_un = torch.randint(0, len(self.user_ids), (len(u),), generator=gen).to(self.device)
-            i_un = torch.randint(0, len(self.video_ids), (len(u),), generator=gen).to(self.device)
-            opt_rec.zero_grad()
-            opt_imp.zero_grad()
-            loss_rec, loss_imp, _ = model.compute_cdr_losses(u, i, y, inv_p, u_un, i_un, mc_samples=10)
-            loss_rec.backward()
-            loss_imp.backward()
-            opt_rec.step()
-            opt_imp.step()
+        # App has no randomized exposure log: record this serving adaptation.
+        x=torch.stack([u,i],1).detach().cpu().numpy()
+        history=fit_released(model,x,y.detach().cpu().numpy(),inv_p,epochs=self.epochs,
+            batch_size=min(128,len(u)),lr=.05,weight_decay=1e-4,G=1,catalog_sampler='replacement')
+        self.cdr_training_info=dict(implementation='cdr_released',embedding_dim=4,un_thres=10.,
+            dropout_rate=.5,lr=.05,weight_decay=1e-4,epochs_run=len(history),
+            propensity='item_frequency_proxy_no_random_log',catalog_sampler='replacement',
+            scope='serving_adaptation_not_paper_experiment')
         model.eval()
-        return model.rec_model
+        return model
 
     # ------------------------------------------------------------- serving
     def resolve_model(self, requested):
