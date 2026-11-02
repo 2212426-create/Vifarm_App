@@ -40,5 +40,5 @@ hyperparameter, sampling, checkpoint selection và evaluator trước khi đổi
 
 [arXiv IViDR](https://arxiv.org/html/2410.12451v1#S4.SS6) specifies BCE
 in Eq. (25). The project keeps learned IV + dual iVAE + BCE feedback.
-See [implementation and local choices](ividr_bce_20261021.md).
+See [implementation and local choices](ividr_reference_20261022.md).
 The published ACM version and full experimental reproduction remain unverified.

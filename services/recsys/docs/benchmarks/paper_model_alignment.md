@@ -73,8 +73,7 @@ Coordinate adapter Eq. (10) gắn với treatment item và bỏ free Linear brid
 Feedback lấy kỳ vọng xác suất trước BCE, inference tích phân Gaussian tất định;
 scorer phi tuyến không dùng factor shortcut. Adapter và parameter sharing vẫn
 là lựa chọn cần công bố, chưa chứng nhận tái lập tác giả. MF/iDCF giữ MSE.
-[Cấu hình và giới hạn hiện hành](ividr_reference_20261022.md)
-· [Loss ablation của bản cũ](ividr_bce_20261021.md).
+[Cấu hình và giới hạn hiện hành](ividr_reference_20261022.md).
 Nguồn:
 [iDCF](https://github.com/BgmLover/iDCF),
 [CDR paper](https://jiawei-chen.github.io/paper/CIKM23-CDR.pdf).

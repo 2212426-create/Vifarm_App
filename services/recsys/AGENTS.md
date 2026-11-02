@@ -29,11 +29,10 @@ Phạm vi: toàn bộ `services/recsys/`.
    với MF/iDCF khác giao thức. Không điền metric thiếu bằng số giả; tính lại checkpoint.
    Bảng tổng hợp chỉ hiển thị Recall@5 bounded theo lựa chọn người dùng; giữ cả
    hai Recall trong JSON và không đổi tên bounded thành Recall chuẩn khi trích paper.
-5. Không ghi đè artifact kết quả, evidence, PDF/bản chép paper hoặc snapshot lưu trữ.
-   Ngoại lệ: khi người dùng yêu cầu xóa rõ ràng một nguồn bị loại cùng tài liệu
-   liên quan, xóa cả bản lưu của nguồn đó; không tạo ZIP mới giữ lại nội dung đã xóa.
-   Khi sửa một nhận định lịch sử, ghi đính chính ở tài liệu hiện hành, dẫn file gốc;
-   chạy lại thí nghiệm phải tạo artifact mới có nguồn/cấu hình rõ ràng.
+5. Không ghi đè file kết quả hoặc PDF/bản chép paper; chạy lại thí nghiệm phải tạo file mới có
+   nguồn/cấu hình rõ ràng. Từ 02/11/2026 Git lưu lịch sử theo yêu cầu người dùng: sửa thẳng tài liệu
+   hiện hành, không tạo ZIP, snapshot hay archive theo ngày, chỉ giữ log mốc mới nhất. Quy tắc gọn tài liệu
+   ở docs/MAINTENANCE.md; bản cũ khôi phục từ commit a91f0bd.
 6. Khi code/config/protocol thay đổi, cập nhật trạng thái và bằng chứng phù hợp.
    Không đổi source hash của một lượt chạy cũ thành hash mới và không chuyển điểm
    lịch sử sang phiên bản mới. `docs/state_snapshot.json` ghi mốc kiểm chứng cụ thể.

@@ -2,10 +2,12 @@
 
 Mục tiêu: giải thích vì sao IViDR của project đạt NDCG@5 khoảng .53 trên Coat, trong khi paper
 báo .5903 ± .0101. Mọi thí nghiệm dùng Coat, protocol H30, seed 42/43/44; chọn cấu hình bằng
-validation, test chấm một lần. Không sửa mô hình mặc định trong đợt này.
-Tiếp nối [ablation Eq. (10)](ividr_eq10_ablation_20261027.md). Script và log:
-[thư mục bằng chứng](../archive/2026-10-27/ividr_rootcause/factorial.py); báo cáo
-`results/ividr_rootcause_*_20261027.json`.
+validation, test chấm một lần. Tiếp nối [ablation Eq. (10)](ividr_eq10_ablation_20261027.md).
+Script: [thư mục bằng chứng](../archive/2026-10-27/ividr_rootcause/factorial.py); báo cáo
+`results/studies/ividr_rootcause_*_20261027.json`.
+
+**Kết cục:** từ 28/10/2026 mặc định của dự án dùng prior mean bằng 0 và BCE trọng số mẫu âm .1 (mục 6–7).
+Trong tài liệu này, "mặc định" ở các mục 1–7 nghĩa là bản theo chữ paper tại thời điểm thí nghiệm.
 
 ## 1. Mốc đối chiếu cùng seed
 
@@ -66,8 +68,8 @@ huấn luyện BCE của tác giả khác project ở một chi tiết chưa đ�
 
 ## 5. Theo hướng 2 (giữ BCE): tìm chi tiết huấn luyện, 28/10/2026
 
-Người dùng chọn giữ BCE. Script và log: [thư mục 28/10](../archive/2026-10-28/ividr_bce/mf_objective.py);
-báo cáo `results/ividr_bce_*_20261028.json`. Coat, seed 42/43/44, chọn bằng validation.
+Người dùng chọn giữ BCE. Script: [thư mục 28/10](../archive/2026-10-28/ividr_bce/mf_objective.py);
+báo cáo `results/studies/ividr_bce_*_20261028.json`. Coat, seed 42/43/44, chọn bằng validation.
 
 **Regularization: bác bỏ.** MF + BCE với dim {64, 16, 4} × weight decay {1e-5 … 1e-2}: tăng regularization
 hoặc giảm dim đều làm điểm thấp hơn; tốt nhất vẫn là dim 64, weight decay nhỏ (val .544).
@@ -111,7 +113,7 @@ Theo đồng ý của người dùng, giai đoạn 1 được huấn luyện l�
 (`ivae_overrides=dict(prior_mean='zero')`). Đây là thay đổi **lệch khỏi Eq. (42)**. Eq. (10) giữ v2.
 Bước feedback dùng BCE kỳ vọng Eq. (25) với `negative_weight`, dò lưới lr/wd của paper.
 [Script](../archive/2026-10-28/ividr_bce/ividr_zero_prior.py) ·
-`results/ividr_bce_zero_prior_neg*_seed*_20261028.json`.
+`results/studies/ividr_bce_zero_prior_neg*_seed*_20261028.json`.
 
 | IViDR | Trọng số mẫu âm | Latent \|mean\| / std | Val NDCG@5 | Test NDCG@5 | Recall/all | Recall bounded |
 | :-- | :-- | :-- | --: | --: | --: | --: |
@@ -157,16 +159,8 @@ Kết luận:
 2. So với iDCF: test **không khác biệt có ý nghĩa** (p ≈ .6), validation cao hơn (p ≈ .05).
    Bản sửa đóng được khoảng cách IViDR–iDCF, nhưng chưa chứng minh IViDR vượt iDCF trên test.
 3. Vẫn thấp hơn paper (.5903) khoảng .025. Cả hai sửa đổi đều **lệch khỏi mô tả paper**
-   (Eq. 42 và BCE không trọng số), nên phải mang tên biến thể riêng.
+   (Eq. 42 và BCE không trọng số). Người dùng chọn làm mặc định, giữ tên hiển thị IViDR và ghi độ lệch
+   trong metadata `ividr_version=reference_v2_prior0_neg0.1`; khi báo cáo phải nêu rõ hai điểm lệch này.
 4. Tái lập: seed 42/43 trùng tuyệt đối với lần chạy trước. Ở seed 44, giai đoạn 1 tách nhánh (epoch được chọn
    486 so với 573) do số học dấu phẩy động không tất định trên CPU khi chạy song song; treatment MF trùng tuyệt đối.
    Muốn tái lập từng bit cần chạy tuần tự hoặc bật thuật toán tất định.
-
-## 8. Hướng sửa có căn cứ
-
-Cả hai hướng đều lệch khỏi chữ của paper (Eq. 25 BCE, Eq. 42 prior mean), cần người dùng quyết định.
-
-1. **Feedback MSE + prior mean bằng 0 như iDCF**: xử lý cả nguyên nhân chính lẫn phụ. Đây là
-   biến thể có tên riêng, không gọi là IViDR theo paper.
-2. **Giữ BCE**: tìm điểm khác của huấn luyện BCE (init, global bias, chuẩn hóa latent) bằng
-   MF + BCE trước. Nếu MF + BCE chưa đạt mức MF + MSE thì IViDR-BCE khó đạt số paper.

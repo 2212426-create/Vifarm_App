@@ -7,6 +7,10 @@ Nguồn đặc tả là **IViDR arXiv 2410.12451v1**, tương ứng bản chép
 [toàn văn gốc](https://arxiv.org/html/2410.12451v1). Đây là triển khai tham chiếu
 các công thức đã công bố; không chứng nhận khớp mã tác giả hoặc toàn bộ bản xuất bản cuối.
 
+**Từ 28/10/2026 mặc định lệch paper ở hai điểm:** prior mean giai đoạn 1 bằng 0 (Eq. 42 học nó) và BCE trọng số
+mẫu âm .1 (Eq. 25 không có), xem [phân tích nguyên nhân](ividr_root_cause_20261027.md). Bảng dưới mô tả công thức
+theo paper; bản theo chữ paper chạy bằng `ivae_overrides=dict(prior_mean='learned')`, `negative_weight=1`.
+
 ## Những phần đã triển khai lại
 
 | Đặc tả | Thực thi |
@@ -85,29 +89,4 @@ Chạy từ `services/recsys`:
 .\venv\Scripts\python.exe experiments\run.py benchmark --dataset all --model all --device cpu --threads 2
 ```
 
-## Kết quả đã chạy trên Coat
-
-[Báo cáo đủ bốn mô hình](../../results/benchmark_coat_all_02b9e8eb46_20261022_073711_146173c9_v4.md)
-· [Kiểm chứng](../../results/ividr_reference_verification_20261022.json)
-· [CDR validation](../../results/ividr_reference_validation_20261022.json).
-
-| Phiên bản | NDCG@5 | Recall/all positives | Recall bounded |
-| :-- | --: | --: | --: |
-| iDCF cùng lượt chạy, seed42 | .569884 | .551969 | .602295 |
-| IViDR-BCE-v1, lịch sử seed42 | .529125 | .535279 | .590419 |
-| IViDR reference v2, seed42 | .541201 | .558345 | .613273 |
-
-Bản mới tăng cả hai metric so với BCE-v1. So với iDCF, Recall cao hơn nhưng
-NDCG vẫn thấp hơn. Đây là một seed, không xác nhận thắng trung bình hoặc tái lập
-mean/std của paper. Không chỉnh kiến trúc hay chọn lại cấu hình bằng các điểm test này.
-
-Stage1 chọn epoch463, dừng563/2000; validation ELBO82.058253. Feedback chọn
-LR .001 / WD 1e-6, epoch43/100 bằng validation NDCG .552078 trong 10 trial.
-MF/iDCF/CDR giữ chính xác metric và mọi tensor trọng số của mốc trước.
-132 test: 131 đạt, 1 CUDA skip. Smoke đủ bốn mô hình trên ba dataset.
-Stage1 nạp lại xuất mean/std khớp từng phần tử; feedback nạp lại khớp metric.
-Feature embedding có update norm .2144568 so với khởi tạo, xác nhận thực sự được học.
-
-Source kiểm chứng:
-`dd068e23091a263bd967f9cc776d3352082b46842d27f9cc51e02a3d54ce2556`.
-Kết quả/mã của phiên bản cũ giữ nguyên provenance; không gán điểm cũ sang model identity mới.
+Kết quả: [CURRENT_STATE](../CURRENT_STATE.md).

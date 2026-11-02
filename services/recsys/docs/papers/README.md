@@ -18,5 +18,5 @@ Checksum giữ nguyên file đang lưu, không chứng nhận rằng nó là phi
 
 [Manifest nguồn IViDR ngày 23/10](ividr_reference_sources_20261023.json) ghi các PDF
 tham khảo mới và commit/file đã đọc của iDCF, iVAE, IV4Rec, DFIV.
-[Nghiên cứu tối ưu IViDR](../benchmarks/ividr_optimization_research_20261023.md)
+[Nguồn tham khảo IViDR](../benchmarks/ividr_sources_20261023.md)
 phân biệt source liên quan với source tác giả IViDR v1 chưa xác minh đầy đủ.

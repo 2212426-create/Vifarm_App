@@ -65,7 +65,7 @@ class YahooDataTests(unittest.TestCase):
 
 class ReleasedCDRParityTests(unittest.TestCase):
     def test_three_cpu_epochs_match_upstream_parameters_exactly(self):
-        folder=Path(__file__).resolve().parents[1]/'docs/archive/2026-10-20/cdr_followup_audit/runners_and_source.zip'
+        folder=Path(__file__).resolve().parent/'fixtures/cdr_upstream_source.zip'
         namespace=dict(np=np,torch=torch,nn=nn,F=F)
         with zipfile.ZipFile(folder) as z:
             for file,names in [('utils.py',{'McDropout'}),('MF_mcdropout.py',

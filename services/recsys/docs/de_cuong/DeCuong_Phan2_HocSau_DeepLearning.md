@@ -1,79 +1,85 @@
-> **ĐỀ CƯƠNG/KẾ HOẠCH — KHÔNG PHẢI BÁO CÁO TRIỂN KHAI HIỆN HÀNH.** Phạm vi mô hình và mốc dự kiến bên dưới có thể chưa thực hiện. Đọc [CURRENT_STATE](../CURRENT_STATE.md) và metadata kết quả trước khi dùng làm kết luận. Bản trước khi thêm nhãn được giữ trong ZIP archive ngày 20/10/2026.
+> **ĐỀ CƯƠNG, KHÔNG PHẢI BÁO CÁO KẾT QUẢ.** Điểm số và giới hạn: [CURRENT_STATE](../CURRENT_STATE.md).
 
-# ĐỀ CƯƠNG CHI TIẾT — PHẦN 2: HỌC SÂU TRONG HỆ THỐNG GỢI Ý (DEEP LEARNING RECOMMENDATION)
-## Đề tài: Nghiên cứu ứng dụng học máy trong phân tích hành vi người dùng và đề xuất video ngắn trên nền tảng quảng bá sản phẩm nông nghiệp
-**Sinh viên phụ trách chính:** **Phùng Nguyễn Hoài Bo** (MSSV: `2312585` - Lớp `CTK47A`)  
-**Giáo viên hướng dẫn:** **TS. Nguyễn Thị Lương**  
-**Tập tin tổng hợp:** [`DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md`](DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md)
+# Đề cương chi tiết, Phần 2: Học sâu trong hệ thống gợi ý
 
----
+**Phụ trách chính:** Phùng Nguyễn Hoài Bo (2312585, CTK47A). **Giáo viên hướng dẫn:** TS. Nguyễn Thị Lương.
+[Đề cương tổng hợp](DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md).
 
-## 🎯 1. Mục tiêu & Phạm vi nghiên cứu của Phần 2
+## 1. Mục tiêu
 
-1. **Ứng dụng Mạng nơ-ron sâu (Deep Neural Networks):** Học các biểu diễn tiềm ẩn phi tuyến tính phức tạp giữa người dùng và video nông sản vượt ra ngoài phép nhân vô hướng của Matrix Factorization.
-2. **Nghiên cứu Kiến trúc Neural Collaborative Filtering (NCF):** Kết hợp Generalized Matrix Factorization (GMF) và Multi-Layer Perceptron (MLP) để mô hình hóa mối quan hệ tương tác đa chiều.
-3. **Mạng nơ-ron Biến phân có thể định danh (Identifiable VAE - iVAE):** Tách rời biểu diễn tiềm ẩn (*Representation Disentanglement*) để phân lập biến ẩn ngữ cảnh hiển thị $C$ ra khỏi biểu diễn người dùng.
-4. **Lý thuyết Biến công cụ (Instrumental Variable - IV) trong Deep Learning:** Xây dựng mô hình **IViDR (Instrumental Variable Doubly Robust)** cắt đứt ảnh hưởng của biến nhiễu ẩn $U$ (*Unobserved Confounder*).
-5. **Đóng gói REST API & Phục vụ Thời gian thực:** Triển khai mô hình IViDR lên FastAPI, kết nối Google Colab qua Cloudflare Tunnel và tích hợp vào App Flutter TopTop.
+1. Tìm hiểu kiến trúc mạng nơ-ron trong gợi ý, từ NCF đến các mô hình sinh biến phân.
+2. Dùng iVAE học biến nhiễu tiềm ẩn $C$ từ dữ liệu hiển thị, với proxy $W$ để bảo đảm tính định danh.
+3. Nghiên cứu biến công cụ (Instrumental Variable) trong học sâu, xử lý đồng thời biến nhiễu quan sát được và không quan sát được.
+4. Triển khai và so sánh iDCF, IViDR, LCDR.
+5. Đóng gói API và tích hợp vào ứng dụng TopTop.
 
----
+## 2. Cơ sở lý thuyết
 
-## 📚 2. Cơ sở lý thuyết chi tiết (Chương I - Phần 2)
+### 2.1. Neural Collaborative Filtering (phần tổng quan)
 
-### 2.1. Neural Collaborative Filtering (NCF / NeuMF)
-* **Ý tưởng:** Phân tích ma trận cổ điển bị giới hạn bởi tính tuyến tính của tích vô hướng ($p_u^T q_i$). NCF khắc phục bằng cách xếp chồng các lớp ẩn phi tuyến:
-  $$\hat{y}_{ui} = \sigma \left( h^T \left[ \phi^{\text{GMF}} \oplus \phi^{\text{MLP}} \right] \right)$$
-  - $\phi^{\text{GMF}} = p_u^G \odot q_i^G$ (Tương tác tuyến tính Hadamard).
-  - $\phi^{\text{MLP}} = a_L \left( W_L^T (\dots a_1(W_1^T [p_u^M, q_i^M] + b_1) \dots) + b_L \right)$ (Tương tác phi tuyến tính bậc cao).
+NCF thay tích vô hướng bằng các lớp ẩn phi tuyến, kết hợp GMF và MLP:
 
-### 2.2. Mạng nơ-ron Biến phân có thể định danh (Identifiable VAE)
-* **Giới hạn của VAE thông thường:** Phân phối tiên nghiệm chuẩn $p(z) = \mathcal{N}(0, I)$ khiến các biến ẩn bị xoay tùy ý, không đảm bảo tính định danh (*Non-identifiable*).
-* **iVAE giải quyết:** Đưa proxy ngữ cảnh hiển thị $W$ vào làm điều kiện tiên nghiệm $p(C \mid W)$:
-  $$p(C \mid W) = \frac{\prod_k Q_k(C_k)}{Z(W)} \exp \left( \sum_{k=1}^K T_{k}(C_k) \lambda_{k}(W) \right)$$
-* Mạng nơ-ron học cách phân tách biến ẩn hiển thị $C$ độc lập về mặt thống kê.
+$$\hat{y}_{ui} = \sigma \left( h^T \left[ \phi^{\text{GMF}} \oplus \phi^{\text{MLP}} \right] \right)$$
 
-### 2.3. Mô hình Lọc cộng tác Học sâu & Nhân quả IViDR (Deep Causal CF)
-* **Sơ đồ kiến trúc 2 nhánh:**
-  ```text
-  [ Thuộc tính User X ] ──► [ IV Projection ] ──────────────► [ Sở thích sạch Z ] ──┐
-                                                                                   ├──► Điểm số s_ui
-  [ Proxy ngữ cảnh W ] ──► [ iVAE Encoder ] ──► [ Biến ẩn C ] ──► [ Exposure Decoder ] │
-                               ▲                                                     │
-                        (Kullback-Leibler)                                           │
-                               ▼                                                     │
-                        [ Prior p(C|W) ] ────────────────────────────────────────────┘
-  ```
-* **Dự đoán điểm số:** Khi đưa ra đề xuất cho người dùng, mô hình **chỉ sử dụng thành phần sạch $Z$ kết hợp cùng embedding MF và loại bỏ hoàn toàn biến ẩn $C$**:
-  $$\hat{s}_{ui} = p_u^T q_i + Z_u$$
+Đây là nền lý thuyết của Chương I, không thuộc bộ mô hình thực nghiệm: NCF không xử lý thiên lệch hiển thị.
 
----
+### 2.2. Identifiable VAE
 
-## 🔬 3. Kế hoạch triển khai & Kết quả thực nghiệm Phần 2 (Chương II - Phần 2)
+Prior chuẩn $p(z)=\mathcal{N}(0,I)$ không bảo đảm khôi phục đúng biến ẩn. iVAE đưa proxy $W$ vào tiên nghiệm có điều kiện:
 
-### 3.1. Các mô hình xây dựng:
-1. **Kiến trúc iVAE Encoder-Decoder:** Mạng nơ-ron học sâu tối ưu hàm ELBO (Evidence Lower Bound) có điều kiện tiên nghiệm.
-2. **Nhánh chiếu biến công cụ IV Projection:** Chiếu hồi quy phi tuyến tính từ vector đặc trưng người dùng.
-3. **Mô hình IViDR hoàn chỉnh:** Tích hợp huấn luyện kết thúc - tới - kết thúc (*End-to-End*).
+$$p(C \mid W) = \frac{\prod_k Q_k(C_k)}{Z(W)} \exp \left( \sum_{k=1}^K T_{k}(C_k) \lambda_{k}(W) \right)$$
 
-### 3.2. Kết quả đo lường định lượng vượt trội:
-* **Trên tập Coat (Candidate Pool 16 items):**
-  - **IViDR dẫn đầu toàn diện mọi chỉ số:**
-    - Test NDCG@5 = **0.5454** (Vượt Baseline MF tới $+8.25\%$).
-    - Test Recall@5 = **0.5714** (Vượt Baseline MF $+8.16\%$).
-    - Test HitRate@5 = **0.8980** (Trúng $89.8\%$ nhu cầu người xem).
-    - Test AUC Macro = **0.7064** (Vượt Baseline MF $+6.04\%$).
-* **Trên tập video ngắn KuaiRand-Pure (1.413.574 tương tác):**
-  - IViDR duy trì vị trí quán quân: Test NDCG@5 = **0.3484** (cao nhất trong toàn bộ các mô hình).
+Dự án dùng tiên nghiệm Gaussian, tối ưu ELBO trên vector hiển thị nhị phân $A_u$, có KL warm-up.
 
-### 3.3. Đóng gói REST API & Tích hợp vào Ứng dụng TopTop:
-* Đóng gói mô hình IViDR thành module FastAPI phục vụ gợi ý thời gian thực.
-* Tự động hóa với Cloudflare Tunnel và Firebase RTDB.
-* Tích hợp thành công vào app Flutter TopTop: lướt feed video ngắn được phục vụ trực tiếp bởi AI IViDR từ Colab.
+### 2.3. Biến công cụ
 
----
+Biến công cụ $Z$ cần tương quan với quyết định hiển thị (relevance), độc lập với biến nhiễu ẩn (unconfoundedness) và chỉ tác
+động tới hành vi qua hiển thị (exclusion restriction).
 
-## 📅 4. Phân công & Sản phẩm bàn giao Phần 2
+### 2.4. iDCF
 
-* **Mã nguồn:** Module `src/causal/ividr/`, `src/api/`, `notebooks/TopTop_RecSys_Colab_API.ipynb`.
-* **Báo cáo chuyên đề:** Chương I & Chương II (Phần Học sâu Deep Learning và Triển khai API).
-* **Kiểm thử tự động:** Bộ kiểm thử đơn vị cho iVAE, IV Projection, API Server đạt 100% Passed.
+Mô hình hai giai đoạn. Giai đoạn 1: iVAE học $q(C \mid A, W)$. Giai đoạn 2: feedback model giữ $C$ cố định:
+
+$$\hat{s}_{ui} = \text{MF}(u, i) + \langle e_i, C_u \rangle$$
+
+Huấn luyện bằng MSE với 10 mẫu $C$, suy luận dùng trung bình của $C$.
+
+### 2.5. IViDR
+
+Cùng khung hai giai đoạn. Giai đoạn 1 học biến công cụ để tái dựng treatment, rồi cho hai posterior cùng tái tạo $A$:
+
+$$T^{re} = \alpha_1 T^{fit} + \alpha_2 T^{res}, \qquad C = \rho C_1 + \tau C_2$$
+
+Giai đoạn 2 lấy kỳ vọng xác suất trước BCE: $p = \mathbb{E}_C[\sigma(\hat{s}_{ui})]$. Mô hình **giữ** $C$ trong dự đoán, không loại bỏ nó.
+Paper không định nghĩa phép đổi kích thước ở Eq. (10), dự án tự hoàn thiện và công bố trong
+[đặc tả IViDR](../benchmarks/ividr_reference_20261022.md). Cấu hình mặc định lệch paper ở prior mean và trọng số mẫu âm BCE.
+
+### 2.6. LCDR
+
+Thêm một VAE $q(Z_{lc} \mid A)$ không cần proxy, được ràng buộc về gần biểu diễn của iVAE bằng $\lambda \|Z_{lc} - Z\|_2$. Giai đoạn
+feedback dùng $Z_{lc}$ theo khung iDCF. Không có mã tác giả, dự án cài đặt lại từ paper.
+
+## 3. Kế hoạch triển khai
+
+| Mô hình | Cách thực hiện | Feedback |
+| :-- | :-- | :-- |
+| **iDCF** | Theo mã tác giả: iVAE rồi MF + latent | MSE |
+| **IViDR** | Theo công thức arXiv, learned IV + dual iVAE, treatment lấy từ MF; quét 10 cặp LR/WD trên validation | BCE kỳ vọng |
+| **LCDR** | Cài đặt lại từ paper trên pipeline iDCF | MSE |
+
+Cả ba dùng protocol H30, chọn checkpoint bằng validation NDCG@5, chấm test một lần. Coat báo cáo nhiều seed vì dữ liệu nhỏ.
+Phân tích khoảng cách với paper: [IViDR](../benchmarks/ividr_root_cause_20261027.md),
+[LCDR và ConAlign](../benchmarks/lcdr_conalign_20261027.md).
+
+### API và tích hợp
+
+- FastAPI với `/api/v1/recommend` và `/api/v1/interaction`, phục vụ MF và DR-BIAS + CDR; người dùng mới dùng popularity.
+- IViDR chưa phục vụ trên app vì dữ liệu TopTop chưa có đặc trưng người dùng làm biến công cụ và proxy.
+- Chạy trên Google Colab qua Cloudflare Tunnel, ghi URL vào Firebase Realtime Database (`server_config/recsys_url`).
+- Ứng dụng Flutter tự phát hiện URL, tự chuyển về Firestore khi máy chủ AI ngoại tuyến.
+
+## 4. Sản phẩm bàn giao
+
+- **Mã nguồn:** `src/models/idcf/`, `src/models/ividr/`, `src/models/lcdr/`, `src/api/`, `notebooks/TopTop_RecSys_Colab_API.ipynb`.
+- **Báo cáo:** Chương I và Chương II, phần Học sâu và triển khai API.
+- **Kiểm thử:** `tests/`, chạy bằng `experiments/run.py test`.

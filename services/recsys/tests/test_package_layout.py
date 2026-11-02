@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class PackageLayoutTests(unittest.TestCase):
     def test_old_and_new_module_names_share_state(self):
-        moves = json.loads((ROOT / 'docs/archive/2026-10-22/package_layout/moves.json').read_text())
+        moves = json.loads((ROOT / 'tests/fixtures/package_moves.json').read_text())
         for row in moves['moves']:
             if not row['old'].endswith('.py') or row['old'].endswith('__init__.py'):
                 continue

@@ -2,8 +2,8 @@
 
 [Trạng thái hiện hành](docs/CURRENT_STATE.md) · [Mục lục](docs/README.md) ·
 [Catalog kết quả](results/CATALOG.md).
-Theo yêu cầu ngày 21/10/2026, bộ mặc định gồm bốn mô hình trên
-**Coat, Yahoo! R3, KuaiRand-Pure**. **IViDR** học reconstruction và feature embedding,
+Bộ mặc định gồm sáu mô hình trên **Coat, Yahoo! R3, KuaiRand-Pure**.
+**IViDR** học reconstruction và feature embedding,
 hai posterior iVAE và feedback BCE theo công thức arXiv, lấy kỳ vọng xác suất trước BCE;
 Eq. (10) dùng coordinate adapter được ghi rõ. Từ 28/10/2026 mặc định có hai điều chỉnh
 từ [phân tích nguyên nhân](docs/benchmarks/ividr_root_cause_20261027.md): prior mean giai đoạn 1
@@ -16,11 +16,11 @@ CDR huấn luyện độc lập, không nạp checkpoint MF.
 
 ## Cấu trúc mã nguồn
 
-Mỗi mô hình có package riêng trong `src/models/`: `mf/`, `cdr/`, `idcf/`, `ividr/`.
+Mỗi mô hình có package riêng trong `src/models/`: `mf/`, `cdr/`, `idcf/`, `ividr/`, `lcdr/`, `conalign/`.
 Các import cũ được giữ tương thích; dữ liệu và artifact giữ đường dẫn hiện tại.
 Xem [cây thư mục, trách nhiệm và đường dẫn mã chuẩn](docs/architecture/directory_layout.md).
 
-Từ 30/10/2026 `benchmark --model all` chạy thêm hai mô hình thực nghiệm: LCDR (cài đặt lại từ paper
+`benchmark --model all` gồm cả hai mô hình thực nghiệm: LCDR (cài đặt lại từ paper
 trên protocol H30 của iDCF) và ConAlign (port từ source tác giả, protocol riêng, ghi `C-src` trong bảng;
 KuaiRand dùng cửa sổ train của paper). Lệnh riêng vẫn dùng được:
 
@@ -87,8 +87,8 @@ Mỗi lượt benchmark tạo JSON/Markdown riêng trong `results/`, checkpoint 
 trong `checkpoints/benchmark_runs/`. iVAE mặc định có trần 2000 epoch và chọn
 checkpoint sau full-beta warm-up, nên có thể cần nhiều thời gian.
 CDR có seed 2020, trần 1000 epoch, train-loss stopping và lấy trọng số cuối như source;
-không dùng epoch budget 100 mặc định của MF. `--epochs` là override tường minh cho cả bốn.
-MF/iDCF/IViDR chọn checkpoint bằng validation. Bảng tổng hợp có đủ 12 dòng, ghi giao thức
+không dùng epoch budget 100 mặc định của MF. `--epochs` là override tường minh.
+MF/iDCF/IViDR chọn checkpoint bằng validation. Bảng tổng hợp ghi giao thức
 và loại AUC ở mỗi dòng. Gộp bảng để đọc không có nghĩa các protocol tương đương.
 
 Log huấn luyện dùng chung định dạng `[Mô hình][DATASET] Epoch ...`.
@@ -136,7 +136,7 @@ Xem [định nghĩa và khác biệt paper/source](docs/benchmarks/paper_model_a
 | Lệnh sau `experiments/run.py` | Phạm vi |
 | :-- | :-- |
 | `test` | Suite kiểm thử |
-| `smoke` | MF/iDCF Yahoo/KuaiRand 64 user; CDR Coat/Yahoo toàn dữ liệu, KuaiRand 64 user; ngân sách ngắn |
+| `smoke` | Sáu mô hình, ngân sách ngắn; chỉ kiểm tra vận hành |
 | `evaluate --dataset yahoo --checkpoint FILE` | Chấm checkpoint tương thích, không huấn luyện lại |
 | `coat-seeds` | MF/iDCF/IViDR/CDR released, seed 42–51; có `--cdr-implementation equation` |
 | `benchmark ... --cdr-implementation shared` | Released CDR trên giao thức held-out chung; lựa chọn đối chứng |
@@ -154,8 +154,7 @@ Mỗi lệnh có `--help`. IViDR thuộc bộ mặc định. Với budget feedba
 và không override LR/weight decay, pipeline quét 10 cấu hình LR/WD theo khoảng
 paper, chọn bằng validation, rồi chỉ chấm test checkpoint thắng. Smoke không quét.
 Yahoo dùng survey địa phương/missing category, chưa tái lập dữ liệu tác giả.
-Xem [triển khai IViDR hiện hành](docs/benchmarks/ividr_reference_20261022.md)
-và [đối chiếu MSE/BCE của bản cũ](docs/benchmarks/ividr_bce_20261021.md).
+Xem [triển khai IViDR hiện hành](docs/benchmarks/ividr_reference_20261022.md).
 
 ## Kiểm chứng và API
 
@@ -166,7 +165,7 @@ và [đối chiếu MSE/BCE của bản cũ](docs/benchmarks/ividr_bce_20261021.
 ```
 
 [Giao thức từng mô hình](docs/benchmarks/evaluation_protocol.md) ·
-[Config MF/CDR](src/training/config.py) · [Config iDCF](src/causal/idcf/train_idcf.py).
+[Config MF/CDR](src/training/config.py) · [Config iDCF](src/models/idcf/train_idcf.py).
 API TopTop giữ cấu hình phục vụ riêng, user mới dùng popularity.
 CDR API dùng ReleasedCDR; không có random log nên ghi rõ propensity proxy và sampler
 có hoàn lại trong `training_stats.cdr`, không coi là thí nghiệm paper.

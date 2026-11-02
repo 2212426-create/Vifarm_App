@@ -30,6 +30,8 @@ skills-lock.json
 **/local.properties
 graphify-out/cache/
 **/graphify-out/cache/
+graphify-out/*.lock
+**/.rebuild.lock
 
 # Subproject specific ignores
 apps/mobile-android/build/

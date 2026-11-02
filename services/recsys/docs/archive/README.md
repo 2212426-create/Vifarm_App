@@ -1,20 +1,17 @@
-# Lưu trữ tài liệu RecSys
+# Script thực nghiệm và log mốc hiện hành
 
-**Nội dung trong archive là lịch sử, có thể chứa nhận định đã bị đính chính.**
-Trạng thái được phép dùng cho công việc hiện tại: [CURRENT_STATE](../CURRENT_STATE.md).
+Thư mục này chỉ còn những gì đứng sau số liệu đang được trích dẫn. Tài liệu và log cũ hơn nằm trong Git,
+xem [cách khôi phục](../MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
 
-| Mốc lưu trữ | Nội dung |
+| Thư mục | Tạo ra |
 | :-- | :-- |
-| [20/10/2026](2026-10-20/README.md) | Review/điều tra/bảng paper, slide/kịch bản và PPTX cũ; ZIP nguyên byte của 19 tài liệu Markdown |
+| `2026-10-27/ividr_optimization/` | Ablation Eq. (10) |
+| `2026-10-27/ividr_rootcause/` | Thí nghiệm hoán đổi latent/feedback, BCE budget, marginal inference |
+| `2026-10-28/ividr_bce/` | MF + BCE, BCE có trọng số mẫu âm, prior mean bằng 0 |
+| `2026-10-28/ividr_ten_seed/` | Xác nhận 10 seed trên Coat |
+| `2026-10-28/full_benchmark/` | Chấm lại IViDR Coat/Yahoo từ checkpoint |
+| `2026-10-28/conalign_paper_window/` | Cửa sổ train KuaiRand của ConAlign |
+| `2026-10-28/lcdr_constraint/` | Biến thể ràng buộc và lưới LR × WD của LCDR |
+| `2026-10-30/console_models/` | Test, smoke, validation của mốc hiện hành; `summarize.py` tạo file tổng hợp LCDR/ConAlign |
 
-ZIP giữ bản gốc; `backup_manifest.json` ghi SHA-256 từng member và ZIP.
-Bản Markdown đọc trực tiếp có nhãn lịch sử, đường dẫn đã đổi theo vị trí mới;
-`readable_manifest.json` ghi hash riêng, không thay hash bản gốc.
-
-Archive cũ không ghi đè. Đợt sửa tiếp theo phải có mốc mới hoặc tên phiên bản mới.
-Đính chính được ghi ngoài snapshot. Không sao chép các kết luận thắng/thua,
-warm-start, API/deployment hoặc số test từ archive thành trạng thái hiện hành.
-
-Mốc 20/10 còn có [ZIP notebook trước sửa mô tả](2026-10-20/notebook_documentation_before_cleanup.zip)
-và [manifest notebook](2026-10-20/notebook_documentation_manifest.json). Chỉ sửa
-nội dung Markdown giới thiệu; code cell không đổi và notebook không được chạy trong đợt dọn.
+Chạy từ `services/recsys`; lệnh mẫu ở đầu mỗi script. Script ghi báo cáo mới vào `results/`.

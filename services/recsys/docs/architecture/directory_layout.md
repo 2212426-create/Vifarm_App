@@ -1,6 +1,6 @@
 # Cấu trúc thư mục RecSys
 
-Mốc sắp xếp: **22/10/2026**. Trạng thái thực thi và kiểm chứng thuộc
+Trạng thái thực thi và kiểm chứng thuộc
 [CURRENT_STATE](../CURRENT_STATE.md); lệnh chạy thuộc [README dịch vụ](../../README.md).
 
 ## Bố trí và trách nhiệm
@@ -25,20 +25,20 @@ recsys/
 ├── experiments/
 │   ├── run.py                  # CLI duy nhất cho người chạy
 │   └── workflows/              # Benchmark, tuning, tải dữ liệu, tổng hợp report
-├── tests/                      # Kiểm thử thuật toán, pipeline, API, tương thích
+├── tests/                      # Kiểm thử thuật toán, pipeline, API, tương thích; fixtures/ là dữ liệu đối chứng
 ├── third_party/                # Source tác giả đúng byte tại commit khóa + manifest (ConAlign)
 ├── data/
 │   ├── raw/                    # Dữ liệu gốc; không đưa vào Git
 │   └── processed/              # Cache theo preprocessing identity
 ├── checkpoints/                # Trọng số, metadata và checkpoint từng lượt chạy
-├── results/                    # Artifact bất biến; CATALOG.md là điểm tra cứu
+├── results/                    # Báo cáo đang trích dẫn; studies/ là từng lượt nghiên cứu; CATALOG.md là điểm tra cứu
 ├── docs/
 │   ├── CURRENT_STATE.md        # Điểm bắt đầu đọc trạng thái
 │   ├── architecture/           # Cấu trúc và quy tắc mở rộng
 │   ├── benchmarks/             # Định nghĩa, giao thức và đối chiếu paper/source
 │   ├── papers/                 # Paper tham khảo
 │   ├── paper_summaries/        # Bản đọc/tóm tắt paper
-│   ├── archive/                # Snapshot và bằng chứng theo mốc
+│   ├── archive/                # Script thực nghiệm và log mốc hiện hành
 │   ├── catalog.json            # Phân loại và checksum tài liệu/artifact
 │   └── check_docs.py           # Kiểm tra tính nhất quán
 ├── notebooks/                  # Colab và template notebook
@@ -46,9 +46,7 @@ recsys/
 └── venv/                       # Môi trường Python cục bộ
 ```
 
-Các thư mục dữ liệu, checkpoint và kết quả giữ vị trí hiện tại vì artifact cũ
-có đường dẫn đến chúng. Không dùng tên thư mục để suy ra chất lượng hoặc bản paper.
-Archive và kết quả lịch sử giữ nguyên; tra cứu qua mục lục thay vì di chuyển chúng.
+Không dùng tên thư mục để suy ra chất lượng hoặc bản paper.
 
 ## Đường dẫn mã chuẩn
 
@@ -72,9 +70,7 @@ Các file `src/causal/...`, `src/baselines/train_mf.py` và
 cùng đối tượng module để patch/mock qua import cũ vẫn tác động đúng trainer.
 Không đặt implementation mới vào các file tương thích. Notebook/API và script cũ
 vẫn dùng được; CLI `experiments/run.py` đã dùng đường dẫn chuẩn.
-[Danh sách chuyển file và checksum](../archive/2026-10-22/package_layout/moves.json).
+Danh sách chuyển file: `tests/fixtures/package_moves.json`.
 
-Mốc sắp xếp thư mục trước tích hợp chỉ thay vị trí mã/import và bootstrap đường dẫn MF. Loss, seed,
-hyperparameter, nhãn, split, checkpoint selection và evaluator giữ nguyên.
-[Đối chiếu AST và nạp checkpoint](../../results/package_layout_parity_20261022.json)
-giữ hash huấn luyện cũ riêng với hash mã đánh giá mới.
+Đợt sắp xếp thư mục chỉ thay vị trí mã và import; loss, seed, hyperparameter, nhãn, split,
+checkpoint selection và evaluator giữ nguyên.

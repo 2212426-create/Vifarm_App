@@ -70,8 +70,7 @@ Tháp unbiased là đầu ra cuối của ConAlign.
 
 ## Kết quả Coat, 27/10/2026
 
-**LCDR** ([báo cáo](../../results/lcdr_coat_20261027_220934_6395e1a8.json),
-[log](../archive/2026-10-27/lcdr_conalign/lcdr_coat_full.log)): ba seed 42/43/44,
+**LCDR** ([báo cáo](../../results/lcdr_coat_20261027_220934_6395e1a8.json)): ba seed 42/43/44,
 ngân sách đầy đủ (bước 1 tối đa 2000 epoch, feedback 100 epoch), iDCF chạy cùng seed và dữ liệu.
 
 | Mô hình | NDCG@5 mean ± std | Recall@5 mean ± std | NDCG@5 theo seed |
@@ -99,13 +98,11 @@ NDCG của project sát paper (.7100 / .7734), UAUC thấp hơn khoảng .012. M
 khẳng định thắng/thua baseline. Bước 2 dừng vì chạm giới hạn 500 epoch của source, không phải do
 early stopping.
 
-Đính chính 28/10: câu "Yahoo và KuaiRand mới chạy smoke" ở bản 27/10 đã cũ; kết quả đầy đủ ở dưới.
-
 ## Kết quả đầy đủ ba dataset, 28–30/10/2026
 
 Source `fd1df699561e` (mốc IViDR mặc định 28/10), một seed mỗi mô hình (LCDR/IViDR seed 42, ConAlign
 seed 0 của tác giả), chọn cấu hình theo validation, test chấm một lần. ConAlign dùng cửa sổ KuaiRand
-của source (trước khi đổi mặc định). Log: [archive/2026-10-28/full_benchmark](../archive/2026-10-28/full_benchmark/).
+của source (trước khi đổi mặc định).
 
 | Dataset | LCDR NDCG@5 / Recall@5 | Paper LCDR | IViDR NDCG@5 / Recall@5 | Paper IViDR |
 | :-- | :-- | :-- | :-- | :-- |

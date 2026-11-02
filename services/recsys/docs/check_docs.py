@@ -10,7 +10,6 @@ from pathlib import Path
 import re
 import sys
 from urllib.parse import unquote, urlsplit
-import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -110,35 +109,6 @@ def main():
     if artifact["evaluation"] != "validation_only_no_held_out_test":
         errors.append("The state snapshot expects a validation-only artifact")
 
-    manifest_path = DOCS / "archive/2026-10-20/backup_manifest.json"
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    bundle_path = manifest_path.parent / "documentation_before_cleanup.zip"
-    if sha256(bundle_path) != manifest["zip_sha256"]:
-        errors.append("Original documentation ZIP checksum differs")
-    with zipfile.ZipFile(bundle_path) as bundle:
-        if set(bundle.namelist()) != set(manifest["members"]):
-            errors.append("Original documentation ZIP member list differs")
-        for name, expected in manifest["members"].items():
-            if hashlib.sha256(bundle.read(name)).hexdigest() != expected:
-                errors.append(f"Original ZIP member changed: {name}")
-
-    notebook_manifest_path = manifest_path.parent / "notebook_documentation_manifest.json"
-    notebook_manifest = json.loads(notebook_manifest_path.read_text(encoding="utf-8"))
-    notebook_bundle = ROOT / notebook_manifest["original_zip"]
-    if sha256(notebook_bundle) != notebook_manifest["original_zip_sha256"]:
-        errors.append("Original notebook documentation ZIP checksum differs")
-    with zipfile.ZipFile(notebook_bundle) as bundle:
-        for name, expected in notebook_manifest["members_before"].items():
-            if hashlib.sha256(bundle.read(name)).hexdigest() != expected:
-                errors.append(f"Original notebook ZIP member changed: {name}")
-    # Preserve the claim about this documentation-only edit. A later code-cell edit
-    # needs a new verification milestone rather than reusing this evidence.
-    notebook = json.loads((ROOT / "notebooks/TopTop_RecSys_Colab_API.ipynb").read_text(encoding="utf-8"))
-    code_cells = [cell for cell in notebook["cells"] if cell["cell_type"] == "code"]
-    code_digest = hashlib.sha256(json.dumps(code_cells, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
-    if code_digest != notebook_manifest["code_cells_sha256"]:
-        errors.append("Notebook code cells differ from the documentation-only verification milestone")
-
     link_count = 0
     anchor_cache = {}
     for entry in entries:
@@ -165,7 +135,7 @@ def main():
             print("ERROR:", error)
         return 1
     print(f"PASS: {len(entries)} classified files; {immutable_count} protected checksums; "
-          f"{link_count} local links; original ZIP and source/validation milestone match.")
+          f"{link_count} local links; source/validation milestone match.")
     return 0
 
 

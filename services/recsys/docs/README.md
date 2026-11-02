@@ -1,55 +1,37 @@
-# Điểm đọc tài liệu RecSys
+# Tài liệu RecSys
 
-**Bắt đầu tại [CURRENT_STATE.md](CURRENT_STATE.md).** Đây là trạng thái triển khai,
-bằng chứng và việc còn thiếu tại mốc 27/10/2026. Danh sách phân loại đầy đủ:
-[catalog.json](catalog.json). Các báo cáo lịch sử không tự thay thế trạng thái này.
+**Bắt đầu tại [CURRENT_STATE.md](CURRENT_STATE.md):** bộ mô hình, bảng điểm, cấu hình mặc định và giới hạn.
+Mỗi kết luận chỉ có một nơi chịu trách nhiệm; tài liệu khác dẫn liên kết thay vì chép lại.
 
-## Tài liệu hiện hành
+## Tra cứu nhanh
 
-| Tài liệu | Quyết định nội dung nào |
+| Cần biết | Đọc |
 | :-- | :-- |
-| [CURRENT_STATE](CURRENT_STATE.md) | Trạng thái, giới hạn, mốc source và bằng chứng đã có |
-| [README dịch vụ](../README.md) | Cài đặt và lệnh chạy |
-| [Cấu trúc thư mục](architecture/directory_layout.md) | Package từng mô hình và mã tương thích |
-| [Nguyên nhân IViDR thấp hơn paper](benchmarks/ividr_root_cause_20261027.md) | Hoán đổi latent/feedback, các giả thuyết đã bác bỏ, nguyên nhân BCE và thang latent |
-| [Ablation IViDR Eq. (10)](benchmarks/ividr_eq10_ablation_20261027.md) | Bản v3 chuẩn hóa phần cộng, ablation T/F/R trên Coat 3 seed; mặc định giữ v2 |
-| [LCDR và ConAlign](benchmarks/lcdr_conalign_20261027.md) | Hai mô hình thực nghiệm: lệnh chạy, protocol, đối chiếu paper/source và kết quả |
-| [Định nghĩa mô hình](benchmarks/paper_model_alignment.md) | Loss, backbone, khởi tạo, khác biệt với paper/source |
-| [IViDR hiện hành](benchmarks/ividr_reference_20261022.md) | Công thức, learned feature embedding, marginal BCE, coordinate adapter và cách chạy |
-| [Nghiên cứu tối ưu IViDR](benchmarks/ividr_optimization_research_20261023.md) | Điểm paper đúng phiên bản, chẩn đoán nhánh tái dựng, nguồn tham khảo và kế hoạch validation; chưa sửa model |
-| [IViDR-BCE cũ](benchmarks/ividr_bce_20261021.md) | Bằng chứng và loss ablation của phiên bản 21/10 |
-| [Giao thức](benchmarks/evaluation_protocol.md) | MF/iDCF held-out và CDR source protocol riêng; nhãn, split, calibration, metric |
-| [Chạy Yahoo/CDR source](../README.md) | Lệnh download, smoke, benchmark sáu mô hình và đối chứng script |
-| [Catalog kết quả](../results/CATALOG.md) | Phân biệt validation, smoke, lịch sử và điều kiện trích số |
-| [API](api/colab_api_guide.md) | Dữ liệu và endpoint phục vụ ứng dụng |
-| [MF/optimizer](benchmarks/mf_optimizer_audit.md) | Tên loss và phạm vi thí nghiệm Adam/SGD |
-| [Tham chiếu paper](benchmarks/paper_reference_comparison.md) | Nguồn bên ngoài, ghi đúng dataset/biến thể |
+| Cài đặt và lệnh chạy | [README dịch vụ](../README.md) |
+| Cấu trúc thư mục | [directory_layout](architecture/directory_layout.md) |
+| Protocol, nhãn, split, metric | [evaluation_protocol](benchmarks/evaluation_protocol.md) |
+| Định nghĩa mô hình, khác biệt với paper/source | [paper_model_alignment](benchmarks/paper_model_alignment.md) |
+| File kết quả nào chứa số nào | [Catalog kết quả](../results/CATALOG.md) |
+| API và Colab | [colab_api_guide](api/colab_api_guide.md) |
+| Quy tắc cập nhật tài liệu | [MAINTENANCE](MAINTENANCE.md) |
 
-Mỗi kết luận có một nơi chịu trách nhiệm. README và mục lục dẫn tới nơi đó thay vì
-chép lại bảng cấu hình hoặc kết quả rồi để các bản khác nhau theo thời gian.
+## Phân tích theo mô hình
 
-## Tài liệu tham khảo và lưu trữ
+| Tài liệu | Nội dung |
+| :-- | :-- |
+| [Nguyên nhân IViDR thấp hơn paper](benchmarks/ividr_root_cause_20261027.md) | Hoán đổi latent/feedback, giả thuyết đã bác bỏ, xác nhận 10 seed |
+| [Đặc tả IViDR](benchmarks/ividr_reference_20261022.md) | Công thức đã triển khai, lựa chọn paper để ngỏ |
+| [Ablation Eq. (10)](benchmarks/ividr_eq10_ablation_20261027.md) | Bản v3 và các biến thể Table 4; mặc định giữ v2 |
+| [Nguồn tham khảo IViDR](benchmarks/ividr_sources_20261023.md) | Điểm paper, mã liên quan, chẩn đoán nhánh tái dựng, tài liệu trích dẫn |
+| [LCDR và ConAlign](benchmarks/lcdr_conalign_20261027.md) | Lệnh chạy, phần theo paper, kết quả, cửa sổ KuaiRand |
+| [Khác biệt protocol của CDR](benchmarks/root_cause_analysis.md) | Vì sao CDR đạt .6567 theo script nhưng thấp hơn nhiều trên H30 |
+| [Nguồn CDR, iDCF, IViDR](benchmarks/source_repository_review_20261021.md) | Commit đã khóa, khác biệt dữ liệu Yahoo |
+| [MF, loss và optimizer](benchmarks/mf_optimizer_audit.md) | Mục tiêu mặc định của từng đầu chạy |
+| [Tham chiếu paper](benchmarks/paper_reference_comparison.md) | Cách trích số paper đúng biến thể |
 
-- [PDF nghiên cứu](papers/) và [chỉ dẫn đọc bản chép paper](paper_summaries/README.md):
-  mô tả nghiên cứu bên ngoài, không phải trạng thái triển khai của dự án.
-- [Đề cương](de_cuong/README.md): tài liệu kế hoạch, không xác nhận các phần đã triển khai.
-- [Tình trạng slide/kịch bản](presentation/README.md): bản cũ đã thu hồi vì nhận định
-  chưa đủ bằng chứng; chưa có bộ thuyết trình hiện hành được phê duyệt.
-- [Archive](archive/README.md): bản đọc lịch sử có nhãn và ZIP nguyên byte trước dọn.
-- [Review 19/10](benchmarks/review_2026-10-19.md) và
-  [điều tra CDR](benchmarks/root_cause_analysis.md): điểm dẫn vào lịch sử và đính chính,
-  không phải hướng dẫn phục hồi mô hình cũ.
+## Tài liệu tham khảo
 
-## Khi cập nhật tài liệu
-
-1. Đối chiếu runtime config/logic và artifact; ghi rõ kết luận thuộc source nào.
-2. Lưu bản trước khi thay nhận định; giữ nguyên số và hash của artifact cũ.
-3. Thêm tài liệu mới vào catalog với đúng vai trò; snapshot cũ không ghi đè.
-4. Chạy `python docs/check_docs.py` từ thư mục dịch vụ.
-
-[Quy trình bảo toàn và cập nhật](MAINTENANCE.md) mô tả cách thêm mốc mới mà không
-đổi số liệu, checksum hoặc kết luận của artifact cũ.
-
-Ngày 20/10 đã dọn các nhận định mâu thuẫn trong bộ tài liệu đọc hiện tại.
-Đợt 19/10 trước đó đã gỡ bốn kế hoạch/hướng dẫn vận hành lỗi thời; danh sách nằm
-trong bản README cũ ở ZIP archive, không được coi là các file còn tồn tại.
+- [PDF nghiên cứu](papers/README.md) và [bản chép paper](paper_summaries/README.md).
+- [Đề cương](de_cuong/README.md): kế hoạch, không xác nhận kết quả.
+- [Slide](presentation/README.md): chưa có bộ slide được kiểm chứng trong thư mục này.
+- [Script và log giữ lại](archive/README.md).

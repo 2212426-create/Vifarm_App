@@ -1,7 +1,7 @@
 # IViDR: sửa nhánh Eq. (10) và ablation Table 4 — 27/10/2026
 
-Tiếp nối [nghiên cứu 23/10](ividr_optimization_research_20261023.md), mục P0. Đặc tả mặc định
-vẫn là [reference v2](ividr_reference_20261022.md); v3 và các ablation là **tùy chọn**.
+Tiếp nối [chẩn đoán 23/10](ividr_sources_20261023.md). Mặc định Eq. (10) vẫn là
+[reference v2](ividr_reference_20261022.md); v3 và các ablation là **tùy chọn**.
 
 ## 1. Vấn đề và cách sửa thử
 
@@ -21,7 +21,7 @@ Mã: [ividr_reference.py](../../src/models/ividr/ividr_reference.py),
 Coat, seed 42/43/44; mỗi lượt huấn luyện MF treatment cùng seed, giai đoạn 1 tối đa 2000 epoch,
 lưới feedback 10 cấu hình của paper. **Chọn biến thể chỉ bằng validation NDCG@5**; test chấm một lần.
 [Script](../archive/2026-10-27/ividr_optimization/run_variant.py) · báo cáo
-`results/ividr_opt_<bridge>_<reconstruction>_seed<seed>_20261027.json` · log cùng thư mục script.
+`results/studies/ividr_opt_<bridge>_<reconstruction>_seed<seed>_20261027.json`.
 
 | Biến thể | Val NDCG@5 (mean) | Test NDCG@5 mean ± std | Test Recall/all | Recall bounded | ‖X_re−A‖/‖A‖ | cos(μ₁, μ₂) |
 | :-- | --: | --: | --: | --: | --: | --: |
@@ -42,6 +42,5 @@ lưới feedback 10 cấu hình của paper. **Chọn biến thể chỉ bằng 
 3. Không biến thể nào có bằng chứng tốt hơn v2 trên validation, nên **giữ v2 làm mặc định**.
    v3 fitted có validation cao nhất nhưng chênh lệch nằm trong nhiễu seed; không chọn nó.
 4. Mọi biến thể IViDR vẫn thấp hơn iDCF cùng seed khoảng .04 NDCG. Như vậy nhánh IV của Eq. (10)
-   **không phải nguyên nhân chính** của khoảng cách. Hướng cần kiểm tra tiếp là giai đoạn feedback:
-   BCE với kỳ vọng xác suất (Eq. 25) so với MSE của iDCF, và việc gộp $C=\rho C_1+\tau C_2$ với
-   $\rho=\tau=.9$ làm latent lớn gần gấp 1.8 lần. Đổi BCE là thay đổi so với paper, cần người dùng quyết định.
+   **không phải nguyên nhân chính** của khoảng cách; nguyên nhân thật nằm ở giai đoạn feedback và thang
+   latent ([phân tích nguyên nhân](ividr_root_cause_20261027.md)). Bảng trên dùng bản theo chữ paper tại thời điểm thí nghiệm.

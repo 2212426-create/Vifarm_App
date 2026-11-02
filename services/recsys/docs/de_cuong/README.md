@@ -1,13 +1,19 @@
 # Đề cương nghiên cứu
 
-Các tài liệu này mô tả **kế hoạch/phạm vi nghiên cứu**, không chứng nhận các mô hình,
-thực nghiệm, tích hợp hoặc kết quả đã hoàn thành.
-
 - [Đề cương tổng hợp](DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md).
-- [Phần lọc cộng tác](DeCuong_Phan1_LocCongTac_CF.md).
-- [Phần học sâu](DeCuong_Phan2_HocSau_DeepLearning.md).
+- [Phần 1: Lọc cộng tác](DeCuong_Phan1_LocCongTac_CF.md).
+- [Phần 2: Học sâu](DeCuong_Phan2_HocSau_DeepLearning.md).
 
-Đã thêm nhãn phân loại ngày 20/10/2026, giữ nội dung kế hoạch và thông tin tác giả.
-Bản trước khi thêm nhãn nằm trong [ZIP snapshot](../archive/2026-10-20/documentation_before_cleanup.zip).
-Thực trạng triển khai và bằng chứng ở [CURRENT_STATE](../CURRENT_STATE.md).
-Muốn đưa nội dung đề cương vào phần “kết quả”, phải có artifact và mô tả đúng phiên bản.
+Bản chính thức là file `.docx` của nhóm, nằm ngoài repo. Các file ở đây lấy cấu trúc từ bản đó và mô tả phạm vi theo mã
+hiện hành. Đề cương mô tả kế hoạch, không chứng nhận kết quả; điểm số ở [CURRENT_STATE](../CURRENT_STATE.md).
+
+## Khác biệt với bản `.docx`
+
+| Bản `.docx` | Các file trong repo, theo mã hiện hành |
+| :-- | :-- |
+| Học sâu là NCF | NCF chỉ ở phần lý thuyết; mô hình thực nghiệm là iDCF, IViDR, LCDR |
+| Lọc cộng tác không nêu tên mô hình | MF, DR-BIAS + CDR, ConAlign |
+| Hai mô hình, "độ chính xác cao" | Hai nhóm mô hình, đánh giá định lượng trên ba bộ dữ liệu chuẩn |
+| TensorFlow, thư viện `implicit`, Postman | Dự án dùng PyTorch; không dùng `implicit`; Postman không có trong repo |
+| API tích hợp web/mobile | API phục vụ MF và DR-BIAS + CDR, tích hợp ứng dụng di động |
+| Không có mục thiên lệch hiển thị | Thêm vào Mục tiêu và Chương I |

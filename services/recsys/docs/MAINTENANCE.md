@@ -1,53 +1,44 @@
-# Cập nhật tài liệu mà không làm mất dấu vết
+# Cập nhật tài liệu RecSys
 
-Điểm đọc chính: [CURRENT_STATE](CURRENT_STATE.md). Phân loại file và checksum:
-[catalog.json](catalog.json). Kiểm tra bằng `python docs/check_docs.py` từ thư mục dịch vụ.
-Lệnh chỉ đọc và báo lỗi; không tự sửa nhận định, số liệu hoặc ghi lại checksum.
+Kiểm tra bằng `python docs/check_docs.py` từ `services/recsys`. Lệnh chỉ đọc và báo lỗi: file chưa phân loại,
+liên kết hỏng, file bảo vệ bị đổi, source lệch mốc đã ghi. Nó không xác nhận đúng đắn khoa học của nội dung.
 
-## Quyền chịu trách nhiệm của từng tài liệu
+## Nơi chịu trách nhiệm
 
-- CURRENT_STATE giữ trạng thái triển khai, giới hạn và mốc bằng chứng.
-- `paper_model_alignment` giữ định nghĩa phương pháp và khác biệt với paper/source.
-- `evaluation_protocol` giữ giao thức benchmark; API guide giữ hành vi phục vụ riêng.
-- `results/CATALOG` phân loại artifact, không sửa nội dung JSON/Markdown kết quả.
-- Đề cương là kế hoạch; paper là tài liệu tham khảo; archive là lịch sử.
+| Nội dung | File |
+| :-- | :-- |
+| Trạng thái, bảng điểm, giới hạn | [CURRENT_STATE](CURRENT_STATE.md) |
+| Định nghĩa phương pháp, khác biệt với paper/source | [paper_model_alignment](benchmarks/paper_model_alignment.md) |
+| Giao thức benchmark | [evaluation_protocol](benchmarks/evaluation_protocol.md) |
+| Phân loại kết quả | [results/CATALOG](../results/CATALOG.md) |
+| Mốc kiểm chứng dạng máy đọc | [state_snapshot.json](state_snapshot.json) |
 
-Không tạo thêm “kết luận hiện tại” hoặc bảng cấu hình ở một file song song khi đã
-có nơi chịu trách nhiệm; dẫn liên kết tới nơi đó.
+Không tạo thêm kết luận hoặc bảng cấu hình song song; dẫn liên kết tới nơi chịu trách nhiệm.
+
+## Giữ tài liệu gọn
+
+Từ 02/11/2026 Git là nơi lưu lịch sử. Sửa thẳng tài liệu hiện hành để nó luôn đúng trạng thái mới.
+
+1. Không tạo ZIP, snapshot hay thư mục archive theo ngày cho tài liệu.
+2. Không ghi nhật ký từng mốc vào CURRENT_STATE; thay nội dung cũ bằng trạng thái mới, chi tiết để trong commit.
+3. Chỉ giữ log của mốc kiểm chứng mới nhất, xóa log của mốc trước khi thêm mốc mới.
+4. Không commit kết quả smoke. Chỉ giữ báo cáo đang được trích dẫn trong `results/` và `results/studies/`.
+5. Bài viết phân tích chỉ giữ phần còn dùng; hướng đã thay thế thì bỏ, không để lại như lịch sử.
 
 ## Khi có thay đổi
 
-1. Với hướng dẫn/trạng thái cần sửa, chụp bản trước dưới mốc archive mới; dùng tên
-   chưa tồn tại. Không ghi đè ZIP, evidence, artifact, PDF hay snapshot cũ.
-2. Đối chiếu phần code thực thi và metadata gốc. Tách rõ điều đã triển khai,
-   điều mới kiểm thử, kết quả validation/test và điều vẫn chỉ là giả thuyết.
-3. Sau đổi source/config, dùng kiểm chứng phù hợp rồi cập nhật CURRENT_STATE và
-   `state_snapshot.json`. Giữ hash của các artifact cũ đúng với lượt chạy gốc.
-   Nếu chưa chạy lại, ghi rõ bằng chứng thuộc mốc trước, không đổi hash cũ.
-4. Đăng ký file mới trong `catalog.json`: `path`, `role`, `immutable`; file bảo toàn
-   còn có `sha256`. Chỉ lấy checksum ban đầu cho file mới; không cập nhật checksum
-   của file bất biến khi checker phát hiện nó đã đổi.
-5. Nếu thêm artifact, thêm dòng vào `results/CATALOG.md` với scope, phiên bản và
-   giới hạn. Nếu thiếu source hash hoặc provenance, ghi là chưa đủ thông tin.
-6. Chạy checker; sửa liên kết hỏng, file chưa phân loại và nguồn trạng thái lỗi thời.
-   Checker không xác nhận đúng đắn khoa học của nội dung; việc đó vẫn cần đối chiếu
-   logic, paper và bằng chứng thực nghiệm.
+1. Đối chiếu code thực thi và metadata gốc; tách rõ đã triển khai, kết quả validation/test và giả thuyết.
+2. Sau khi đổi source/config, chạy kiểm chứng rồi cập nhật CURRENT_STATE và `state_snapshot.json`.
+   Không đổi hash của lượt chạy cũ; nếu chưa chạy lại thì ghi rõ số thuộc mốc trước.
+3. Không ghi đè file kết quả hoặc PDF; lượt chạy mới tạo file mới và đăng ký trong `results/CATALOG.md`.
+4. Đăng ký file mới trong `catalog.json` (`path`, `role`, `immutable`; file bảo vệ có thêm `sha256`).
+5. Chạy `check_docs.py`.
 
-## Mốc dọn 20/10/2026
+## Khôi phục tài liệu cũ
 
-ZIP giữ nguyên byte của 19 tài liệu trước sửa. Năm tài liệu lỗi thời có bản đọc
-lưu trữ riêng; đề cương chỉ thêm nhãn kế hoạch. PPTX cũ được chuyển vào archive,
-giữ nguyên byte. Báo cáo kết quả, evidence, PDF/bản chép paper và code huấn luyện
-được giữ nguyên trong đợt này; [báo cáo dọn tài liệu](documentation_audit_2026-10-20.json)
-ghi checksum và phạm vi kiểm tra.
+Toàn bộ tài liệu, log và kết quả trước đợt dọn 02/11/2026 còn trong Git tại commit `a91f0bd`:
 
-Phần giới thiệu Markdown của notebook Colab và template đã sửa cách gọi IViDR;
-bản gốc có ZIP/manifest riêng trong archive. Code cell notebook giữ nguyên, không
-chạy notebook hoặc thực hiện đồng bộ Firebase trong đợt dọn tài liệu.
-
-Đã thử sáu tình huống sai trên bản sao tạm: sửa artifact, đổi source, thêm file
-chưa phân loại, link hỏng, heading hỏng và sửa ZIP gốc. Checker đều phát hiện;
-[biên bản kiểm chứng](archive/2026-10-20/verification/documentation_guard_checks.json)
-giữ kết quả và đường dẫn script thử. Đây là kiểm tra cơ chế bảo toàn tài liệu,
-không phải lượt chạy lại 97 model test hoặc benchmark chất lượng.
-
+```powershell
+git ls-tree -r --name-only a91f0bd -- services/recsys/docs/archive
+git checkout a91f0bd -- services/recsys/docs/archive/2026-10-22
+```
