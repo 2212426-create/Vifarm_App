@@ -26,9 +26,15 @@ class _CreateJournalScreenState extends ConsumerState<CreateJournalScreen> {
   final _regionController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  DateTime _startDate = DateTime.now();
+  late DateTime _startDate;
   String _privacy = 'public'; // 'public' | 'private'
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _startDate = DateUtils.dateOnly(DateTime.now());
+  }
 
   @override
   void dispose() {
@@ -43,6 +49,22 @@ class _CreateJournalScreenState extends ConsumerState<CreateJournalScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+
+    final now = DateTime.now();
+    final currentToday = DateUtils.dateOnly(now);
+    final currentEarliest = JournalModel.getEarliestAllowedStartDate(currentToday);
+
+    if (!JournalModel.isValidStartDate(_startDate, now)) {
+      final earliestStr = '${currentEarliest.day.toString().padLeft(2, '0')}/${currentEarliest.month.toString().padLeft(2, '0')}/${currentEarliest.year}';
+      final todayStr = '${currentToday.day.toString().padLeft(2, '0')}/${currentToday.month.toString().padLeft(2, '0')}/${currentToday.year}';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Ngày bắt đầu phải nằm trong khoảng $earliestStr đến $todayStr.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) {
@@ -66,7 +88,7 @@ class _CreateJournalScreenState extends ConsumerState<CreateJournalScreen> {
         farmLocation: _locationController.text.trim(),
         crop: _cropController.text.trim(),
         variety: _varietyController.text.trim().isNotEmpty ? _varietyController.text.trim() : null,
-        startDate: _startDate.millisecondsSinceEpoch,
+        startDate: DateUtils.dateOnly(_startDate).millisecondsSinceEpoch,
         region: _regionController.text.trim(),
         description: _descriptionController.text.trim(),
         status: 'in_progress',
@@ -95,6 +117,9 @@ class _CreateJournalScreenState extends ConsumerState<CreateJournalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final today = DateUtils.dateOnly(DateTime.now());
+    final earliestAllowedDate = JournalModel.getEarliestAllowedStartDate(today);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thêm Nhật Ký Mùa Vụ'),
@@ -164,25 +189,42 @@ class _CreateJournalScreenState extends ConsumerState<CreateJournalScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Chọn ngày bắt đầu
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Ngày bắt đầu mùa vụ'),
-                subtitle: Text('${_startDate.day}/${_startDate.month}/${_startDate.year}'),
-                trailing: const Icon(Icons.calendar_today, color: AppColors.primary),
-                onTap: () async {
-                  final picked = await showDatePicker(
-                    context: context,
-                    initialDate: _startDate,
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2030),
-                  );
-                  if (picked != null) {
-                    setState(() => _startDate = picked);
-                  }
-                },
+              // Chọn ngày bắt đầu với giới hạn 3 tháng
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Ngày bắt đầu mùa vụ *'),
+                    subtitle: Text(
+                      '${_startDate.day.toString().padLeft(2, '0')}/${_startDate.month.toString().padLeft(2, '0')}/${_startDate.year}',
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.primary),
+                    ),
+                    trailing: const Icon(Icons.calendar_today, color: AppColors.primary),
+                    onTap: () async {
+                      final currentToday = DateUtils.dateOnly(DateTime.now());
+                      final currentEarliest = JournalModel.getEarliestAllowedStartDate(currentToday);
+
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: _startDate.isBefore(currentEarliest)
+                            ? currentEarliest
+                            : (_startDate.isAfter(currentToday) ? currentToday : _startDate),
+                        firstDate: currentEarliest,
+                        lastDate: currentToday,
+                      );
+                      if (picked != null) {
+                        setState(() => _startDate = DateUtils.dateOnly(picked));
+                      }
+                    },
+                  ),
+                  Text(
+                    'Gợi ý: Ngày bắt đầu phải nằm trong khoảng ${earliestAllowedDate.day.toString().padLeft(2, '0')}/${earliestAllowedDate.month.toString().padLeft(2, '0')}/${earliestAllowedDate.year} đến ${today.day.toString().padLeft(2, '0')}/${today.month.toString().padLeft(2, '0')}/${today.year}.',
+                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
 
               TextFormField(
                 controller: _descriptionController,

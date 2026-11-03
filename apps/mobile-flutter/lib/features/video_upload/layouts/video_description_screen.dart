@@ -11,9 +11,11 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/media/platform_media.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../store/models/store_model.dart';
+import '../../store/repositories/store_repository.dart';
 import '../providers/upload_provider.dart';
 
-/// Màn hình thêm mô tả video, gợi ý hashtag bằng AI và thực hiện tải lên Cloudinary
+/// Màn hình thêm mô tả video, chọn chủ đề nông nghiệp và thực hiện tải lên
 class VideoDescriptionScreen extends ConsumerStatefulWidget {
   final XFile? videoFile;
   final String? videoId; // Truyền vào nếu ở chế độ chỉnh sửa (Edit Mode)
@@ -29,6 +31,18 @@ class _VideoDescriptionScreenState
     extends ConsumerState<VideoDescriptionScreen> {
   final TextEditingController _descController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+
+  // Chủ đề video & Khai báo quảng cáo
+  String?
+  _selectedTopic; // 'farming_experience' | 'garden_tour' | 'product_intro' | 'farmer_story' | 'other'
+  bool _isSponsored = false;
+
+  // Controllers cho các trường thông tin ngữ cảnh theo chủ đề
+  final TextEditingController _cropController = TextEditingController();
+  final TextEditingController _growthStageController = TextEditingController();
+  final TextEditingController _regionController = TextEditingController();
+  final TextEditingController _journalIdController = TextEditingController();
+  final TextEditingController _productIdController = TextEditingController();
 
   VideoPlayerController? _videoPlayerController;
   bool _isEditMode = false;
@@ -56,6 +70,11 @@ class _VideoDescriptionScreenState
   void dispose() {
     _descController.dispose();
     _focusNode.dispose();
+    _cropController.dispose();
+    _growthStageController.dispose();
+    _regionController.dispose();
+    _journalIdController.dispose();
+    _productIdController.dispose();
     _videoPlayerController?.dispose();
     super.dispose();
   }
@@ -68,6 +87,13 @@ class _VideoDescriptionScreenState
       final data = doc.data();
       if (data != null) {
         _descController.text = data['description'] as String? ?? '';
+        _selectedTopic = data['topic'] as String?;
+        _isSponsored = data['isSponsored'] as bool? ?? false;
+        _cropController.text = data['crop'] as String? ?? '';
+        _growthStageController.text = data['growthStage'] as String? ?? '';
+        _regionController.text = data['region'] as String? ?? '';
+        _journalIdController.text = data['relatedJournalId'] as String? ?? '';
+
         final videoUri = data['videoUri'] as String? ?? '';
         if (videoUri.isNotEmpty) {
           setState(() {
@@ -109,7 +135,6 @@ class _VideoDescriptionScreenState
     final cursor = selection.start;
 
     String hashtag = '#';
-    // Thêm khoảng trắng phía trước nếu ký tự trước đó không phải khoảng trắng
     if (cursor > 0 && text[cursor - 1] != ' ') {
       hashtag = ' #';
     }
@@ -142,14 +167,12 @@ class _VideoDescriptionScreenState
       String aiResult = '';
 
       if (_isEditMode && _previewUrl.isNotEmpty) {
-        // Lấy bytes ảnh từ Cloudinary để phân tích trực quan bằng AI
         final response = await http.get(Uri.parse(_previewUrl));
         if (response.statusCode == 200) {
           aiResult = await gemini.suggestHashtags(response.bodyBytes);
         }
       }
 
-      // Fallback nếu rỗng hoặc ở chế độ upload mới (gợi ý dựa trên từ khóa văn bản)
       if (aiResult.isEmpty) {
         final currentText = _descController.text.trim();
         final textPrompt = currentText.isNotEmpty
@@ -195,7 +218,6 @@ class _VideoDescriptionScreenState
   Future<void> _handleUpdate() async {
     final description = _descController.text.trim();
 
-    // Tách các hashtag từ nội dung mô tả (không trùng lặp)
     final Set<String> hashtagsSet = {};
     final matches = RegExp(
       r'#([A-Za-z0-9_\u00C0-\u1EF9-]+)',
@@ -218,18 +240,30 @@ class _VideoDescriptionScreenState
     });
 
     try {
-      final updates = {'description': description, 'hashtags': hashtagsList};
+      final updates = <String, dynamic>{
+        'description': description,
+        'hashtags': hashtagsList,
+        'topic': _selectedTopic,
+        'isSponsored': _isSponsored,
+        'crop': _cropController.text.trim().isNotEmpty
+            ? _cropController.text.trim()
+            : null,
+        'growthStage': _growthStageController.text.trim().isNotEmpty
+            ? _growthStageController.text.trim()
+            : null,
+        'region': _regionController.text.trim().isNotEmpty
+            ? _regionController.text.trim()
+            : null,
+        'relatedJournalId': _journalIdController.text.trim().isNotEmpty
+            ? _journalIdController.text.trim()
+            : null,
+      };
 
-      // 1. Cập nhật bảng videos
       await firestore.collection('videos').doc(widget.videoId).update(updates);
-
-      // 2. Cập nhật bảng video_summaries
       await firestore
           .collection('video_summaries')
           .doc(widget.videoId)
           .update(updates);
-
-      // 3. Cập nhật bảng mirror của user
       await firestore
           .collection('profiles')
           .doc(user.uid)
@@ -237,30 +271,9 @@ class _VideoDescriptionScreenState
           .doc(widget.videoId)
           .update(updates);
 
-      // 4. Xóa hashtag cũ và thêm mới
-      final hashtagsQuery = await firestore
-          .collection('hashtags')
-          .where('videoId', isEqualTo: widget.videoId)
-          .get();
-
-      final batch = firestore.batch();
-      for (final doc in hashtagsQuery.docs) {
-        batch.delete(doc.reference);
-      }
-
-      for (final tag in hashtagsList) {
-        final newTagRef = firestore.collection('hashtags').doc();
-        batch.set(newTagRef, {
-          'hashtag': tag,
-          'videoId': widget.videoId,
-          'thumbnailUri': _previewUrl,
-        });
-      }
-      await batch.commit();
-
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cập nhật video thành công!')),
+          const SnackBar(content: Text('Cập nhật thông tin video thành công!')),
         );
         context.pop();
       }
@@ -295,7 +308,6 @@ class _VideoDescriptionScreenState
 
     final description = _descController.text.trim();
 
-    // Trích xuất hashtag (không trùng lặp)
     final Set<String> hashtagsSet = {};
     final matches = RegExp(
       r'#([A-Za-z0-9_\u00C0-\u1EF9-]+)',
@@ -311,10 +323,8 @@ class _VideoDescriptionScreenState
     final myUsername =
         userProfile?.username ?? user.email?.split('@')[0] ?? 'user';
 
-    // Bắt đầu quy trình tải lên
     final uploadNotifier = ref.read(uploadStateProvider.notifier);
 
-    // Hiển thị dialog tiến trình tải lên
     _showUploadProgressDialog();
 
     final success = await uploadNotifier.uploadAndSaveVideo(
@@ -323,22 +333,42 @@ class _VideoDescriptionScreenState
       authorId: user.uid,
       username: myUsername,
       hashtags: hashtagsList,
-      location: _isDalatCampaign ? 'Da Lat' : null,
+      location:
+          _selectedTopic == 'garden_tour' &&
+              _regionController.text.trim().isNotEmpty
+          ? _regionController.text.trim()
+          : (_isDalatCampaign ? 'Da Lat' : null),
       allowDownload: _allowDownload,
       allowDuet: true,
       isCopyrightProtected: _isCopyrightProtected,
+      topic: _selectedTopic,
+      isSponsored: _isSponsored,
+      crop: _cropController.text.trim().isNotEmpty
+          ? _cropController.text.trim()
+          : null,
+      growthStage: _growthStageController.text.trim().isNotEmpty
+          ? _growthStageController.text.trim()
+          : null,
+      region: _regionController.text.trim().isNotEmpty
+          ? _regionController.text.trim()
+          : null,
+      relatedJournalId: _journalIdController.text.trim().isNotEmpty
+          ? _journalIdController.text.trim()
+          : null,
+      taggedProductIds: _productIdController.text.trim().isNotEmpty
+          ? [_productIdController.text.trim()]
+          : const [],
     );
 
     if (mounted) {
-      Navigator.pop(context); // Đóng dialog tiến trình
+      Navigator.pop(context);
     }
 
     if (success) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Đăng video thành công! Chờ duyệt.')),
-        );
-        // Reset state upload
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Đăng video thành công!')));
         uploadNotifier.reset();
         context.go('/home');
       }
@@ -352,7 +382,6 @@ class _VideoDescriptionScreenState
     }
   }
 
-  /// Hiển thị Dialog theo dõi phần trăm tiến độ tải lên
   void _showUploadProgressDialog() {
     showDialog(
       context: context,
@@ -371,7 +400,7 @@ class _VideoDescriptionScreenState
             }
 
             return PopScope(
-              canPop: false, // Ngăn chặn tắt dialog
+              canPop: false,
               child: AlertDialog(
                 backgroundColor: const Color(0xFF1D1D1F),
                 content: Column(
@@ -414,7 +443,7 @@ class _VideoDescriptionScreenState
           onPressed: () => context.pop(),
         ),
         title: Text(
-          _isEditMode ? 'Sửa thông tin video' : 'Mô tả video',
+          _isEditMode ? 'Sửa thông tin video' : 'Thêm thông tin video',
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -435,11 +464,10 @@ class _VideoDescriptionScreenState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Hộp nội dung và xem trước
+                        // Hộp xem trước và mô tả
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // 1. Ô xem trước video/ảnh bìa ở bên trái
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Container(
@@ -491,8 +519,6 @@ class _VideoDescriptionScreenState
                               ),
                             ),
                             const SizedBox(width: 16),
-
-                            // 2. Ô soạn thảo nội dung mô tả ở bên phải
                             Expanded(
                               child: TextField(
                                 controller: _descController,
@@ -504,7 +530,7 @@ class _VideoDescriptionScreenState
                                 maxLines: 7,
                                 decoration: const InputDecoration(
                                   hintText:
-                                      'Nhập mô tả cho video của bạn ở đây...',
+                                      'Bạn muốn chia sẻ điều gì về video này?...',
                                   hintStyle: TextStyle(
                                     color: Colors.white38,
                                     fontSize: 14,
@@ -519,20 +545,17 @@ class _VideoDescriptionScreenState
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 16),
 
                         // Hàng phím hỗ trợ nhập liệu
                         Row(
                           children: [
-                            // Nút thêm phím # nhanh
                             _buildInputHelper(
                               icon: Icons.tag,
                               label: 'Hashtag',
                               onTap: _insertHashtagSymbol,
                             ),
                             const SizedBox(width: 12),
-
-                            // Nút gợi ý AI
                             _buildInputHelper(
                               icon: Icons.auto_awesome,
                               label: 'Gợi ý AI',
@@ -542,8 +565,45 @@ class _VideoDescriptionScreenState
                           ],
                         ),
 
-                        const SizedBox(height: 30),
-                        // === Cài đặt quyền riêng tư & chiến dịch ===
+                        const SizedBox(height: 24),
+                        const Divider(color: Colors.white12),
+                        const SizedBox(height: 12),
+
+                        // === Phần 1: Chọn chủ đề video ("Video này nói về gì?") ===
+                        _buildTopicSelectorSection(),
+
+                        // Các trường thông tin ngữ cảnh theo chủ đề
+                        _buildContextualFieldsSection(),
+
+                        const SizedBox(height: 24),
+                        const Divider(color: Colors.white12),
+                        const SizedBox(height: 12),
+
+                        // === Phần 2: Khai báo Quảng cáo / Tài trợ ===
+                        const Text(
+                          'Khai báo nội dung thương mại',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        _buildSettingsGroup([
+                          _buildSwitchTile(
+                            title: 'Video có quảng cáo hoặc được tài trợ',
+                            subtitle:
+                                'Đánh dấu nếu bạn được trả tiền hoặc tặng quà để giới thiệu trong video.',
+                            icon: Icons.campaign_outlined,
+                            value: _isSponsored,
+                            onChanged: (val) =>
+                                setState(() => _isSponsored = val),
+                          ),
+                        ]),
+
+                        const SizedBox(height: 24),
+                        // === Phần 3: Quyền riêng tư & Chiến dịch ===
                         const Text(
                           'Cài đặt quyền riêng tư',
                           style: TextStyle(
@@ -554,7 +614,6 @@ class _VideoDescriptionScreenState
                         ),
                         const SizedBox(height: 12),
 
-                        // Card container cho privacy switches
                         _buildSettingsGroup([
                           _buildSwitchTile(
                             title: 'Cho phép tải xuống',
@@ -586,19 +645,24 @@ class _VideoDescriptionScreenState
                         ),
                         const SizedBox(height: 12),
 
-                        // Card container cho campaign
-                        _buildSettingsGroup([
-                          _buildSwitchTile(
-                            title: '🌲 Đà Lạt Trong Tôi',
-                            subtitle: 'Tham gia chiến dịch để được ưu tiên hiển thị',
-                            icon: Icons.eco_rounded,
-                            iconColor: const Color(0xFF4CAF50),
-                            value: _isDalatCampaign,
-                            onChanged: (val) =>
-                                setState(() => _isDalatCampaign = val),
-                            activeColor: const Color(0xFF4CAF50),
-                          ),
-                        ], bgColor: const Color(0xFF4CAF50).withValues(alpha: 0.08)),
+                        _buildSettingsGroup(
+                          [
+                            _buildSwitchTile(
+                              title: '🌲 Đà Lạt Trong Tôi',
+                              subtitle:
+                                  'Tham gia chiến dịch để được ưu tiên hiển thị',
+                              icon: Icons.eco_rounded,
+                              iconColor: const Color(0xFF4CAF50),
+                              value: _isDalatCampaign,
+                              onChanged: (val) =>
+                                  setState(() => _isDalatCampaign = val),
+                              activeColor: const Color(0xFF4CAF50),
+                            ),
+                          ],
+                          bgColor: const Color(
+                            0xFF4CAF50,
+                          ).withValues(alpha: 0.08),
+                        ),
 
                         const SizedBox(height: 40),
                       ],
@@ -650,6 +714,243 @@ class _VideoDescriptionScreenState
               ],
             ),
     );
+  }
+
+  Widget _buildTopicSelectorSection() {
+    final topics = [
+      {
+        'id': 'farming_experience',
+        'icon': '🌾',
+        'label': 'Kinh nghiệm làm nông',
+      },
+      {'id': 'garden_tour', 'icon': '🏡', 'label': 'Giới thiệu vườn'},
+      {'id': 'product_intro', 'icon': '🛍️', 'label': 'Giới thiệu sản phẩm'},
+      {'id': 'farmer_story', 'icon': '📖', 'label': 'Chuyện nhà nông'},
+      {'id': 'other', 'icon': '📹', 'label': 'Nội dung khác'},
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Video này nói về gì?',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            if (_selectedTopic != null)
+              TextButton(
+                onPressed: () => setState(() => _selectedTopic = null),
+                child: const Text(
+                  'Bỏ chọn',
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: topics.map((t) {
+            final id = t['id'] as String;
+            final isSelected = _selectedTopic == id;
+            return ChoiceChip(
+              label: Text('${t['icon']} ${t['label']}'),
+              selected: isSelected,
+              selectedColor: AppTheme.primaryColor,
+              backgroundColor: Colors.white10,
+              labelStyle: TextStyle(
+                color: isSelected ? Colors.white : Colors.white70,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontSize: 13,
+              ),
+              onSelected: (selected) {
+                setState(() {
+                  _selectedTopic = selected ? id : null;
+                });
+              },
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContextualFieldsSection() {
+    if (_selectedTopic == null ||
+        _selectedTopic == 'farmer_story' ||
+        _selectedTopic == 'other') {
+      return const SizedBox.shrink();
+    }
+
+    if (_selectedTopic == 'farming_experience') {
+      return Container(
+        margin: const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Chi tiết kinh nghiệm (Không bắt buộc)',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _cropController,
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+              decoration: const InputDecoration(
+                labelText: 'Cây trồng (ví dụ: Sầu riêng, Cà phê, Lúa...)',
+                labelStyle: TextStyle(color: Colors.white60, fontSize: 13),
+                isDense: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _growthStageController,
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+              decoration: const InputDecoration(
+                labelText:
+                    'Công việc / Giai đoạn (ví dụ: Làm đất, Bón phân...)',
+                labelStyle: TextStyle(color: Colors.white60, fontSize: 13),
+                isDense: true,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_selectedTopic == 'garden_tour') {
+      return Container(
+        margin: const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Thông tin nhà vườn (Không bắt buộc)',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _regionController,
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+              decoration: const InputDecoration(
+                labelText:
+                    'Khu vực / Địa điểm vườn (ví dụ: Đơn Dương, Lâm Đồng)',
+                labelStyle: TextStyle(color: Colors.white60, fontSize: 13),
+                isDense: true,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _journalIdController,
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+              decoration: const InputDecoration(
+                labelText: 'Liên kết nhật ký mùa vụ (Mã nhật ký nếu có)',
+                labelStyle: TextStyle(color: Colors.white60, fontSize: 13),
+                isDense: true,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_selectedTopic == 'product_intro') {
+      final currentUser = ref.watch(currentUserProvider);
+      final userStoreAsync = currentUser != null
+          ? ref.watch(userStoreStreamProvider(currentUser.uid))
+          : const AsyncValue<StoreModel?>.data(null);
+      final isSeller =
+          userStoreAsync.valueOrNull != null &&
+          userStoreAsync.valueOrNull?.status == 'approved';
+
+      return Container(
+        margin: const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Gắn sản phẩm giới thiệu',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+            const SizedBox(height: 8),
+            if (isSeller) ...[
+              TextField(
+                controller: _productIdController,
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+                decoration: const InputDecoration(
+                  labelText: 'Mã sản phẩm từ gian hàng của bạn',
+                  labelStyle: TextStyle(color: Colors.white60, fontSize: 13),
+                  isDense: true,
+                ),
+              ),
+            ] else ...[
+              const Text(
+                'Bạn đang chia sẻ về sản phẩm nông nghiệp. Nếu muốn đăng bán trực tiếp trên ứng dụng, bạn có thể Đăng ký gian hàng.',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppTheme.primaryColor,
+                  side: const BorderSide(color: AppTheme.primaryColor),
+                ),
+                icon: const Icon(Icons.storefront, size: 16),
+                label: const Text(
+                  'Đăng ký gian hàng',
+                  style: TextStyle(fontSize: 12),
+                ),
+                onPressed: () {
+                  context.push('/store/register');
+                },
+              ),
+            ],
+          ],
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 
   Widget _buildInputHelper({
@@ -707,7 +1008,11 @@ class _VideoDescriptionScreenState
       activeColor: activeColor ?? AppTheme.primaryColor,
       title: Text(
         title,
-        style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       subtitle: Text(
         subtitle,

@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/share_button.dart';
+import '../../../shared/widgets/universal_share_bottom_sheet.dart';
 import '../../products/repositories/product_repository.dart';
-
 import '../repositories/store_repository.dart';
 
 /// Màn hình Gian Hàng Công Khai (Khách hàng truy cập xem gian hàng)
@@ -35,6 +36,11 @@ class PublicStoreScreen extends ConsumerWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(store.storeName),
+            actions: [
+              ShareButton(
+                content: ShareContentModel.fromStore(store),
+              ),
+            ],
           ),
           body: SingleChildScrollView(
             child: Column(

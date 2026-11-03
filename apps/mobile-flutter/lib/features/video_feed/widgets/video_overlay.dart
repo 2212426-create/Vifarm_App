@@ -14,11 +14,7 @@ class VideoOverlay extends ConsumerStatefulWidget {
   final VideoModel video;
   final VoidCallback? onCampaignBadgeTap;
 
-  const VideoOverlay({
-    super.key,
-    required this.video,
-    this.onCampaignBadgeTap,
-  });
+  const VideoOverlay({super.key, required this.video, this.onCampaignBadgeTap});
 
   @override
   ConsumerState<VideoOverlay> createState() => _VideoOverlayState();
@@ -45,7 +41,9 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
 
   @override
   Widget build(BuildContext context) {
-    final authorProfile = ref.watch(userProfileStreamProvider(widget.video.authorId)).valueOrNull;
+    final authorProfile = ref
+        .watch(userProfileStreamProvider(widget.video.authorId))
+        .valueOrNull;
     final username = authorProfile?.username ?? widget.video.username;
 
     return Positioned(
@@ -57,15 +55,16 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
-            colors: [
-              Color(0xE6000000),
-              Colors.black54,
-              Colors.transparent,
-            ],
+            colors: [Color(0xE6000000), Colors.black54, Colors.transparent],
             stops: [0.0, 0.5, 1.0],
           ),
         ),
-        padding: const EdgeInsets.only(left: 16, right: 90, bottom: 20, top: 60),
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 90,
+          bottom: 20,
+          top: 60,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -78,7 +77,10 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
                   ProductBottomSheet.show(context, productId: productId);
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [AppColors.secondary, Color(0xFFFFA000)],
@@ -95,7 +97,11 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.shopping_bag_outlined, size: 14, color: Colors.black87),
+                      const Icon(
+                        Icons.shopping_bag_outlined,
+                        size: 14,
+                        color: Colors.black87,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         'Xem sản phẩm (${widget.video.taggedProductIds.length})',
@@ -106,7 +112,11 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Icon(Icons.chevron_right, size: 14, color: Colors.black87),
+                      const Icon(
+                        Icons.chevron_right,
+                        size: 14,
+                        color: Colors.black87,
+                      ),
                     ],
                   ),
                 ),
@@ -115,13 +125,17 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
             ],
 
             // 2. Thẻ Nhật ký mùa vụ liên quan
-            if (widget.video.relatedJournalId != null && widget.video.relatedJournalId!.isNotEmpty) ...[
+            if (widget.video.relatedJournalId != null &&
+                widget.video.relatedJournalId!.isNotEmpty) ...[
               GestureDetector(
                 onTap: () {
                   context.push('/journal/${widget.video.relatedJournalId}');
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withAlpha(200),
                     borderRadius: BorderRadius.circular(8),
@@ -147,22 +161,41 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
               const SizedBox(height: 8),
             ],
 
-            // 3. Các thẻ nông nghiệp (Cây trồng, Giai đoạn, Khu vực, Chủ đề)
+            // 3. Các thẻ nông nghiệp & Chủ đề video (Cây trồng, Chủ đề, Giai đoạn, Khu vực)
             Wrap(
               spacing: 6,
               runSpacing: 4,
               children: [
+                if (widget.video.topic != null &&
+                    widget.video.topic!.isNotEmpty)
+                  _buildTagBadge(
+                    VideoModel.getTopicDisplayName(widget.video.topic),
+                    AppColors.primary,
+                  ),
+                if (widget.video.isSponsored)
+                  _buildTagBadge('📢 Được tài trợ', Colors.amber.shade800),
                 if (widget.video.crop != null && widget.video.crop!.isNotEmpty)
                   _buildTagBadge('🌱 ${widget.video.crop}', AppColors.primary),
-                if (widget.video.growthStage != null && widget.video.growthStage!.isNotEmpty)
-                  _buildTagBadge('🌸 ${widget.video.growthStage}', AppColors.accentBrown),
-                if (widget.video.region != null && widget.video.region!.isNotEmpty)
+                if (widget.video.growthStage != null &&
+                    widget.video.growthStage!.isNotEmpty)
+                  _buildTagBadge(
+                    '🌸 ${widget.video.growthStage}',
+                    AppColors.accentBrown,
+                  ),
+                if (widget.video.region != null &&
+                    widget.video.region!.isNotEmpty)
                   _buildTagBadge('📍 ${widget.video.region}', Colors.blueGrey),
-                if (widget.video.technicalTopic != null && widget.video.technicalTopic!.isNotEmpty)
-                  _buildTagBadge('🔬 ${widget.video.technicalTopic}', Colors.teal),
+                if (widget.video.technicalTopic != null &&
+                    widget.video.technicalTopic!.isNotEmpty)
+                  _buildTagBadge(
+                    '🔬 ${widget.video.technicalTopic}',
+                    Colors.teal,
+                  ),
               ],
             ),
-            if (widget.video.crop != null || widget.video.growthStage != null || widget.video.region != null)
+            if (widget.video.crop != null ||
+                widget.video.growthStage != null ||
+                widget.video.region != null)
               const SizedBox(height: 8),
 
             // 4. Tên tác giả & Thời gian
@@ -176,7 +209,11 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
                     fontSize: 16,
                     letterSpacing: 0.3,
                     shadows: [
-                      Shadow(blurRadius: 6, color: Colors.black87, offset: Offset(0, 1)),
+                      Shadow(
+                        blurRadius: 6,
+                        color: Colors.black87,
+                        offset: Offset(0, 1),
+                      ),
                     ],
                   ),
                 ),
@@ -204,7 +241,11 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
                   fontSize: 13,
                   height: 1.4,
                   shadows: [
-                    Shadow(blurRadius: 4, color: Colors.black54, offset: Offset(0, 1)),
+                    Shadow(
+                      blurRadius: 4,
+                      color: Colors.black54,
+                      offset: Offset(0, 1),
+                    ),
                   ],
                 ),
                 maxLines: 2,
@@ -224,29 +265,33 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
                     .toSet()
                     .take(5)
                     .map((tag) {
-                  final cleanTag = TextUtils.normalizeHashtag(tag);
+                      final cleanTag = TextUtils.normalizeHashtag(tag);
 
-                  return GestureDetector(
-                    onTap: () {
-                      context.push('/hashtag/$cleanTag');
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withAlpha(40),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        '#$tag',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 11,
+                      return GestureDetector(
+                        onTap: () {
+                          context.push('/hashtag/$cleanTag');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withAlpha(40),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '#$tag',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }).toList(),
+                      );
+                    })
+                    .toList(),
               ),
             ],
 
@@ -265,7 +310,10 @@ class _VideoOverlayState extends ConsumerState<VideoOverlay>
                         builder: (context, child) {
                           return ClipRect(
                             child: FractionalTranslation(
-                              translation: Offset(1.0 - 2.0 * _marqueeController.value, 0),
+                              translation: Offset(
+                                1.0 - 2.0 * _marqueeController.value,
+                                0,
+                              ),
                               child: Text(
                                 '♪ Kỹ thuật nông nghiệp — ${username.isNotEmpty ? username : "Nông Video"}',
                                 style: TextStyle(

@@ -42,51 +42,105 @@ class SellerOverviewScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Store Header Card
+            // Store Header Card & Status Banner
             storeAsync.when(
               data: (store) {
                 if (store == null) return const SizedBox.shrink();
-                return Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 28,
-                          backgroundColor: AppColors.primary.withAlpha(30),
-                          backgroundImage: store.avatarUrl.isNotEmpty ? NetworkImage(store.avatarUrl) : null,
-                          child: store.avatarUrl.isEmpty ? const Icon(Icons.store, color: AppColors.primary) : null,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(store.storeName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                              const SizedBox(height: 2),
-                              Text('${store.region} • ${store.storeType == "individual" ? "Cá nhân/Nhà vườn" : "Đơn vị kinh doanh"}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: store.canSell ? AppColors.success.withAlpha(30) : AppColors.warning.withAlpha(30),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            store.canSell ? 'Hoạt động' : 'Tạm ngưng',
-                            style: TextStyle(
-                              color: store.canSell ? AppColors.success : AppColors.warning,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
+
+                Color bannerBg;
+                IconData bannerIcon;
+                String bannerText;
+
+                if (store.status == 'pending') {
+                  bannerBg = Colors.blue;
+                  bannerIcon = Icons.hourglass_top;
+                  bannerText = 'Hồ sơ đăng ký v${store.version} đang chờ Ban quản trị xét duyệt.';
+                } else if (store.status == 'needs_changes') {
+                  bannerBg = Colors.orange;
+                  bannerIcon = Icons.warning_amber;
+                  bannerText = 'Yêu cầu bổ sung hồ sơ v${store.version}: ${store.rejectionReason ?? "Vui lòng cập nhật lại thông tin."}';
+                } else if (store.status == 'rejected') {
+                  bannerBg = Colors.red;
+                  bannerIcon = Icons.cancel;
+                  bannerText = 'Hồ sơ v${store.version} bị từ chối: ${store.rejectionReason ?? "Không đạt tiêu chuẩn xác minh."}';
+                } else {
+                  bannerBg = Colors.green;
+                  bannerIcon = Icons.verified;
+                  bannerText = 'Gian hàng v${store.version} đã được Ban quản trị xác minh chính thức.';
+                }
+
+                return Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: bannerBg.withAlpha(30),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: bannerBg.withAlpha(100)),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(bannerIcon, color: bannerBg, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              bannerText,
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: bannerBg),
                             ),
                           ),
-                        ),
-                      ],
+                          if (store.status == 'needs_changes' || store.status == 'rejected')
+                            TextButton(
+                              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                              onPressed: () => context.push('/store/register'),
+                              child: const Text('Cập nhật'),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 28,
+                              backgroundColor: AppColors.primary.withAlpha(30),
+                              backgroundImage: store.avatarUrl.isNotEmpty ? NetworkImage(store.avatarUrl) : null,
+                              child: store.avatarUrl.isEmpty ? const Icon(Icons.store, color: AppColors.primary) : null,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(store.storeName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                  const SizedBox(height: 2),
+                                  Text('${store.region} • ${store.storeType == "individual" ? "Cá nhân/Nhà vườn" : "Đơn vị kinh doanh"}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: store.canSell ? AppColors.success.withAlpha(30) : AppColors.warning.withAlpha(30),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                store.canSell ? 'Hoạt động' : 'Tạm ngưng',
+                                style: TextStyle(
+                                  color: store.canSell ? AppColors.success : AppColors.warning,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               },
               loading: () => const SizedBox.shrink(),
