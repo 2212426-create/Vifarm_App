@@ -72,7 +72,9 @@ class BottomNavShell extends ConsumerWidget {
                         if (currentUser == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Vui lòng đăng nhập để tạo nội dung!'),
+                              content: Text(
+                                'Vui lòng đăng nhập để tạo nội dung!',
+                              ),
                             ),
                           );
                           context.go('/auth');
@@ -115,7 +117,9 @@ class BottomNavShell extends ConsumerWidget {
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null && uiIndex == 4) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng đăng nhập để truy cập trang Cá nhân!')),
+        const SnackBar(
+          content: Text('Vui lòng đăng nhập để truy cập trang Cá nhân!'),
+        ),
       );
       context.go('/auth');
       return;
@@ -145,42 +149,72 @@ class BottomNavShell extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Tạo nội dung mới',
+                'Bạn muốn làm gì?',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.lightTextPrimary,
                 ),
               ),
               const SizedBox(height: 16),
               ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
                 leading: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withAlpha(30),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.videocam, color: AppColors.primary),
+                  child: const Icon(
+                    Icons.videocam,
+                    color: AppColors.primary,
+                    size: 24,
+                  ),
                 ),
-                title: const Text('Đăng video kỹ thuật', style: TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: const Text('Chia sẻ kinh nghiệm canh tác, mẹo nông nghiệp'),
+                title: const Text(
+                  'Đăng video',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                subtitle: const Text(
+                  'Chia sẻ kinh nghiệm, giới thiệu vườn, sản phẩm hoặc chuyện nhà nông.',
+                  style: TextStyle(fontSize: 13, height: 1.3),
+                ),
                 onTap: () {
                   Navigator.pop(ctx);
                   context.push('/camera');
                 },
               ),
-              const Divider(),
+              const Divider(height: 16),
               ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
                 leading: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: AppColors.secondary.withAlpha(50),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.menu_book, color: AppColors.accentBrown),
+                  child: const Icon(
+                    Icons.menu_book,
+                    color: AppColors.accentBrown,
+                    size: 24,
+                  ),
                 ),
-                title: const Text('Thêm nhật ký mùa vụ', style: TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: const Text('Ghi chép tiến trình, nhật ký cây trồng, vườn lô'),
+                title: const Text(
+                  'Ghi nhật ký mùa vụ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                subtitle: const Text(
+                  'Ghi lại việc làm và sự phát triển của cây theo từng ngày.',
+                  style: TextStyle(fontSize: 13, height: 1.3),
+                ),
                 onTap: () {
                   Navigator.pop(ctx);
                   context.push('/journal/create');
@@ -214,7 +248,9 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final activeColor = AppColors.primary;
-    final inactiveColor = isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+    final inactiveColor = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.lightTextSecondary;
 
     return GestureDetector(
       onTap: onTap,

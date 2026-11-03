@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/share_button.dart';
+import '../../../shared/widgets/universal_share_bottom_sheet.dart';
 import '../../../shared/widgets/shimmer_loading.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../farm_journal/repositories/journal_repository.dart';
@@ -141,6 +143,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with SingleTicker
           error: (error, _) => const SizedBox(),
         ),
         actions: [
+          if (profileState.valueOrNull != null)
+            ShareButton(
+              content: ShareContentModel.fromProfile(profileState.valueOrNull!),
+            ),
           if (isMe)
             IconButton(
               icon: Icon(Icons.menu, color: onSurface),

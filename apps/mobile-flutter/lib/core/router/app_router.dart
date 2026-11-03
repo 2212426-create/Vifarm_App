@@ -18,6 +18,8 @@ import 'package:toptop_flutter/features/chat/layouts/notifications_screen.dart';
 import 'package:toptop_flutter/features/chat/layouts/shared_video_player_screen.dart';
 import 'package:toptop_flutter/features/farm_journal/layouts/create_journal_entry_screen.dart';
 import 'package:toptop_flutter/features/farm_journal/layouts/create_journal_screen.dart';
+import 'package:toptop_flutter/features/farm_journal/layouts/edit_journal_entry_screen.dart';
+import 'package:toptop_flutter/features/farm_journal/layouts/edit_journal_screen.dart';
 import 'package:toptop_flutter/features/farm_journal/layouts/journal_detail_screen.dart';
 import 'package:toptop_flutter/features/hashtags/layouts/hashtag_screen.dart';
 import 'package:toptop_flutter/features/near_me/layouts/near_me_screen.dart';
@@ -31,6 +33,7 @@ import 'package:toptop_flutter/features/profile/layouts/profile_screen.dart';
 import 'package:toptop_flutter/features/profile/layouts/edit_profile_screen.dart';
 import 'package:toptop_flutter/features/profile/layouts/edit_field_screen.dart';
 import 'package:toptop_flutter/features/profile/layouts/follow_list_screen.dart';
+import 'package:toptop_flutter/features/store/layouts/admin_store_review_screen.dart';
 import 'package:toptop_flutter/features/quote_requests/layouts/quote_requests_screen.dart';
 import 'package:toptop_flutter/features/saved_techniques/layouts/saved_techniques_screen.dart';
 import 'package:toptop_flutter/features/settings/layouts/settings_screen.dart';
@@ -279,10 +282,40 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
 
       GoRoute(
+        path: '/journal/:journalId/edit',
+        builder: (context, state) {
+          final jId = state.pathParameters['journalId'] ?? '';
+          return EditJournalScreen(journalId: jId);
+        },
+      ),
+
+      GoRoute(
         path: '/journal/:journalId/entry/create',
         builder: (context, state) {
           final jId = state.pathParameters['journalId'] ?? '';
           return CreateJournalEntryScreen(journalId: jId);
+        },
+      ),
+
+      GoRoute(
+        path: '/journal/:journalId/entry/:entryId/edit',
+        builder: (context, state) {
+          final jId = state.pathParameters['journalId'] ?? '';
+          final eId = state.pathParameters['entryId'] ?? '';
+          return EditJournalEntryScreen(journalId: jId, entryId: eId);
+        },
+      ),
+
+      GoRoute(
+        path: '/admin/stores',
+        builder: (context, state) => const AdminStoreListScreen(),
+      ),
+
+      GoRoute(
+        path: '/admin/store/:storeId/review',
+        builder: (context, state) {
+          final sId = state.pathParameters['storeId'] ?? '';
+          return AdminStoreReviewDetailScreen(storeId: sId);
         },
       ),
 

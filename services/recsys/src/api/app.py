@@ -1,41 +1,60 @@
 # -*- coding: utf-8 -*-
 """
-FastAPI RecSys API cho app TopTop.
+FastAPI RecSys & Weather API cho app ViFarm / TopTop.
 
 Chạy cục bộ (từ thư mục services/recsys):
-    venv\\Scripts\\python.exe -m uvicorn src.api.app:app --port 8000
+    python -m uvicorn src.api.app:app --port 8000
 
 Biến môi trường:
+    AGROMONITORING_API_KEY  Secret API key cho AgroMonitoring
     RECSYS_DATA_SOURCE      auto | live | export   (mặc định auto)
     RECSYS_EXPORT_DIR       thư mục chứa toptop_interactions.csv (mặc định data/firebase_export ở gốc repo)
     RECSYS_INTERACTION_LOG  CSV ghi nối tương tác từ app (mặc định data/api/interactions_log.csv)
 Project: ViFarm (services/recsys)
 """
 
+import json
 import os
+import urllib.error
+import urllib.request
 from functools import partial
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 
 from src.api.firebase_bridge import InteractionLog, load_snapshot
 from src.api.schemas import CompareRequest, InteractionRequest, RecommendRequest, RecommendResponse
-from src.api.service import RecEngine
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def build_engine_from_env():
-    export_dir = Path(os.environ.get("RECSYS_EXPORT_DIR", PROJECT_ROOT.parents[1] / "data" / "firebase_export"))
-    log_path = Path(os.environ.get("RECSYS_INTERACTION_LOG", PROJECT_ROOT / "data" / "api" / "interactions_log.csv"))
-    loader = partial(load_snapshot, source=os.environ.get("RECSYS_DATA_SOURCE", "auto"),
-                     export_dir=export_dir if export_dir.exists() else None, interaction_log=log_path)
-    return RecEngine(loader, interaction_log=InteractionLog(log_path))
+    try:
+        from src.api.service import RecEngine
+        export_dir = Path(os.environ.get("RECSYS_EXPORT_DIR", PROJECT_ROOT.parents[1] / "data" / "firebase_export"))
+        log_path = Path(os.environ.get("RECSYS_INTERACTION_LOG", PROJECT_ROOT / "data" / "api" / "interactions_log.csv"))
+        loader = partial(load_snapshot, source=os.environ.get("RECSYS_DATA_SOURCE", "auto"),
+                         export_dir=export_dir if export_dir.exists() else None, interaction_log=log_path)
+        return RecEngine(loader, interaction_log=InteractionLog(log_path))
+    except Exception as e:
+        err_msg = str(e)
+        print(f"[Warning] RecEngine build skipped/failed: {err_msg}")
+        class DummyEngine:
+            def health(self):
+                return {"status": "recsys_disabled", "models_available": [], "reason": err_msg}
+            def recommend(self, *args, **kwargs):
+                return [], "fallback", True, err_msg
+            def log_interaction(self, *args, **kwargs):
+                return {"status": "logged_fallback"}
+            def refresh(self):
+                pass
+        return DummyEngine()
 
 
 def create_app(engine=None):
-    app = FastAPI(title="TopTop RecSys API", version="2.0.0",
-                  description="Gợi ý video TopTop bằng MF / DR-BIAS+CDR huấn luyện trên tương tác thật.")
+    app = FastAPI(title="ViFarm API Server", version="2.0.0",
+                  description="Backend API cung cấp RecSys và Weather Proxy cho ViFarm.")
     state = {"engine": engine}
 
     def get_engine():
@@ -45,11 +64,67 @@ def create_app(engine=None):
 
     @app.get("/")
     def root():
-        return {"service": "TopTop RecSys API", "docs": "/docs", "health": "/health"}
+        return {"service": "ViFarm API Server", "docs": "/docs", "health": "/health"}
 
     @app.get("/health")
     def health():
         return get_engine().health()
+
+    @app.get("/api/v1/weather")
+    def weather(lat: float, lon: float):
+        if not (-90.0 <= lat <= 90.0) or not (-180.0 <= lon <= 180.0):
+            raise HTTPException(status_code=400, detail="Tọa độ lat/lon không hợp lệ.")
+
+        api_key = os.environ.get("AGROMONITORING_API_KEY", "").strip()
+        if not api_key:
+            return JSONResponse(
+                status_code=401,
+                content={
+                    "error": "Chưa cấu hình AGROMONITORING_API_KEY trên server backend",
+                    "code": "MISSING_KEY",
+                },
+            )
+
+        url = f"https://api.agromonitoring.com/agro/1.0/weather?lat={lat}&lon={lon}&appid={api_key}"
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "ViFarm/1.0"})
+            with urllib.request.urlopen(req, timeout=10) as response:
+                body = response.read().decode("utf-8")
+                data = json.loads(body)
+                return data
+        except urllib.error.HTTPError as e:
+            if e.code == 401:
+                return JSONResponse(
+                    status_code=401,
+                    content={
+                        "error": "API key AgroMonitoring không hợp lệ hoặc chưa được kích hoạt (HTTP 401)",
+                        "code": "UNAUTHORIZED",
+                    },
+                )
+            elif e.code == 429:
+                return JSONResponse(
+                    status_code=429,
+                    content={
+                        "error": "Hạn mức API AgroMonitoring đã vượt quá limit",
+                        "code": "RATE_LIMITED",
+                    },
+                )
+            else:
+                return JSONResponse(
+                    status_code=e.code,
+                    content={
+                        "error": f"Lỗi từ dịch vụ thời tiết AgroMonitoring ({e.code})",
+                        "code": "SERVICE_ERROR",
+                    },
+                )
+        except Exception:
+            return JSONResponse(
+                status_code=500,
+                content={
+                    "error": "Không thể kết nối đến AgroMonitoring API",
+                    "code": "CONNECTION_ERROR",
+                },
+            )
 
     @app.post("/api/v1/recommend", response_model=RecommendResponse)
     def recommend(req: RecommendRequest):
