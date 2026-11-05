@@ -15,9 +15,9 @@ service cloud.firestore {
         (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'moderator']);
     }
 
-    // 1. Users collection
+    // 1. Users collection - protect PII (email, phone, birthdate)
     match /users/{userId} {
-      allow read: if true;
+      allow read: if isSignedIn();
       allow create, update: if isOwner(userId) || isAdminOrModerator();
       allow delete: if isAdminOrModerator();
 
@@ -38,7 +38,7 @@ service cloud.firestore {
 
     // 3. Videos collection
     match /videos/{videoId} {
-      allow read: if resource.data.moderationStatus == 'approved' ||
+      allow read: if resource.data.moderationStatus in ['approved', 'APPROVED'] ||
                   resource.data.isPublic == true ||
                   (isSignedIn() && resource.data.authorId == request.auth.uid) ||
                   isAdminOrModerator();
@@ -89,6 +89,104 @@ service cloud.firestore {
       allow create: if isSignedIn();
       allow update: if isSignedIn() &&
         (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid || isAdminOrModerator());
+    }
+
+    // 9. Comments collection
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if (isSignedIn() && resource.data.authorId == request.auth.uid) || isAdminOrModerator();
+    }
+
+    // 10. Reports collection
+    match /reports/{reportId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if isAdminOrModerator();
+    }
+
+    // 11. Chats & Direct Messages
+    match /chats/{chatId} {
+      allow read, write: if isSignedIn() &&
+        (resource.data.participants.hasAny([request.auth.uid]) ||
+         request.resource.data.participants.hasAny([request.auth.uid]));
+
+      match /messages/{messageId} {
+        allow read, write: if isSignedIn();
+      }
+    }
+
+    // 12. Ads collection
+    match /ads/{adId} {
+      allow read: if resource.data.status == 'active' || isAdminOrModerator();
+      allow create, update, delete: if isAdminOrModerator();
+    }
+
+    // 13. Ad Metrics (Impressions, Views, Clicks)
+    match /ad_impressions/{id} {
+      allow read: if isAdminOrModerator();
+      allow create: if true;
+    }
+    match /ad_views/{id} {
+      allow read: if isAdminOrModerator();
+      allow create: if true;
+    }
+    match /ad_clicks/{id} {
+      allow read: if isAdminOrModerator();
+      allow create: if true;
+    }
+
+    // 14. Audit Logs
+    match /audit_logs/{logId} {
+      allow read, create: if isAdminOrModerator();
+      allow update, delete: if false; // Immutable audit log
+    }
+
+    // 15. Hashtags & Tags
+    match /hashtags/{tagId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+    match /tags/{tagId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // 16. Likes collection
+    match /likes/{likeId} {
+      allow read: if true;
+      allow create, delete: if isSignedIn();
+    }
+
+    // 17. Video Summaries & Public Videos Cache
+    match /video_summaries/{videoId} {
+      allow read: if true;
+      allow write: if isSignedIn() || isAdminOrModerator();
+    }
+    match /public_videos/{videoId} {
+      allow read: if true;
+      allow write: if isSignedIn() || isAdminOrModerator();
+    }
+
+    // 18. Watched Videos History
+    match /watched_videos/{id} {
+      allow read, write: if isSignedIn() &&
+        (resource.data.userId == request.auth.uid || request.resource.data.userId == request.auth.uid);
+    }
+
+    // 19. Following relationship
+    match /following/{id} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // 20. Copyright Moderation Queue & Video Fingerprints
+    match /copyright_moderation_queue/{id} {
+      allow read, write: if isAdminOrModerator();
+      allow create: if isSignedIn();
+    }
+    match /video_fingerprints/{id} {
+      allow read: if true;
+      allow write: if isSignedIn() || isAdminOrModerator();
     }
   }
 }

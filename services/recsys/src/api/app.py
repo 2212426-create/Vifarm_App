@@ -17,6 +17,7 @@ from functools import partial
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.firebase_bridge import InteractionLog, load_snapshot
 from src.api.schemas import CompareRequest, InteractionRequest, RecommendRequest, RecommendResponse
@@ -35,7 +36,14 @@ def build_engine_from_env():
 
 def create_app(engine=None):
     app = FastAPI(title="TopTop RecSys API", version="2.0.0",
-                  description="Gợi ý video TopTop bằng MF / DR-BIAS+CDR huấn luyện trên tương tác thật.")
+                  description="Gợi ý video TopTop bằng ConAlign (RecSys 2026) / DR-BIAS+CDR / MF huấn luyện trên tương tác thật.")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     state = {"engine": engine}
 
     def get_engine():

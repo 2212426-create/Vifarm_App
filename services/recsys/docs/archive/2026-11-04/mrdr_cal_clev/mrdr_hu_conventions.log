@@ -1,0 +1,5 @@
+# Diagnostic chosen after seeing test numbers (not a reported result): MRDR-CAL with sum-reduced losses and late epochs; float32 ties stop the 'last epoch' bookkeeping near epoch 150
+{"seed": 0, "best_epoch_by_val": 161, "AUC": 0.7464, "DCG@2": 0.684, "Recall@2": 0.8101}
+{"seed": 1, "best_epoch_by_val": 152, "AUC": 0.7503, "DCG@2": 0.6631, "Recall@2": 0.8017}
+{"seed": 2, "best_epoch_by_val": 145, "AUC": 0.7423, "DCG@2": 0.6631, "Recall@2": 0.8017}
+mean {'AUC': 0.7463, 'DCG@2': 0.6701, 'DCG@4': 0.9481, 'Recall@2': 0.8045, 'Recall@6': 1.9128}

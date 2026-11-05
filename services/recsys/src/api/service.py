@@ -6,8 +6,8 @@ MF uses MSE. CDR uses the released DR-BIAS+CDR architecture and update rule.
 Serving has no random-exposure labels: item-frequency propensity and replacement
 catalog sampling are explicit adaptations in training_stats.cdr.
 Popularity serves new users.
-IViDR cần đặc trưng user làm biến công cụ và proxy; dữ liệu TopTop chưa có nên
-yêu cầu "ividr" được phục vụ bằng mô hình khả dụng và trả về lý do rõ ràng.
+CLEV-DR và ConAlign được huấn luyện và đánh giá ở pha Offline Benchmark; phục vụ online
+trực tiếp sử dụng MF, CDR hoặc Popularity fallback với lý do rõ ràng.
 Project: ViFarm (services/recsys)
 """
 
@@ -20,13 +20,15 @@ import torch
 import torch.nn.functional as F
 
 from src.models.cdr.released import ReleasedCDR, fit_released
+from src.models.conalign.model import DualTowerMF
 from src.models.mf.matrix_factorization import MatrixFactorization
 from src.utils.helpers import set_seed
 from src.api.firebase_bridge import behavior_label
 
-TRAINABLE_MODELS = ("mf", "cdr")
+TRAINABLE_MODELS = ("conalign", "mf", "cdr")
 UNSUPPORTED_MODELS = {
-    "ividr": "IViDR cần đặc trưng user làm biến công cụ/proxy; dữ liệu TopTop chưa có.",
+    "clev_dr": "CLEV-DR được huấn luyện offline (chi phí tích phân Monte Carlo); online phục vụ qua ConAlign/MF/CDR.",
+    "ividr": "Mô hình IViDR đã bị loại bỏ khỏi hệ thống do không đạt chuẩn tái lập; rơi về ConAlign/MF/CDR.",
 }
 
 
@@ -114,6 +116,60 @@ class RecEngine:
         return scores
 
     # -------------------------------------------------------------- training
+    def _new_conalign(self):
+        return DualTowerMF(len(self.user_ids), len(self.video_ids),
+                           dim=self.embedding_dim, alignment_weight=0.1).to(self.device)
+
+    def _train_conalign(self, u, i, y):
+        set_seed(self.seed)
+        model = self._new_conalign()
+        # Stage 1: Huấn luyện tháp Biased trên dữ liệu tương tác tự nhiên (MNAR log)
+        optimizer_b = torch.optim.Adam(
+            [model.user_latent_biased.weight, model.item_latent_biased.weight,
+             model.user_bias_biased.weight, model.item_bias_biased.weight],
+            lr=self.lr, weight_decay=self.weight_decay)
+        criterion = torch.nn.BCEWithLogitsLoss()
+        model.train()
+        stage1_epochs = max(10, self.epochs // 2)
+        for _ in range(stage1_epochs):
+            optimizer_b.zero_grad()
+            u_b = model.user_latent_biased(u)
+            i_b = model.item_latent_biased(i)
+            bu_b = model.user_bias_biased(u).squeeze(-1)
+            bi_b = model.item_bias_biased(i).squeeze(-1)
+            logits_b = torch.sum(u_b * i_b, dim=-1) + bu_b + bi_b
+            loss1 = criterion(logits_b, y)
+            loss1.backward()
+            optimizer_b.step()
+
+        # Stage 2: Sao chép tham số sang tháp Unbiased, đóng băng tháp Biased
+        model.copy_biased_to_unbiased()
+        for param in model.biased_parameters():
+            param.requires_grad = False
+
+        optimizer_ub = torch.optim.Adam(
+            filter(lambda p: p.requires_grad, model.parameters()),
+            lr=self.lr, weight_decay=self.weight_decay)
+
+        # Trọng số nghịch đảo tần suất vật phẩm làm proxy khử thiên lệch khi online
+        counts = torch.bincount(i, minlength=len(self.video_ids)).float()
+        item_prop = torch.clamp(counts / (counts.max() + 1e-6), 0.05, 1.0)
+        inv_p = 1.0 / item_prop[i]
+        weights = inv_p / (inv_p.mean() + 1e-8)
+
+        stage2_epochs = max(10, self.epochs // 2)
+        for _ in range(stage2_epochs):
+            optimizer_ub.zero_grad()
+            b_probs, ub_probs, align = model(u, i)
+            bce_raw = F.binary_cross_entropy(ub_probs, y, reduction="none")
+            loss2 = (bce_raw * weights).mean() + model.alignment_weight * align.mean()
+            loss2.backward()
+            optimizer_ub.step()
+
+        model.eval()
+        return model
+
+
     def _new_mf(self):
         return MatrixFactorization(len(self.user_ids), len(self.video_ids),
                                    embedding_dim=self.embedding_dim, train_global_bias=False,
@@ -152,7 +208,7 @@ class RecEngine:
 
     # ------------------------------------------------------------- serving
     def resolve_model(self, requested):
-        requested = (requested or "mf").lower()
+        requested = (requested or "conalign").lower()
         if requested in self.models:
             return requested, None
         if requested == "popularity":
@@ -162,7 +218,7 @@ class RecEngine:
             reason = f"Chưa đủ dữ liệu để huấn luyện '{requested}' (cần >= {self.min_interactions} tương tác, có cả hai nhãn)."
         elif reason is None:
             reason = f"Mô hình '{requested}' không tồn tại."
-        fallback = next((m for m in ("mf", "cdr") if m in self.models), "popularity")
+        fallback = next((m for m in ("conalign", "cdr", "mf") if m in self.models), "popularity")
         return fallback, reason
 
     def _scores(self, model_name, user_idx):
@@ -172,7 +228,7 @@ class RecEngine:
             logits = self.models[model_name].predict_user_all(torch.tensor([user_idx], device=self.device))
         return torch.sigmoid(logits[0]).cpu().numpy().astype(np.float64)
 
-    def recommend(self, user_id, k=10, model="mf", filter_rejected=True, exclude_video_ids=()):
+    def recommend(self, user_id, k=10, model="conalign", filter_rejected=True, exclude_video_ids=()):
         with self._lock:
             model_used, reason = self.resolve_model(model)
             user_idx = self.u2idx.get(str(user_id))
@@ -186,8 +242,10 @@ class RecEngine:
                 video = self.snapshot.videos[vid]
                 if not video.get("videoUri"):
                     return False
-                if filter_rejected and str(video.get("moderationStatus", "")).lower() == "rejected":
-                    return False
+                if filter_rejected:
+                    status = str(video.get("moderationStatus", "")).strip().lower()
+                    if status != "approved":
+                        return False
                 return not (skip_excluded and vid in excluded)
 
             candidates = [j for j, vid in enumerate(self.video_ids) if eligible(vid, True)]

@@ -1,0 +1,59 @@
+{
+  "model": "CLEV-DR (local name; the paper calls it Ours-DR)",
+  "paper": {
+    "title": "Addressing Correlated Latent Exogenous Variables in Debiased Recommender Systems",
+    "authors": [
+      "Shuqiang Zhang",
+      "Yuchao Zhang",
+      "Jinkun Chen",
+      "Haochen Sui"
+    ],
+    "venue": "KDD 2025",
+    "doi": "10.1145/3711896.3736832",
+    "arxiv": "2506.07517v1",
+    "pdf": "docs/papers/LatentExogenous_KDD2025.pdf"
+  },
+  "source": {
+    "repository": "https://github.com/WallaceSUI/kdd25-background-variable",
+    "commit": "66a0e5f9041bf10f4ea04334ca1eeedd100a7d19",
+    "files": [
+      "new_model.py",
+      "utils.py",
+      "dataset.py",
+      "parse.py",
+      "coat_test.py",
+      "yahoo_main.py",
+      "kuai_main.py",
+      "bash/*.sh"
+    ],
+    "copied_code": false,
+    "missing_from_repository": [
+      "matrix_factorization_noisy_ori.py (imported by new_model.py; its helpers exist in utils.py)",
+      "coat_test_dr.py (called by bash/coat_main.sh)"
+    ]
+  },
+  "parity": "Same seed, real Coat, 2 IPS + 3 fit epochs: author MF_BV_Multi_bin_JL_G_DR (cuda calls made no-ops) and CLEVDR give max |prediction difference| 0.0 and identical rho (docs/archive/2026-11-04/mrdr_cal_clev/clev_parity.log)",
+  "from_source": [
+    "Four NCF towers 2k -> k -> k -> 1 (prediction g_y, selection g_o, IPS propensity, imputation), rho = tanh(rho_v)",
+    "_compute_IPS: propensity tower regresses the observation indicator on all pairs with MSE, tol-based stopping",
+    "fit: Monte Carlo bivariate-probit likelihood (y_loss, o_loss), DR squared-error loss with clipped inverse propensity (gamma 0.015) and imputation loss, alpha * y_loss + (1 - alpha) * DR loss",
+    "Stopping: relative epoch-loss change below tol counted 7 times, at most 1000 epochs",
+    "Hyperparameters hard-coded in coat_test.py, yahoo_main.py, kuai_main.py; alpha swept by bash/*.sh (--sigma_y)",
+    "Labels: Coat/Yahoo rating >= 3 positive; NDCG@K = 1 for users without positives; recall / max(1, #positives); global AUC"
+  ],
+  "local_choices": [
+    "CPU instead of CUDA",
+    "Coat uses the coat_test.py (Naive) hyperparameters with the DR class, because coat_test_dr.py is missing",
+    "Yahoo rows are shuffled after seeding; the author script shuffles at import time, before setup_seed",
+    "AUC is computed with average ranks (same value as sklearn roc_auc_score), sklearn is not a project dependency",
+    "Each alpha of the bash sweep is run for every seed and reported; choosing an alpha uses test metrics, as the author procedure does",
+    "KuaiRand-Pure replaces the KuaiRec data of the paper (the thesis uses KuaiRand-Pure for every model): standard logs = biased training log, random log = test, target is_click, ids mapped jointly, repeated (user, video) rows merged (clicked if any row is a click)",
+    "KuaiRand-Pure has no author configuration: kuai_main.py (KuaiRec) values with the Yahoo propensity batch 204800 and tolerance 1e-3, K = 5, alpha sweep of bash/kuai_main.sh",
+    "KuaiRand-Pure uses CLEVDRLarge: no |U| x |I| arrays (the author layout needs ~33 GB); same random stream, exact parity with CLEVDR on Coat and in tests/test_clev.py",
+    "For each seed the IPS stage is trained once and its model and random state are restored for every alpha; tests show this equals separate runs"
+  ],
+  "known_paper_code_differences": [
+    "The Optuna objective of every script maximises test AUC + NDCG + Recall, so the published hyperparameters were selected on the test set"
+  ],
+  "paper_comparison": "Paper Table 2 has Coat, Yahoo! R3 and KuaiRec; KuaiRand-Pure has no paper number"
+}

@@ -1,0 +1,579 @@
+{
+  "recovered_from": "cf_dl_coat_20261103_200701_387e7f14.json",
+  "method": "evaluate_checkpoint on the selected checkpoints; no training",
+  "reason": "the original report lost per-seed rows (key 'seeds' overwritten by the seed list)",
+  "max_abs_difference_vs_original_summary": 0.0,
+  "code_sha256_at_recovery": "56aea4e7592b22ab0f2b29684117200d6b0565fbd6babcbddc6b0c28eedcf969",
+  "per_seed": {
+    "42": {
+      "MF": {
+        "NDCG@5": 0.547611758415125,
+        "Recall@5": 0.5295358500448321,
+        "Recall@5_bounded": 0.5840319361277445,
+        "Precision@5": 0.3497005988023952,
+        "HitRate@5": 0.8502994011976048,
+        "AUC": 0.6931237695272126,
+        "best_epoch": 23,
+        "best_val_ndcg": 0.6189874762100858,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed42_v4_e4ecd2d0db3f84b8.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5165652927691505,
+        "Recall@5": 0.5393346507118962,
+        "Recall@5_bounded": 0.5897205588822354,
+        "Precision@5": 0.3497005988023952,
+        "HitRate@5": 0.874251497005988,
+        "AUC": 0.6813626700977,
+        "best_epoch": 88,
+        "best_val_ndcg": 0.5617870906921728,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed42_v4_96a80aa4a309ae10.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5192523083919902,
+        "Recall@5": 0.5036326115667433,
+        "Recall@5_bounded": 0.5521956087824351,
+        "Precision@5": 0.3209580838323353,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6870863812667706,
+        "best_epoch": 45,
+        "best_val_ndcg": 0.5763717296132088,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed42_v4_a8b628a94d9d1a7e.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5230093650117754,
+        "Recall@5": 0.5135360315001034,
+        "Recall@5_bounded": 0.5580838323353293,
+        "Precision@5": 0.3269461077844312,
+        "HitRate@5": 0.8562874251497006,
+        "AUC": 0.6808630844371862,
+        "best_epoch": 43,
+        "best_val_ndcg": 0.5964395575590896,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed42_v4_531c70a7bf3a859b.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5248386802141423,
+        "Recall@5": 0.5106327471596933,
+        "Recall@5_bounded": 0.561377245508982,
+        "Precision@5": 0.3305389221556886,
+        "HitRate@5": 0.844311377245509,
+        "AUC": 0.6894299230377074,
+        "best_epoch": 1,
+        "best_val_ndcg": 0.5957482441659221,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed42_v4_89fa8af8f935579d.pt"
+      }
+    },
+    "43": {
+      "MF": {
+        "NDCG@5": 0.5078768894217887,
+        "Recall@5": 0.5087579253746918,
+        "Recall@5_bounded": 0.5587824351297405,
+        "Precision@5": 0.33532934131736525,
+        "HitRate@5": 0.844311377245509,
+        "AUC": 0.6804456999254902,
+        "best_epoch": 9,
+        "best_val_ndcg": 0.5960476129052635,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed43_v4_d9c3e7bd43d77f08.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5293676173685187,
+        "Recall@5": 0.5384270918702057,
+        "Recall@5_bounded": 0.5843313373253493,
+        "Precision@5": 0.3341317365269461,
+        "HitRate@5": 0.8802395209580839,
+        "AUC": 0.6837810434741572,
+        "best_epoch": 100,
+        "best_val_ndcg": 0.5597624349055157,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed43_v4_1fffbb9703fd39b0.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5478218954544088,
+        "Recall@5": 0.5431627088812717,
+        "Recall@5_bounded": 0.5938123752495009,
+        "Precision@5": 0.34850299401197604,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6852982617017048,
+        "best_epoch": 75,
+        "best_val_ndcg": 0.5940666262941893,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed43_v4_52da3af78e7d630f.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5185488483812994,
+        "Recall@5": 0.5289916337820529,
+        "Recall@5_bounded": 0.5774451097804392,
+        "Precision@5": 0.3389221556886227,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6741133201462542,
+        "best_epoch": 47,
+        "best_val_ndcg": 0.5931711090554785,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed43_v4_08532d9aef30cdee.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5512107465587525,
+        "Recall@5": 0.543328826861761,
+        "Recall@5_bounded": 0.5932135728542914,
+        "Precision@5": 0.3449101796407185,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6884075816897673,
+        "best_epoch": 0,
+        "best_val_ndcg": 0.6049155991916352,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed43_v4_e30b3573735c14fe.pt"
+      }
+    },
+    "44": {
+      "MF": {
+        "NDCG@5": 0.5634102736030212,
+        "Recall@5": 0.5364672253893812,
+        "Recall@5_bounded": 0.5922155688622754,
+        "Precision@5": 0.35568862275449104,
+        "HitRate@5": 0.8622754491017964,
+        "AUC": 0.7140182692390776,
+        "best_epoch": 24,
+        "best_val_ndcg": 0.6179011739311588,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed44_v4_d9187ca438b6ba8e.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5182694156439652,
+        "Recall@5": 0.5400336855426675,
+        "Recall@5_bounded": 0.5907185628742515,
+        "Precision@5": 0.3461077844311377,
+        "HitRate@5": 0.874251497005988,
+        "AUC": 0.6970581211037797,
+        "best_epoch": 76,
+        "best_val_ndcg": 0.5895595868659018,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed44_v4_a8f0ba66fc55758c.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5126246055796713,
+        "Recall@5": 0.5031310838197066,
+        "Recall@5_bounded": 0.5525948103792415,
+        "Precision@5": 0.32814371257485025,
+        "HitRate@5": 0.844311377245509,
+        "AUC": 0.6814037654793642,
+        "best_epoch": 67,
+        "best_val_ndcg": 0.5878729378482512,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed44_v4_cec204bc219e7e72.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.4976126578224895,
+        "Recall@5": 0.49591449801030646,
+        "Recall@5_bounded": 0.5463073852295408,
+        "Precision@5": 0.325748502994012,
+        "HitRate@5": 0.8502994011976048,
+        "AUC": 0.6662951694014568,
+        "best_epoch": 82,
+        "best_val_ndcg": 0.6251357072699173,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed44_v4_00b53becf28540ed.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5357618115016682,
+        "Recall@5": 0.5363475513176112,
+        "Recall@5_bounded": 0.5847305389221558,
+        "Precision@5": 0.3401197604790419,
+        "HitRate@5": 0.874251497005988,
+        "AUC": 0.6942098279298878,
+        "best_epoch": 0,
+        "best_val_ndcg": 0.6261058645058546,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed44_v4_cdbe128f50234c30.pt"
+      }
+    },
+    "45": {
+      "MF": {
+        "NDCG@5": 0.5618177740954162,
+        "Recall@5": 0.540435263339455,
+        "Recall@5_bounded": 0.5963073852295409,
+        "Precision@5": 0.3592814371257486,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6923311946702665,
+        "best_epoch": 30,
+        "best_val_ndcg": 0.6169797853333991,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed45_v4_00fd6748ec30af9d.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.516004323690476,
+        "Recall@5": 0.5144300642803636,
+        "Recall@5_bounded": 0.5627744510978044,
+        "Precision@5": 0.3341317365269461,
+        "HitRate@5": 0.8383233532934131,
+        "AUC": 0.6748527462225067,
+        "best_epoch": 96,
+        "best_val_ndcg": 0.5955516739826692,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed45_v4_2c3877b2aa6922b3.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5321530499644208,
+        "Recall@5": 0.5526702505744422,
+        "Recall@5_bounded": 0.6027944111776447,
+        "Precision@5": 0.3437125748502994,
+        "HitRate@5": 0.8982035928143712,
+        "AUC": 0.6898167929043678,
+        "best_epoch": 57,
+        "best_val_ndcg": 0.6199388920963317,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed45_v4_fe8e24ec64954230.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5532331634873051,
+        "Recall@5": 0.5609109121085168,
+        "Recall@5_bounded": 0.6106786427145708,
+        "Precision@5": 0.35209580838323357,
+        "HitRate@5": 0.8922155688622755,
+        "AUC": 0.6870158243286986,
+        "best_epoch": 31,
+        "best_val_ndcg": 0.578234383563041,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed45_v4_45ebd2b59ecb0574.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5355032669879359,
+        "Recall@5": 0.5405944022710489,
+        "Recall@5_bounded": 0.5901197604790418,
+        "Precision@5": 0.3437125748502994,
+        "HitRate@5": 0.874251497005988,
+        "AUC": 0.6952164311071496,
+        "best_epoch": 0,
+        "best_val_ndcg": 0.6343390114305777,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed45_v4_61dbbab4636b41d2.pt"
+      }
+    },
+    "46": {
+      "MF": {
+        "NDCG@5": 0.556659648600851,
+        "Recall@5": 0.5254865892590443,
+        "Recall@5_bounded": 0.5838323353293413,
+        "Precision@5": 0.3568862275449103,
+        "HitRate@5": 0.8622754491017964,
+        "AUC": 0.695649877816794,
+        "best_epoch": 32,
+        "best_val_ndcg": 0.6235484130071625,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed46_v4_f9ab87c84460f5c3.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5470434320307209,
+        "Recall@5": 0.560646572323219,
+        "Recall@5_bounded": 0.609181636726547,
+        "Precision@5": 0.35449101796407184,
+        "HitRate@5": 0.8922155688622755,
+        "AUC": 0.6926450005417071,
+        "best_epoch": 100,
+        "best_val_ndcg": 0.565729489071451,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed46_v4_4a2cd216dbe1ff11.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5185296294668688,
+        "Recall@5": 0.5106501116980159,
+        "Recall@5_bounded": 0.5600798403193613,
+        "Precision@5": 0.33772455089820363,
+        "HitRate@5": 0.8562874251497006,
+        "AUC": 0.6812133288368317,
+        "best_epoch": 72,
+        "best_val_ndcg": 0.5666079765244099,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed46_v4_949058bda339992e.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5543851292695087,
+        "Recall@5": 0.5626760631251649,
+        "Recall@5_bounded": 0.6134730538922155,
+        "Precision@5": 0.3592814371257485,
+        "HitRate@5": 0.8802395209580839,
+        "AUC": 0.7066896489239303,
+        "best_epoch": 40,
+        "best_val_ndcg": 0.6006573172224653,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed46_v4_ada33e87e0122d54.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5053127124754909,
+        "Recall@5": 0.48372301351343266,
+        "Recall@5_bounded": 0.5355289421157685,
+        "Precision@5": 0.33053892215568864,
+        "HitRate@5": 0.8263473053892215,
+        "AUC": 0.6737800726386056,
+        "best_epoch": 72,
+        "best_val_ndcg": 0.5877101493829591,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed46_v4_fb92e547239ac2e5.pt"
+      }
+    },
+    "47": {
+      "MF": {
+        "NDCG@5": 0.5527762958235313,
+        "Recall@5": 0.5302772244389012,
+        "Recall@5_bounded": 0.5843313373253493,
+        "Precision@5": 0.3508982035928144,
+        "HitRate@5": 0.8562874251497006,
+        "AUC": 0.6900967441573729,
+        "best_epoch": 38,
+        "best_val_ndcg": 0.6393662412748259,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed47_v4_40a4f55abfccd4d6.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5147261620163399,
+        "Recall@5": 0.5293215600101828,
+        "Recall@5_bounded": 0.5775449101796406,
+        "Precision@5": 0.3389221556886227,
+        "HitRate@5": 0.8622754491017964,
+        "AUC": 0.6797526014404757,
+        "best_epoch": 97,
+        "best_val_ndcg": 0.5637975867542179,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed47_v4_2a455b8bc2436e11.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5249300341902656,
+        "Recall@5": 0.5365566569159383,
+        "Recall@5_bounded": 0.5857285429141716,
+        "Precision@5": 0.33532934131736525,
+        "HitRate@5": 0.874251497005988,
+        "AUC": 0.6896852856059444,
+        "best_epoch": 44,
+        "best_val_ndcg": 0.6151257479387013,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed47_v4_0fe1298de8e2ced6.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5561687192927295,
+        "Recall@5": 0.5470602584375039,
+        "Recall@5_bounded": 0.5956087824351297,
+        "Precision@5": 0.34610778443113777,
+        "HitRate@5": 0.8862275449101796,
+        "AUC": 0.6901858371169749,
+        "best_epoch": 83,
+        "best_val_ndcg": 0.5864429584957023,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed47_v4_bddd68aecf5783d6.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5269946803443958,
+        "Recall@5": 0.5258548337889655,
+        "Recall@5_bounded": 0.5733532934131736,
+        "Precision@5": 0.3317365269461078,
+        "HitRate@5": 0.8562874251497006,
+        "AUC": 0.6939895143113705,
+        "best_epoch": 0,
+        "best_val_ndcg": 0.6338068258131221,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed47_v4_8cc9ce9b6518e1a4.pt"
+      }
+    },
+    "48": {
+      "MF": {
+        "NDCG@5": 0.5305407707278846,
+        "Recall@5": 0.5031120742198587,
+        "Recall@5_bounded": 0.556187624750499,
+        "Precision@5": 0.3389221556886228,
+        "HitRate@5": 0.8383233532934131,
+        "AUC": 0.6934355066091593,
+        "best_epoch": 17,
+        "best_val_ndcg": 0.6213713642278097,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed48_v4_200cdb0341bf8aa9.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5199530485510329,
+        "Recall@5": 0.5512986015980027,
+        "Recall@5_bounded": 0.6030938123752495,
+        "Precision@5": 0.3520958083832335,
+        "HitRate@5": 0.8982035928143712,
+        "AUC": 0.6884788946914694,
+        "best_epoch": 86,
+        "best_val_ndcg": 0.589901548304831,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed48_v4_a46dd9fc6c1181fb.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5078922726941135,
+        "Recall@5": 0.528016810202439,
+        "Recall@5_bounded": 0.5792415169660677,
+        "Precision@5": 0.34251497005988024,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6949743474256946,
+        "best_epoch": 50,
+        "best_val_ndcg": 0.5926604367516833,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed48_v4_45efc21db10600ff.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5493234871590312,
+        "Recall@5": 0.569583892488084,
+        "Recall@5_bounded": 0.6201596806387225,
+        "Precision@5": 0.3580838323353293,
+        "HitRate@5": 0.8922155688622755,
+        "AUC": 0.7019385056061702,
+        "best_epoch": 22,
+        "best_val_ndcg": 0.571706546709794,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed48_v4_be87f7055ebaf9a3.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5363149850667546,
+        "Recall@5": 0.5568472445717955,
+        "Recall@5_bounded": 0.6071856287425149,
+        "Precision@5": 0.3544910179640719,
+        "HitRate@5": 0.8802395209580839,
+        "AUC": 0.705470244991203,
+        "best_epoch": 6,
+        "best_val_ndcg": 0.6078020538628994,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed48_v4_414f5d3a66c68f7a.pt"
+      }
+    },
+    "49": {
+      "MF": {
+        "NDCG@5": 0.5438916906286851,
+        "Recall@5": 0.5337771509927199,
+        "Recall@5_bounded": 0.5875249500998004,
+        "Precision@5": 0.35209580838323357,
+        "HitRate@5": 0.8622754491017964,
+        "AUC": 0.7016450490627136,
+        "best_epoch": 19,
+        "best_val_ndcg": 0.6190936197416487,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed49_v4_3e75327da6cda080.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5200272407802413,
+        "Recall@5": 0.5216913658530424,
+        "Recall@5_bounded": 0.5686626746506986,
+        "Precision@5": 0.3317365269461077,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.682226254700057,
+        "best_epoch": 84,
+        "best_val_ndcg": 0.5892343469949445,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed49_v4_0300be10a3a60d2f.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.523130503245859,
+        "Recall@5": 0.5167920735286005,
+        "Recall@5_bounded": 0.5698602794411177,
+        "Precision@5": 0.3413173652694611,
+        "HitRate@5": 0.8562874251497006,
+        "AUC": 0.689495627875119,
+        "best_epoch": 44,
+        "best_val_ndcg": 0.5813011826058941,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed49_v4_9e589be696276225.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5215044818251028,
+        "Recall@5": 0.5197379134504884,
+        "Recall@5_bounded": 0.566067864271457,
+        "Precision@5": 0.3269461077844311,
+        "HitRate@5": 0.8622754491017964,
+        "AUC": 0.6701604013916889,
+        "best_epoch": 83,
+        "best_val_ndcg": 0.6010671984294718,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed49_v4_2aa9a0f716407c8e.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.531660943362445,
+        "Recall@5": 0.5226064188639039,
+        "Recall@5_bounded": 0.5736526946107785,
+        "Precision@5": 0.3413173652694611,
+        "HitRate@5": 0.8622754491017964,
+        "AUC": 0.6940244365581192,
+        "best_epoch": 11,
+        "best_val_ndcg": 0.6115780982947424,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed49_v4_fd81dc2a923aca13.pt"
+      }
+    },
+    "50": {
+      "MF": {
+        "NDCG@5": 0.5426727874897685,
+        "Recall@5": 0.5276707490779348,
+        "Recall@5_bounded": 0.5806387225548902,
+        "Precision@5": 0.34850299401197604,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6770388045088643,
+        "best_epoch": 18,
+        "best_val_ndcg": 0.636950751414492,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed50_v4_8daeeb70d840a32e.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.49742106344372555,
+        "Recall@5": 0.5071444855875994,
+        "Recall@5_bounded": 0.5585828343313373,
+        "Precision@5": 0.3437125748502994,
+        "HitRate@5": 0.8383233532934131,
+        "AUC": 0.6809869646321742,
+        "best_epoch": 71,
+        "best_val_ndcg": 0.5918642959373804,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed50_v4_4874ac4fc40a511e.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5299080780703479,
+        "Recall@5": 0.5191723778550126,
+        "Recall@5_bounded": 0.5678642714570858,
+        "Precision@5": 0.33532934131736525,
+        "HitRate@5": 0.8562874251497006,
+        "AUC": 0.6740532899402659,
+        "best_epoch": 64,
+        "best_val_ndcg": 0.5809814413577871,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed50_v4_15f9fbbcf04502ed.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5361579603001221,
+        "Recall@5": 0.5376887417306578,
+        "Recall@5_bounded": 0.5883233532934131,
+        "Precision@5": 0.33892215568862283,
+        "HitRate@5": 0.874251497005988,
+        "AUC": 0.6875806786360679,
+        "best_epoch": 37,
+        "best_val_ndcg": 0.6127007049644306,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed50_v4_c18c10d7a06a73f6.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5391587099287605,
+        "Recall@5": 0.5297965839882007,
+        "Recall@5_bounded": 0.579940119760479,
+        "Precision@5": 0.34371257485029943,
+        "HitRate@5": 0.8562874251497006,
+        "AUC": 0.6938222850835126,
+        "best_epoch": 0,
+        "best_val_ndcg": 0.5983757338000295,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed50_v4_8839deb06d87a35a.pt"
+      }
+    },
+    "51": {
+      "MF": {
+        "NDCG@5": 0.5715290910125189,
+        "Recall@5": 0.5605759343783296,
+        "Recall@5_bounded": 0.616566866267465,
+        "Precision@5": 0.3604790419161677,
+        "HitRate@5": 0.8862275449101796,
+        "AUC": 0.7021222228370431,
+        "best_epoch": 27,
+        "best_val_ndcg": 0.6371179797041514,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mf_cfdl_seed51_v4_9af6b18982ce8caf.pt"
+      },
+      "GMF": {
+        "NDCG@5": 0.5055304132659355,
+        "Recall@5": 0.5203272110457738,
+        "Recall@5_bounded": 0.5701596806387226,
+        "Precision@5": 0.3401197604790419,
+        "HitRate@5": 0.8682634730538922,
+        "AUC": 0.6824404491882036,
+        "best_epoch": 82,
+        "best_val_ndcg": 0.5721224831714365,
+        "checkpoint_path": "checkpoints/cf_dl/coat_gmf_cfdl_seed51_v4_81e631093ee2954b.pt"
+      },
+      "MLP": {
+        "NDCG@5": 0.5355658379118746,
+        "Recall@5": 0.5394770066925756,
+        "Recall@5_bounded": 0.5924151696606786,
+        "Precision@5": 0.3592814371257485,
+        "HitRate@5": 0.8802395209580839,
+        "AUC": 0.6954184558787851,
+        "best_epoch": 50,
+        "best_val_ndcg": 0.589026013589826,
+        "checkpoint_path": "checkpoints/cf_dl/coat_mlp_cfdl_seed51_v4_c29148d766b6f57f.pt"
+      },
+      "NeuMF": {
+        "NDCG@5": 0.5301722885578601,
+        "Recall@5": 0.54400936721296,
+        "Recall@5_bounded": 0.5908183632734532,
+        "Precision@5": 0.33652694610778444,
+        "HitRate@5": 0.8802395209580839,
+        "AUC": 0.6886828054679851,
+        "best_epoch": 35,
+        "best_val_ndcg": 0.580633516454823,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_cfdl_seed51_v4_b7006628bfacfa95.pt"
+      },
+      "NeuMF-pre": {
+        "NDCG@5": 0.5320686934475326,
+        "Recall@5": 0.5353326979075482,
+        "Recall@5_bounded": 0.5864271457085829,
+        "Precision@5": 0.3532934131736527,
+        "HitRate@5": 0.874251497005988,
+        "AUC": 0.6968886527644012,
+        "best_epoch": 0,
+        "best_val_ndcg": 0.6141571690310503,
+        "checkpoint_path": "checkpoints/cf_dl/coat_neumf_pre_cfdl_seed51_v4_3861f0aefcd70160.pt"
+      }
+    }
+  }
+}

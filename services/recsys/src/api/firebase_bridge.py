@@ -108,7 +108,7 @@ def normalize_video(raw):
             video[key] = int(video.get(key) or 0)
         except (TypeError, ValueError):
             video[key] = 0
-    video.setdefault("moderationStatus", "pending")
+    video["moderationStatus"] = str(video.get("moderationStatus") or "pending").strip().lower()
     for key in ("videoUri", "authorId", "username", "description"):
         video[key] = str(video.get(key) or "")
     return video
@@ -222,13 +222,22 @@ def load_snapshot(source="auto", export_dir=None, interaction_log=None):
 class InteractionLog:
     """Ghi nối tương tác nhận từ app vào CSV để lần huấn luyện sau dùng lại."""
 
-    def __init__(self, path):
+    def __init__(self, path, max_bytes=10 * 1024 * 1024):
         self.path = Path(path)
+        self.max_bytes = max_bytes
         self._lock = threading.Lock()
 
     def append(self, user_id, video_id, play_time_ms, is_like):
         with self._lock:
             self.path.parent.mkdir(parents=True, exist_ok=True)
+            if self.path.exists() and self.path.stat().st_size > self.max_bytes:
+                bak = self.path.with_suffix(".csv.bak")
+                try:
+                    if bak.exists():
+                        bak.unlink()
+                    self.path.rename(bak)
+                except OSError:
+                    pass
             new = not self.path.exists()
             with open(self.path, "a", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)

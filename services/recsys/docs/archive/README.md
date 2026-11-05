@@ -13,6 +13,8 @@ xem [cách khôi phục](../MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
 | `2026-10-28/conalign_paper_window/` | Cửa sổ train KuaiRand của ConAlign |
 | `2026-10-28/lcdr_constraint/` | Biến thể ràng buộc và lưới LR × WD của LCDR |
 | `2026-10-30/console_models/` | `summarize.py` tạo file tổng hợp LCDR và cửa sổ KuaiRand của ConAlign |
-| `2026-11-02/conalign_fix/` | Test, smoke, validation của mốc hiện hành |
+| `2026-11-02/conalign_fix/` | Script validation của mốc 02/11 (log đã thay bằng mốc 04/11) |
+| `2026-11-03/ncf/` | Script validation của mốc NeuMF (log đã thay bằng mốc 04/11 chiều) |
+| `2026-11-04/mrdr_cal_clev/` | Parity CLEV-DR và metric MRDR-CAL với mã tác giả, chẩn đoán MRDR-CAL; test, smoke, validation của mốc hiện hành |
 
 Chạy từ `services/recsys`; lệnh mẫu ở đầu mỗi script. Script ghi báo cáo mới vào `results/`.

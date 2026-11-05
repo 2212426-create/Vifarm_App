@@ -28,8 +28,8 @@ from src.evaluation.protocol import DEFAULT_SEEDS
 from src.utils.artifacts import data_signature, digest, source_signature
 from src.utils.helpers import RESULTS_DIR, CHECKPOINT_DIR
 
-MODELS = ("MF", "iDCF", "IViDR", "DR-BIAS + CDR")
-STANDARD_MODELS = MODELS  # User-selected suite; IViDR uses learned IV and BCE.
+MODELS = ("MF", "iDCF", "DR-BIAS + CDR")
+STANDARD_MODELS = MODELS
 # Cấu hình MF của tác giả iDCF (MF.py); cũng là treatment T của IViDR.
 MF_CONFIG = mf_config("coat")
 

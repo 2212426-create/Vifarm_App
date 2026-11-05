@@ -2,14 +2,14 @@
 
 Mốc tích hợp: **27/10/2026**. Từ **30/10/2026**, theo yêu cầu người dùng, `benchmark --model all`
 chạy cả LCDR và ConAlign (`--model lcdr|conalign` để chạy riêng). Bảng benchmark ghi protocol từng dòng:
-LCDR là **H30**, ConAlign là **C-src** (protocol source). Lệnh riêng `lcdr`, `conalign` vẫn dùng được.
+LCDR là **H30**, ConAlign là **ConAlign-src** (protocol source). Lệnh riêng `lcdr`, `conalign` vẫn dùng được.
 [Trạng thái](../CURRENT_STATE.md) · [Bản đọc LCDR](../paper_summaries/LCDR.md) ·
 [Bản đọc ConAlign](../paper_summaries/ConAlign.md).
 
 | | LCDR | ConAlign |
 | :-- | :-- | :-- |
 | Paper | arXiv 2505.16708v1 (2025) | RecSys 2026, arXiv 2607.24092v1 |
-| Mã tác giả | **Không công bố** | [JcZhangzz/ConAlign](https://github.com/JcZhangzz/ConAlign) `f6171bb`, không có LICENSE |
+| Mã tác giả | **Không công bố** | [JcZhangzz/ConAlign](https://github.com/JcZhangzz/ConAlign) `f6171bb` |
 | Cách làm trong project | Cài đặt lại từ paper trên pipeline iDCF | Port từ source, đối chiếu từng epoch với source |
 | Protocol | H30 của iDCF, cùng dữ liệu/evaluator với iDCF | Protocol riêng của source |
 | Lệnh | `run.py lcdr` | `run.py conalign` |
@@ -109,7 +109,7 @@ dừng vì máy khởi động lại khi đang ở KuaiRand; Coat/Yahoo được
 (cùng quy tắc với pipeline, [script](../archive/2026-10-28/full_benchmark/recover_coat_yahoo.py)), KuaiRand chạy lại
 riêng. Coat seed 42 trùng chính xác lượt 10 seed (.5288; trung bình 10 seed .5657 ± .0212).
 
-ConAlign, tháp unbiased trên test unbiased (C-src), seed 0/1/2, KuaiRand cửa sổ paper, chạy lại ngày 02/11/2026
+ConAlign, tháp unbiased trên test unbiased (ConAlign-src), seed 0/1/2, KuaiRand cửa sổ paper, chạy lại ngày 02/11/2026
 sau khi sửa `best_state` ([tổng hợp](../../results/conalign_summary_20261102.json)):
 
 | Dataset | UAUC (project) | UAUC (paper) | UNDCG | NDCG (`calc`) | Paper "NDCG@5" |

@@ -3,7 +3,6 @@
   "commit": "f6171bb5871025be2a77a37c4c9ab151cbaaab6f",
   "commit_date": "2026-07-22T10:21:33Z",
   "retrieved_on": "2026-10-27",
-  "license": "No LICENSE file in the repository at this commit; all rights remain with the authors. Kept for academic study and citation at the user's request.",
   "acknowledged_upstream": "https://github.com/DongHande/AutoDebias",
   "byte_exact": "git blob bytes (no line-ending conversion)",
   "files": {

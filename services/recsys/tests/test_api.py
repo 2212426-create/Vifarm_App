@@ -86,11 +86,21 @@ class EngineTests(unittest.TestCase):
         cls.engine = make_engine()
 
     def test_trains_real_models(self):
-        self.assertEqual(sorted(self.engine.models), ["cdr", "mf"])
-        from src.causal.cdr.released import ReleasedCDR
-        self.assertIsInstance(self.engine.models['cdr'],ReleasedCDR)
-        self.assertEqual(self.engine.training_stats['cdr']['implementation'],'cdr_released')
-        self.assertEqual(self.engine.training_stats['cdr']['scope'],'serving_adaptation_not_paper_experiment')
+        self.assertEqual(sorted(self.engine.models), ["cdr", "conalign", "mf"])
+        from src.models.cdr.released import ReleasedCDR
+        self.assertIsInstance(self.engine.models['cdr'], ReleasedCDR)
+        from src.models.conalign.model import DualTowerMF
+        self.assertIsInstance(self.engine.models['conalign'], DualTowerMF)
+        self.assertEqual(self.engine.training_stats['cdr']['implementation'], 'cdr_released')
+        self.assertEqual(self.engine.training_stats['cdr']['scope'], 'serving_adaptation_not_paper_experiment')
+
+    def test_conalign_learns_user_preferences(self):
+        def top(user):
+            recs, used, cold, _ = self.engine.recommend(user, k=3, model="conalign", filter_rejected=True)
+            self.assertEqual((used, cold), ("conalign", False))
+            return [r["videoId"] for r in recs]
+        self.assertTrue(set(top("u0")) & {"v0", "v1", "v2"})
+        self.assertNotEqual(top("u0"), top("u1"))
 
     def test_mf_learns_user_preferences(self):
         def top(user):
@@ -119,7 +129,7 @@ class EngineTests(unittest.TestCase):
 
     def test_ividr_request_reports_fallback(self):
         _, used, _, reason = self.engine.recommend("u0", k=3, model="ividr")
-        self.assertEqual(used, "mf")
+        self.assertEqual(used, "conalign")
         self.assertIn("IViDR", reason)
 
     def test_too_little_data_serves_popularity(self):
@@ -162,14 +172,14 @@ class HttpTests(unittest.TestCase):
         item = body["recommendations"][0]
         for key in ("videoId", "videoUri", "authorId", "username", "totalLikes", "watchCount", "moderationStatus"):
             self.assertIn(key, item)
-        self.assertEqual(body["model_used"], "mf")
+        self.assertEqual(body["model_used"], "conalign")
 
     def test_interaction_and_compare(self):
         res = self.client.post("/api/v1/interaction",
                                json={"user_id": "u2", "video_id": "v2", "play_time_ms": 4000, "is_like": False})
         self.assertTrue(res.json()["is_positive_interaction"])
         results = self.client.post("/api/v1/compare", json={"user_id": "u2", "k": 3}).json()["results"]
-        self.assertEqual(set(results), {"mf", "cdr", "popularity"})
+        self.assertEqual(set(results), {"conalign", "mf", "cdr", "popularity"})
 
     def test_invalid_k_is_rejected(self):
         self.assertEqual(self.client.post("/api/v1/recommend", json={"k": 0}).status_code, 422)

@@ -28,9 +28,11 @@ class VideoRepository {
   Future<List<VideoModel>> getRecommendedVideos(String? currentUid) async {
     // 0. ƯU TIÊN 1: Lấy danh sách video từ Colab AI RecSys Server (nếu đang hoạt động)
     if (_recsysService != null) {
+      final watchedIds = currentUid != null ? await getWatchedVideoIds(currentUid) : <String>[];
       final aiVideos = await _recsysService.getRecommendations(
         userId: currentUid,
         limit: AppConstants.videoFeedLimit,
+        excludeVideoIds: watchedIds,
       );
       if (aiVideos != null && aiVideos.isNotEmpty) {
         return aiVideos;
@@ -46,7 +48,7 @@ class VideoRepository {
 
     final allVideos = snapshot.docs
         .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-        .where((v) => v.moderationStatus == 'approved')
+        .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
         .toList();
 
     // 1. NGƯỜI DÙNG CHƯA ĐĂNG NHẬP: Trả về ngẫu nhiên để test và đa dạng
@@ -94,7 +96,7 @@ class VideoRepository {
 
     final allVideos = snapshot.docs
         .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-        .where((v) => v.moderationStatus == 'approved')
+        .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
         .toList();
 
     // Chấm điểm từng video theo thuật toán 5 bước
@@ -246,7 +248,7 @@ class VideoRepository {
 
       final videos = snapshot.docs
           .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-          .where((v) => v.moderationStatus == 'approved')
+          .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
           .toList();
 
       // Sắp xếp thủ công in-memory theo thời gian giảm dần (mới nhất lên đầu)

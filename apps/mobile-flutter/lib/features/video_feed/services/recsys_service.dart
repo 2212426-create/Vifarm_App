@@ -120,8 +120,9 @@ class RecSysService {
   Future<List<VideoModel>?> getRecommendations({
     String? userId,
     int limit = 20,
-    String model = 'ividr',
+    String model = 'conalign',
     bool filterRejected = true,
+    List<String>? excludeVideoIds,
   }) async {
     final url = await getActiveApiUrl();
     if (url == null || url.isEmpty) return null;
@@ -135,6 +136,7 @@ class RecSysService {
           'k': limit,
           'model': model,
           'filter_rejected': filterRejected,
+          'exclude_video_ids': excludeVideoIds ?? [],
         }),
       ).timeout(const Duration(seconds: 4));
 

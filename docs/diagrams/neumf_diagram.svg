@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb" />
+    </marker>
+  </defs>
+  <style>
+    .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #64748b; }
+    .node-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: 600; }
+    .node-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; }
+    .math-text { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 13px; }
+    .badge { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; font-weight: 700; text-anchor: middle; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="12" />
+  
+  <text x="40" y="45" class="title">MÔ HÌNH MA TRẬN NƠ-RON NEUMF (HE ET AL., WWW 2017)</text>
+  <text x="40" y="70" class="subtitle">Kết hợp tương tác tuyến tính Generalized Matrix Factorization (GMF) và tương tác phi tuyến tính sâu (MLP)</text>
+
+  <!-- Input Nodes -->
+  <g transform="translate(60, 150)">
+    <rect width="140" height="50" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="2" filter="url(#shadow)" />
+    <text x="70" y="26" fill="#0f172a" class="node-title" text-anchor="middle">User ID: u</text>
+    <text x="70" y="42" fill="#64748b" class="node-desc" text-anchor="middle">One-hot: ℝ^N</text>
+  </g>
+  <g transform="translate(60, 260)">
+    <rect width="140" height="50" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="2" filter="url(#shadow)" />
+    <text x="70" y="26" fill="#0f172a" class="node-title" text-anchor="middle">Video ID: i</text>
+    <text x="70" y="42" fill="#64748b" class="node-desc" text-anchor="middle">One-hot: ℝ^M</text>
+  </g>
+
+  <!-- Branch 1: GMF -->
+  <g transform="translate(280, 100)">
+    <rect width="220" height="110" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2" filter="url(#shadow)" />
+    <text x="110" y="25" fill="#1e3a8a" class="node-title" text-anchor="middle">NHÁNH TUYẾN TÍNH GMF</text>
+    <text x="110" y="50" fill="#1e40af" class="node-desc" text-anchor="middle">Embedding: p_u^G, q_i^G ∈ ℝ^8</text>
+    <rect x="25" y="65" width="170" height="30" rx="6" fill="#2563eb" />
+    <text x="110" y="85" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">Tích Hadamard: p_u^G ⊙ q_i^G</text>
+  </g>
+
+  <!-- Branch 2: MLP -->
+  <g transform="translate(280, 240)">
+    <rect width="220" height="130" rx="10" fill="#f3e8ff" stroke="#9333ea" stroke-width="2" filter="url(#shadow)" />
+    <text x="110" y="25" fill="#581c87" class="node-title" text-anchor="middle">NHÁNH PHI TUYẾN SÂU MLP</text>
+    <text x="110" y="50" fill="#6b21a8" class="node-desc" text-anchor="middle">Ghép nối: [p_u^M ∥ q_i^M] ∈ ℝ^16</text>
+    <rect x="20" y="65" width="180" height="26" rx="4" fill="#a855f7" />
+    <text x="110" y="82" fill="#ffffff" font-size="10" font-weight="600" text-anchor="middle">3 Tầng Ẩn Dense [64, 32, 16]</text>
+    <text x="110" y="112" fill="#7e22ce" font-size="11" font-weight="700" text-anchor="middle">Đầu ra MLP: ϕ^M ∈ ℝ^16</text>
+  </g>
+
+  <path d="M 200 175 L 280 155" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 200 285 L 280 305" fill="none" stroke="#9333ea" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- NeuMF Merge Layer -->
+  <g transform="translate(580, 160)">
+    <rect width="240" height="130" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2.5" filter="url(#shadow)" />
+    <text x="120" y="28" fill="#064e3b" class="node-title" text-anchor="middle">TẦNG NEUMF TỔNG HỢP</text>
+    <text x="120" y="55" fill="#047857" class="node-desc" text-anchor="middle">Ghép Vector: [ϕ^G ∥ ϕ^M] ∈ ℝ^24</text>
+    <line x1="25" y1="70" x2="215" y2="70" stroke="#a7f3d0" stroke-width="1.5" />
+    <text x="120" y="95" fill="#065f46" class="math-text" text-anchor="middle">ŷ_ui = σ ( h^T [ϕ^G ∥ ϕ^M] )</text>
+    <text x="120" y="118" fill="#059669" font-size="11" font-weight="700" text-anchor="middle">Xác Suất Dự Báo ∈ [0, 1]</text>
+  </g>
+
+  <path d="M 500 155 L 580 200" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 500 305 L 580 250" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" />
+
+</svg>

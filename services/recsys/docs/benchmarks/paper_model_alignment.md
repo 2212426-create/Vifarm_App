@@ -9,7 +9,7 @@ Tích hợp DR-BIAS+CDR từ
 [released.py](../../src/models/cdr/released.py) giữ dot MF không bias, khởi tạo rec
 Xavier/imp mặc định, BCE, MC 10, variance filter, dropout cả embedding/output,
 reverse BCE imputation, DR-BIAS sum loss, rec step trước imp.
-Giữ giấy phép Apache-2.0 và kiểm thử tham số khớp lớp gốc sau 3 epoch CPU.
+Kiểm thử tham số khớp lớp gốc sau 3 epoch CPU.
 
 | Dataset | Dim | LR | Weight decay | Batch | Variance threshold | Dropout | G |
 | :-- | --: | --: | --: | --: | --: | --: | --: |

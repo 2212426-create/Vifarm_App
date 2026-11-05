@@ -42,9 +42,9 @@ chạy các model này. **Chưa xác minh được source tác giả IViDR v1.**
 
 | Nguồn | Tham khảo cho | Giới hạn |
 | :-- | :-- | :-- |
-| [iDCF, KDD 2023](https://github.com/BgmLover/iDCF/tree/462014126f6e2fc33053341c1da250f9cf6f1fa0) [2] | ELBO, KL annealing, prior theo proxy, MF latent, split, evaluator | Không có learned IV; API không ghi license |
+| [iDCF, KDD 2023](https://github.com/BgmLover/iDCF/tree/462014126f6e2fc33053341c1da250f9cf6f1fa0) [2] | ELBO, KL annealing, prior theo proxy, MF latent, split, evaluator | Không có learned IV |
 | [iVAE, AISTATS 2020](https://github.com/ilkhem/iVAE/tree/cf6ff689f8ea957d70c54639132e3a875903a257) [3] | Prior/posterior, parameterization variance, ELBO | Không phải recommender; MIT |
-| [IV4Rec, WWW 2022](https://github.com/Ethan00Si/Instrumental-variables-for-recommendation/tree/3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3) [4] | Projector, MLP0, gate kết hợp embedding | IV là search query; không có dual iVAE; API không ghi license |
+| [IV4Rec, WWW 2022](https://github.com/Ethan00Si/Instrumental-variables-for-recommendation/tree/3bc141194dd36719ce86adb5d5c2bf93d4f4c4b3) [4] | Projector, MLP0, gate kết hợp embedding | IV là search query; không có dual iVAE |
 | [DFIV, ICLR 2021](https://github.com/liyuan9988/DeepFeatureIV/tree/27442c3084196f352154e84504d37b0d94f9a289) [5] | Chẩn đoán IV hai giai đoạn | Estimator khác; MIT |
 
 Hướng mở rộng, không đồng nhất với IViDR: **IDCIV-RS, IJCAI 2025** [6] học conditional IV từ interaction

@@ -1,0 +1,316 @@
+{
+  "identity": {
+    "code_sha256": "4d7007b041de99264dabd07107a7e2236024aed623eb55d14eabb07b6cf0fa09",
+    "upstream": "https://github.com/CrazyDumpling/CDR_CIKM2023/tree/6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9",
+    "seed": 2020,
+    "dataset": "kuairand"
+  },
+  "scope": "published_script_conditions_not_project_held_out",
+  "config": {
+    "embedding_dim": 4,
+    "epochs": 1000,
+    "lr": 0.05,
+    "weight_decay": 0.0001,
+    "batch_size": 2048,
+    "un_thres": 10.0,
+    "dropout_rate": 0.5,
+    "G": 1,
+    "tol": 1e-05,
+    "stop": 5,
+    "mc_samples": 10
+  },
+  "source_calibration": {
+    "method": "released_naive_bayes",
+    "calibration_rows": 14170,
+    "calibration_positive_rate": 0.1757939308398024,
+    "train_positive_rate": 0.45916025620165624,
+    "population_denominator": 157923252,
+    "observed_fraction": 0.008951018815139395
+  },
+  "test_labels_used_for_propensity": false,
+  "calibration_rows": 14170,
+  "positive_threshold": 1,
+  "evaluation_pool": "local_held_out_random_log",
+  "zero_positive_score": null,
+  "recall_denominator": "all_positive",
+  "raw_id_convention": "source_unchanged",
+  "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\benchmark_runs\\20261104_222805_e21bb674\\kuairand\\cdr\\20261105_033521_08cf0ae7\\kuairand.pt",
+  "training_history": [
+    {
+      "epoch": 1,
+      "weighted_factual_sum": 79028776.0,
+      "rec_loss": 55.94028535925824,
+      "imp_loss": 739294749.4028986,
+      "filtered_fraction": 3.538269927536232e-07,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 2,
+      "weighted_factual_sum": 67229824.0,
+      "rec_loss": 47.58079649883768,
+      "imp_loss": 448164422.53913045,
+      "filtered_fraction": 1.0614809782608696e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 3,
+      "weighted_factual_sum": 66712756.0,
+      "rec_loss": 47.2114203190458,
+      "imp_loss": 437807241.6,
+      "filtered_fraction": 1.769134963768116e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 4,
+      "weighted_factual_sum": 66449744.0,
+      "rec_loss": 47.024571515511774,
+      "imp_loss": 435217453.95942026,
+      "filtered_fraction": 2.8306159420289855e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 5,
+      "weighted_factual_sum": 66326276.0,
+      "rec_loss": 46.93615196891453,
+      "imp_loss": 430798795.45507246,
+      "filtered_fraction": 4.599750905797102e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 6,
+      "weighted_factual_sum": 66338368.0,
+      "rec_loss": 46.94425395468007,
+      "imp_loss": 435735015.2811594,
+      "filtered_fraction": 5.307404891304348e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 7,
+      "weighted_factual_sum": 66332856.0,
+      "rec_loss": 46.938577817833945,
+      "imp_loss": 436381456.6956522,
+      "filtered_fraction": 7.430366847826087e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 8,
+      "weighted_factual_sum": 66385460.0,
+      "rec_loss": 46.97571689771569,
+      "imp_loss": 435193112.06956524,
+      "filtered_fraction": 1.0614809782608695e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 9,
+      "weighted_factual_sum": 66378672.0,
+      "rec_loss": 46.970758100869,
+      "imp_loss": 434801340.56811595,
+      "filtered_fraction": 1.0260982789855072e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 10,
+      "weighted_factual_sum": 66351440.0,
+      "rec_loss": 46.95144194450931,
+      "imp_loss": 433105915.1768116,
+      "filtered_fraction": 1.2030117753623189e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 11,
+      "weighted_factual_sum": 66343820.0,
+      "rec_loss": 46.946374450904734,
+      "imp_loss": 435523410.5507246,
+      "filtered_fraction": 1.1676290760869566e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 12,
+      "weighted_factual_sum": 66385888.0,
+      "rec_loss": 46.976231461676996,
+      "imp_loss": 437359306.62028986,
+      "filtered_fraction": 1.0260982789855072e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 13,
+      "weighted_factual_sum": 66366172.0,
+      "rec_loss": 46.96180434296097,
+      "imp_loss": 439483001.04347825,
+      "filtered_fraction": 1.0260982789855072e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 14,
+      "weighted_factual_sum": 66335672.0,
+      "rec_loss": 46.94007520813873,
+      "imp_loss": 436159856.7884058,
+      "filtered_fraction": 1.4860733695652175e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 15,
+      "weighted_factual_sum": 66386604.0,
+      "rec_loss": 46.97623902472897,
+      "imp_loss": 436609529.78550726,
+      "filtered_fraction": 7.78419384057971e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 16,
+      "weighted_factual_sum": 66363824.0,
+      "rec_loss": 46.96011670983356,
+      "imp_loss": 435824723.1072464,
+      "filtered_fraction": 1.0968636775362319e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 17,
+      "weighted_factual_sum": 66348756.0,
+      "rec_loss": 46.94958860977836,
+      "imp_loss": 436011069.8666667,
+      "filtered_fraction": 1.2737771739130434e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 18,
+      "weighted_factual_sum": 66348108.0,
+      "rec_loss": 46.9481113212696,
+      "imp_loss": 436569323.87246376,
+      "filtered_fraction": 8.138020833333333e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 19,
+      "weighted_factual_sum": 66342632.0,
+      "rec_loss": 46.94523994888085,
+      "imp_loss": 436003908.96231884,
+      "filtered_fraction": 8.491847826086957e-06,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 20,
+      "weighted_factual_sum": 66338884.0,
+      "rec_loss": 46.94173246190168,
+      "imp_loss": 435666667.87246376,
+      "filtered_fraction": 1.2383944746376812e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 21,
+      "weighted_factual_sum": 66343216.0,
+      "rec_loss": 46.94482037641,
+      "imp_loss": 435893068.24347824,
+      "filtered_fraction": 1.0260982789855072e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    },
+    {
+      "epoch": 22,
+      "weighted_factual_sum": 66353144.0,
+      "rec_loss": 46.95162424833878,
+      "imp_loss": 437726098.5043478,
+      "filtered_fraction": 1.2030117753623189e-05,
+      "observed_rows_used": 1413120,
+      "observed_rows_dropped": 454
+    }
+  ],
+  "metrics": {
+    "NDCG@5": 0.27508164294680865,
+    "Recall@5": 0.2603896274230597,
+    "Recall@5_bounded": 0.3298980397965733,
+    "Precision@5": 0.21887127832913644,
+    "HitRate@5": 0.6485705821359798,
+    "AUC_global": 0.6376748085021973,
+    "users": 13502
+  },
+  "quick_run": false,
+  "metadata": {
+    "model": "cdr_source",
+    "architecture_version": "cdr_released_v1",
+    "dataset": "kuairand",
+    "code_sha256": "4d7007b041de99264dabd07107a7e2236024aed623eb55d14eabb07b6cf0fa09",
+    "config": {
+      "embedding_dim": 4,
+      "epochs": 1000,
+      "lr": 0.05,
+      "weight_decay": 0.0001,
+      "batch_size": 2048,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5,
+      "G": 1,
+      "tol": 1e-05,
+      "stop": 5,
+      "mc_samples": 10,
+      "seed": 2020,
+      "selection": "source_train_loss_last",
+      "implementation": "cdr_released",
+      "catalog_sampler": "replacement"
+    },
+    "data": {
+      "sha256": "7a1bb008cefc333c0079a09c408a09c7bb9d5aad925b8a4d1c0f761abf22b7de"
+    },
+    "model_kwargs": {
+      "num_users": 23533,
+      "num_items": 6712,
+      "embedding_dim": 4,
+      "un_thres": 10.0,
+      "dropout_rate": 0.5
+    },
+    "protocol": {
+      "metric_revision": "cdr_source_v1",
+      "scope": "cdr_source_protocol",
+      "recall_denominator": "all_positive",
+      "calibration": "validation_5_percent",
+      "supplementary_metrics": [
+        "Recall@5_bounded",
+        "Precision@5",
+        "HitRate@5"
+      ],
+      "auxiliary_aggregation": "same source-eligible users; empty users: Recall=1, precision/hit-rate=0",
+      "paper_scores_directly_comparable": false
+    },
+    "adaptations": [
+      "local KuaiRand preprocessing/user split; original processed CSVs unavailable",
+      "array trainer sampling instead of source Torch DataLoader",
+      "zero-based local user IDs, including user 0 in evaluation",
+      "global AUC half-credit ties instead of source arbitrary tie ranks",
+      "bounded-memory catalog sampling with replacement"
+    ],
+    "data_dir": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\data\\raw\\kuairand_pure\\data",
+    "smoke_users": null
+  },
+  "evaluation_scope": "cdr_source_protocol",
+  "best_epoch": 22,
+  "best_val_ndcg": null,
+  "selection_origin": "source_train_loss_last",
+  "epochs_run": 22,
+  "limitation": "Paper prose and released script differ; these source-protocol scores are not shared benchmark results",
+  "NDCG@5": 0.27508164294680865,
+  "Recall@5": 0.2603896274230597,
+  "Recall@5_bounded": 0.3298980397965733,
+  "Precision@5": 0.21887127832913644,
+  "HitRate@5": 0.6485705821359798,
+  "AUC_global": 0.6376748085021973,
+  "users": 13502
+}

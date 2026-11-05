@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="1000" height="480">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb" />
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#059669" />
+    </marker>
+  </defs>
+  <style>
+    .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 18px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #64748b; }
+    .node-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 600; }
+    .node-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="10" />
+
+  <text x="30" y="35" class="title">KIẾN TRÚC PHỤC VỤ GỢI Ý 2 TẦNG (SERVING ARCHITECTURE)</text>
+  <text x="30" y="55" class="subtitle">Kết nối ứng dụng Flutter TopTop với backend FastAPI qua Cloudflare Tunnel và Firebase RTDB</text>
+
+  <!-- Client Flutter TopTop -->
+  <g transform="translate(40, 90)">
+    <rect width="250" height="340" rx="10" fill="#f8fafc" stroke="#0284c7" stroke-width="2" filter="url(#shadow)" />
+    <rect x="10" y="10" width="230" height="35" rx="6" fill="#0284c7" />
+    <text x="125" y="33" fill="#ffffff" class="node-title" text-anchor="middle">ỨNG DỤNG TOPTOP (FLUTTER)</text>
+    
+    <g transform="translate(20, 60)">
+      <rect width="210" height="50" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="105" y="20" fill="#0f172a" font-size="11" font-weight="600" text-anchor="middle">VideoFeedScreen (Feed lướt)</text>
+      <text x="105" y="38" fill="#64748b" font-size="10" text-anchor="middle">PageView / Infinite Scroll</text>
+    </g>
+
+    <g transform="translate(20, 125)">
+      <rect width="210" height="60" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="105" y="20" fill="#0f172a" font-size="11" font-weight="600" text-anchor="middle">RecSysService</text>
+      <text x="105" y="36" fill="#0284c7" font-size="10" text-anchor="middle">• Tự đọc URL qua Firebase SDK</text>
+      <text x="105" y="50" fill="#64748b" font-size="10" text-anchor="middle">• Cache bộ nhớ trong 30 giây</text>
+    </g>
+
+    <g transform="translate(20, 200)">
+      <rect width="210" height="60" rx="6" fill="#fffbeb" stroke="#f59e0b" />
+      <text x="105" y="20" fill="#92400e" font-size="11" font-weight="600" text-anchor="middle">Cơ Chế Kháng Lỗi Fallback</text>
+      <text x="105" y="36" fill="#b45309" font-size="10" text-anchor="middle">• Timeout 4s: Lấy 500 video mới</text>
+      <text x="105" y="50" fill="#b45309" font-size="10" text-anchor="middle">• Sắp xếp theo Hashtag / Lịch sử</text>
+    </g>
+
+    <g transform="translate(20, 275)">
+      <rect width="210" height="50" rx="6" fill="#ecfdf5" stroke="#059669" />
+      <text x="105" y="20" fill="#064e3b" font-size="11" font-weight="600" text-anchor="middle">Ghi Nhận Phản Hồi Ngầm</text>
+      <text x="105" y="38" fill="#047857" font-size="10" text-anchor="middle">Thả tim OR xem video ≥ 3s</text>
+    </g>
+  </g>
+
+  <!-- Cloud Infrastructure (Middle) -->
+  <g transform="translate(360, 90)">
+    <rect width="260" height="340" rx="10" fill="#faf5ff" stroke="#9333ea" stroke-width="2" filter="url(#shadow)" />
+    <rect x="10" y="10" width="240" height="35" rx="6" fill="#9333ea" />
+    <text x="130" y="33" fill="#ffffff" class="node-title" text-anchor="middle">HẠ TẦNG KẾT NỐI ĐÁM MÂY</text>
+
+    <g transform="translate(20, 65)">
+      <rect width="220" height="65" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="110" y="22" fill="#0f172a" font-size="11" font-weight="600" text-anchor="middle">Firebase Realtime DB</text>
+      <text x="110" y="40" fill="#7e22ce" font-size="10" text-anchor="middle">server_config/recsys_url</text>
+      <text x="110" y="55" fill="#64748b" font-size="9" text-anchor="middle">Đồng bộ URL động khi khởi động</text>
+    </g>
+
+    <g transform="translate(20, 150)">
+      <rect width="220" height="65" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="110" y="22" fill="#0f172a" font-size="11" font-weight="600" text-anchor="middle">Cloudflare Tunnel</text>
+      <text x="110" y="40" fill="#2563eb" font-size="10" text-anchor="middle">https://*.trycloudflare.com</text>
+      <text x="110" y="55" fill="#64748b" font-size="9" text-anchor="middle">Bỏ qua mở cổng router / NAT</text>
+    </g>
+
+    <g transform="translate(20, 235)">
+      <rect width="220" height="85" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="110" y="20" fill="#0f172a" font-size="11" font-weight="600" text-anchor="middle">Cloud Firestore</text>
+      <text x="110" y="38" fill="#64748b" font-size="10" text-anchor="middle">• Collection: videos (Metadata)</text>
+      <text x="110" y="54" fill="#64748b" font-size="10" text-anchor="middle">• Collection: users (Sở thích)</text>
+      <text x="110" y="70" fill="#64748b" font-size="10" text-anchor="middle">• Collection: interactions</text>
+    </g>
+  </g>
+
+  <!-- Backend AI Engine (Right) -->
+  <g transform="translate(690, 90)">
+    <rect width="270" height="340" rx="10" fill="#f0fdf4" stroke="#059669" stroke-width="2" filter="url(#shadow)" />
+    <rect x="10" y="10" width="250" height="35" rx="6" fill="#059669" />
+    <text x="135" y="33" fill="#ffffff" class="node-title" text-anchor="middle">BACKEND GỢI Ý FASTAPI</text>
+
+    <g transform="translate(20, 60)">
+      <rect width="230" height="85" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="115" y="20" fill="#065f46" font-size="11" font-weight="700" text-anchor="middle">Pha Phục Vụ Trực Tiếp (Online)</text>
+      <text x="115" y="38" fill="#047857" font-size="10" text-anchor="middle">• POST /api/v1/recommend</text>
+      <text x="115" y="54" fill="#64748b" font-size="10" text-anchor="middle">• Tích vô hướng MF / CDR đã nạp</text>
+      <text x="115" y="70" fill="#059669" font-size="10" font-weight="600" text-anchor="middle">Độ trễ dự báo: &lt; 45ms</text>
+    </g>
+
+    <g transform="translate(20, 155)">
+      <rect width="230" height="80" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="115" y="20" fill="#1e3a8a" font-size="11" font-weight="700" text-anchor="middle">Hàng Đợi Ghi Nhận (Logging)</text>
+      <text x="115" y="38" fill="#2563eb" font-size="10" text-anchor="middle">• POST /api/v1/interaction</text>
+      <text x="115" y="54" fill="#64748b" font-size="10" text-anchor="middle">• Tự huấn luyện lại sau 20 mẫu</text>
+      <text x="115" y="70" fill="#64748b" font-size="10" text-anchor="middle">• POST /api/v1/sync</text>
+    </g>
+
+    <g transform="translate(20, 245)">
+      <rect width="230" height="75" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+      <text x="115" y="20" fill="#991b1b" font-size="11" font-weight="700" text-anchor="middle">Huấn Luyện Ngoại Tuyến (Offline)</text>
+      <text x="115" y="38" fill="#b91c1c" font-size="10" text-anchor="middle">• CLEV-DR (4 tháp + Monte Carlo)</text>
+      <text x="115" y="54" fill="#b91c1c" font-size="10" text-anchor="middle">• ConAlign (Mặt cầu tương phản)</text>
+      <text x="115" y="68" fill="#64748b" font-size="9" text-anchor="middle">Xuất checkpoint &amp; vector cache</text>
+    </g>
+  </g>
+
+  <!-- Connectors -->
+  <path d="M 290 190 L 360 190" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowBlue)" />
+  <path d="M 620 190 L 690 190" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowBlue)" />
+  <path d="M 690 220 L 620 220" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrowGreen)" />
+  <path d="M 360 220 L 290 220" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrowGreen)" />
+
+</svg>

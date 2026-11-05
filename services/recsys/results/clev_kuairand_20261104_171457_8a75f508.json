@@ -1,0 +1,590 @@
+{
+  "model": "CLEV-DR",
+  "paper_name": "Ours-DR",
+  "dataset": "kuairand",
+  "run_id": "20261104_171457_8a75f508",
+  "smoke": false,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "alphas": [
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "runs": [
+    {
+      "AUC": 0.6346621883685265,
+      "Recall@5": 0.18940044872508405,
+      "NDCG@5": 0.3825779553168792,
+      "Precision@5": 0.1782737768004398,
+      "dataset": "kuairand",
+      "alpha": 0.2,
+      "seed": 0,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 21,
+        "converged": true,
+        "rho": -0.043055836111307144
+      },
+      "seconds": 4047.3,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.637679620043737,
+      "Recall@5": 0.1942540110407773,
+      "NDCG@5": 0.38969872444141174,
+      "Precision@5": 0.1831482499541873,
+      "dataset": "kuairand",
+      "alpha": 0.4,
+      "seed": 0,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 26,
+        "converged": true,
+        "rho": -0.010298218578100204
+      },
+      "seconds": 4349.0,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6493722179459566,
+      "Recall@5": 0.20459220101186473,
+      "NDCG@5": 0.40698445133925937,
+      "Precision@5": 0.19549935862195347,
+      "dataset": "kuairand",
+      "alpha": 0.6,
+      "seed": 0,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 21,
+        "converged": true,
+        "rho": 0.031467363238334656
+      },
+      "seconds": 4041.6,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6479975718376766,
+      "Recall@5": 0.21809920885829645,
+      "NDCG@5": 0.425974854567288,
+      "Precision@5": 0.20959501557632398,
+      "dataset": "kuairand",
+      "alpha": 0.8,
+      "seed": 0,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 21,
+        "converged": true,
+        "rho": 0.14749903976917267
+      },
+      "seconds": 4056.6,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6348645971427607,
+      "Recall@5": 0.1916040046109749,
+      "NDCG@5": 0.38392227292724823,
+      "Precision@5": 0.17938794209272496,
+      "dataset": "kuairand",
+      "alpha": 0.2,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 25,
+        "converged": true,
+        "rho": -0.054240744560956955
+      },
+      "seconds": 4368.4,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6435566976486607,
+      "Recall@5": 0.1933601746177166,
+      "NDCG@5": 0.3870605356894026,
+      "Precision@5": 0.18226131574124976,
+      "dataset": "kuairand",
+      "alpha": 0.4,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 22,
+        "converged": true,
+        "rho": -0.02837352827191353
+      },
+      "seconds": 4201.5,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6459879303996025,
+      "Recall@5": 0.2004973364804093,
+      "NDCG@5": 0.3958609095512196,
+      "Precision@5": 0.18815466373465276,
+      "dataset": "kuairand",
+      "alpha": 0.6,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 25,
+        "converged": true,
+        "rho": 0.02140037529170513
+      },
+      "seconds": 4385.1,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6480131417433869,
+      "Recall@5": 0.21915147101203333,
+      "NDCG@5": 0.42325666569741727,
+      "Precision@5": 0.20683159245006416,
+      "dataset": "kuairand",
+      "alpha": 0.8,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 25,
+        "converged": true,
+        "rho": 0.024980951100587845
+      },
+      "seconds": 4427.1,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6519992783769661,
+      "Recall@5": 0.24010555860423746,
+      "NDCG@5": 0.4429394334332395,
+      "Precision@5": 0.22333883085944659,
+      "dataset": "kuairand",
+      "alpha": 0.2,
+      "seed": 2,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 31,
+        "converged": true,
+        "rho": 0.026453834027051926
+      },
+      "seconds": 4673.9,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6470978881108072,
+      "Recall@5": 0.24476013768589336,
+      "NDCG@5": 0.45112856946575813,
+      "Precision@5": 0.22851383544071835,
+      "dataset": "kuairand",
+      "alpha": 0.4,
+      "seed": 2,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 23,
+        "converged": true,
+        "rho": 0.022214878350496292
+      },
+      "seconds": 4324.7,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6479588878451386,
+      "Recall@5": 0.24433672028903322,
+      "NDCG@5": 0.4512223750379934,
+      "Precision@5": 0.2290196078431373,
+      "dataset": "kuairand",
+      "alpha": 0.6,
+      "seed": 2,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 23,
+        "converged": true,
+        "rho": 0.07717405259609222
+      },
+      "seconds": 4180.7,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6503638764766613,
+      "Recall@5": 0.21764136832253972,
+      "NDCG@5": 0.425241274986801,
+      "Precision@5": 0.20809968847352028,
+      "dataset": "kuairand",
+      "alpha": 0.8,
+      "seed": 2,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 20,
+        "converged": true,
+        "rho": 0.19073618948459625
+      },
+      "seconds": 3989.8,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    }
+  ],
+  "summary_by_alpha": {
+    "0.2": {
+      "AUC": {
+        "mean": 0.6405086879627511,
+        "std": 0.009951657820605048,
+        "n": 3
+      },
+      "Recall@5": {
+        "mean": 0.20703667064676545,
+        "std": 0.028659682965682613,
+        "n": 3
+      },
+      "NDCG@5": {
+        "mean": 0.40314655389245563,
+        "std": 0.03446819902562197,
+        "n": 3
+      },
+      "Precision@5": {
+        "mean": 0.19366684991753713,
+        "std": 0.025702727108955045,
+        "n": 3
+      }
+    },
+    "0.4": {
+      "AUC": {
+        "mean": 0.6427780686010683,
+        "std": 0.004757167302199313,
+        "n": 3
+      },
+      "Recall@5": {
+        "mean": 0.21079144111479575,
+        "std": 0.029421148786923177,
+        "n": 3
+      },
+      "NDCG@5": {
+        "mean": 0.4092959431988575,
+        "std": 0.03625212373451308,
+        "n": 3
+      },
+      "Precision@5": {
+        "mean": 0.19797446704538513,
+        "std": 0.02645158652262521,
+        "n": 3
+      }
+    },
+    "0.6": {
+      "AUC": {
+        "mean": 0.6477730120635659,
+        "std": 0.0016997831931553312,
+        "n": 3
+      },
+      "Recall@5": {
+        "mean": 0.21647541926043576,
+        "std": 0.024215306112815048,
+        "n": 3
+      },
+      "NDCG@5": {
+        "mean": 0.41802257864282416,
+        "std": 0.02928486223269776,
+        "n": 3
+      },
+      "Precision@5": {
+        "mean": 0.2042245433999145,
+        "std": 0.02178491568275084,
+        "n": 3
+      }
+    },
+    "0.8": {
+      "AUC": {
+        "mean": 0.6487915300192416,
+        "std": 0.0013617142292387048,
+        "n": 3
+      },
+      "Recall@5": {
+        "mean": 0.21829734939762316,
+        "std": 0.0007743043898864796,
+        "n": 3
+      },
+      "NDCG@5": {
+        "mean": 0.4248242650838354,
+        "std": 0.00140625766751716,
+        "n": 3
+      },
+      "Precision@5": {
+        "mean": 0.20817543216663614,
+        "std": 0.0013832677520899653,
+        "n": 3
+      }
+    }
+  },
+  "best_alpha_by_test_ndcg": {
+    "alpha": 0.8,
+    "selected_on": "test (author procedure)"
+  },
+  "paper": null,
+  "source": {
+    "repository": "https://github.com/WallaceSUI/kdd25-background-variable",
+    "commit": "66a0e5f9041bf10f4ea04334ca1eeedd100a7d19",
+    "class": "new_model.MF_BV_Multi_bin_JL_G_DR"
+  },
+  "code_sha256_at_start": "aaadb81eb5a6254c915c5d04e906d66f2a3148570219d2723f4aa45f370656c8",
+  "protocol": "author protocol (Zhang et al. scripts): train on the biased log, test on the whole random log, labels and metrics as in the author code; not H30"
+}

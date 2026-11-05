@@ -6,8 +6,8 @@ Mốc CDR source làm mặc định: 20/10/2026.
 LCDR dùng đúng protocol H30 và evaluator của iDCF bên dưới. ConAlign dùng protocol và metric
 của source tác giả (chia ngẫu nhiên biased/unbiased, cổng thời gian KuaiRand riêng); xem
 [LCDR và ConAlign](lcdr_conalign_20261027.md). Từ 30/10 bảng benchmark gộp có dòng ConAlign ghi
-protocol `C-src` (NDCG = `NDCG` của source, AUC global, không có Recall bounded/HitRate; UAUC/UNDCG
-in dưới bảng). Không so trực tiếp hay paired-test dòng C-src với H30/CDR; KuaiRand dùng cửa sổ paper.
+protocol `ConAlign-src` (NDCG = `NDCG` của source, AUC global, không có Recall bounded/HitRate; UAUC/UNDCG
+in dưới bảng). Không so trực tiếp hay paired-test dòng ConAlign-src với H30/CDR; KuaiRand dùng cửa sổ paper.
 
 ## MF/iDCF/IViDR và chế độ CDR shared
 
@@ -51,7 +51,7 @@ nhãn tập chấm cho calibration; không gọi là held-out test độc lập.
 Báo cáo giữ metric gốc Recall@5_bounded / AUC_global. Bảng hiển thị được gộp
 với cột protocol và loại AUC; bổ sung Recall/all positives, Precision, HitRate
 từ cùng ranking/cùng tập user, không đổi training hoặc các metric gốc.
-User empty-positive của S-full vẫn nhận Recall=1; Precision/HitRate=0.
+User empty-positive của CDR-src vẫn nhận Recall=1; Precision/HitRate=0.
 Các metric phụ này không phải metric nguồn công bố. Không ghép vào
 paired tests, không lấy chênh điểm thô để xếp hạng với MF/iDCF dùng giao thức khác.
 
@@ -78,8 +78,8 @@ Kiểm tra bằng `experiments/run.py test`; smoke chỉ xác nhận vận hành
 ## Bảng tổng hợp và cập nhật báo cáo — 21/10/2026
 
 H30: MF/iDCF/IViDR hoặc CDR shared, split 30/70 theo user; Coat/Yahoo >=4; AUC macro-user.
-S-full: CDR Coat/Yahoo source, >=3, toàn random log, calibration 5% nhãn chấm điểm;
-AUC toàn cục. S-KR: CDR KuaiRand local split, calibration validation, AUC toàn cục.
+CDR-src: CDR Coat/Yahoo source, >=3, toàn random log, calibration 5% nhãn chấm điểm;
+AUC toàn cục. CDR-KR: CDR KuaiRand local split, calibration validation, AUC toàn cục.
 Hai Recall luôn được tính và lưu JSON; bảng chỉ hiển thị Recall@5 bounded theo
 lựa chọn người dùng ngày 21/10. Khác macro population/empty-user policy
 vẫn phải đọc theo protocol của dòng đó. Không paired-test chéo protocol.
@@ -89,3 +89,15 @@ kiểm tra metric đã có không đổi, giữ metadata huấn luyện và ghi 
 cho lần tính lại. Tạo artifact mới; không ghi đè báo cáo cũ, không retrain.
 Nếu checkpoint thiếu, lệnh báo lỗi; nếu AUC không có hai lớp thì giá trị thật
 không xác định vẫn là null/N/A, không gán số thay thế.
+
+## Tên protocol
+
+Tên protocol theo mô hình có mã nguồn định nghĩa protocol đó; H30 giữ tên cũ. Các file kết quả trước 04/11/2026 giữ nhãn cũ.
+
+| Tên hiện hành | Nhãn cũ | Mô hình | Theo mã của |
+| :-- | :-- | :-- | :-- |
+| H30 | H30 | MF, NeuMF, iDCF, LCDR (nghiên cứu tái lập IViDR) | iDCF |
+| CDR-src / CDR-KR | S-full / S-KR | DR-BIAS + CDR | Song et al. (CDR); CDR-KR là bản KuaiRand của đồ án |
+| ConAlign-src | C-src | ConAlign | Zhang et al. (ConAlign) |
+| MRDR-CAL-src | Hu-src | MRDR-CAL | Hu et al.; phần MRDR theo Guo et al. |
+| CLEV-DR-src | Z-src | CLEV-DR | Zhang et al. (KDD 2025); KuaiRand-Pure là lựa chọn của đồ án |

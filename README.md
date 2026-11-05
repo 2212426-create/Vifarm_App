@@ -1,7 +1,7 @@
 # 📱 TopTop (TikTok Clone Ecosystem) - Hệ Sinh Thái Mạng Xã Hội Video Ngắn Tích Hợp AI
 
 [![Android Support](https://img.shields.io/badge/Android-SDK%2024%2B-brightgreen.svg?style=for-the-badge&logo=android)](https://developer.android.com/)
-[![React Version](https://img.shields.io/badge/React-18.x-blue.svg?style=for-the-badge&logo=react)](https://react.dev/)
+[![React Version](https://img.shields.io/badge/React-19.x-blue.svg?style=for-the-badge&logo=react)](https://react.dev/)
 [![Firebase Integration](https://img.shields.io/badge/Backend-Firebase-orange.svg?style=for-the-badge&logo=firebase)](https://firebase.google.com/)
 [![Gemini AI](https://img.shields.io/badge/AI-Gemini%20Flash-blueviolet.svg?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/)
 [![Cloudinary](https://img.shields.io/badge/Storage-Cloudinary-blue.svg?style=for-the-badge&logo=cloudinary)](https://cloudinary.com/)
@@ -108,7 +108,7 @@ ViFarm_App/
 │   └── share-page/              # Trang mở video từ link chia sẻ — repo riêng trên GitHub Pages
 │                                #   (HubertPhung/vifarm-share-page), không nằm trong repo này
 ├── services/
-│   ├── recsys/                  # Gợi ý video khử thiên lệch (MF, iDCF, IViDR, CDR) + REST API cho app
+│   ├── recsys/                  # Gợi ý video khử thiên lệch (MF, iDCF, LCDR, CDR, ConAlign) & NCF + REST API cho app
 │   └── video-fingerprint/       # Worker tạo dấu vân tay video phục vụ kiểm tra bản quyền
 ├── firebase/firestore.rules     # Luật bảo mật Firestore
 ├── scripts/export_firebase_all.py  # Xuất Firestore / Realtime DB / Auth ra data/firebase_export
@@ -195,7 +195,7 @@ Hệ thống lưu trữ trên **Google Cloud Firestore** theo cấu trúc các D
    ```bash
    npm run dev
    ```
-5. Mở trình duyệt web và truy cập địa chỉ được hiển thị trên Terminal (mặc định là `http://localhost:5173`) để sử dụng trang quản trị.
+5. Mở trình duyệt web và truy cập địa chỉ được hiển thị trên Terminal (mặc định là `http://localhost:3000`) để sử dụng trang quản trị.
 
 ---
 

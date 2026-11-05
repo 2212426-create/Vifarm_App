@@ -1,3 +1,4 @@
+== python experiments/run.py smoke --dataset all --model all
 ================================================================================
  BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH TRÊN COAT / YAHOO / KUAIRAND
  Thiết bị: cpu | Dataset: coat | Model: all
@@ -19,7 +20,7 @@
 [MF][COAT] Epoch 001/001 | Train Loss: 0.2707 | Val NDCG@5: 0.4089 | Val Recall@5: 0.4325 | Val HR@5: 0.7286
 [MF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4089
 [MF][COAT] TEST | NDCG@5: 0.356273 | Recall@5: 0.381983 | Recall@5_bounded: 0.429641 | HitRate@5: 0.724551 | AUC: 0.560906
-[MF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183620_bb02128e\coat\mf\coat_mf_v4_e1_quick_2f742a64ce_v4_55bdc7bb15d44432.pt
+[MF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070440_943abbd5\coat\mf\coat_mf_v4_e1_quick_2f742a64ce_v4_b36edd3ff95adfec.pt
 
 >>> Huấn luyện iDCF (Coat)...
 
@@ -40,7 +41,7 @@
 [iDCF/feedback][COAT] Epoch 001/001 | Train Loss: 0.2698 | Val NDCG@5: 0.3956 | Val Recall@5: 0.4294 | Val HR@5: 0.7429
 [iDCF/feedback][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3956
 [iDCF][COAT] TEST | NDCG@5: 0.375360 | Recall@5: 0.408853 | Recall@5_bounded: 0.457186 | HitRate@5: 0.760479 | AUC: 0.596855
-[iDCF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183620_bb02128e\coat\idcf\coat_idcf_v4_e1_quick_662200ef2c_v4_68a2a8d31c06a8a6.pt
+[iDCF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070440_943abbd5\coat\idcf\coat_idcf_v4_e1_quick_662200ef2c_v4_950080c14e21b161.pt
 
 >>> Huấn luyện IViDR (Coat)...
 
@@ -79,7 +80,7 @@
 [LCDR/feedback][COAT] Epoch 001/001 | Train Loss: 0.2701 | Val NDCG@5: 0.4237 | Val Recall@5: 0.4602 | Val HR@5: 0.7571
 [LCDR/feedback][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4237
 [LCDR][COAT] TEST | NDCG@5: 0.376627 | Recall@5: 0.403262 | Recall@5_bounded: 0.453792 | HitRate@5: 0.760479 | AUC: 0.585741
-[LCDR][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183620_bb02128e\coat\lcdr\coat_lcdr_v4_e1_quick_64057e7b3d_v4_1d9d8c9cd152ab30.pt
+[LCDR][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070440_943abbd5\coat\lcdr\coat_lcdr_v4_e1_quick_64057e7b3d_v4_bbcd684d4bd6b099.pt
 
 >>> Huấn luyện DR-BIAS + CDR (Coat)...
 
@@ -91,17 +92,18 @@
 [CDR][COAT] Epoch 001/001 | Train Rec Loss: 2.6510 | Train Imp Loss: 740813.7731 | Filtered: 0.0%
 [CDR][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1
 [CDR][COAT] SOURCE EVAL | NDCG@5: 0.540071 | Recall@5: 0.396132 | Recall@5_bounded: 0.554483 | HitRate@5: 0.882759 | AUC_global: 0.624691 | users: 290
-[CDR][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183620_bb02128e\coat\cdr\20261102_183635_d57894eb\coat.pt
-[CDR][COAT] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_coat_20261102_183635_d57894eb.json
+[CDR][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070440_943abbd5\coat\cdr\20261104_070446_38f6d488\coat.pt
+[CDR][COAT] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_coat_20261104_070446_38f6d488.json
 
 >>> Huấn luyện ConAlign (coat, protocol source)...
+  return torch.sparse_coo_tensor(indices, values, torch.Size(sparse_mx.shape))
 [ConAlign][coat][Stage 1] Epoch   0 | Train BCE 0.6869 AUC 0.5283 | Val BCE 0.6749 AUC 0.5529
 [ConAlign][coat][Stage 1] Epoch   1 | Train BCE 0.6607 AUC 0.6391 | Val BCE 0.6561 AUC 0.6009
 [ConAlign][coat][Stage 2] Epoch   0 | Train BCE 0.6491 AUC 0.6205 | Val BCE 0.6394 AUC 0.6843
 [ConAlign][coat][Stage 2] Epoch   1 | Train BCE 0.6476 AUC 0.6260 | Val BCE 0.6382 AUC 0.6861
 
-[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_269a46e3ca_20261102_183620_bb02128e_v4.json
-[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_269a46e3ca_20261102_183620_bb02128e_v4.md
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_3e574da523_20261104_070440_943abbd5_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_3e574da523_20261104_070440_943abbd5_v4.md
 
 +-------------------------------------------------------------------------------------------------------------------------+
 |                                           KẾT QUẢ THEO GIAO THỨC TỪNG MÔ HÌNH                                           |
@@ -144,7 +146,7 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [MF][YAHOO] Epoch 001/001 | Train Loss: 0.3845 | Val NDCG@5: 0.3681 | Val Recall@5: 0.4667 | Val HR@5: 0.8750
 [MF][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3681
 [MF][YAHOO] TEST | NDCG@5: 0.312902 | Recall@5: 0.395833 | Recall@5_bounded: 0.402500 | HitRate@5: 0.500000 | AUC: 0.432292
-[MF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183638_0d61c9e5\yahoo\mf\yahoo_mf_manual_v4_86b942d9d4a7f212.pt
+[MF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070448_5a17de27\yahoo\mf\yahoo_mf_manual_v4_9fa6c4eed37a88e4.pt
 
 ========================================================================
  HUẤN LUYỆN iDCF | Giai đoạn 1/2: iVAE: YAHOO
@@ -163,7 +165,7 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [iDCF/feedback][YAHOO] Epoch 001/001 | Train Loss: 0.3843 | Val NDCG@5: 0.4247 | Val Recall@5: 0.5333 | Val HR@5: 0.8750
 [iDCF/feedback][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4247
 [iDCF][YAHOO] TEST | NDCG@5: 0.313200 | Recall@5: 0.445833 | Recall@5_bounded: 0.452500 | HitRate@5: 0.600000 | AUC: 0.484028
-[iDCF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183638_0d61c9e5\yahoo\idcf\yahoo_idcf_v4_e1_quick_62006d374c_v4_2854fa4ed8cb8864.pt
+[iDCF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070448_5a17de27\yahoo\idcf\yahoo_idcf_v4_e1_quick_62006d374c_v4_0fbb97f0b2d355e9.pt
 
 ========================================================================
  HUẤN LUYỆN IViDR | Giai đoạn 1/2: YAHOO
@@ -198,7 +200,7 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [LCDR/feedback][YAHOO] Epoch 001/001 | Train Loss: 0.3845 | Val NDCG@5: 0.3713 | Val Recall@5: 0.3979 | Val HR@5: 0.7500
 [LCDR/feedback][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3713
 [LCDR][YAHOO] TEST | NDCG@5: 0.283977 | Recall@5: 0.408333 | Recall@5_bounded: 0.415000 | HitRate@5: 0.500000 | AUC: 0.455556
-[LCDR][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183638_0d61c9e5\yahoo\lcdr\yahoo_lcdr_v4_e1_quick_e349483d66_v4_a5482e0ba867354f.pt
+[LCDR][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070448_5a17de27\yahoo\lcdr\yahoo_lcdr_v4_e1_quick_e349483d66_v4_d894797f61d81eb6.pt
 
 ========================================================================
  HUẤN LUYỆN CDR: YAHOO
@@ -208,8 +210,8 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [CDR][YAHOO] Epoch 001/001 | Train Rec Loss: 31.2105 | Train Imp Loss: 127693465.0530 | Filtered: 0.0%
 [CDR][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1
 [CDR][YAHOO] SOURCE EVAL | NDCG@5: 0.600397 | Recall@5: 0.658159 | Recall@5_bounded: 0.682611 | HitRate@5: 0.603333 | AUC_global: 0.632860 | users: 5400
-[CDR][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183638_0d61c9e5\yahoo\cdr\20261102_183727_71e497ab\yahoo.pt
-[CDR][YAHOO] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_yahoo_20261102_183727_71e497ab.json
+[CDR][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070448_5a17de27\yahoo\cdr\20261104_070512_d34dd5d1\yahoo.pt
+[CDR][YAHOO] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_yahoo_20261104_070512_d34dd5d1.json
 
 >>> Huấn luyện ConAlign (yahoo, protocol source)...
 [ConAlign][yahoo][Stage 1] Epoch   0 | Train BCE 0.6896 AUC 0.5497 | Val BCE 0.6825 AUC 0.6058
@@ -217,8 +219,8 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [ConAlign][yahoo][Stage 2] Epoch   0 | Train BCE 0.6577 AUC 0.6044 | Val BCE 0.6429 AUC 0.6583
 [ConAlign][yahoo][Stage 2] Epoch   1 | Train BCE 0.6248 AUC 0.6933 | Val BCE 0.6158 AUC 0.6856
 
-[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_yahoo_all_quick_bc1adf2e89_20261102_183638_0d61c9e5_v4.json
-[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_yahoo_all_quick_bc1adf2e89_20261102_183638_0d61c9e5_v4.md
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_yahoo_all_quick_d633f73b05_20261104_070448_5a17de27_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_yahoo_all_quick_d633f73b05_20261104_070448_5a17de27_v4.md
 
 +-------------------------------------------------------------------------------------------------------------------------+
 |                                           KẾT QUẢ THEO GIAO THỨC TỪNG MÔ HÌNH                                           |
@@ -267,7 +269,7 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.4558 | Val NDCG@5: 0.6837 | Val Recall@5: 0.8717 | Val HR@5: 1.0000
 [MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6837
 [MF][KUAIRAND] TEST | NDCG@5: 0.485544 | Recall@5: 0.614516 | Recall@5_bounded: 0.620968 | HitRate@5: 0.838710 | AUC: 0.471529
-[MF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183759_c0c32c40\kuairand\mf\kuairand_mf_v4_e1_quick_6c163ebe34_v4_b0d621bb533331d3.pt
+[MF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070530_29850f9e\kuairand\mf\kuairand_mf_v4_e1_quick_6c163ebe34_v4_c89fb46ad4c1d67c.pt
 
 >>> Huấn luyện iDCF (KuaiRand)...
 
@@ -288,7 +290,7 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [iDCF/feedback][KUAIRAND] Epoch 001/001 | Train Loss: 0.4550 | Val NDCG@5: 0.7059 | Val Recall@5: 0.8558 | Val HR@5: 1.0000
 [iDCF/feedback][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.7059
 [iDCF][KUAIRAND] TEST | NDCG@5: 0.531144 | Recall@5: 0.661828 | Recall@5_bounded: 0.671505 | HitRate@5: 0.870968 | AUC: 0.531691
-[iDCF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183759_c0c32c40\kuairand\idcf\kuairand_idcf_v4_e1_quick_901b7384f4_v4_78114cc15331eafe.pt
+[iDCF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070530_29850f9e\kuairand\idcf\kuairand_idcf_v4_e1_quick_901b7384f4_v4_deea69125166dc41.pt
 
 >>> Huấn luyện IViDR (KuaiRand)...
 
@@ -327,7 +329,7 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [LCDR/feedback][KUAIRAND] Epoch 001/001 | Train Loss: 0.4551 | Val NDCG@5: 0.7255 | Val Recall@5: 0.9087 | Val HR@5: 1.0000
 [LCDR/feedback][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.7255
 [LCDR][KUAIRAND] TEST | NDCG@5: 0.554737 | Recall@5: 0.703763 | Recall@5_bounded: 0.713441 | HitRate@5: 0.967742 | AUC: 0.527667
-[LCDR][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183759_c0c32c40\kuairand\lcdr\kuairand_lcdr_v4_e1_quick_9059e981e2_v4_c325efafcca023c8.pt
+[LCDR][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070530_29850f9e\kuairand\lcdr\kuairand_lcdr_v4_e1_quick_9059e981e2_v4_2b4c0479fa4612d0.pt
 
 >>> Huấn luyện DR-BIAS + CDR (KuaiRand)...
 
@@ -339,8 +341,8 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [CDR][KUAIRAND] Epoch 001/001 | Train Rec Loss: 21.6689 | Train Imp Loss: 14671309.9167 | Filtered: 0.0%
 [CDR][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1
 [CDR][KUAIRAND] SOURCE EVAL | NDCG@5: 0.524673 | Recall@5: 0.672581 | Recall@5_bounded: 0.682258 | HitRate@5: 0.935484 | AUC_global: 0.510491 | users: 31
-[CDR][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261102_183759_c0c32c40\kuairand\cdr\20261102_183816_3477c210\kuairand.pt
-[CDR][KUAIRAND] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_kuairand_20261102_183816_3477c210.json
+[CDR][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261104_070530_29850f9e\kuairand\cdr\20261104_070540_bda131a2\kuairand.pt
+[CDR][KUAIRAND] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_kuairand_20261104_070540_bda131a2.json
 
 >>> Huấn luyện ConAlign (kuairand, protocol source)...
 [ConAlign][kuairand][Stage 1] Epoch   0 | Train BCE 0.6990 AUC 0.4989 | Val BCE 0.6695 AUC 0.7105
@@ -348,8 +350,8 @@ Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức
 [ConAlign][kuairand][Stage 2] Epoch   0 | Train BCE 0.6663 AUC 0.4783 | Val BCE 0.6578 AUC 0.4188
 [ConAlign][kuairand][Stage 2] Epoch   1 | Train BCE 0.6023 AUC 0.5304 | Val BCE 0.6334 AUC 0.4162
 
-[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_all_quick_70dfd697eb_20261102_183759_c0c32c40_v4.json
-[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_all_quick_70dfd697eb_20261102_183759_c0c32c40_v4.md
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_all_quick_d5ef92e1a3_20261104_070530_29850f9e_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_all_quick_d5ef92e1a3_20261104_070530_29850f9e_v4.md
 
 +---------------------------------------------------------------------------------------------------------------------------+
 |                                            KẾT QUẢ THEO GIAO THỨC TỪNG MÔ HÌNH                                            |
@@ -377,3 +379,242 @@ Recall@5 bounded: hits/min(5, tổng positive). Recall/all positives vẫn lưu 
 CDR S-full giữ quy ước empty-positive Recall=1; precision/hit-rate=0.
 Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức.
 
+exit 0
+== python experiments/run.py cf-dl --dataset all --smoke --models MF NeuMF
+
+========================================================================
+ HUẤN LUYỆN MF: COAT
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 512 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][COAT] Epoch 001/001 | Train Loss: 0.2715 | Val NDCG@5: 0.2476 | Val Recall@5: 0.2617 | Val HR@5: 0.5429
+[MF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.2476
+[MF][COAT] TEST | NDCG@5: 0.295275 | Recall@5: 0.290692 | Recall@5_bounded: 0.331337 | HitRate@5: 0.646707 | AUC: 0.503527
+[MF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\coat_mf_cfdl_seed42_v4_b3edfd68afd3593a.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF: COAT
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF][COAT] Epoch 001/001 | Train Loss: 0.6834 | Val NDCG@5: 0.4540 | Val Recall@5: 0.4783
+[NeuMF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4540
+[NeuMF][COAT] TEST | NDCG@5: 0.407206 | Recall@5: 0.438525 | Recall@5_bounded: 0.488423 | HitRate@5: 0.784431 | AUC: 0.616276
+[NeuMF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\coat_neumf_cfdl_seed42_v4_f9be08deacb5369d.pt
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\cf_dl_coat_smoke_20261104_070558_490a07d9.json",
+  "summary": {
+    "MF": {
+      "mean": 0.2952748892745339,
+      "std": null,
+      "n": 1
+    },
+    "NeuMF": {
+      "mean": 0.4072056257499623,
+      "std": null,
+      "n": 1
+    }
+  }
+}
+
+========================================================================
+ HUẤN LUYỆN MF: YAHOO
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][YAHOO] Epoch 001/001 | Train Loss: 0.3860 | Val NDCG@5: 0.3208 | Val Recall@5: 0.4917 | Val HR@5: 0.8750
+[MF][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3208
+[MF][YAHOO] TEST | NDCG@5: 0.346474 | Recall@5: 0.537500 | Recall@5_bounded: 0.542500 | HitRate@5: 0.650000 | AUC: 0.519792
+[MF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\yahoo_mf_cfdl_seed42_v4_b6ef0e8bb7e690df.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF: YAHOO
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF][YAHOO] Epoch 001/001 | Train Loss: 0.6868 | Val NDCG@5: 0.5336 | Val Recall@5: 0.6583
+[NeuMF][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.5336
+[NeuMF][YAHOO] TEST | NDCG@5: 0.411220 | Recall@5: 0.658333 | Recall@5_bounded: 0.665000 | HitRate@5: 0.750000 | AUC: 0.548958
+[NeuMF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\yahoo_neumf_cfdl_seed42_v4_ca881b7d03d98cef.pt
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\cf_dl_yahoo_smoke_20261104_070558_490a07d9.json",
+  "summary": {
+    "MF": {
+      "mean": 0.34647429466607665,
+      "std": null,
+      "n": 1
+    },
+    "NeuMF": {
+      "mean": 0.4112195759149981,
+      "std": null,
+      "n": 1
+    }
+  }
+}
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.4534 | Val NDCG@5: 0.6687 | Val Recall@5: 0.7540 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6687
+[MF][KUAIRAND] TEST | NDCG@5: 0.481944 | Recall@5: 0.606989 | Recall@5_bounded: 0.616667 | HitRate@5: 0.806452 | AUC: 0.461303
+[MF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\kuairand_mf_cfdl_seed42_v4_b4f589c56e0cc3dd.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF: KUAIRAND
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF][KUAIRAND] Epoch 001/001 | Train Loss: 0.6722 | Val NDCG@5: 0.4862 | Val Recall@5: 0.7262
+[NeuMF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.4921
+[NeuMF][KUAIRAND] TEST | NDCG@5: 0.550443 | Recall@5: 0.696774 | Recall@5_bounded: 0.703226 | HitRate@5: 0.870968 | AUC: 0.489302
+[NeuMF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\kuairand_neumf_cfdl_seed42_v4_ce17a8b33a4344fa.pt
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\cf_dl_kuairand_smoke_20261104_070558_490a07d9.json",
+  "summary": {
+    "MF": {
+      "mean": 0.4819435028372954,
+      "std": null,
+      "n": 1
+    },
+    "NeuMF": {
+      "mean": 0.5504430886500064,
+      "std": null,
+      "n": 1
+    }
+  }
+}
+exit 0
+== python experiments/run.py clev --dataset all --smoke --threads 4
+{"dataset": "coat", "alpha": 0.4, "seed": 0, "AUC": 0.5455718322340872, "Recall@5": 0.33450222670050256, "NDCG@5": 0.49367469199642505, "seconds": 8.0}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\clev_coat_smoke_20261104_070614_192fafe0.json",
+  "best_alpha_on_test": "0.4",
+  "summary": {
+    "AUC": {
+      "mean": 0.5455718322340872,
+      "std": null,
+      "n": 1
+    },
+    "Recall@5": {
+      "mean": 0.33450222670050256,
+      "std": null,
+      "n": 1
+    },
+    "NDCG@5": {
+      "mean": 0.49367469199642505,
+      "std": null,
+      "n": 1
+    },
+    "Precision@5": {
+      "mean": 0.43586206896551727,
+      "std": null,
+      "n": 1
+    }
+  }
+}
+{"dataset": "yahoo", "alpha": 0.4, "seed": 0, "AUC": 0.6760031196495409, "Recall@5": 0.45092519106407997, "NDCG@5": 0.6831170014596772, "seconds": 120.7}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\clev_yahoo_smoke_20261104_070614_192fafe0.json",
+  "best_alpha_on_test": "0.4",
+  "summary": {
+    "AUC": {
+      "mean": 0.6760031196495409,
+      "std": null,
+      "n": 1
+    },
+    "Recall@5": {
+      "mean": 0.45092519106407997,
+      "std": null,
+      "n": 1
+    },
+    "NDCG@5": {
+      "mean": 0.6831170014596772,
+      "std": null,
+      "n": 1
+    },
+    "Precision@5": {
+      "mean": 0.2713703703703704,
+      "std": null,
+      "n": 1
+    }
+  }
+}
+{"dataset": "kuairec", "alpha": 0.2, "seed": 0, "AUC": 0.7041601201851737, "Recall@50": 0.5762396779088601, "NDCG@50": 0.39707213416945775, "seconds": 49.5}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\clev_kuairec_smoke_20261104_070614_192fafe0.json",
+  "best_alpha_on_test": "0.2",
+  "summary": {
+    "AUC": {
+      "mean": 0.7041601201851737,
+      "std": null,
+      "n": 1
+    },
+    "Recall@50": {
+      "mean": 0.5762396779088601,
+      "std": null,
+      "n": 1
+    },
+    "NDCG@50": {
+      "mean": 0.39707213416945775,
+      "std": null,
+      "n": 1
+    },
+    "Precision@50": {
+      "mean": 0.053139617292700204,
+      "std": null,
+      "n": 1
+    }
+  }
+}
+exit 0
+== python experiments/run.py mrdr-cal --dataset all --smoke --threads 4
+  return {"a": float(self.a), "b": float(self.b),
+{"dataset": "coat", "seed": 0, "AUC": 0.6149580103359173, "DCG@2": 0.5037109883062163, "Recall@2": 0.6033755274261603, "seconds": 7.1}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\mrdr_cal_coat_smoke_20261104_070921_6c5577a9.json",
+  "summary": {
+    "AUC": 0.615,
+    "UAUC": 0.57,
+    "DCG@2": 0.5037,
+    "DCG@4": 0.7327,
+    "DCG@6": 0.9078,
+    "Recall@2": 0.6034,
+    "Recall@4": 1.097,
+    "Recall@6": 1.5696
+  }
+}
+{"dataset": "yahoo", "seed": 0, "AUC": 0.7032326991540264, "DCG@2": 0.5181289867948128, "Recall@2": 0.6276683087027914, "seconds": 67.9}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\mrdr_cal_yahoo_smoke_20261104_070921_6c5577a9.json",
+  "summary": {
+    "AUC": 0.7032,
+    "UAUC": 0.6551,
+    "DCG@2": 0.5181,
+    "DCG@4": 0.7261,
+    "DCG@6": 0.8606,
+    "Recall@2": 0.6277,
+    "Recall@4": 1.0718,
+    "Recall@6": 1.4335
+  }
+}
+{"dataset": "kuairand", "seed": 0, "AUC": 0.5946489996649614, "DCG@2": 0.4690039657870658, "Recall@2": 0.1346077327775724, "seconds": 447.2}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\mrdr_cal_kuairand_smoke_20261104_070921_6c5577a9.json",
+  "summary": {
+    "AUC": 0.5946,
+    "UAUC": 0.5596,
+    "DCG@2": 0.469,
+    "DCG@4": 0.7002,
+    "DCG@6": 0.8725,
+    "Recall@2": 0.1346,
+    "Recall@4": 0.2477,
+    "Recall@6": 0.3504,
+    "Recall@2_count": 0.5697,
+    "Recall@4_count": 1.0658,
+    "Recall@6_count": 1.5292
+  }
+}
+exit 0

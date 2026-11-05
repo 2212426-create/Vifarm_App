@@ -77,8 +77,8 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
       // 3. Group reports (new & resolved)
       rList.forEach(rep => {
-        const rawTime = rep.createdAt;
-        const ms = rawTime?.toMillis?.() || rawTime || Date.now();
+        const rawTime: any = rep.createdAt;
+        const ms = typeof rawTime === 'number' ? rawTime : (rawTime?.toMillis?.() || Date.now());
         const bucket = buckets.find(b => ms >= b.timestampStart && ms <= b.timestampEnd);
         if (bucket) {
           bucket.newReports++;

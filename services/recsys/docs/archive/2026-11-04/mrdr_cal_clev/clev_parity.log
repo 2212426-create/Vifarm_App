@@ -1,0 +1,2 @@
+# author code: WallaceSUI/kdd25-background-variable@66a0e5f new_model.py + utils.py, cuda calls made no-ops (not in this repository)
+{"max_abs_prediction_diff": 0.0, "rho_author": 0.04472131282091141, "rho_port": 0.04472131282091141, "test_rows": 4640, "epochs": {"ips": 2, "fit": 3}, "alpha": 0.6, "seed": 0}

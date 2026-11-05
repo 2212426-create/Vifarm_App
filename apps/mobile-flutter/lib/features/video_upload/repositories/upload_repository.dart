@@ -132,7 +132,7 @@ class UploadRepository {
     bool allowDuet = true,
     bool isCopyrightProtected = false,
     List<String>? keyframesPhash,
-    String moderationStatus = 'approved',
+    String moderationStatus = 'pending',
     Map<String, dynamic>? copyrightMatch,
   }) async {
     // 1. Tạo bản ghi video gốc trong bộ sưu tập "videos"
@@ -218,7 +218,7 @@ class UploadRepository {
 
   /// Lấy danh sách vân tay video để đối soát bản quyền
   Future<List<Map<String, dynamic>>> getAllVideosForCopyrightCheck() async {
-    final snapshot = await _firestore.collection('videos').get();
+    final snapshot = await _firestore.collection('videos').orderBy('timestamp', descending: true).limit(200).get();
     return snapshot.docs.map((doc) {
       final data = doc.data();
       

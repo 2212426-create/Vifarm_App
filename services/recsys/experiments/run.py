@@ -28,6 +28,10 @@ WORKFLOWS = {
     "report": "refresh_benchmark_report",
     "lcdr": "lcdr",
     "conalign": "conalign",
+    "ncf": "cf_dl",
+    "cf-dl": "cf_dl",
+    "clev": "clev",
+    "mrdr-cal": "mrdr_cal",
 }
 
 
@@ -53,7 +57,7 @@ def main(argv=None):
         return 0 if result.wasSuccessful() else 1
     if args.command == "smoke":
         p.add_argument("--dataset", choices=["all", "coat", "kuairand", "yahoo"], default="all")
-        p.add_argument("--model", choices=["all", "mf", "idcf", "ividr", "lcdr", "cdr", "conalign"], default="all")
+        p.add_argument("--model", choices=["all", "mf", "idcf", "lcdr", "cdr", "conalign"], default="all")
         p.add_argument("--smoke-users", type=int, default=64)
         p.add_argument("--threads", type=int, default=2)
         p.add_argument("--device", choices=["cpu", "cuda"], default="cpu")

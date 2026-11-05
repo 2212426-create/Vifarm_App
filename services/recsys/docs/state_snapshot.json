@@ -1,11 +1,10 @@
 {
   "schema_version": 1,
-  "source_sha256": "4e05072a90c309d7122c826e480cc921c095c56c2b505ebc10b1fbcfb32de5c6",
-  "scope": "ConAlign best-state fix (clone in EarlyStopping) with three-seed rerun; GPU device fixes for IViDR validation and automatic ConAlign benchmark device; IViDR metadata records its stage-1 l2_penalty of 0. Six-model benchmark unchanged",
+  "source_sha256": "7af2cabd63a5e40f20f2c563f4aa524f6d8e2ff774fee3b6a42ad415ad604a3c",
+  "scope": "MRDR-CAL (Hu et al., TKDE 2025; MRDR from Guo et al.) and CLEV-DR (Zhang et al., KDD 2025, Ours-DR) on their author protocols, on top of the NeuMF/cf-dl milestone. Six-model benchmark code and scores unchanged",
   "default_models": [
     "MF",
     "iDCF",
-    "IViDR",
     "LCDR",
     "DR-BIAS + CDR",
     "ConAlign"
@@ -159,16 +158,16 @@
     "cdr": "cdr_source_v1 / >=3 Coat/Yahoo / full random log / 5% calibration / train-loss last",
     "cross_protocol_paired_tests": false,
     "lcdr": "H30, iDCF data/evaluator",
-    "conalign": "conalign_source_protocol (C-src): source para(), seeds 0-2, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
+    "conalign": "conalign_source_protocol (ConAlign-src): source para(), seeds 0-2, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
   },
   "test_suite": {
-    "total": 160,
-    "passed": 159,
+    "total": 204,
+    "passed": 203,
     "skipped": 1,
     "skip_reason": "CUDA unavailable",
-    "log": "docs/archive/2026-11-02/conalign_fix/tests.log"
+    "log": "docs/archive/2026-11-04/mrdr_cal_clev/tests.log"
   },
-  "validation_artifact": "results/conalign_fix_validation_20261102.json",
+  "validation_artifact": "results/mrdr_cal_clev_validation_20261104.json",
   "independent_cdr_validation": [
     {
       "seed": 2020,
@@ -243,5 +242,39 @@
     "default_changed": true,
     "evidence": "results/ividr_ten_seed_summary_20261028.json"
   },
-  "reviewed_on": "2026-11-02"
+  "reviewed_on": "2026-11-04",
+  "comparison_models": {
+    "workflow": "cf-dl",
+    "protocol": "H30",
+    "ncf_reference": "hexiangnan/neural_collaborative_filtering@4aab159",
+    "neighborhood_reference": "MaurizioFD/RecSys2019_DeepLearning_Evaluation@0fb6b7f (not copied)"
+  },
+  "author_protocol_models": {
+    "MRDR-CAL": {
+      "command": "mrdr-cal",
+      "protocol": "MRDR-CAL-src",
+      "datasets": [
+        "coat",
+        "yahoo",
+        "kuairand"
+      ],
+      "sources": [
+        "sunxin000/uncertainty4recsys@36dc7c6",
+        "guosyjlu/MRDR-DL@a89d2aa"
+      ]
+    },
+    "CLEV-DR": {
+      "command": "clev",
+      "protocol": "CLEV-DR-src",
+      "datasets": [
+        "coat",
+        "yahoo",
+        "kuairec"
+      ],
+      "sources": [
+        "WallaceSUI/kdd25-background-variable@66a0e5f"
+      ],
+      "parity_max_abs_diff": 0.0
+    }
+  }
 }

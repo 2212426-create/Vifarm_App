@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/auth-provider';
 import {
   Megaphone,
@@ -10,7 +10,7 @@ import {
   RefreshCw,
   TrendingUp,
   Eye,
-  CursorClick,
+  MousePointerClick,
   Percent,
   X,
   ExternalLink,
@@ -304,9 +304,10 @@ export function Ads() {
   };
 
   // Aggregate stats across all ads
-  const totalImpressions = Object.values(stats).reduce((sum, s) => sum + s.impressions, 0);
-  const totalViews = Object.values(stats).reduce((sum, s) => sum + s.views, 0);
-  const totalClicks = Object.values(stats).reduce((sum, s) => sum + s.clicks, 0);
+  const statsList = Object.values(stats) as { impressions: number; views: number; clicks: number }[];
+  const totalImpressions = statsList.reduce((sum, s) => sum + s.impressions, 0);
+  const totalViews = statsList.reduce((sum, s) => sum + s.views, 0);
+  const totalClicks = statsList.reduce((sum, s) => sum + s.clicks, 0);
   const totalCtr = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
   
   // Total cost (approximate budget usage based on 500đ / impression)

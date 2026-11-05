@@ -83,9 +83,9 @@ class PaperModelProfileTests(unittest.TestCase):
             workflow.run_seed("DR-BIAS + CDR", data, 43, "temporary")
         self.assertEqual(train.call_args.kwargs["seed"], 43)
         self.assertNotIn("initial_rec_checkpoint", train.call_args.kwargs)
-        self.assertIn("IViDR", workflow.STANDARD_MODELS)
+        self.assertNotIn("IViDR", workflow.STANDARD_MODELS)
 
-    def test_user_selected_six_model_benchmark_never_warms_cdr(self):
+    def test_user_selected_five_model_benchmark_never_warms_cdr(self):
         from experiments.workflows import run_all_benchmarks as workflow
         called = []
         data = small_data()
@@ -119,9 +119,9 @@ class PaperModelProfileTests(unittest.TestCase):
                 patch.object(workflow, "run_conalign", side_effect=conalign), \
                 patch.object(workflow, "paired_significance", return_value={}):
             workflow.run_all_benchmarks(dataset_filter="coat", quick_run=True, epochs_coat=1)
-        self.assertEqual(called, ["mf", "iDCF", "IViDR", "LCDR", "cdr", "conalign"])
+        self.assertEqual(called, ["mf", "iDCF", "LCDR", "cdr", "conalign"])
 
-    def test_yahoo_runs_six_models_and_reuses_mf_treatment(self):
+    def test_yahoo_runs_five_models(self):
         from experiments.workflows import run_all_benchmarks as workflow
         data = small_data()
         data.update(split_info={}, user_feature_info={})
@@ -138,8 +138,7 @@ class PaperModelProfileTests(unittest.TestCase):
                     "Recall@5_source": .5, "evaluation_scope": "conalign_source_protocol"}) as conalign, \
                 patch.object(workflow, "paired_significance", return_value={}):
             workflow.run_all_benchmarks(dataset_filter="yahoo", quick_run=True, epochs_yahoo=1)
-        self.assertEqual([c.args[0] for c in causal.call_args_list], ["iDCF", "IViDR", "LCDR"])
-        self.assertIs(causal.call_args_list[1].args[3], mf_result)
+        self.assertEqual([c.args[0] for c in causal.call_args_list], ["iDCF", "LCDR"])
         self.assertEqual(conalign.call_args.args[0], "yahoo")
 
 

@@ -24,7 +24,7 @@ class AppConstants {
   // Gemini API Key
   static const String geminiApiKey = String.fromEnvironment(
     'GEMINI_API_KEY',
-    defaultValue: 'AIzaSyDEI08P5wxq2AWtIpkeYOy8uAW9eS2KTv0',
+    defaultValue: '', // Cung cap qua --dart-define-from-file=env.json
   );
 
   // Firestore Collections

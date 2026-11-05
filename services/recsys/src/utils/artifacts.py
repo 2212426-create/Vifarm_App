@@ -12,7 +12,8 @@ from src.evaluation.protocol import METRIC_REVISION, protocol_metadata, validate
 
 VERSION = 4
 ARCHITECTURES = {"mf": "mf_v4", "cdr": "cdr_v4", "idcf": "idcf_v1", "cdr_released": "cdr_released_v1",
-                 "ividr_bce": "ividr_bce_v1", "ividr_reference": "ividr_reference_bce_v2", "lcdr": "lcdr_v1"}
+                 "ividr_bce": "ividr_bce_v1", "ividr_reference": "ividr_reference_bce_v2", "lcdr": "lcdr_v1",
+                 "ncf": "ncf_author_v1"}
 
 
 def digest(value):
@@ -116,6 +117,7 @@ def evaluate_checkpoint(path, data, device=None, return_user_ndcg=False):
     from src.models.idcf.idcf_model import IDCFModel
     from src.models.ividr.ividr_reference import IViDRMarginalMF
     from src.models.cdr.released import ReleasedCDR
+    from src.models.ncf.ncf_model import NCF
     from src.evaluation.evaluator import evaluate_unbiased_model
 
     device = device or torch.device("cpu")
@@ -133,7 +135,7 @@ def evaluate_checkpoint(path, data, device=None, return_user_ndcg=False):
     if meta["data"] != data_signature(data):
         raise ValueError("Selected checkpoint does not match evaluation data")
     classes = {"mf": MatrixFactorization, "cdr": CDRFramework, "idcf": IDCFModel, "cdr_released": ReleasedCDR,
-               "ividr_bce": IDCFModel, "ividr_reference": IViDRMarginalMF, "lcdr": IDCFModel}
+               "ividr_bce": IDCFModel, "ividr_reference": IViDRMarginalMF, "lcdr": IDCFModel, "ncf": NCF}
     if meta.get("architecture_version") != ARCHITECTURES[meta['model']]:
         raise ValueError("Incompatible architecture version")
     model_kwargs = dict(meta["model_kwargs"])

@@ -1,0 +1,5 @@
+# Diagnostic (not a reported result): NeuMF base of Hu et al. Table II with train_rec_with_ips.py settings, propensity 1, wd 1e-3, 200 epochs, last epoch
+{"seed": 0, "AUC": 0.7723, "DCG@2": 0.7606, "Recall@2": 0.8945}
+{"seed": 1, "AUC": 0.766, "DCG@2": 0.7459, "Recall@2": 0.8861}
+{"seed": 2, "AUC": 0.7666, "DCG@2": 0.7897, "Recall@2": 0.9283}
+mean AUC 0.7682863705344326 DCG@2 0.7653957590667178

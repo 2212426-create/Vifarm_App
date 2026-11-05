@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 520" width="1040" height="520">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb" />
+    </marker>
+  </defs>
+  <style>
+    .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #64748b; }
+    .node-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: 600; }
+    .node-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; }
+    .math-text { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 13px; }
+    .badge { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; font-weight: 700; text-anchor: middle; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="12" />
+  
+  <text x="40" y="45" class="title">MÔ HÌNH CĂN CHỈNH TƯƠNG PHẢN CONALIGN (GUO ET AL., RECSYS 2026)</text>
+  <text x="40" y="70" class="subtitle">Triệt tiêu thiên lệch phân phối trực tiếp qua hàm mất mát tương phản có điều kiện (Conditional InfoNCE)</text>
+
+  <!-- Query User -->
+  <g transform="translate(60, 130)">
+    <rect width="180" height="90" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2" filter="url(#shadow)" />
+    <text x="90" y="25" fill="#1e3a8a" class="node-title" text-anchor="middle">User Anchor: u</text>
+    <text x="90" y="48" fill="#475569" class="node-desc" text-anchor="middle">Embedding: p_u</text>
+    <rect x="25" y="60" width="130" height="20" rx="4" fill="#2563eb" />
+    <text x="90" y="74" fill="#ffffff" font-size="10" font-weight="700" text-anchor="middle">User Encoder g_u</text>
+  </g>
+
+  <!-- Positive Item -->
+  <g transform="translate(60, 250)">
+    <rect width="180" height="90" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2" filter="url(#shadow)" />
+    <text x="90" y="25" fill="#064e3b" class="node-title" text-anchor="middle">Positive Video: i⁺</text>
+    <text x="90" y="48" fill="#475569" class="node-desc" text-anchor="middle">Embedding: q_i⁺</text>
+    <rect x="25" y="60" width="130" height="20" rx="4" fill="#059669" />
+    <text x="90" y="74" fill="#ffffff" font-size="10" font-weight="700" text-anchor="middle">Item Encoder g_v</text>
+  </g>
+
+  <!-- Negative Items -->
+  <g transform="translate(60, 370)">
+    <rect width="180" height="90" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2" filter="url(#shadow)" />
+    <text x="90" y="25" fill="#7f1d1d" class="node-title" text-anchor="middle">Negative Videos: {j_k⁻}</text>
+    <text x="90" y="48" fill="#475569" class="node-desc" text-anchor="middle">K mẫu âm ngẫu nhiên</text>
+    <rect x="25" y="60" width="130" height="20" rx="4" fill="#dc2626" />
+    <text x="90" y="74" fill="#ffffff" font-size="10" font-weight="700" text-anchor="middle">Item Encoder g_v</text>
+  </g>
+
+  <!-- Normalized Hypersphere Projection -->
+  <g transform="translate(330, 200)">
+    <circle cx="110" cy="110" r="95" fill="#f8fafc" stroke="#64748b" stroke-width="2" stroke-dasharray="4" filter="url(#shadow)" />
+    <text x="110" y="30" fill="#334155" class="node-title" text-anchor="middle">MẶT CẦU SIÊU ĐA CHIỀU</text>
+    <text x="110" y="50" fill="#64748b" class="node-desc" text-anchor="middle">Unit Hypersphere S^(d-1)</text>
+
+    <!-- Vector dots -->
+    <circle cx="90" cy="90" r="7" fill="#2563eb" />
+    <text x="75" y="90" fill="#2563eb" font-weight="700" font-size="12">z_u</text>
+
+    <circle cx="120" cy="95" r="7" fill="#059669" />
+    <text x="135" y="95" fill="#059669" font-weight="700" font-size="12">z_i⁺</text>
+
+    <!-- Negative dots far away -->
+    <circle cx="160" cy="160" r="6" fill="#dc2626" />
+    <text x="175" y="165" fill="#dc2626" font-size="10">z_j1</text>
+    <circle cx="50" cy="150" r="6" fill="#dc2626" />
+    <text x="35" y="165" fill="#dc2626" font-size="10">z_j2</text>
+
+    <path d="M 90 90 L 120 95" stroke="#059669" stroke-width="2.5" />
+    <text x="105" y="80" fill="#059669" font-size="9" font-weight="700" text-anchor="middle">Kéo gần</text>
+
+    <path d="M 90 90 L 160 160" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="2" />
+    <text x="135" y="130" fill="#dc2626" font-size="9" font-weight="700" text-anchor="middle">Đẩy xa</text>
+  </g>
+
+  <path d="M 240 175 L 340 250" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 240 295 L 340 280" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 240 415 L 350 320" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- InfoNCE Formula Card -->
+  <g transform="translate(620, 180)">
+    <rect width="360" height="180" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2.5" filter="url(#shadow)" />
+    <text x="180" y="30" fill="#064e3b" class="node-title" text-anchor="middle">HÀM MẤT MÁT CONDITIONAL InfoNCE</text>
+    
+    <text x="180" y="70" fill="#065f46" class="math-text" text-anchor="middle">ℒ = - log [ exp(sim(u, i⁺)/τ) / </text>
+    <text x="180" y="95" fill="#065f46" class="math-text" text-anchor="middle">( exp(sim(u, i⁺)/τ) + ∑ w_k exp(sim(u, j_k⁻)/τ) ) ]</text>
+    
+    <line x1="25" y1="120" x2="335" y2="120" stroke="#a7f3d0" stroke-width="1.5" />
+    <text x="180" y="145" fill="#047857" class="node-desc" text-anchor="middle">Hệ số căn chỉnh phân phối w_k tự động triệt tiêu</text>
+    <text x="180" y="165" fill="#047857" font-weight="700" font-size="11" text-anchor="middle">thiên lệch hiển thị mà không cần mạng Propensity!</text>
+  </g>
+
+  <path d="M 550 280 L 620 280" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)" />
+
+</svg>

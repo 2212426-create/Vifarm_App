@@ -1,0 +1,34 @@
+{
+  "downloaded_on": "2026-11-04",
+  "files": [
+    {
+      "file": "UncertaintyCalibration_TKDE2025.pdf",
+      "url": "https://arxiv.org/pdf/2303.12973v3",
+      "version": "arXiv 2303.12973v3",
+      "citation": "Hu et al., IEEE TKDE 37(6), 2025, doi:10.1109/TKDE.2025.3552658",
+      "bytes": 6409896,
+      "sha256": "ee701b72d0eb7a56204c64e2ea2f8c0fc6386527b40e00c5a1fda99ea1afb3f0"
+    },
+    {
+      "file": "LatentExogenous_KDD2025.pdf",
+      "url": "https://arxiv.org/pdf/2506.07517v1",
+      "version": "arXiv 2506.07517v1",
+      "citation": "Zhang et al., KDD 2025, doi:10.1145/3711896.3736832",
+      "bytes": 887200,
+      "sha256": "41188f06a336688bed0b78f1df55ae22318cfa93e69bf2f8bf199854b5a53e82"
+    }
+  ],
+  "code": [
+    {
+      "repository": "https://github.com/sunxin000/uncertainty4recsys",
+      "commit": "36dc7c6198c4f7722ee4634c41254e8fe48decdf"
+    },
+    {
+      "repository": "https://github.com/WallaceSUI/kdd25-background-variable"
+    },
+    {
+      "repository": "https://github.com/guosyjlu/MRDR-DL",
+      "role": "MRDR loss, missing from uncertainty4recsys"
+    }
+  ]
+}

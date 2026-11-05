@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="900" height="360">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569" />
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#dc2626" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb" />
+    </marker>
+  </defs>
+  <style>
+    .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 17px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #64748b; }
+    .node-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: 600; }
+    .node-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="10" />
+  
+  <text x="30" y="35" class="title">ĐỒ THỊ NHÂN QUẢ CÓ HƯỚNG (CAUSAL DAG) &amp; CON ĐƯỜNG CỬA SAU</text>
+  <text x="30" y="55" class="subtitle">Mô hình hóa cơ chế thiên lệch hiển thị giữa biến ngoại sinh U, xu hướng O và phản hồi tương tác Y</text>
+
+  <!-- Node U (Top) -->
+  <g transform="translate(330, 80)">
+    <rect width="240" height="60" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2" filter="url(#shadow)" />
+    <text x="120" y="27" fill="#991b1b" class="node-title" text-anchor="middle">Biến Ngoại Sinh Tiềm Ẩn (U)</text>
+    <text x="120" y="47" fill="#b91c1c" class="node-desc" text-anchor="middle">Unobserved Confounders (ngữ cảnh, xu hướng)</text>
+  </g>
+
+  <!-- Node O (Bottom Left) -->
+  <g transform="translate(100, 230)">
+    <rect width="220" height="65" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2" filter="url(#shadow)" />
+    <text x="110" y="27" fill="#1e3a8a" class="node-title" text-anchor="middle">Xu Hướng Hiển Thị (O)</text>
+    <text x="110" y="45" fill="#1d4ed8" class="node-desc" text-anchor="middle">Treatment: O_ui ∈ {0, 1}</text>
+    <text x="110" y="58" fill="#64748b" font-size="10" text-anchor="middle">(Bị chi phối bởi thuật toán đẩy feed)</text>
+  </g>
+
+  <!-- Node Y (Bottom Right) -->
+  <g transform="translate(580, 230)">
+    <rect width="220" height="65" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2" filter="url(#shadow)" />
+    <text x="110" y="27" fill="#064e3b" class="node-title" text-anchor="middle">Phản Hồi Tương Tác (Y)</text>
+    <text x="110" y="45" fill="#047857" class="node-desc" text-anchor="middle">Outcome: Y_ui ∈ {0, 1}</text>
+    <text x="110" y="58" fill="#64748b" font-size="10" text-anchor="middle">(Chỉ quan sát được khi O_ui = 1)</text>
+  </g>
+
+  <!-- Arrow U -> O (Backdoor part 1) -->
+  <path d="M 370 140 L 250 230" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrowRed)" />
+  <text x="275" y="175" fill="#dc2626" font-size="11" font-weight="600">U → O</text>
+
+  <!-- Arrow U -> Y (Backdoor part 2) -->
+  <path d="M 530 140 L 650 230" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrowRed)" />
+  <text x="615" y="175" fill="#dc2626" font-size="11" font-weight="600">U → Y</text>
+
+  <!-- Direct Arrow O -> Y -->
+  <path d="M 320 262 L 580 262" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowBlue)" />
+  <text x="450" y="255" fill="#2563eb" font-size="12" font-weight="700" text-anchor="middle">Tác động hiển thị: O → Y</text>
+
+  <!-- Propensity P intervention -->
+  <g transform="translate(100, 315)">
+    <text x="110" y="15" fill="#475569" font-size="11" text-anchor="middle">Hiệu chỉnh bởi: Propensity P(O=1|u,i) hoặc Doubly Robust</text>
+  </g>
+  <g transform="translate(450, 300)">
+    <rect width="320" height="30" rx="4" fill="#fffbeb" stroke="#f59e0b" />
+    <text x="160" y="20" fill="#92400e" font-size="11" font-weight="600" text-anchor="middle">Đường cửa sau O ← U → Y tạo tương quan giả tạo</text>
+  </g>
+</svg>

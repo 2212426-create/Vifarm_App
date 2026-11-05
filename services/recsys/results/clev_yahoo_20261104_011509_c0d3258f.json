@@ -1,0 +1,445 @@
+{
+  "model": "CLEV-DR",
+  "paper_name": "Ours-DR",
+  "dataset": "yahoo",
+  "run_id": "20261104_011509_c0d3258f",
+  "smoke": false,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "alphas": [
+    0.4,
+    0.6,
+    0.8
+  ],
+  "runs": [
+    {
+      "AUC": 0.6546216246808816,
+      "Recall@5": 0.38582554379776596,
+      "NDCG@5": 0.6140664226828698,
+      "Precision@5": 0.24296296296296296,
+      "dataset": "yahoo",
+      "alpha": 0.4,
+      "seed": 0,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 19,
+        "converged": true,
+        "rho": 0.2088615447282791
+      },
+      "seconds": 794.7,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "d6cb0b2eae6a7b31"
+    },
+    {
+      "AUC": 0.6550227795887615,
+      "Recall@5": 0.38161368312757193,
+      "NDCG@5": 0.6064473684796027,
+      "Precision@5": 0.23996296296296296,
+      "dataset": "yahoo",
+      "alpha": 0.6,
+      "seed": 0,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 19,
+        "converged": true,
+        "rho": 0.24120549857616425
+      },
+      "seconds": 1049.9,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "d6cb0b2eae6a7b31"
+    },
+    {
+      "AUC": 0.6669738682913502,
+      "Recall@5": 0.4134380511463845,
+      "NDCG@5": 0.6271063697087103,
+      "Precision@5": 0.2521111111111111,
+      "dataset": "yahoo",
+      "alpha": 0.8,
+      "seed": 0,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 19,
+        "converged": true,
+        "rho": 0.28385600447654724
+      },
+      "seconds": 1145.3,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "d6cb0b2eae6a7b31"
+    },
+    {
+      "AUC": 0.6821605085681398,
+      "Recall@5": 0.4556252204585538,
+      "NDCG@5": 0.6881867858424963,
+      "Precision@5": 0.27392592592592596,
+      "dataset": "yahoo",
+      "alpha": 0.4,
+      "seed": 1,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 19,
+        "converged": true,
+        "rho": -0.09264829009771347
+      },
+      "seconds": 1117.3,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "2c3b1b2e516ed372"
+    },
+    {
+      "AUC": 0.6770319495023768,
+      "Recall@5": 0.4492431657848324,
+      "NDCG@5": 0.6797774342682867,
+      "Precision@5": 0.27055555555555555,
+      "dataset": "yahoo",
+      "alpha": 0.6,
+      "seed": 1,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 17,
+        "converged": true,
+        "rho": 0.3912360668182373
+      },
+      "seconds": 1000.9,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "2c3b1b2e516ed372"
+    },
+    {
+      "AUC": 0.6754539502887075,
+      "Recall@5": 0.44942592592592584,
+      "NDCG@5": 0.6799149716067189,
+      "Precision@5": 0.2710370370370371,
+      "dataset": "yahoo",
+      "alpha": 0.8,
+      "seed": 1,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 19,
+        "converged": true,
+        "rho": 0.3646670877933502
+      },
+      "seconds": 993.3,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "2c3b1b2e516ed372"
+    },
+    {
+      "AUC": 0.6796560325434146,
+      "Recall@5": 0.45197031158142265,
+      "NDCG@5": 0.6774817420704041,
+      "Precision@5": 0.27151851851851855,
+      "dataset": "yahoo",
+      "alpha": 0.4,
+      "seed": 2,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 26,
+        "converged": true,
+        "rho": 0.184339240193367
+      },
+      "seconds": 1142.4,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "d84748955fcb052e"
+    },
+    {
+      "AUC": 0.6726231276599681,
+      "Recall@5": 0.4428034244562022,
+      "NDCG@5": 0.6684330203692443,
+      "Precision@5": 0.26855555555555555,
+      "dataset": "yahoo",
+      "alpha": 0.6,
+      "seed": 2,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 24,
+        "converged": true,
+        "rho": 0.3346664607524872
+      },
+      "seconds": 1092.6,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "d84748955fcb052e"
+    },
+    {
+      "AUC": 0.6246241110440844,
+      "Recall@5": 0.4047242063492063,
+      "NDCG@5": 0.6357208081889193,
+      "Precision@5": 0.24955555555555553,
+      "dataset": "yahoo",
+      "alpha": 0.8,
+      "seed": 2,
+      "config": {
+        "emb_dim": 64,
+        "lr": 0.05,
+        "weight_decay": 1e-05,
+        "batch_size": 8192,
+        "monte_sample_num": 44,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 0.01,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 26,
+        "converged": true,
+        "rho": 0.534927248954773
+      },
+      "seconds": 1154.5,
+      "num_user": 15401,
+      "num_item": 1001,
+      "train_rows": 311704,
+      "test_rows": 54000,
+      "data_sha256": "d84748955fcb052e"
+    }
+  ],
+  "summary_by_alpha": {
+    "0.4": {
+      "AUC": {
+        "mean": 0.6721460552641454,
+        "std": 0.015228176203680065,
+        "n": 3
+      },
+      "Recall@5": {
+        "mean": 0.4311403586125808,
+        "std": 0.03928630704203127,
+        "n": 3
+      },
+      "NDCG@5": {
+        "mean": 0.6599116501985901,
+        "std": 0.04006230341626299,
+        "n": 3
+      },
+      "Precision@5": {
+        "mean": 0.26280246913580246,
+        "std": 0.017223629306650595,
+        "n": 3
+      }
+    },
+    "0.6": {
+      "AUC": {
+        "mean": 0.6682259522503688,
+        "std": 0.011644838073527909,
+        "n": 3
+      },
+      "Recall@5": {
+        "mean": 0.4245534244562022,
+        "std": 0.0373260446085863,
+        "n": 3
+      },
+      "NDCG@5": {
+        "mean": 0.6515526077057112,
+        "std": 0.039471963289296357,
+        "n": 3
+      },
+      "Precision@5": {
+        "mean": 0.25969135802469134,
+        "std": 0.01711453121717688,
+        "n": 3
+      }
+    },
+    "0.8": {
+      "AUC": {
+        "mean": 0.6556839765413808,
+        "std": 0.027230761671372263,
+        "n": 3
+      },
+      "Recall@5": {
+        "mean": 0.42252939447383886,
+        "std": 0.02369705310586434,
+        "n": 3
+      },
+      "NDCG@5": {
+        "mean": 0.6475807165014494,
+        "std": 0.028331610922992127,
+        "n": 3
+      },
+      "Precision@5": {
+        "mean": 0.2575679012345679,
+        "std": 0.011734390930014235,
+        "n": 3
+      }
+    }
+  },
+  "best_alpha_by_test_ndcg": {
+    "alpha": 0.4,
+    "selected_on": "test (author procedure)"
+  },
+  "paper": {
+    "AUC": 0.715,
+    "Recall@5": 0.486,
+    "NDCG@5": 0.713
+  },
+  "source": {
+    "repository": "https://github.com/WallaceSUI/kdd25-background-variable",
+    "commit": "66a0e5f9041bf10f4ea04334ca1eeedd100a7d19",
+    "class": "new_model.MF_BV_Multi_bin_JL_G_DR"
+  },
+  "code_sha256_at_start": "3bb669cc0d4596084da93af5d48d5c4c041d7a164570e7c978b7506ead61dd31",
+  "protocol": "author protocol (Zhang et al. scripts): train on the biased log, test on the whole random log, labels and metrics as in the author code; not H30"
+}

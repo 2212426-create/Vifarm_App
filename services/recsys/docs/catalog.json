@@ -1,11 +1,31 @@
 {
   "schema_version": 1,
-  "reviewed_on": "2026-11-02",
+  "reviewed_on": "2026-11-04",
   "read_first": "docs/CURRENT_STATE.md",
   "files": [
     {
       "path": "AGENTS.md",
       "role": "guidance",
+      "immutable": false
+    },
+    {
+      "path": "README.md",
+      "role": "current_index",
+      "immutable": false
+    },
+    {
+      "path": "docs/CURRENT_STATE.md",
+      "role": "current_state",
+      "immutable": false
+    },
+    {
+      "path": "docs/MAINTENANCE.md",
+      "role": "current_guide",
+      "immutable": false
+    },
+    {
+      "path": "docs/README.md",
+      "role": "current_index",
       "immutable": false
     },
     {
@@ -89,28 +109,98 @@
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-11-02/conalign_fix/smoke.log",
-      "role": "verification_log",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-11-02/conalign_fix/tests.log",
-      "role": "verification_log",
-      "immutable": false
-    },
-    {
       "path": "docs/archive/2026-11-02/conalign_fix/validate.py",
       "role": "historical_evidence",
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-11-02/conalign_fix/validation.log",
+      "path": "docs/archive/2026-11-03/ncf/validate.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/clev_parity.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/clev_parity.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/mrdr_hu_conventions.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/mrdr_hu_conventions.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/mrdr_metrics_parity.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/mrdr_metrics_parity.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/mrdr_neumf_base.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/mrdr_neumf_base.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/smoke.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/tests.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/validate.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-04/mrdr_cal_clev/validation.log",
       "role": "verification_log",
       "immutable": false
     },
     {
       "path": "docs/archive/README.md",
       "role": "archive_index",
+      "immutable": false
+    },
+    {
+      "path": "docs/baocao/BaoCao_DoAnChuyenNganh_HoanChinh.md",
+      "role": "planning_draft",
+      "immutable": false
+    },
+    {
+      "path": "docs/baocao/BaoCao_ToanVan_DoAnChuyenNganh.md",
+      "role": "planning_draft",
+      "immutable": false
+    },
+    {
+      "path": "docs/baocao/Cheatsheet_QA_HoiDong_BaoVeDoAn.md",
+      "role": "planning_draft",
+      "immutable": false
+    },
+    {
+      "path": "docs/baocao/Muc_BienLuanHocThuat_Va_TinhTaiLap.md",
+      "role": "planning_draft",
       "immutable": false
     },
     {
@@ -174,11 +264,6 @@
       "immutable": false
     },
     {
-      "path": "docs/CURRENT_STATE.md",
-      "role": "current_state",
-      "immutable": false
-    },
-    {
       "path": "docs/de_cuong/DeCuong_NghienCuuUngDungHocMayDeXuatVideoNgan.md",
       "role": "planning_draft",
       "immutable": false
@@ -199,11 +284,6 @@
       "immutable": false
     },
     {
-      "path": "docs/MAINTENANCE.md",
-      "role": "current_guide",
-      "immutable": false
-    },
-    {
       "path": "docs/paper_summaries/CDR.md",
       "role": "paper_transcript",
       "immutable": true,
@@ -214,12 +294,6 @@
       "role": "source_reference",
       "immutable": true,
       "sha256": "fe4edd0210d0938469c24124b6dff9146c8e6d145b2ca62e5b4f85f90de007f1"
-    },
-    {
-      "path": "docs/paper_summaries/iDCF.md",
-      "role": "paper_transcript",
-      "immutable": true,
-      "sha256": "32c06936a75774289b91049a78ce62dc441d5f082bf6b63f6b58970552d112bb"
     },
     {
       "path": "docs/paper_summaries/IViDR.md",
@@ -245,6 +319,12 @@
       "sha256": "590324ced41aa12871aaf2cc2854e84a17d286a047b52ddb90b2af02bb9b633d"
     },
     {
+      "path": "docs/paper_summaries/iDCF.md",
+      "role": "paper_transcript",
+      "immutable": true,
+      "sha256": "32c06936a75774289b91049a78ce62dc441d5f082bf6b63f6b58970552d112bb"
+    },
+    {
       "path": "docs/papers/CDR.pdf",
       "role": "source_reference",
       "immutable": true,
@@ -255,12 +335,6 @@
       "role": "source_reference",
       "immutable": true,
       "sha256": "71fa58f5bcb3477285f02e278cb58ba7cb052ef129a5679a499c919c428f38b0"
-    },
-    {
-      "path": "docs/papers/iDCF.pdf",
-      "role": "source_reference",
-      "immutable": true,
-      "sha256": "8824cd45404c3599f93272c2db0443bf58c44bd85580dd822aef7b86230fdcba"
     },
     {
       "path": "docs/papers/IDCIV_RS_IJCAI2025.pdf",
@@ -275,22 +349,10 @@
       "sha256": "5ae20b87db12a864f8cde918ec4ce731d135dfe7e3d8188a11dd00ec73e799b1"
     },
     {
-      "path": "docs/papers/iVAE_AISTATS2020.pdf",
-      "role": "source_reference",
-      "immutable": true,
-      "sha256": "65c3f3713fedfa262f92159165434d3fd8ab8df559236456a9bb171b78c3814d"
-    },
-    {
       "path": "docs/papers/IViDR.pdf",
       "role": "source_reference",
       "immutable": true,
       "sha256": "ff725d20dfd676f543882cba959dd60d988a792fabeaaf10a1d894804247cfad"
-    },
-    {
-      "path": "docs/papers/ividr_reference_sources_20261023.json",
-      "role": "source_reference",
-      "immutable": true,
-      "sha256": "03f2e94f878d106430acc619c40289394c754da24a0c6208e6b0f1aed6d707ca"
     },
     {
       "path": "docs/papers/LCDR.pdf",
@@ -305,10 +367,10 @@
       "sha256": "71cbb29d6b5848fdb20a728610d92672723eefc762296f1a4a473a6a607ff6e8"
     },
     {
-      "path": "docs/papers/lcdr_conalign_downloads_20261027.json",
+      "path": "docs/papers/LatentExogenous_KDD2025.pdf",
       "role": "source_reference",
       "immutable": true,
-      "sha256": "ba0d114fe3f154267f64f856b5c85a0abc357f268d96708819e5334827d429e8"
+      "sha256": "41188f06a336688bed0b78f1df55ae22318cfa93e69bf2f8bf199854b5a53e82"
     },
     {
       "path": "docs/papers/README.md",
@@ -322,12 +384,43 @@
       "sha256": "8ab969ff3703e2e4b3abb4fd183da460b835cec51d36dde72dd3958397668504"
     },
     {
-      "path": "docs/presentation/README.md",
-      "role": "current_index",
-      "immutable": false
+      "path": "docs/papers/UncertaintyCalibration_TKDE2025.pdf",
+      "role": "source_reference",
+      "immutable": true,
+      "sha256": "ee701b72d0eb7a56204c64e2ea2f8c0fc6386527b40e00c5a1fda99ea1afb3f0"
     },
     {
-      "path": "docs/README.md",
+      "path": "docs/papers/iDCF.pdf",
+      "role": "source_reference",
+      "immutable": true,
+      "sha256": "8824cd45404c3599f93272c2db0443bf58c44bd85580dd822aef7b86230fdcba"
+    },
+    {
+      "path": "docs/papers/iVAE_AISTATS2020.pdf",
+      "role": "source_reference",
+      "immutable": true,
+      "sha256": "65c3f3713fedfa262f92159165434d3fd8ab8df559236456a9bb171b78c3814d"
+    },
+    {
+      "path": "docs/papers/ividr_reference_sources_20261023.json",
+      "role": "source_reference",
+      "immutable": true,
+      "sha256": "03f2e94f878d106430acc619c40289394c754da24a0c6208e6b0f1aed6d707ca"
+    },
+    {
+      "path": "docs/papers/lcdr_conalign_downloads_20261027.json",
+      "role": "source_reference",
+      "immutable": true,
+      "sha256": "ba0d114fe3f154267f64f856b5c85a0abc357f268d96708819e5334827d429e8"
+    },
+    {
+      "path": "docs/papers/mrdr_cal_clev_downloads_20261104.json",
+      "role": "source_reference",
+      "immutable": true,
+      "sha256": "08a25614c7e8c62a4f324deddc7cb161912bf67402e0f709b0627ed7366125bc"
+    },
+    {
+      "path": "docs/presentation/README.md",
       "role": "current_index",
       "immutable": false
     },
@@ -337,17 +430,17 @@
       "immutable": false
     },
     {
-      "path": "notebooks/build_notebook.py",
-      "role": "notebook_builder",
-      "immutable": false
-    },
-    {
       "path": "notebooks/TopTop_RecSys_Colab_API.ipynb",
       "role": "current_notebook",
       "immutable": false
     },
     {
-      "path": "README.md",
+      "path": "notebooks/build_notebook.py",
+      "role": "notebook_builder",
+      "immutable": false
+    },
+    {
+      "path": "results/CATALOG.md",
       "role": "current_index",
       "immutable": false
     },
@@ -356,6 +449,16 @@
       "role": "benchmark_result",
       "immutable": true,
       "sha256": "a0d7da718712e818124a4f81726125b26cc1f250e2d25a8086d9e7ce98a3d3f2"
+    },
+    {
+      "path": "results/benchmark_all_f109d46fbe_20261104_222805_e21bb674_v4.json",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/benchmark_all_f109d46fbe_20261104_222805_e21bb674_v4.md",
+      "role": "benchmark_result",
+      "immutable": false
     },
     {
       "path": "results/benchmark_kuairand_ividr_be219eee39_20261029_193713_d87515c9_v4.json",
@@ -375,9 +478,114 @@
       "sha256": "bd98df53e8402e33e34d00d881681b98a6aa618986723f083561c74208b7f554"
     },
     {
-      "path": "results/CATALOG.md",
-      "role": "current_index",
+      "path": "results/cdr_source_coat_20261104_223038_c37b736f.json",
+      "role": "benchmark_result",
       "immutable": false
+    },
+    {
+      "path": "results/cdr_source_coat_20261104_223038_c37b736f.md",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cdr_source_kuairand_20261105_033521_08cf0ae7.json",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cdr_source_kuairand_20261105_033521_08cf0ae7.md",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cdr_source_yahoo_20261104_233237_defadff6.json",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cdr_source_yahoo_20261104_233237_defadff6.md",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cf_dl_coat_20261103_200701_387e7f14.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "929734c946400e36c7ee5c3637afd15fa5d997e2e540e8709b4fce67d7093d04"
+    },
+    {
+      "path": "results/cf_dl_coat_20261103_200701_387e7f14_per_seed.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "fc24414239be77f8e4d14853044d8c235cad9f105f882c75290ae2137ffc0e5a"
+    },
+    {
+      "path": "results/cf_dl_coat_20261104_222852_7ece255e.json",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cf_dl_kuairand_20261103_203153_182dbb3e.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "f451ad3c5f1357f53f5f4cf50a75061f40d4464e1962eed2a73928b88b576cbd"
+    },
+    {
+      "path": "results/cf_dl_kuairand_20261104_222852_7ece255e.json",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cf_dl_kuairand_20261104_222852_7ece255e.md",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/cf_dl_yahoo_20261103_203152_cce07ea1.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "a6bce75881dd834b6d5362f18a4bc8430ab7950bee81080275b2f0f27f332b13"
+    },
+    {
+      "path": "results/cf_dl_yahoo_20261104_222852_7ece255e.json",
+      "role": "benchmark_result",
+      "immutable": false
+    },
+    {
+      "path": "results/clev_coat_20261104_011507_7e1c36a1.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "37d3a420d9bd7e317d864585f74fb88fc7cfd66810f2cdb6092fc7e5229a8b8c"
+    },
+    {
+      "path": "results/clev_kuairand_20261104_112136_bf48b9db.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "64c499b627b1401f78a8d89c6a108545f2df92c8c8c38d432aa67f699a1429d4"
+    },
+    {
+      "path": "results/clev_kuairand_20261104_112142_ae568b53.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "32b9de658d987b4ee08e48d0259cdd7dc7a3da4bd663bace1f0813a1ab299648"
+    },
+    {
+      "path": "results/clev_kuairand_20261104_141041_41fb03e6.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "f6906314f246c33c8a80a1744a49d9490be39b5754e08e2cada770627f39664d"
+    },
+    {
+      "path": "results/clev_kuairand_20261104_171457_8a75f508.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "87d73e56726a2313803147419e525d1f332c475958e4705a51fb7478a9c0fa2d"
+    },
+    {
+      "path": "results/clev_yahoo_20261104_011509_c0d3258f.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "0b111603dbc791f39c97fe3c8e1d5526440ea18679b5f539f29a013ee1bd61eb"
     },
     {
       "path": "results/conalign_coat_20261102_183617_295b7a3c.json",
@@ -470,6 +678,12 @@
       "sha256": "dc0ee8a0dc73677c78a4945d2073a4ff0929aba793857f2350f94449aad9c83b"
     },
     {
+      "path": "results/lcdr_coat_20261104_001633_38fc69d6.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "e6413996783057bc5e90e5c2783be1fe831c679d152ce6a244ca96c212c00b6c"
+    },
+    {
       "path": "results/lcdr_conalign_studies_summary_20261030.json",
       "role": "benchmark_result",
       "immutable": true,
@@ -486,6 +700,36 @@
       "role": "benchmark_result",
       "immutable": true,
       "sha256": "b3e5d86b19175ed54d4029cd296a91fb1b8de4a775260cbf9d8cb257899e3201"
+    },
+    {
+      "path": "results/mrdr_cal_clev_validation_20261104.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "d8013ce0c5ce1b231cbe2b008d0f686361819737844eaa5dbb812218410095b3"
+    },
+    {
+      "path": "results/mrdr_cal_coat_20261104_013609_11a6bf42.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "d29821dad6a76b9b98354c5f59c842f9d65a8ca3c5fb472f1312d7e08fd3db96"
+    },
+    {
+      "path": "results/mrdr_cal_kuairand_20261104_013611_0644a364.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "d82c0b51b0269889ec986bbfe9f62740ce4dbed844b957a5a1372250a203cefd"
+    },
+    {
+      "path": "results/mrdr_cal_yahoo_20261104_013610_aa1da2a8.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "876d016489cd1c5bc6910030062d8e39b64b72deef7f08870e110049551aa05f"
+    },
+    {
+      "path": "results/ncf_milestone_validation_20261103.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "8eb2734e9d6989e4de7add7dec66eb18f0333997c0e0dd74270340773db915d0"
     },
     {
       "path": "results/studies/conalign_kuairand_20261028_081519_b614253e.json",
