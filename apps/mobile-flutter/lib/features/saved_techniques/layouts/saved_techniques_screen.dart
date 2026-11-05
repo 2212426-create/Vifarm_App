@@ -17,14 +17,18 @@ class SavedTechniquesScreen extends ConsumerWidget {
 
     if (currentUser == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Kho kỹ thuật đã lưu')),
+        appBar: AppBar(title: const Text('Video đã lưu')),
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.bookmark_outline, size: 64, color: AppColors.primary),
+              const Icon(
+                Icons.bookmark_outline,
+                size: 64,
+                color: AppColors.primary,
+              ),
               const SizedBox(height: 16),
-              const Text('Vui lòng đăng nhập để xem kho kỹ thuật!'),
+              const Text('Vui lòng đăng nhập để xem các video đã lưu!'),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => context.go('/auth'),
@@ -36,12 +40,12 @@ class SavedTechniquesScreen extends ConsumerWidget {
       );
     }
 
-    final savedVideosAsync = ref.watch(savedTechniquesStreamProvider(currentUser.uid));
+    final savedVideosAsync = ref.watch(
+      savedTechniquesStreamProvider(currentUser.uid),
+    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kho Kỹ Thuật Nông Nghiệp'),
-      ),
+      appBar: AppBar(title: const Text('Video đã lưu')),
       body: savedVideosAsync.when(
         data: (videos) {
           if (videos.isEmpty) {
@@ -52,16 +56,18 @@ class SavedTechniquesScreen extends ConsumerWidget {
                   Icon(
                     Icons.bookmark_border,
                     size: 72,
-                    color: isDark ? AppColors.darkTextHint : AppColors.lightTextHint,
+                    color: isDark
+                        ? AppColors.darkTextHint
+                        : AppColors.lightTextHint,
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'Chưa có kỹ thuật nào được lưu',
+                    'Chưa có video nào được lưu',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Bấm nút "Lưu KT" ở video bài học để xem lại sau!',
+                    'Bấm biểu tượng "Lưu" ở video bất kỳ để xem lại tại đây!',
                     style: TextStyle(color: Colors.grey),
                   ),
                 ],
@@ -86,13 +92,22 @@ class SavedTechniquesScreen extends ConsumerWidget {
                       color: AppColors.primary.withAlpha(30),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.play_circle_fill, color: AppColors.primary, size: 36),
+                    child: const Icon(
+                      Icons.play_circle_fill,
+                      color: AppColors.primary,
+                      size: 36,
+                    ),
                   ),
                   title: Text(
-                    video.description.isNotEmpty ? video.description : 'Kỹ thuật canh tác #${video.videoId}',
+                    video.description.isNotEmpty
+                        ? video.description
+                        : 'Kỹ thuật canh tác #${video.videoId}',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +117,10 @@ class SavedTechniquesScreen extends ConsumerWidget {
                         children: [
                           if (video.crop != null && video.crop!.isNotEmpty)
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
                               margin: const EdgeInsets.only(right: 6),
                               decoration: BoxDecoration(
                                 color: AppColors.primary.withAlpha(40),
@@ -110,25 +128,43 @@ class SavedTechniquesScreen extends ConsumerWidget {
                               ),
                               child: Text(
                                 video.crop!,
-                                style: const TextStyle(fontSize: 10, color: AppColors.primary, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          if (video.growthStage != null && video.growthStage!.isNotEmpty)
+                          if (video.growthStage != null &&
+                              video.growthStage!.isNotEmpty)
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.accentBrown.withAlpha(40),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
                                 video.growthStage!,
-                                style: const TextStyle(fontSize: 10, color: AppColors.accentBrown, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  color: AppColors.accentBrown,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text('@${video.username}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                      Text(
+                        '@${video.username}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
                     ],
                   ),
                   trailing: const Icon(Icons.chevron_right),

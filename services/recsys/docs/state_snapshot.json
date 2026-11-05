@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "source_sha256": "7af2cabd63a5e40f20f2c563f4aa524f6d8e2ff774fee3b6a42ad415ad604a3c",
+  "source_sha256": "3e9f20b8562a08917b140e22965d8742bb370f08daada62dda71b3a52192d74c",
   "scope": "MRDR-CAL (Hu et al., TKDE 2025; MRDR from Guo et al.) and CLEV-DR (Zhang et al., KDD 2025, Ours-DR) on their author protocols, on top of the NeuMF/cf-dl milestone. Six-model benchmark code and scores unchanged",
   "default_models": [
     "MF",

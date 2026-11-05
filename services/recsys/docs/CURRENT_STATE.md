@@ -1,7 +1,7 @@
 # Trạng thái RecSys hiện hành
 
 Mốc mã đã kiểm chứng: **04/11/2026**, source
-`7af2cabd63a5e40f20f2c563f4aa524f6d8e2ff774fee3b6a42ad415ad604a3c`.
+`3e9f20b8562a08917b140e22965d8742bb370f08daada62dda71b3a52192d74c`.
 Mốc này thêm MRDR-CAL (Hu et al., TKDE 2025) và CLEV-DR (Zhang et al., KDD 2025, "Ours-DR"), chạy theo protocol
 tác giả. Mốc 03/11 trước đó thêm NeuMF, TopPop, ItemKNN và workflow `cf-dl`. Năm mô hình của
 `benchmark --model all` không đổi mã và không đổi điểm. Lịch sử trước đó nằm trong Git, xem [cách khôi phục](MAINTENANCE.md#khôi-phục-tài-liệu-cũ).

@@ -51,6 +51,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>ViFarm cần truy cập camera để quay video mới.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ViFarm cần vị trí của bạn để hiển thị thời tiết và nông sản quanh đây.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>ViFarm cần truy cập micro để ghi âm khi quay video.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

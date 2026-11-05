@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../products/repositories/product_repository.dart';
+import '../providers/location_provider.dart';
 import '../widgets/weather_widget.dart';
 
 /// Màn hình "Quanh Đây" - Tìm kiếm nhà vườn, nông sản và video kỹ thuật theo bán kính
@@ -17,26 +18,15 @@ class NearMeScreen extends ConsumerStatefulWidget {
 
 class _NearMeScreenState extends ConsumerState<NearMeScreen> {
   int _selectedRadius = 20; // km: 10, 20, 50
-  String _manualRegion = 'Lâm Đồng';
-  bool _useGps = false;
-
-  final double _currentLat = 11.7381;
-  final double _currentLng = 108.3752;
-
-  final List<String> _regions = [
-    'Lâm Đồng',
-    'Đắc Lắk',
-    'Gia Lai',
-    'Đồng Nai',
-    'Cần Thơ',
-  ];
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final locationState = ref.watch(nearMeLocationProvider);
+
     final productsAsync = ref.watch(marketplaceProductsStreamProvider((
       category: null,
-      region: _manualRegion,
+      region: locationState.isGps ? null : locationState.regionName,
       saleType: null,
       query: null,
     )));
@@ -47,7 +37,7 @@ class _NearMeScreenState extends ConsumerState<NearMeScreen> {
       ),
       body: Column(
         children: [
-          WeatherWidget(region: _manualRegion),
+          const WeatherWidget(),
 
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -62,30 +52,86 @@ class _NearMeScreenState extends ConsumerState<NearMeScreen> {
                     const Text('Khu vực:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                     const SizedBox(width: 6),
 
-                    DropdownButton<String>(
-                      value: _manualRegion,
-                      underline: const SizedBox.shrink(),
-                      isDense: true,
-                      items: _regions.map((r) => DropdownMenuItem(value: r, child: Text(r, style: const TextStyle(fontSize: 13)))).toList(),
-                      onChanged: (val) {
-                        if (val != null) setState(() => _manualRegion = val);
-                      },
-                    ),
-                    const Spacer(),
+                    if (locationState.isGps)
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                locationState.displayName,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primary,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            InkWell(
+                              onTap: () {
+                                ref.read(nearMeLocationProvider.notifier).resetToManualDefault();
+                              },
+                              child: const Text(
+                                '(Đổi)',
+                                style: TextStyle(fontSize: 11, color: Colors.blue, decoration: TextDecoration.underline),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      DropdownButton<String>(
+                        value: defaultPresetRegions.any((r) => r.name == locationState.regionName)
+                            ? locationState.regionName
+                            : defaultPresetRegions.first.name,
+                        underline: const SizedBox.shrink(),
+                        isDense: true,
+                        items: defaultPresetRegions
+                            .map((r) => DropdownMenuItem(
+                                  value: r.name,
+                                  child: Text(r.name, style: const TextStyle(fontSize: 13)),
+                                ))
+                            .toList(),
+                        onChanged: (val) {
+                          if (val != null) {
+                            ref.read(nearMeLocationProvider.notifier).selectPresetRegion(val);
+                          }
+                        },
+                      ),
+
+                    if (!locationState.isGps) const Spacer(),
 
                     FilterChip(
-                      label: Text(_useGps ? 'GPS On' : 'Chọn tay', style: const TextStyle(fontSize: 11)),
-                      selected: _useGps,
+                      label: locationState.isLoadingGps
+                          ? const SizedBox(
+                              width: 12,
+                              height: 12,
+                              child: CircularProgressIndicator(strokeWidth: 1.5),
+                            )
+                          : Text(
+                              locationState.isGps ? 'GPS On' : 'Vị trí hiện tại',
+                              style: const TextStyle(fontSize: 11),
+                            ),
+                      selected: locationState.isGps,
                       selectedColor: AppColors.primary,
                       visualDensity: VisualDensity.compact,
-                      onSelected: (selected) {
-                        setState(() => _useGps = selected);
-                        if (selected) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Đã định vị tọa độ Đức Trọng, Lâm Đồng!')),
-                          );
-                        }
-                      },
+                      onSelected: locationState.isLoadingGps
+                          ? null
+                          : (selected) async {
+                              if (selected) {
+                                final success = await ref.read(nearMeLocationProvider.notifier).enableGps();
+                                if (!success && context.mounted) {
+                                  final err = ref.read(nearMeLocationProvider).errorMessage ?? 'Không thể bật định vị GPS.';
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(err)),
+                                  );
+                                }
+                              } else {
+                                ref.read(nearMeLocationProvider.notifier).resetToManualDefault();
+                              }
+                            },
                     ),
                   ],
                 ),
@@ -136,7 +182,12 @@ class _NearMeScreenState extends ConsumerState<NearMeScreen> {
                   separatorBuilder: (context, index) => const Divider(height: 12),
                   itemBuilder: (context, index) {
                     final product = products[index];
-                    final distanceKm = _calculateDistanceKm(_currentLat, _currentLng, 11.75 + (index * 0.02), 108.38 + (index * 0.02));
+                    final distanceKm = _calculateDistanceKm(
+                      locationState.latitude,
+                      locationState.longitude,
+                      11.75 + (index * 0.02),
+                      108.38 + (index * 0.02),
+                    );
 
                     return Card(
                       child: ListTile(

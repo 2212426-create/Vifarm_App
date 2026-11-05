@@ -101,7 +101,7 @@ class _HashtagScreenState extends ConsumerState<HashtagScreen> with SingleTicker
                         const Icon(Icons.video_collection, color: AppColors.primary, size: 18),
                         const SizedBox(width: 6),
                         Text(
-                          'Tổng số: ${videos.length} video kỹ thuật $displayTag',
+                          'Tổng số: ${videos.length} video $displayTag',
                           style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primary),
                         ),
                       ],

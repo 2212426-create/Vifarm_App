@@ -1,3 +1,46 @@
+/// Model Lịch Sử Xét Duyệt Hồ Sơ Gian Hàng
+class StoreAuditLog {
+  final int version;
+  final String status; // 'pending' | 'needs_changes' | 'approved' | 'rejected'
+  final String reviewerId;
+  final String reviewerName;
+  final String reason;
+  final String internalNote;
+  final int timestamp;
+
+  StoreAuditLog({
+    required this.version,
+    required this.status,
+    required this.reviewerId,
+    required this.reviewerName,
+    required this.reason,
+    this.internalNote = '',
+    required this.timestamp,
+  });
+
+  factory StoreAuditLog.fromMap(Map<String, dynamic> map) {
+    return StoreAuditLog(
+      version: (map['version'] as num?)?.toInt() ?? 1,
+      status: map['status'] as String? ?? 'pending',
+      reviewerId: map['reviewerId'] as String? ?? '',
+      reviewerName: map['reviewerName'] as String? ?? '',
+      reason: map['reason'] as String? ?? '',
+      internalNote: map['internalNote'] as String? ?? '',
+      timestamp: (map['timestamp'] as num?)?.toInt() ?? DateTime.now().millisecondsSinceEpoch,
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+        'version': version,
+        'status': status,
+        'reviewerId': reviewerId,
+        'reviewerName': reviewerName,
+        'reason': reason,
+        'internalNote': internalNote,
+        'timestamp': timestamp,
+      };
+}
+
 /// Model Gian hàng Nông Nghiệp
 class StoreModel {
   final String storeId;
@@ -22,6 +65,12 @@ class StoreModel {
   final String status;          // 'draft' | 'pending' | 'needs_changes' | 'approved' | 'rejected'
   final String? rejectionReason;
   final String operatingStatus; // 'active' | 'suspended' | 'closed'
+  final int version;            // Phiên bản hồ sơ gửi xét duyệt (tăng mỗi lần resubmit)
+  final int? submittedAt;
+  final String? reviewedBy;
+  final String? reviewedByName;
+  final int? reviewedAt;
+  final List<StoreAuditLog> auditHistory;
   final int createdAt;
   final int updatedAt;
 
@@ -48,6 +97,12 @@ class StoreModel {
     this.status = 'draft',
     this.rejectionReason,
     this.operatingStatus = 'active',
+    this.version = 1,
+    this.submittedAt,
+    this.reviewedBy,
+    this.reviewedByName,
+    this.reviewedAt,
+    this.auditHistory = const [],
     required this.createdAt,
     required this.updatedAt,
   });
@@ -89,6 +144,15 @@ class StoreModel {
       status: map['status'] as String? ?? 'draft',
       rejectionReason: map['rejectionReason'] as String?,
       operatingStatus: map['operatingStatus'] as String? ?? 'active',
+      version: (map['version'] as num?)?.toInt() ?? 1,
+      submittedAt: (map['submittedAt'] as num?)?.toInt(),
+      reviewedBy: map['reviewedBy'] as String?,
+      reviewedByName: map['reviewedByName'] as String?,
+      reviewedAt: (map['reviewedAt'] as num?)?.toInt(),
+      auditHistory: (map['auditHistory'] as List<dynamic>?)
+              ?.map((e) => StoreAuditLog.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       createdAt: (map['createdAt'] as num?)?.toInt() ?? DateTime.now().millisecondsSinceEpoch,
       updatedAt: (map['updatedAt'] as num?)?.toInt() ?? DateTime.now().millisecondsSinceEpoch,
     );
@@ -117,6 +181,12 @@ class StoreModel {
         'status': status,
         'rejectionReason': rejectionReason,
         'operatingStatus': operatingStatus,
+        'version': version,
+        'submittedAt': submittedAt,
+        'reviewedBy': reviewedBy,
+        'reviewedByName': reviewedByName,
+        'reviewedAt': reviewedAt,
+        'auditHistory': auditHistory.map((a) => a.toMap()).toList(),
         'createdAt': createdAt,
         'updatedAt': updatedAt,
       };

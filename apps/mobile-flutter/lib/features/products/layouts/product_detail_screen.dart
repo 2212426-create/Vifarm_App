@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/share_button.dart';
+import '../../../shared/widgets/universal_share_bottom_sheet.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../cart/providers/cart_provider.dart';
 import '../../quote_requests/repositories/quote_repository.dart';
@@ -55,6 +57,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           appBar: AppBar(
             title: Text(product.name),
             actions: [
+              ShareButton(
+                content: ShareContentModel.fromProduct(product),
+              ),
               IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
                 onPressed: () => context.push('/cart'),

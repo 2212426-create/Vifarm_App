@@ -75,6 +75,13 @@ class UploadNotifier extends StateNotifier<UploadState> {
     bool allowDownload = true,
     bool allowDuet = true,
     bool isCopyrightProtected = false,
+    String? topic,
+    bool isSponsored = false,
+    String? crop,
+    String? growthStage,
+    String? region,
+    String? relatedJournalId,
+    List<String>? taggedProductIds,
   }) async {
     state = UploadState(status: UploadStatus.uploading, progress: 0.0);
 
@@ -142,6 +149,13 @@ class UploadNotifier extends StateNotifier<UploadState> {
         allowDownload: allowDownload,
         allowDuet: allowDuet,
         isCopyrightProtected: isCopyrightProtected,
+        topic: topic,
+        isSponsored: isSponsored,
+        crop: crop,
+        growthStage: growthStage,
+        region: region,
+        relatedJournalId: relatedJournalId,
+        taggedProductIds: taggedProductIds,
         keyframesPhash: newHashes,
         moderationStatus: eval.decision == CopyrightDecision.pendingReview ? 'pending' : 'approved',
         copyrightMatch: eval.decision == CopyrightDecision.pendingReview ? bestMatch : null,
