@@ -1404,15 +1404,15 @@
     "semantic_hash": ""
   },
   "apps/mobile-flutter/lib/features/video_feed/repositories/video_repository.dart": {
-    "mtime": 1793886107.0462663,
-    "seen": 1793886411.1754096,
-    "ast_hash": "efca6a5f9faffb066662cd35647c3530",
+    "mtime": 1793971495.241472,
+    "seen": 1793971626.1531758,
+    "ast_hash": "79b18ffc9fcdc87648f387a615785026",
     "semantic_hash": ""
   },
   "apps/mobile-flutter/lib/features/video_feed/services/recsys_service.dart": {
-    "mtime": 1793890362.561952,
-    "seen": 1793890694.4179723,
-    "ast_hash": "88466e841e348fb27d08986a78ebb627",
+    "mtime": 1793971495.2438123,
+    "seen": 1793971626.1531758,
+    "ast_hash": "108a9e3fa72288ca490cfc669980b7fa",
     "semantic_hash": ""
   },
   "apps/mobile-flutter/lib/features/video_feed/widgets/ad_player_widget.dart": {
@@ -1740,9 +1740,9 @@
     "semantic_hash": ""
   },
   "services/recsys/notebooks/build_notebook.py": {
-    "mtime": 1793609379.434867,
-    "seen": 1793609440.2969706,
-    "ast_hash": "7bb5c7d455ca840f5b72ce9e740a8adf",
+    "mtime": 1793971551.6742527,
+    "seen": 1793971626.1541905,
+    "ast_hash": "1adf7da70eb4f3b6bfbe6ca36b10d009",
     "semantic_hash": ""
   },
   "services/recsys/src/__init__.py": {
@@ -1758,9 +1758,9 @@
     "semantic_hash": ""
   },
   "services/recsys/src/api/app.py": {
-    "mtime": 1793890423.240898,
-    "seen": 1793890694.4196255,
-    "ast_hash": "a41a0351f9bb825294af5f653dd05805",
+    "mtime": 1793971495.2458372,
+    "seen": 1793971626.1571891,
+    "ast_hash": "48b5478621abbbf5733a4e8ab30ddc06",
     "semantic_hash": ""
   },
   "services/recsys/src/api/firebase_bridge.py": {
@@ -1776,9 +1776,9 @@
     "semantic_hash": ""
   },
   "services/recsys/src/api/service.py": {
-    "mtime": 1793889563.5212114,
-    "seen": 1793889874.291766,
-    "ast_hash": "aa79563e501fdf525df550e14121123f",
+    "mtime": 1793971495.2478383,
+    "seen": 1793971626.1571891,
+    "ast_hash": "d9abeb878c8fbe269d1685af34a54d6a",
     "semantic_hash": ""
   },
   "services/recsys/src/api/tunnel.py": {
@@ -1974,9 +1974,9 @@
     "semantic_hash": ""
   },
   "services/recsys/tests/test_api.py": {
-    "mtime": 1793889621.9517114,
-    "seen": 1793889874.291766,
-    "ast_hash": "36bbadbe7b82a4aacb81c74544f11fea",
+    "mtime": 1793971495.249825,
+    "seen": 1793971626.158719,
+    "ast_hash": "fba2b22fc26d2325b80b2b7ac3e99369",
     "semantic_hash": ""
   },
   "services/recsys/tests/test_idcf.py": {
@@ -2136,9 +2136,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/api/colab_api_guide.md": {
-    "mtime": 1793888623.1573963,
-    "seen": 1793888736.141505,
-    "ast_hash": "ab23693cebb5a3506171de7712968dcf",
+    "mtime": 1793971551.6787896,
+    "seen": 1793971626.1592371,
+    "ast_hash": "985592926ceb748ca6bb81e47b51d210",
     "semantic_hash": ""
   },
   "services/recsys/docs/benchmarks/evaluation_protocol.md": {
@@ -2190,9 +2190,9 @@
     "semantic_hash": ""
   },
   "services/recsys/requirements.txt": {
-    "mtime": 1792069334.4450195,
-    "seen": 1792118183.2249792,
-    "ast_hash": "6cdb3b82fe9b37a3ce699c0c82b7b941",
+    "mtime": 1793971551.6722212,
+    "seen": 1793971626.1592371,
+    "ast_hash": "5a076623f577510b88d4669f0e584197",
     "semantic_hash": ""
   },
   "services/recsys/docs/paper_summaries/IViDR.md": {
@@ -2712,9 +2712,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/catalog.json": {
-    "mtime": 1793890491.6506174,
-    "seen": 1793890694.4179723,
-    "ast_hash": "0c7d7b398be0552400449ece0e4b2a0b",
+    "mtime": 1793972506.812236,
+    "seen": 1793972638.320668,
+    "ast_hash": "4051d3f310d8cec990ebd6e5d6443e5c",
     "semantic_hash": ""
   },
   "services/recsys/docs/check_docs.py": {
@@ -3048,9 +3048,9 @@
     "semantic_hash": ""
   },
   "services/recsys/docs/CURRENT_STATE.md": {
-    "mtime": 1793890491.641134,
-    "seen": 1793890694.4201598,
-    "ast_hash": "4764e8e7819775d08694c019b666a715",
+    "mtime": 1793971551.676794,
+    "seen": 1793971626.158719,
+    "ast_hash": "8d96257f19be4bd0963ef2ac95444771",
     "semantic_hash": ""
   },
   "services/recsys/docs/MAINTENANCE.md": {
@@ -3108,9 +3108,9 @@
     "semantic_hash": ""
   },
   "services/recsys/results/CATALOG.md": {
-    "mtime": 1793886350.799544,
-    "seen": 1793886411.1774225,
-    "ast_hash": "4fce5cbed853d30f192d63a7ed1d17b5",
+    "mtime": 1793972518.6533732,
+    "seen": 1793972638.323945,
+    "ast_hash": "0a94a7b8afc62813d0a5cf477f4a1b58",
     "semantic_hash": ""
   },
   "services/recsys/src/models/cdr/CDR_UPSTREAM_LICENSE.txt": {
@@ -5397,6 +5397,24 @@
     "mtime": 1793890362.5931022,
     "seen": 1793890694.4179723,
     "ast_hash": "3d032861c5531aaa382fa81e42f9060d",
+    "semantic_hash": ""
+  },
+  "services/recsys/src/api/auth.py": {
+    "mtime": 1793971222.0909603,
+    "seen": 1793971626.1571891,
+    "ast_hash": "f75c7859ff79732721a35d1b9263ebae",
+    "semantic_hash": ""
+  },
+  "services/recsys/experiments/workflows/serving_latency.py": {
+    "mtime": 1793971864.0763094,
+    "seen": 1793972638.3216825,
+    "ast_hash": "2f5a9283366eeb85d84ef80b6169e6a0",
+    "semantic_hash": ""
+  },
+  "services/recsys/results/serving_latency_20261106_203153_7d041bbb.json": {
+    "mtime": 1793971913.8889024,
+    "seen": 1793972638.3216825,
+    "ast_hash": "a533652438a4955893d7cfaddeacc767",
     "semantic_hash": ""
   }
 }
