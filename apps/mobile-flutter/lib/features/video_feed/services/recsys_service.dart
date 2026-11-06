@@ -276,7 +276,7 @@ class RecSysService {
         Uri.parse('$url/api/v1/interaction'),
         headers: await _jsonHeaders(),
         body: jsonEncode({
-          'user_id': userId ?? 'guest',
+          'user_id': userId,
           'video_id': videoId,
           'play_time_ms': playTimeMs,
           'is_like': isLike,
