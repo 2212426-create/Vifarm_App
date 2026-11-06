@@ -116,8 +116,12 @@ chỉ chạy NeuMF.
   bỏ sót 01–05/05. `EarlyStopping` sao chép `best_state`, khác source trên CPU (source chỉ khôi phục đúng khi chạy GPU).
 - **MRDR-CAL:** `run.py mrdr-cal`; NeuMF 64/[64, 32, 16], propensity NeuMF + Platt theo mã Hu, MRDR theo Guo.
 - **CLEV-DR:** `run.py clev`; 4 tháp NCF 2k→k→k→1, siêu tham số theo script tác giả, quét `alpha` như file bash.
-- **API:** chỉ phục vụ MF và CDR released trên dữ liệu TopTop, user mới dùng popularity; yêu cầu `ividr` trả về
-  mô hình thay thế kèm `fallback_reason`. Không có random log nên dùng propensity proxy, ghi ở `training_stats.cdr`.
+- **API:** phục vụ ConAlign (mặc định), MF và CDR released trên dữ liệu TopTop, user mới dùng popularity; yêu cầu
+  `ividr`/`clev_dr` trả về mô hình thay thế kèm `fallback_reason`. Không có random log nên ConAlign và CDR dùng
+  trọng số nghịch đảo tần suất video (kẹp .05–1, tối đa 20 lần) làm propensity proxy, ghi ở `training_stats.cdr`;
+  số epoch cố định, không có tập validation online. Huấn luyện lại chạy nền, `/recommend` dùng mô hình cũ tới khi
+  hoán đổi. Từ 06/11/2026 user_id lấy từ Firebase ID token và `/sync` cần `X-Admin-Key`
+  ([hướng dẫn API](api/colab_api_guide.md#xác-thực)).
 
 Tham số chi tiết: [config MF/CDR](../src/training/config.py), `IDCF_CONFIG` trong
 [train_idcf.py](../src/models/idcf/train_idcf.py), `NCF_CONFIG` trong [train_ncf.py](../src/models/ncf/train_ncf.py),

@@ -10,6 +10,8 @@ Biến môi trường:
     RECSYS_DATA_SOURCE      auto | live | export   (mặc định auto)
     RECSYS_EXPORT_DIR       thư mục chứa toptop_interactions.csv (mặc định data/firebase_export ở gốc repo)
     RECSYS_INTERACTION_LOG  CSV ghi nối tương tác từ app (mặc định data/api/interactions_log.csv)
+    RECSYS_AUTH_MODE        firebase (mặc định) | off — xem src/api/auth.py
+    RECSYS_ADMIN_KEY        khóa X-Admin-Key cho /api/v1/sync
 Project: ViFarm (services/recsys)
 """
 
@@ -20,10 +22,13 @@ import urllib.request
 from functools import partial
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from typing import Optional
+
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from src.api.auth import ApiAuth
 from src.api.firebase_bridge import InteractionLog, load_snapshot
 from src.api.schemas import CompareRequest, InteractionRequest, RecommendRequest, RecommendResponse
 
@@ -53,15 +58,16 @@ def build_engine_from_env():
         return DummyEngine()
 
 
-def create_app(engine=None):
+def create_app(engine=None, auth=None):
+    auth = auth or ApiAuth.from_env()
     app = FastAPI(title="ViFarm API Server", version="2.0.0",
                   description="Backend API cung cấp RecSys (ConAlign / DR-BIAS+CDR / MF) và Weather Proxy cho ViFarm.")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_credentials=False,  # API không dùng cookie; xác thực bằng Bearer token
+        allow_methods=["GET", "POST"],
+        allow_headers=["Authorization", "Content-Type", "X-Admin-Key"],
     )
     state = {"engine": engine}
 
@@ -93,6 +99,7 @@ def create_app(engine=None):
                 },
             )
 
+        # AgroMonitoring chỉ nhận key qua query string: không log URL này hoặc exception chứa nó.
         url = f"https://api.agromonitoring.com/agro/1.0/weather?lat={lat}&lon={lon}&appid={api_key}"
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "ViFarm/1.0"})
@@ -135,28 +142,31 @@ def create_app(engine=None):
             )
 
     @app.post("/api/v1/recommend", response_model=RecommendResponse)
-    def recommend(req: RecommendRequest):
+    def recommend(req: RecommendRequest, authorization: Optional[str] = Header(default=None)):
+        user_id = auth.user_id(authorization, req.user_id, required=False)
         recs, used, cold, reason = get_engine().recommend(
-            req.user_id, k=req.k, model=req.model, filter_rejected=req.filter_rejected,
+            user_id, k=req.k, model=req.model, filter_rejected=req.filter_rejected,
             exclude_video_ids=req.exclude_video_ids)
-        return RecommendResponse(user_id=req.user_id, model_requested=req.model, model_used=used,
+        return RecommendResponse(user_id=user_id, model_requested=req.model, model_used=used,
                                  is_cold_start=cold, fallback_reason=reason, recommendations=recs)
 
     @app.post("/api/v1/interaction")
-    def interaction(req: InteractionRequest):
-        return get_engine().log_interaction(req.user_id, req.video_id, req.play_time_ms, req.is_like)
+    def interaction(req: InteractionRequest, authorization: Optional[str] = Header(default=None)):
+        user_id = auth.user_id(authorization, req.user_id, required=True)
+        return get_engine().log_interaction(user_id, req.video_id, req.play_time_ms, req.is_like)
 
     @app.post("/api/v1/compare")
-    def compare(req: CompareRequest):
+    def compare(req: CompareRequest, authorization: Optional[str] = Header(default=None)):
+        user_id = auth.user_id(authorization, req.user_id, required=False)
         engine = get_engine()
         out = {}
         for name in engine.health()["models_available"]:
-            recs, used, cold, reason = engine.recommend(req.user_id, k=req.k, model=name,
+            recs, used, cold, reason = engine.recommend(user_id, k=req.k, model=name,
                                                         filter_rejected=req.filter_rejected)
             out[name] = {"model_used": used, "is_cold_start": cold, "fallback_reason": reason,
                          "video_ids": [r["videoId"] for r in recs],
                          "scores": [r["score"] for r in recs]}
-        return {"user_id": req.user_id, "results": out}
+        return {"user_id": user_id, "results": out}
 
     @app.get("/api/v1/items/popular")
     def popular(k: int = 10):
@@ -164,7 +174,8 @@ def create_app(engine=None):
         return {"recommendations": recs}
 
     @app.post("/api/v1/sync")
-    def sync():
+    def sync(x_admin_key: Optional[str] = Header(default=None)):
+        auth.require_admin(x_admin_key)
         engine = get_engine()
         engine.refresh()
         return engine.health()
