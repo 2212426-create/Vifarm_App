@@ -25,6 +25,7 @@ Bảng điểm tổng hợp: [CURRENT_STATE](../docs/CURRENT_STATE.md).
 | [clev_coat_20261104_011507_7e1c36a1.json](clev_coat_20261104_011507_7e1c36a1.json) | CLEV-DR Coat, protocol Zhang et al., quét alpha .4/.6/.8 | 0–4 | `3bb669cc0d45` |
 | [clev_yahoo_20261104_011509_c0d3258f.json](clev_yahoo_20261104_011509_c0d3258f.json) | CLEV-DR Yahoo!R3, quét alpha .4/.6/.8 | 0–2 | `3bb669cc0d45` |
 | [clev_kuairand_20261104_171457_8a75f508.json](clev_kuairand_20261104_171457_8a75f508.json) | CLEV-DR KuaiRand-Pure, quét alpha .2–.8, mảng int32 tối ưu RAM | 0–2 | `d24904b` |
+| [serving_latency_20261106_203153_7d041bbb.json](serving_latency_20261106_203153_7d041bbb.json) | Độ trễ suy luận CPU chấm 1.000 và 6.712 ứng viên (MF, NeuMF, CDR, iDCF/LCDR, CLEV-DR predict, ConAlign; khởi tạo ngẫu nhiên, kích thước KuaiRand) và `/recommend` trong tiến trình trên export TopTop. Sinh bằng `experiments/workflows/serving_latency.py` | 0 | trong JSON |
 
 ## Tổng hợp và kiểm chứng
 

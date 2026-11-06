@@ -1930,6 +1930,12 @@
       "role": "benchmark_result",
       "immutable": true,
       "sha256": "247f688b3cebfe747ae2d888d4525f6ab853038f80e31bfffd87c66f829651bf"
+    },
+    {
+      "path": "results/serving_latency_20261106_203153_7d041bbb.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "8c2cb421a489506b01a060aba2ce35fa3455dc61ec3e8749dfcb97918f604367"
     }
   ]
 }
