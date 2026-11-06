@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +12,7 @@ import '../models/video_model.dart';
 class RecSysService {
   final http.Client _client;
   final FirebaseDatabase? _database;
+  final Future<String?> Function() _idTokenProvider;
   String? _cachedApiUrl;
   DateTime? _lastCacheTime;
   String? _lastUrlSource;
@@ -18,8 +20,28 @@ class RecSysService {
   RecSysService({
     http.Client? client,
     FirebaseDatabase? database,
+    Future<String?> Function()? idTokenProvider,
   })  : _client = client ?? http.Client(),
-        _database = database;
+        _database = database,
+        _idTokenProvider = idTokenProvider ?? _firebaseIdToken;
+
+  /// Firebase ID token của người dùng hiện tại; server lấy user_id từ token này.
+  static Future<String?> _firebaseIdToken() async {
+    try {
+      return await FirebaseAuth.instance.currentUser?.getIdToken();
+    } catch (e) {
+      debugPrint('[RecSysService] Không lấy được Firebase ID token ($e)');
+      return null;
+    }
+  }
+
+  Future<Map<String, String>> _jsonHeaders() async {
+    final token = await _idTokenProvider();
+    return {
+      'Content-Type': 'application/json',
+      if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
+    };
+  }
 
   /// Nguồn cấu hình URL máy chủ gần nhất đã được phân giải
   String? get lastUrlSource => _lastUrlSource;
@@ -192,7 +214,7 @@ class RecSysService {
     try {
       final response = await _client.post(
         Uri.parse('$url/api/v1/recommend'),
-        headers: {'Content-Type': 'application/json'},
+        headers: await _jsonHeaders(),
         body: jsonEncode({
           'user_id': userId ?? 'guest',
           'k': limit,
@@ -243,13 +265,16 @@ class RecSysService {
     required int playTimeMs,
     required bool isLike,
   }) async {
+    // Server chỉ nhận tương tác kèm Firebase ID token; khách không gửi để tránh gộp mọi
+    // khách thành một user "guest" trong dữ liệu huấn luyện.
+    if (userId == null) return;
     final url = await getActiveApiUrl();
     if (url == null || url.isEmpty) return;
 
     try {
       await _client.post(
         Uri.parse('$url/api/v1/interaction'),
-        headers: {'Content-Type': 'application/json'},
+        headers: await _jsonHeaders(),
         body: jsonEncode({
           'user_id': userId ?? 'guest',
           'video_id': videoId,
