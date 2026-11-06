@@ -40,17 +40,16 @@ class CompleteMetricTests(unittest.TestCase):
     def test_unified_rows_retain_protocol_and_auc_type(self):
         base={'NDCG@5':.3,'Recall@5':.2,'Recall@5_bounded':.4,
               'Precision@5':.1,'HitRate@5':.5}
-        results={d:{'MF':dict(base,AUC=.6),'iDCF':dict(base,AUC=.7),'IViDR':dict(base,AUC=.65),
+        results={d:{'MF':dict(base,AUC=.6),'iDCF':dict(base,AUC=.7),
             'DR-BIAS + CDR':dict(base,AUC_global=.8,evaluation_scope='cdr_source_protocol')}
             for d in ('coat','yahoo','kuairand')}
         headers,rows=get_benchmark_tables_data(results)
-        self.assertEqual(len(rows),12)
-        self.assertEqual(sum(row[1]=='IViDR-approx' for row in rows),3)
+        self.assertEqual(len(rows),9)
         self.assertTrue(all('N/A' not in row for row in rows))
         for row in rows:
             self.assertEqual(len(row),len(headers))
             if row[1]=='DR-BIAS + CDR':
-                self.assertIn(row[2],('S-full','S-KR'))
+                self.assertIn(row[2],('CDR-src','CDR-KR'))
                 self.assertEqual(row[-2:],['0.800000','global'])
             else:
                 self.assertEqual((row[2],row[-1]),('H30','macro-user'))
@@ -68,11 +67,11 @@ class CompleteMetricTests(unittest.TestCase):
             if row[1]=='LCDR':
                 self.assertEqual((row[2],row[-1]),('H30','macro-user'))
             if row[1]=='ConAlign':
-                self.assertEqual(row[2],'C-src')
+                self.assertEqual(row[2],'ConAlign-src')
                 self.assertEqual(row[3:],['0.700000','N/A','0.320000','N/A','0.750000','global'])
         report=generate_console_grid_report(results)
         self.assertIn('ConAlign Coat: UAUC 0.680000 | UNDCG@5 0.710000',report)
-        self.assertIn('C-src:',report)
+        self.assertIn('ConAlign-src:',report)
 
 
 if __name__=='__main__':unittest.main()

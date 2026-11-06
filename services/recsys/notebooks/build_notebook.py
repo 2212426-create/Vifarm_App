@@ -39,7 +39,7 @@ Benchmark mặc định chạy sáu mô hình; API chỉ phục vụ MF và CDR.
 # 1. Cài repo, thư viện API và cloudflared
 !git clone -q {REPO_URL} /content/agri-behavioral-recsys 2>/dev/null || git -C /content/agri-behavioral-recsys pull -q
 %cd /content/agri-behavioral-recsys
-!pip install -q fastapi uvicorn httpx
+!pip install -q fastapi uvicorn httpx google-auth requests
 !wget -q -nc https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O cloudflared && chmod +x cloudflared
 """),
     make_cell("code", """

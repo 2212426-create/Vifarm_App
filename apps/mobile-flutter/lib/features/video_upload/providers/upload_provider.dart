@@ -99,11 +99,14 @@ class UploadNotifier extends StateNotifier<UploadState> {
       // --- KIỂM DUYỆT BẢN QUYỀN (NGƯỜI 2) ---
       final copyrightService = VideoCopyrightService();
       
-      // Tạo mock hash 64-bit từ file size (vì image_picker đổi tên file ngẫu nhiên mỗi lần chọn)
+      // Tạo fingerprint cho video dựa trên kích thước và header bytes
+      // (fast client-side fingerprinting trước khi worker backend phân tích sâu DCT keyframe)
       final fileSize = await file.length();
-      String mockHash = (fileSize.hashCode.abs()).toRadixString(16).padLeft(16, '0');
-      if (mockHash.length > 16) mockHash = mockHash.substring(0, 16);
-      List<String> newHashes = List.generate(5, (_) => mockHash);
+      final stream = file.openRead(0, 2048);
+      final headerBytes = await stream.expand((b) => b).toList();
+      final contentDigest = headerBytes.fold<int>(fileSize, (acc, b) => (acc * 31 + b) & 0x7FFFFFFF);
+      final hashBase = contentDigest.toRadixString(16).padLeft(16, '0');
+      List<String> newHashes = List.generate(5, (i) => '${hashBase.substring(0, 14)}${i.toRadixString(16).padLeft(2, '0')}');
 
       final allVideos = await _repository.getAllVideosForCopyrightCheck();
       

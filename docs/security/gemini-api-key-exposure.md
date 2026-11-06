@@ -2,7 +2,7 @@
 
 - **Ngày phát hiện:** 2026-10-16 (khi review cấu trúc repo, PR #16)
 - **Mức độ:** Cao — key thật, có thể bị dùng để gọi Gemini và tính tiền vào tài khoản của nhóm
-- **Trạng thái:** Chưa xử lý
+- **Trạng thái:** Đã xử lý trong code (Đã xoá defaultValue, tạo env.example.json, cập nhật .gitignore)
 
 ## Vấn đề
 

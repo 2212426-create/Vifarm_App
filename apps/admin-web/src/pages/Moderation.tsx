@@ -179,10 +179,11 @@ export function Moderation() {
     setScanningAll(false);
   };
 
-  const filteredVideos = videos.filter((v) => v.moderationStatus === activeTab);
-  const pendingCount = videos.filter((v) => v.moderationStatus === 'pending').length;
-  const approvedCount = videos.filter((v) => v.moderationStatus === 'approved').length;
-  const rejectedCount = videos.filter((v) => v.moderationStatus === 'rejected').length;
+  const normStatus = (s?: string) => (s || 'pending').trim().toLowerCase();
+  const filteredVideos = videos.filter((v) => normStatus(v.moderationStatus) === activeTab);
+  const pendingCount = videos.filter((v) => normStatus(v.moderationStatus) === 'pending').length;
+  const approvedCount = videos.filter((v) => normStatus(v.moderationStatus) === 'approved').length;
+  const rejectedCount = videos.filter((v) => normStatus(v.moderationStatus) === 'rejected').length;
 
 
 

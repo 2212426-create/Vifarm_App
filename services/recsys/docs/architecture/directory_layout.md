@@ -55,7 +55,7 @@ Không dùng tên thư mục để suy ra chất lượng hoặc bản paper.
 | MF backbone | [matrix_factorization.py](../../src/models/mf/matrix_factorization.py) |
 | MF training | [train_mf.py](../../src/models/mf/train_mf.py) |
 | CDR người dùng chọn | [source_protocol.py](../../src/models/cdr/source_protocol.py) |
-| Estimator CDR công bố | [released.py](../../src/models/cdr/released.py), [giấy phép](../../src/models/cdr/CDR_UPSTREAM_LICENSE.txt) |
+| Estimator CDR công bố | [released.py](../../src/models/cdr/released.py) |
 | iDCF | [idcf_model.py](../../src/models/idcf/idcf_model.py), [train_idcf.py](../../src/models/idcf/train_idcf.py) |
 | IViDR reference v2 | [ividr_reference.py](../../src/models/ividr/ividr_reference.py), [train_ividr.py](../../src/models/ividr/train_ividr.py) |
 | LCDR (thực nghiệm) | [lcvae.py](../../src/models/lcdr/lcvae.py), [train_lcdr.py](../../src/models/lcdr/train_lcdr.py), [source.json](../../src/models/lcdr/source.json) |

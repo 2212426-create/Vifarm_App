@@ -11,15 +11,16 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import torch
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT =Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.models.conalign.data import load_conalign_data, raw_rating_frames
 from src.models.conalign.model import DualTowerMF
-from src.models.conalign.train import setup_seed, train_conalign
+from src.models.conalign.train import EarlyStopping, setup_seed, train_conalign
 
 SOURCE = ROOT / "third_party/conalign"
 MANIFEST = json.loads((SOURCE / "upstream_manifest.json").read_text(encoding="utf-8"))
@@ -118,6 +119,31 @@ class ConAlignSourceParityTest(unittest.TestCase):
                 for key, value in result["source_metrics"][name][tower].items():
                     printed_value = re.search(rf"\n  {key}: ([\d.]+)", section).group(1)
                     self.assertEqual(printed_value, f"{value:.4f}", (name, tower, key))
+
+
+class ConAlignBenchmarkDeviceTest(unittest.TestCase):
+    def test_automatic_device_is_resolved_once_for_data_and_model(self):
+        from experiments.workflows import run_all_benchmarks as benchmark
+        with patch.object(benchmark, "load_conalign_data", return_value={}) as load, \
+                patch.object(benchmark, "train_conalign", side_effect=RuntimeError("stop")) as train, \
+                self.assertRaises(RuntimeError):
+            benchmark.run_conalign("coat", device=None)
+        resolved = benchmark.get_device(None)
+        self.assertEqual(load.call_args.kwargs["device"], resolved)
+        self.assertEqual(train.call_args.kwargs["device"], resolved)
+
+
+class ConAlignEarlyStoppingTest(unittest.TestCase):
+    def test_best_state_survives_later_training_steps(self):
+        model = torch.nn.Linear(2, 1)
+        stopper = EarlyStopping(model, patience=3)
+        stopper.check(.9, 0)
+        expected = {key: tensor.clone() for key, tensor in model.state_dict().items()}
+        with torch.no_grad():
+            model.weight.add_(1.)
+        stopper.check(.1, 1)
+        for key, tensor in expected.items():
+            self.assertTrue(torch.equal(stopper.best_state[key], tensor), key)
 
 
 def write_kuairand_logs(folder):

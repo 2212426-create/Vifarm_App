@@ -11,7 +11,7 @@ hiện hành. Đề cương mô tả kế hoạch, không chứng nhận kết q
 
 | Bản `.docx` | Các file trong repo, theo mã hiện hành |
 | :-- | :-- |
-| Học sâu là NCF | NCF chỉ ở phần lý thuyết; mô hình thực nghiệm là iDCF, IViDR, LCDR |
+| Học sâu là NCF | NeuMF là mô hình học sâu đối chứng với MF (`cf-dl`); mô hình khử thiên lệch chính là iDCF, LCDR, CLEV-DR, MRDR-CAL |
 | Lọc cộng tác không nêu tên mô hình | MF, DR-BIAS + CDR, ConAlign |
 | Hai mô hình, "độ chính xác cao" | Hai nhóm mô hình, đánh giá định lượng trên ba bộ dữ liệu chuẩn |
 | TensorFlow, thư viện `implicit`, Postman | Dự án dùng PyTorch; không dùng `implicit`; Postman không có trong repo |

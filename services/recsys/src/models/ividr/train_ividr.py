@@ -187,7 +187,7 @@ def fit_ividr_pipeline(data, dataset_name, seed=42, item_emb=None, checkpoint_di
         on_progress=progress,checkpoint_path=stage1_path,implementation='reference_v2',**config['ivae'])
     extra = dict(variant='ividr_reference_bce_v2',display_name=label,ividr_version=version,
         eq10_bridge=config['ivae']['eq10_bridge'],reconstruction=config['ivae']['reconstruction'],
-        prior_mean=config['ivae']['prior_mean'],
+        prior_mean=config['ivae']['prior_mean'],l2_penalty=config['ivae'].get('l2_penalty',0.),
         implementation_status='arxiv_reference_with_explicit_eq10_completion',
         feedback_expectation='E[sigmoid(MF + latent score)]; MC10 train, deterministic GH32 inference',
         phi=1.,lambda_mf=1.,rho=.9,tau=.9,
@@ -200,6 +200,8 @@ def fit_ividr_pipeline(data, dataset_name, seed=42, item_emb=None, checkpoint_di
               if config['ivae']['prior_mean']=='zero' else []),
             *([f'BCE negatives weighted {negative_weight:g}; Eq. (25) is unweighted']
               if negative_weight != 1 else []),
+            *(['stage-1 l2_penalty is 0, while iDCF and LCDR stage 1 add the iDCF-code .01 parameter-norm penalty']
+              if not config['ivae'].get('l2_penalty') else []),
             'factorized first gate layer; shared encoder/prior/decoder is a parameterization choice',
             'project dataset preprocessing and split retained'])
     if dataset_name=='yahoo': extra['proxy_features']=data['user_feature_info']

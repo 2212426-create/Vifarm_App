@@ -105,6 +105,23 @@ class IViDRV3Tests(unittest.TestCase):
         self.assertEqual(captured, [('tied_item_lift', 'full', 'zero'), ('tied_item_lift_rownorm', 'full', 'zero'),
                                     ('tied_item_lift', 'full', 'learned')])
 
+    def test_metadata_discloses_stage1_l2_difference_from_idcf(self):
+        captured = []
+
+        def fake_feedback(*args, **kwargs):
+            captured.append(kwargs['extra_config'])
+            raise RuntimeError('stop after feedback arguments')
+
+        data = dict(n_users=2, n_items=2)
+        stage1 = (torch.zeros(2, 2), torch.ones(2, 2), {})
+        with patch.object(train_ividr, 'train_dual_ivae', return_value=stage1), \
+                patch('src.models.idcf.train_idcf.DATASET_INPUTS', {'coat': lambda d: {}}), \
+                patch('src.models.idcf.train_idcf.train_idcf', side_effect=fake_feedback), \
+                tempfile.TemporaryDirectory() as folder, self.assertRaises(RuntimeError):
+            train_ividr.fit_ividr_pipeline(data, 'coat', item_emb=np.zeros((2, 2)), checkpoint_dir=folder)
+        self.assertEqual(captured[0]['l2_penalty'], 0)
+        self.assertTrue(any('l2_penalty' in note for note in captured[0]['source_limitations']))
+
 
 if __name__ == '__main__':
     unittest.main()

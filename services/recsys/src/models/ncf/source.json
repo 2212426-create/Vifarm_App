@@ -1,0 +1,51 @@
+{
+  "model": "NCF (GMF, MLP, NeuMF)",
+  "paper": {
+    "title": "Neural Collaborative Filtering",
+    "authors": [
+      "Xiangnan He",
+      "Lizi Liao",
+      "Hanwang Zhang",
+      "Liqiang Nie",
+      "Xia Hu",
+      "Tat-Seng Chua"
+    ],
+    "venue": "WWW 2017",
+    "doi": "10.1145/3038912.3052569",
+    "arxiv": "1708.05031"
+  },
+  "source": {
+    "repository": "https://github.com/hexiangnan/neural_collaborative_filtering",
+    "commit": "4aab159e81c44b062c091bdaed0ab54ac632371f",
+    "files": [
+      "GMF.py",
+      "MLP.py",
+      "NeuMF.py",
+      "Dataset.py"
+    ],
+    "framework": "Keras 1.0.7 + Theano 0.8.0; ported to PyTorch, no file copied"
+  },
+  "from_source": [
+    "GMF: element-wise product of user and item embeddings, Dense(1, sigmoid, lecun_uniform)",
+    "MLP: concatenated embeddings of size layers[0]/2 each, Dense ReLU layers layers[1:], Dense(1, sigmoid, lecun_uniform)",
+    "NeuMF: separate GMF and MLP embeddings, concatenated predictive vectors, one prediction layer",
+    "Defaults from parse_args: num_factors 8, layers [64,32,16,8], reg 0, num_neg 4, lr 0.001, batch 256, Adam, 100 epochs",
+    "Embeddings ~ N(0, 0.01); Dense hidden layers use the Keras 1 default glorot_uniform, biases 0",
+    "get_train_instances: every positive followed by num_neg uniform items that are not positives of the user, resampled every epoch",
+    "Binary cross-entropy, shuffled mini-batches, no early stopping; the untrained model is evaluated and kept if no epoch beats it",
+    "Pre-training (load_pretrain_model): NeuMF takes GMF and MLP weights, prediction = [0.5 h_gmf, 0.5 h_mlp], bias 0.5 (b_gmf + b_mlp); the optimizer stays the --learner option (default Adam)"
+  ],
+  "local_choices": [
+    "Positives are the H30 labels (train_y > 0: Coat/Yahoo rating >= 4, KuaiRand is_click); the author treats every observed rating as positive",
+    "Observed negatives (rating < 4, no click) are not used directly; they can be drawn as sampled negatives",
+    "Model selection uses validation NDCG@5 on the H30 split instead of HR@10 on the leave-one-out test set",
+    "Sigmoid moved into BCEWithLogitsLoss; scores used for ranking are logits (same order)",
+    "Negatives are drawn with a seeded numpy Generator instead of the global np.random",
+    "KuaiRand train_c weights are not used (all ones at the default alpha = 0)"
+  ],
+  "differences_from_paper_text": [
+    "Paper section 4.1: predictive factor 8 means MLP 32-16-8 with embedding 16; the code default layers [64,32,16,8] gives embedding 32 with 32-16-8. The code is followed",
+    "Paper: NeuMF with pre-training is optimised with vanilla SGD; NeuMF.py uses the --learner option (default Adam). The code is followed",
+    "Paper tunes batch {128,256,512,1024}, lr {1e-4,5e-4,1e-3,5e-3}, factors {8,16,32,64}; no tuning is run here, the code defaults are used"
+  ]
+}

@@ -12,6 +12,9 @@ Các PDF được bảo toàn byte và checksum; không phải kết quả mô h
 - [LCDR](LCDR.pdf): arXiv 2505.16708v1; kèm [mã LaTeX chính](LCDR_arxiv_v1_source.tex). Không có mã tác giả công khai.
 - [ConAlign, RecSys 2026](ConAlign_RecSys2026.pdf): arXiv 2607.24092v1.
   [Nguồn tải và SHA-256](lcdr_conalign_downloads_20261027.json).
+- [Uncertainty Calibration, TKDE 2025](UncertaintyCalibration_TKDE2025.pdf): Hu et al., arXiv 2303.12973v3; nguồn của MRDR-CAL.
+- [Correlated Latent Exogenous Variables, KDD 2025](LatentExogenous_KDD2025.pdf): Zhang et al., arXiv 2506.07517v1; nguồn của CLEV-DR.
+  [Nguồn tải, SHA-256 và repo mã](mrdr_cal_clev_downloads_20261104.json).
 Đối chiếu [bản chép](../paper_summaries/README.md) khi đọc nhanh, kiểm tra lại PDF
 trước khi trích công thức/bảng. Tình trạng triển khai: [CURRENT_STATE](../CURRENT_STATE.md).
 Checksum giữ nguyên file đang lưu, không chứng nhận rằng nó là phiên bản xuất bản mới nhất.

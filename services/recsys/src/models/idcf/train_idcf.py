@@ -156,7 +156,7 @@ def train_idcf(data, confounder_mean, confounder_std, dataset_name="coat", seed=
             count += len(idx)
         model.eval()
         val = evaluate_unbiased_model(model, data["val_candidates"], data["val_ground_truth"], k=TOP_K,
-                                      include_zero_positive_users=include)
+                                      device=device, include_zero_positive_users=include)
         training_log.progress(label,dataset_name,epoch,epochs,{'Train Loss':total_loss/max(count,1),
             'Val NDCG@5':val['NDCG@5'],'Val Recall@5':val['Recall@5'],
             'Val HR@5':val['HitRate@5']},stage='feedback')

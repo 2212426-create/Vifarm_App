@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 440" width="1280" height="440">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb" />
+    </marker>
+  </defs>
+  <style>
+    .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #64748b; }
+    .node-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: 600; }
+    .node-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; }
+    .math-text { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 13px; }
+    .badge { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; font-weight: 700; text-anchor: middle; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="12" />
+  
+  <text x="40" y="45" class="title">KIẾN TRÚC MẠNG ĐA THÁP CLEV-DR (ZHANG ET AL., KDD 2025)</text>
+  <text x="40" y="70" class="subtitle">Ước lượng biến tiềm ẩn ngoại sinh z qua iVAE kết hợp Hàm mất mát Doubly Robust</text>
+
+  <!-- Input Nodes -->
+  <g transform="translate(50, 160)">
+    <rect width="160" height="50" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" filter="url(#shadow)" />
+    <text x="80" y="26" fill="#0f172a" class="node-title" text-anchor="middle">User ID: u</text>
+    <text x="80" y="42" fill="#64748b" class="node-desc" text-anchor="middle">Embedding: p_u ∈ ℝ^16</text>
+  </g>
+  <g transform="translate(50, 260)">
+    <rect width="160" height="50" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" filter="url(#shadow)" />
+    <text x="80" y="26" fill="#0f172a" class="node-title" text-anchor="middle">Video ID: i</text>
+    <text x="80" y="42" fill="#64748b" class="node-desc" text-anchor="middle">Embedding: q_i ∈ ℝ^16</text>
+  </g>
+
+  <!-- Concatenate Node -->
+  <g transform="translate(260, 210)">
+    <rect width="120" height="50" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)" />
+    <text x="60" y="26" fill="#1e3a8a" class="node-title" text-anchor="middle">Ghép Nối [u ∥ i]</text>
+    <text x="60" y="42" fill="#1e40af" class="node-desc" text-anchor="middle">x_ui ∈ ℝ^32</text>
+  </g>
+
+  <!-- Connecting Lines -->
+  <path d="M 210 185 L 260 225" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 210 285 L 260 245" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- iVAE Latent Confounder Generator -->
+  <g transform="translate(430, 90)">
+    <rect width="240" height="110" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2" filter="url(#shadow)" />
+    <text x="120" y="25" fill="#78350f" class="node-title" text-anchor="middle">MÔ ĐUN iVAE (CLEV)</text>
+    <text x="120" y="50" fill="#92400e" class="node-desc" text-anchor="middle">Mã hóa phân phối: q(z | x_ui)</text>
+    <rect x="25" y="65" width="190" height="32" rx="6" fill="#d97706" />
+    <text x="120" y="85" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">Monte Carlo (M = 50 mẫu z)</text>
+  </g>
+
+  <path d="M 380 225 L 430 160" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- Multi-Towers -->
+  <!-- Tower 1: Main Prediction -->
+  <g transform="translate(720, 70)">
+    <rect width="220" height="90" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)" />
+    <text x="110" y="22" fill="#1e3a8a" class="node-title" text-anchor="middle">Tháp Dự Đoán Tương Tác</text>
+    <text x="110" y="44" fill="#475569" class="node-desc" text-anchor="middle">MLP Layers: [64, 32]</text>
+    <text x="110" y="70" fill="#2563eb" font-weight="700" font-size="14" text-anchor="middle">ŷ_ui = Sigmoid(·)</text>
+  </g>
+
+  <!-- Tower 2: Imputation Tower m_ui(z) -->
+  <g transform="translate(720, 180)">
+    <rect width="220" height="90" rx="8" fill="#f3e8ff" stroke="#9333ea" stroke-width="2" filter="url(#shadow)" />
+    <text x="110" y="22" fill="#581c87" class="node-title" text-anchor="middle">Tháp Điền Khuyết Sai Số</text>
+    <text x="110" y="44" fill="#6b21a8" class="node-desc" text-anchor="middle">MLP [64, 32] có điều kiện z</text>
+    <text x="110" y="70" fill="#9333ea" font-weight="700" font-size="14" text-anchor="middle">m_ui(z) ≈ ℒ(y, ŷ)</text>
+  </g>
+
+  <!-- Tower 3: Propensity Tower p_ui(z) -->
+  <g transform="translate(720, 290)">
+    <rect width="220" height="90" rx="8" fill="#fdf4ff" stroke="#c026d3" stroke-width="2" filter="url(#shadow)" />
+    <text x="110" y="22" fill="#701a75" class="node-title" text-anchor="middle">Tháp Xác Suất Hiển Thị</text>
+    <text x="110" y="44" fill="#86198f" class="node-desc" text-anchor="middle">MLP [32, 16] có điều kiện z</text>
+    <text x="110" y="70" fill="#c026d3" font-weight="700" font-size="14" text-anchor="middle">p_ui(z) = P(O=1|x, z)</text>
+  </g>
+
+  <!-- Connections from concat & iVAE to towers -->
+  <path d="M 380 235 L 720 115" fill="none" stroke="#3b82f6" stroke-width="1.5" />
+  <path d="M 380 235 L 720 225" fill="none" stroke="#64748b" stroke-width="1.5" />
+  <path d="M 380 235 L 720 335" fill="none" stroke="#64748b" stroke-width="1.5" />
+
+  <path d="M 670 145 L 720 215" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 670 155 L 720 325" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- Final Doubly Robust Loss Box -->
+  <g transform="translate(980, 130)">
+    <rect width="260" height="190" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2.5" filter="url(#shadow)" />
+    <text x="130" y="28" fill="#7f1d1d" class="node-title" text-anchor="middle">HÀM MẤT MÁT DOUBLY ROBUST</text>
+    <text x="130" y="60" fill="#991b1b" class="math-text" text-anchor="middle">ℒ_DR = 𝔼_z [ m_ui(z) +</text>
+    <text x="130" y="85" fill="#991b1b" class="math-text" text-anchor="middle">(O_ui (ℒ - m_ui(z))) / p_ui(z) ]</text>
+    <line x1="25" y1="110" x2="235" y2="110" stroke="#fca5a5" stroke-width="1.5" />
+    <text x="130" y="135" fill="#7f1d1d" class="node-desc" text-anchor="middle">Kết hợp Điều chuẩn iVAE:</text>
+    <text x="130" y="160" fill="#dc2626" font-weight="700" font-size="14" text-anchor="middle">ℒ_Total = ℒ_DR + α · ℒ_iVAE</text>
+  </g>
+
+  <path d="M 940 115 L 980 180" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 940 225 L 980 225" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 940 335 L 980 270" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)" />
+
+</svg>

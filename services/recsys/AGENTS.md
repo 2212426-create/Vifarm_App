@@ -41,10 +41,10 @@ Phạm vi: toàn bộ `services/recsys/`.
    Tài liệu mới cần được phân loại trong `docs/catalog.json`.
 8. LCDR và ConAlign (27/10/2026) là mô hình thực nghiệm; từ 30/10 người dùng yêu cầu đưa vào
    `benchmark --model all` (vẫn chạy riêng được qua `lcdr`, `conalign`). Bảng gộp ghi protocol từng
-   dòng: LCDR H30, ConAlign C-src; không paired-test chéo protocol. ConAlign KuaiRand mặc định cửa sổ
+   dòng: LCDR H30, ConAlign ConAlign-src; không paired-test chéo protocol. ConAlign KuaiRand mặc định cửa sổ
    paper vì loader source bỏ sót 01–05/05. LCDR không có mã tác giả: cài đặt lại từ paper trên pipeline
    iDCF, các lựa chọn địa phương ghi tại src/models/lcdr/source.json; không gọi là tái lập.
-   ConAlign port từ source khóa commit ở third_party/conalign (repo không có LICENSE),
+   ConAlign port từ source khóa commit ở third_party/conalign,
    protocol/metric riêng, không so điểm trực tiếp với H30 hoặc CDR source protocol.
    Đọc docs/benchmarks/lcdr_conalign_20261027.md trước khi sửa hai pipeline này.
 

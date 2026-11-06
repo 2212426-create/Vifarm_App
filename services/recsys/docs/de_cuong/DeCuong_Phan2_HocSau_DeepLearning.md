@@ -7,10 +7,10 @@
 
 ## 1. Mục tiêu
 
-1. Tìm hiểu kiến trúc mạng nơ-ron trong gợi ý, từ NCF đến các mô hình sinh biến phân.
-2. Dùng iVAE học biến nhiễu tiềm ẩn $C$ từ dữ liệu hiển thị, với proxy $W$ để bảo đảm tính định danh.
-3. Nghiên cứu biến công cụ (Instrumental Variable) trong học sâu, xử lý đồng thời biến nhiễu quan sát được và không quan sát được.
-4. Triển khai và so sánh iDCF, IViDR, LCDR.
+1. Tìm hiểu kiến trúc mạng nơ-ron trong gợi ý, từ NCF đến các mô hình sinh biến phân và mô hình khử thiên lệch sâu.
+2. Dùng iVAE học biến nhiễu tiềm ẩn $C$ từ dữ liệu hiển thị, với proxy $W$ để bảo đảm tính định danh (iDCF).
+3. Nghiên cứu phương pháp ràng buộc biểu diễn tiềm ẩn (LCDR) và các hướng tiếp cận nhân quả sâu mới: hiệu chỉnh độ bất định (MRDR-CAL) và xử lý biến ngoại sinh tiềm ẩn (CLEV-DR).
+4. Triển khai và so sánh các mô hình học sâu: iDCF, LCDR, CLEV-DR, MRDR-CAL đối chứng với NeuMF.
 5. Đóng gói API và tích hợp vào ứng dụng TopTop.
 
 ## 2. Cơ sở lý thuyết
@@ -21,7 +21,8 @@ NCF thay tích vô hướng bằng các lớp ẩn phi tuyến, kết hợp GMF 
 
 $$\hat{y}_{ui} = \sigma \left( h^T \left[ \phi^{\text{GMF}} \oplus \phi^{\text{MLP}} \right] \right)$$
 
-Đây là nền lý thuyết của Chương I, không thuộc bộ mô hình thực nghiệm: NCF không xử lý thiên lệch hiển thị.
+NCF không xử lý thiên lệch hiển thị. Dự án dùng NeuMF làm mô hình học sâu đối chứng với MF, theo mã tác giả
+(embedding 8, MLP [64, 32, 16, 8], BCE với 4 mẫu âm, Adam lr 1e-3, batch 256, 100 epoch).
 
 ### 2.2. Identifiable VAE
 
@@ -31,10 +32,9 @@ $$p(C \mid W) = \frac{\prod_k Q_k(C_k)}{Z(W)} \exp \left( \sum_{k=1}^K T_{k}(C_k
 
 Dự án dùng tiên nghiệm Gaussian, tối ưu ELBO trên vector hiển thị nhị phân $A_u$, có KL warm-up.
 
-### 2.3. Biến công cụ
+### 2.3. CLEV-DR (Zhang et al., KDD 2025)
 
-Biến công cụ $Z$ cần tương quan với quyết định hiển thị (relevance), độc lập với biến nhiễu ẩn (unconfoundedness) và chỉ tác
-động tới hành vi qua hiển thị (exclusion restriction).
+Khử thiên lệch khi tồn tại biến ngoại sinh tiềm ẩn có tương quan (Correlated Latent Exogenous Variables). Mô hình sử dụng 4 tháp NCF: dự đoán rating $g_y$, xu hướng hiển thị probit $g_o$, tháp IPS hiệu chỉnh và tháp bù đắp (imputation), kết hợp hệ số tương quan $\rho = \tanh(\rho_v)$ ước lượng qua tích phân Monte Carlo.
 
 ### 2.4. iDCF
 
@@ -44,15 +44,9 @@ $$\hat{s}_{ui} = \text{MF}(u, i) + \langle e_i, C_u \rangle$$
 
 Huấn luyện bằng MSE với 10 mẫu $C$, suy luận dùng trung bình của $C$.
 
-### 2.5. IViDR
+### 2.5. MRDR-CAL (Hu et al., TKDE 2025)
 
-Cùng khung hai giai đoạn. Giai đoạn 1 học biến công cụ để tái dựng treatment, rồi cho hai posterior cùng tái tạo $A$:
-
-$$T^{re} = \alpha_1 T^{fit} + \alpha_2 T^{res}, \qquad C = \rho C_1 + \tau C_2$$
-
-Giai đoạn 2 lấy kỳ vọng xác suất trước BCE: $p = \mathbb{E}_C[\sigma(\hat{s}_{ui})]$. Mô hình **giữ** $C$ trong dự đoán, không loại bỏ nó.
-Paper không định nghĩa phép đổi kích thước ở Eq. (10), dự án tự hoàn thiện và công bố trong
-[đặc tả IViDR](../benchmarks/ividr_reference_20261022.md). Cấu hình mặc định lệch paper ở prior mean và trọng số mẫu âm BCE.
+Mô hình Doubly Robust giảm thiểu phương sai tối đa (MRDR) kết hợp hiệu chỉnh độ bất định bằng Platt Scaling trên nền tảng NeuMF. Propensity score được chuẩn hóa nhằm triệt tiêu thiên lệch hiển thị cực đoan trong không gian user–item thưa.
 
 ### 2.6. LCDR
 
@@ -61,25 +55,27 @@ feedback dùng $Z_{lc}$ theo khung iDCF. Không có mã tác giả, dự án cà
 
 ## 3. Kế hoạch triển khai
 
-| Mô hình | Cách thực hiện | Feedback |
+| Mô hình | Cách thực hiện | Feedback / Giao thức |
 | :-- | :-- | :-- |
-| **iDCF** | Theo mã tác giả: iVAE rồi MF + latent | MSE |
-| **IViDR** | Theo công thức arXiv, learned IV + dual iVAE, treatment lấy từ MF; quét 10 cặp LR/WD trên validation | BCE kỳ vọng |
-| **LCDR** | Cài đặt lại từ paper trên pipeline iDCF | MSE |
+| **iDCF** | Theo mã tác giả: iVAE rồi MF + latent | MSE (H30) |
+| **LCDR** | Cài đặt lại từ paper trên pipeline iDCF | MSE (H30) |
+| **NeuMF** | Theo mã tác giả NCF, chạy bằng `cf-dl` để so với MF | BCE, 4 mẫu âm (H30) |
+| **CLEV-DR** | Port từ mã tác giả KDD 2025, 4 tháp NCF + Monte Carlo | Probit + BCE (protocol tác giả) |
+| **MRDR-CAL** | Cài đặt theo Hu et al. (TKDE 2025) + Guo et al. | Platt + MRDR loss (protocol tác giả) |
 
-Cả ba dùng protocol H30, chọn checkpoint bằng validation NDCG@5, chấm test một lần. Coat báo cáo nhiều seed vì dữ liệu nhỏ.
-Phân tích khoảng cách với paper: [IViDR](../benchmarks/ividr_root_cause_20261027.md),
+*(Ghi chú: Mô hình IViDR đã được nhóm nghiên cứu độc lập và loại khỏi danh mục chính do tác giả không công bố mã nguồn và mục tiêu BCE làm suy giảm điểm xếp hạng, xem [phân tích nguyên nhân](../benchmarks/ividr_root_cause_20261027.md)).*
+
+Coat báo cáo nhiều seed vì dữ liệu nhỏ. Phân tích chi tiết:
 [LCDR và ConAlign](../benchmarks/lcdr_conalign_20261027.md).
 
 ### API và tích hợp
 
 - FastAPI với `/api/v1/recommend` và `/api/v1/interaction`, phục vụ MF và DR-BIAS + CDR; người dùng mới dùng popularity.
-- IViDR chưa phục vụ trên app vì dữ liệu TopTop chưa có đặc trưng người dùng làm biến công cụ và proxy.
 - Chạy trên Google Colab qua Cloudflare Tunnel, ghi URL vào Firebase Realtime Database (`server_config/recsys_url`).
 - Ứng dụng Flutter tự phát hiện URL, tự chuyển về Firestore khi máy chủ AI ngoại tuyến.
 
 ## 4. Sản phẩm bàn giao
 
-- **Mã nguồn:** `src/models/idcf/`, `src/models/ividr/`, `src/models/lcdr/`, `src/api/`, `notebooks/TopTop_RecSys_Colab_API.ipynb`.
+- **Mã nguồn:** `src/models/idcf/`, `src/models/lcdr/`, `src/models/clev/`, `src/models/mrdr_cal/`, `src/models/ncf/`, `src/api/`, `notebooks/TopTop_RecSys_Colab_API.ipynb`.
 - **Báo cáo:** Chương I và Chương II, phần Học sâu và triển khai API.
 - **Kiểm thử:** `tests/`, chạy bằng `experiments/run.py test`.

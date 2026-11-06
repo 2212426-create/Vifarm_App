@@ -83,6 +83,14 @@ class IViDRReferenceTests(unittest.TestCase):
         torch.testing.assert_close(state,torch.get_rng_state())
         self.assertFalse(hasattr(m,'get_evaluation_factors'))
 
+    def test_feedback_validation_receives_training_device(self):
+        data=small_data();mean=torch.ones(data['n_users'],2);std=mean*2
+        with tempfile.TemporaryDirectory() as tmp,contextlib.redirect_stdout(io.StringIO()), \
+                patch('src.models.idcf.train_idcf.evaluate_unbiased_model',wraps=evaluate_unbiased_model) as spy:
+            train_idcf(data,mean,std,'coat',epochs=1,embedding_dim=4,checkpoint_dir=tmp,evaluate_test=False,
+                extra_config={'variant':'ividr_reference_bce_v2'},loss_name='bce',device='cpu')
+        self.assertEqual(spy.call_args.kwargs.get('device'),torch.device('cpu'))
+
     def test_reference_feedback_uses_nonlinear_evaluator_and_reloads_exactly(self):
         data=small_data();mean=torch.ones(data['n_users'],2);std=mean*2
         with tempfile.TemporaryDirectory() as tmp,contextlib.redirect_stdout(io.StringIO()):

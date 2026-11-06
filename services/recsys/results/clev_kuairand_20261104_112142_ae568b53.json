@@ -1,0 +1,276 @@
+{
+  "model": "CLEV-DR",
+  "paper_name": "Ours-DR",
+  "dataset": "kuairand",
+  "run_id": "20261104_112142_ae568b53",
+  "smoke": false,
+  "seeds": [
+    1
+  ],
+  "alphas": [
+    0.2,
+    0.4,
+    0.6,
+    0.8
+  ],
+  "runs": [
+    {
+      "AUC": 0.6348645971427607,
+      "Recall@5": 0.1916040046109749,
+      "NDCG@5": 0.38392227292724823,
+      "Precision@5": 0.17938794209272496,
+      "dataset": "kuairand",
+      "alpha": 0.2,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 25,
+        "converged": true,
+        "rho": -0.054240744560956955
+      },
+      "seconds": 4368.4,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6435566976486607,
+      "Recall@5": 0.1933601746177166,
+      "NDCG@5": 0.3870605356894026,
+      "Precision@5": 0.18226131574124976,
+      "dataset": "kuairand",
+      "alpha": 0.4,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 22,
+        "converged": true,
+        "rho": -0.02837352827191353
+      },
+      "seconds": 4201.5,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6459879303996025,
+      "Recall@5": 0.2004973364804093,
+      "NDCG@5": 0.3958609095512196,
+      "Precision@5": 0.18815466373465276,
+      "dataset": "kuairand",
+      "alpha": 0.6,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 25,
+        "converged": true,
+        "rho": 0.02140037529170513
+      },
+      "seconds": 4385.1,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    },
+    {
+      "AUC": 0.6480131417433869,
+      "Recall@5": 0.21915147101203333,
+      "NDCG@5": 0.42325666569741727,
+      "Precision@5": 0.20683159245006416,
+      "dataset": "kuairand",
+      "alpha": 0.8,
+      "seed": 1,
+      "config": {
+        "emb_dim": 16,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "batch_size": 2048,
+        "monte_sample_num": 40,
+        "G": 4,
+        "lr_prop": 0.01,
+        "weight_decay_prop": 5e-05,
+        "batch_size_prop": 204800,
+        "tol_prop": 0.001,
+        "tol": 1e-05,
+        "k": 5,
+        "large": true
+      },
+      "ips_training": {
+        "epochs_run": 9,
+        "converged": true
+      },
+      "training": {
+        "epochs_run": 25,
+        "converged": true,
+        "rho": 0.024980951100587845
+      },
+      "seconds": 4427.1,
+      "num_user": 27285,
+      "num_item": 7583,
+      "train_rows": 1375000,
+      "test_rows": 1186006,
+      "data_sha256": "d00d272a5794c329"
+    }
+  ],
+  "summary_by_alpha": {
+    "0.2": {
+      "AUC": {
+        "mean": 0.6348645971427607,
+        "std": null,
+        "n": 1
+      },
+      "Recall@5": {
+        "mean": 0.1916040046109749,
+        "std": null,
+        "n": 1
+      },
+      "NDCG@5": {
+        "mean": 0.38392227292724823,
+        "std": null,
+        "n": 1
+      },
+      "Precision@5": {
+        "mean": 0.17938794209272496,
+        "std": null,
+        "n": 1
+      }
+    },
+    "0.4": {
+      "AUC": {
+        "mean": 0.6435566976486607,
+        "std": null,
+        "n": 1
+      },
+      "Recall@5": {
+        "mean": 0.1933601746177166,
+        "std": null,
+        "n": 1
+      },
+      "NDCG@5": {
+        "mean": 0.3870605356894026,
+        "std": null,
+        "n": 1
+      },
+      "Precision@5": {
+        "mean": 0.18226131574124976,
+        "std": null,
+        "n": 1
+      }
+    },
+    "0.6": {
+      "AUC": {
+        "mean": 0.6459879303996025,
+        "std": null,
+        "n": 1
+      },
+      "Recall@5": {
+        "mean": 0.2004973364804093,
+        "std": null,
+        "n": 1
+      },
+      "NDCG@5": {
+        "mean": 0.3958609095512196,
+        "std": null,
+        "n": 1
+      },
+      "Precision@5": {
+        "mean": 0.18815466373465276,
+        "std": null,
+        "n": 1
+      }
+    },
+    "0.8": {
+      "AUC": {
+        "mean": 0.6480131417433869,
+        "std": null,
+        "n": 1
+      },
+      "Recall@5": {
+        "mean": 0.21915147101203333,
+        "std": null,
+        "n": 1
+      },
+      "NDCG@5": {
+        "mean": 0.42325666569741727,
+        "std": null,
+        "n": 1
+      },
+      "Precision@5": {
+        "mean": 0.20683159245006416,
+        "std": null,
+        "n": 1
+      }
+    }
+  },
+  "best_alpha_by_test_ndcg": {
+    "alpha": 0.8,
+    "selected_on": "test (author procedure)"
+  },
+  "paper": null,
+  "source": {
+    "repository": "https://github.com/WallaceSUI/kdd25-background-variable",
+    "commit": "66a0e5f9041bf10f4ea04334ca1eeedd100a7d19",
+    "class": "new_model.MF_BV_Multi_bin_JL_G_DR"
+  },
+  "code_sha256_at_start": "aaadb81eb5a6254c915c5d04e906d66f2a3148570219d2723f4aa45f370656c8",
+  "protocol": "author protocol (Zhang et al. scripts): train on the biased log, test on the whole random log, labels and metrics as in the author code; not H30"
+}

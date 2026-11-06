@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 420" width="1180" height="420">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb" />
+    </marker>
+  </defs>
+  <style>
+    .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #64748b; }
+    .node-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: 600; }
+    .node-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; }
+    .math-text { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 13px; }
+    .badge { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; font-weight: 700; text-anchor: middle; }
+  </style>
+  <rect width="100%" height="100%" fill="#ffffff" rx="12" />
+  
+  <text x="40" y="45" class="title">HỆ THỐNG GỢI Ý 2 TẦNG (TWO-STAGE RECOMMENDER PIPELINE)</text>
+  <text x="40" y="70" class="subtitle">Phối hợp giữa Tìm kiếm ứng viên ConAlign (RecSys 2026) và Xếp hạng khử thiên lệch CLEV-DR (KDD 2025)</text>
+
+  <!-- Stage 0 -->
+  <g transform="translate(40, 110)">
+    <rect width="180" height="240" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="180" height="38" rx="10" fill="#475569" />
+    <text x="90" y="24" fill="#ffffff" class="node-title" text-anchor="middle">KHO DỮ LIỆU GỐC</text>
+    <text x="90" y="80" fill="#0f172a" class="node-title" text-anchor="middle">Catalog Video</text>
+    <text x="90" y="110" fill="#2563eb" class="node-title" font-size="22" font-weight="800" text-anchor="middle">&gt; 31.000</text>
+    <text x="90" y="130" fill="#64748b" class="node-desc" text-anchor="middle">Video Nông Sản Kuaishou</text>
+    <line x1="20" y1="155" x2="160" y2="155" stroke="#e2e8f0" stroke-width="1.5" />
+    <text x="90" y="180" fill="#475569" class="node-desc" text-anchor="middle">Độ thưa thớt &gt; 99.4%</text>
+    <text x="90" y="200" fill="#475569" class="node-desc" text-anchor="middle">Dữ liệu thô chưa lọc</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <path d="M 220 230 L 290 230" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowBlue)" />
+  <text x="255" y="215" fill="#2563eb" font-size="11" font-weight="600" text-anchor="middle">Quét kho</text>
+
+  <!-- Stage 1 -->
+  <g transform="translate(300, 100)">
+    <rect width="250" height="260" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="250" height="42" rx="12" fill="url(#blueGrad)" />
+    <text x="125" y="26" fill="#ffffff" class="node-title" text-anchor="middle">TẦNG 1: TRÍCH XUẤT ỨNG VIÊN</text>
+    <text x="125" y="75" fill="#1e3a8a" class="node-title" text-anchor="middle">Mô Hình ConAlign (RecSys '26)</text>
+    <rect x="35" y="90" width="180" height="24" rx="12" fill="#dbeafe" />
+    <text x="125" y="106" fill="#1e40af" class="badge">HỌC BIỂU DIỄN TƯƠNG PHẢN</text>
+    
+    <text x="25" y="145" fill="#334155" class="node-desc">• Hàm mục tiêu: InfoNCE Ranking Loss</text>
+    <text x="25" y="170" fill="#334155" class="node-desc">• Tìm kiếm láng giềng gần nhất (ANN)</text>
+    <text x="25" y="195" fill="#334155" class="node-desc">• Độ trễ xử lý: &lt; 15ms</text>
+    
+    <rect x="25" y="215" width="200" height="30" rx="6" fill="#2563eb" />
+    <text x="125" y="234" fill="#ffffff" font-weight="700" font-size="12" text-anchor="middle">Trích Lọc Top 100 Video</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <path d="M 550 230 L 620 230" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrow)" />
+  <text x="585" y="215" fill="#d97706" font-size="11" font-weight="600" text-anchor="middle">Top 100</text>
+
+  <!-- Stage 2 -->
+  <g transform="translate(630, 100)">
+    <rect width="260" height="260" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="2.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="260" height="42" rx="12" fill="url(#amberGrad)" />
+    <text x="130" y="26" fill="#ffffff" class="node-title" text-anchor="middle">TẦNG 2: XẾP HẠNG CHI TIẾT</text>
+    <text x="130" y="75" fill="#78350f" class="node-title" text-anchor="middle">Mô Hình CLEV-DR (KDD '25)</text>
+    <rect x="35" y="90" width="190" height="24" rx="12" fill="#fef3c7" />
+    <text x="130" y="106" fill="#b45309" class="badge">SUY LUẬN NHÂN QUẢ KỲ VỌNG KÉP</text>
+    
+    <text x="25" y="145" fill="#451a03" class="node-desc">• Ước lượng biến tiềm ẩn ngoại sinh z</text>
+    <text x="25" y="170" fill="#451a03" class="node-desc">• Hiệu chỉnh xác suất không chệch</text>
+    <text x="25" y="195" fill="#451a03" class="node-desc">• Bảo đảm công bằng (Fairness)</text>
+    
+    <rect x="25" y="215" width="210" height="30" rx="6" fill="#d97706" />
+    <text x="130" y="234" fill="#ffffff" font-weight="700" font-size="12" text-anchor="middle">Xếp Hạng Top 5 Video</text>
+  </g>
+
+  <!-- Arrow 3 -->
+  <path d="M 890 230 L 960 230" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow)" />
+
+  <!-- Output Client -->
+  <g transform="translate(970, 120)">
+    <rect width="180" height="220" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2" filter="url(#shadow)" />
+    <rect x="0" y="0" width="180" height="38" rx="10" fill="url(#emeraldGrad)" />
+    <text x="90" y="24" fill="#ffffff" class="node-title" text-anchor="middle">APP TOPTOP</text>
+    <text x="90" y="75" fill="#065f46" class="node-title" text-anchor="middle">📱 Feed Lướt</text>
+    <text x="90" y="105" fill="#047857" class="node-title" font-size="20" font-weight="800" text-anchor="middle">5 Video Đỉnh</text>
+    <text x="90" y="130" fill="#065f46" class="node-desc" text-anchor="middle">Cá nhân hóa cao nhất</text>
+    <rect x="25" y="155" width="130" height="26" rx="13" fill="#d1fae5" />
+    <text x="90" y="172" fill="#065f46" font-size="11" font-weight="700" text-anchor="middle">Độ trễ &lt; 45ms</text>
+  </g>
+
+</svg>

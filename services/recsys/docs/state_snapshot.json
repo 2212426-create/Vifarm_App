@@ -1,11 +1,10 @@
 {
   "schema_version": 1,
-  "source_sha256": "eaaa557ae302485a39c88caade79c246fe4efa791bc02870c8c9d0a04f7e5db1",
-  "scope": "benchmark --model all runs six models (user request 30/10): MF, iDCF, IViDR, LCDR (H30), DR-BIAS + CDR, ConAlign (C-src); ConAlign KuaiRand defaults to the paper train window 22/04-05/05",
+  "source_sha256": "3e9f20b8562a08917b140e22965d8742bb370f08daada62dda71b3a52192d74c",
+  "scope": "MRDR-CAL (Hu et al., TKDE 2025; MRDR from Guo et al.) and CLEV-DR (Zhang et al., KDD 2025, Ours-DR) on their author protocols, on top of the NeuMF/cf-dl milestone. Six-model benchmark code and scores unchanged",
   "default_models": [
     "MF",
     "iDCF",
-    "IViDR",
     "LCDR",
     "DR-BIAS + CDR",
     "ConAlign"
@@ -159,16 +158,16 @@
     "cdr": "cdr_source_v1 / >=3 Coat/Yahoo / full random log / 5% calibration / train-loss last",
     "cross_protocol_paired_tests": false,
     "lcdr": "H30, iDCF data/evaluator",
-    "conalign": "conalign_source_protocol (C-src): source para(), seed 0, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
+    "conalign": "conalign_source_protocol (ConAlign-src): source para(), seeds 0-2, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
   },
   "test_suite": {
-    "total": 156,
-    "passed": 155,
+    "total": 204,
+    "passed": 203,
     "skipped": 1,
     "skip_reason": "CUDA unavailable",
-    "log": "docs/archive/2026-10-30/console_models/tests_final.log"
+    "log": "docs/archive/2026-11-04/mrdr_cal_clev/tests.log"
   },
-  "validation_artifact": "results/console_models_validation_20261030.json",
+  "validation_artifact": "results/mrdr_cal_clev_validation_20261104.json",
   "independent_cdr_validation": [
     {
       "seed": 2020,
@@ -191,8 +190,8 @@
     "KuaiRand uses local preprocessing and array/bounded-memory sampling adaptations",
     "Tuning uses validation calibration/selection; separate from default source protocol",
     "API lacks randomized log; serving adaptation",
-    "CUDA unverified",
-    "IViDR validation on CUDA likely fails: no device passed to the evaluator (code reading, not run)"
+    "CUDA unverified: device fixes are covered by unit tests only, no GPU run",
+    "IViDR stage 1 has l2_penalty 0 while iDCF and LCDR use .01; recorded in metadata, effect not measured"
   ],
   "cdr_implementation": {
     "coat": "released_source_protocol",
@@ -243,5 +242,39 @@
     "default_changed": true,
     "evidence": "results/ividr_ten_seed_summary_20261028.json"
   },
-  "reviewed_on": "2026-11-02"
+  "reviewed_on": "2026-11-04",
+  "comparison_models": {
+    "workflow": "cf-dl",
+    "protocol": "H30",
+    "ncf_reference": "hexiangnan/neural_collaborative_filtering@4aab159",
+    "neighborhood_reference": "MaurizioFD/RecSys2019_DeepLearning_Evaluation@0fb6b7f (not copied)"
+  },
+  "author_protocol_models": {
+    "MRDR-CAL": {
+      "command": "mrdr-cal",
+      "protocol": "MRDR-CAL-src",
+      "datasets": [
+        "coat",
+        "yahoo",
+        "kuairand"
+      ],
+      "sources": [
+        "sunxin000/uncertainty4recsys@36dc7c6",
+        "guosyjlu/MRDR-DL@a89d2aa"
+      ]
+    },
+    "CLEV-DR": {
+      "command": "clev",
+      "protocol": "CLEV-DR-src",
+      "datasets": [
+        "coat",
+        "yahoo",
+        "kuairec"
+      ],
+      "sources": [
+        "WallaceSUI/kdd25-background-variable@66a0e5f"
+      ],
+      "parity_max_abs_diff": 0.0
+    }
+  }
 }

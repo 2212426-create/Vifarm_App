@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViFarm TopTop - Sơ Đồ Kiến Trúc Hệ Khuyến Nghị & Mô Hình Nhân Quả</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Mermaid.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        code, pre { font-family: 'JetBrains Mono', monospace; }
+        .mermaid svg {
+            max-width: 100% !important;
+            height: auto !important;
+            filter: drop-shadow(0 4px 6px -1px rgb(0 0 0 / 0.05));
+        }
+        .active-tab {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Top Header -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <div class="flex items-center space-x-3">
+                    <span class="bg-emerald-500 text-slate-950 font-bold px-2.5 py-1 rounded-md text-xs uppercase tracking-wider">ViFarm AI Lab</span>
+                    <span class="text-xs text-slate-400">Đồ Án Chuyên Ngành / Khóa Luận Tốt Nghiệp</span>
+                </div>
+                <h1 class="text-xl md:text-2xl font-extrabold text-white mt-1">Trực Quan Hóa Sơ Đồ Kiến Trúc & Mô Hình Học Máy Khử Thiên Lệch</h1>
+                <p class="text-xs md:text-sm text-slate-400">Hệ thống khuyến nghị video ngắn TopTop với suy luận nhân quả (MF, NeuMF, CDR, iDCF, CLEV-DR, ConAlign)</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="downloadCurrentSVG()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-lg shadow transition flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    Tải File SVG (Vector HD)
+                </button>
+                <button onclick="copyMermaidCode()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                    Sao Chép Mã Mermaid
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-[73px] z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex space-x-1 overflow-x-auto py-2.5 text-xs font-medium text-slate-600 no-scrollbar">
+                <button onclick="switchTab('tab-usecase')" id="btn-usecase" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap active-tab">1. Sơ Đồ Use Case (TopTop)</button>
+                <button onclick="switchTab('tab-mf')" id="btn-mf" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap hover:bg-slate-100">2. MF Baseline</button>
+                <button onclick="switchTab('tab-neumf')" id="btn-neumf" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap hover:bg-slate-100">3. NeuMF (WWW 2017)</button>
+                <button onclick="switchTab('tab-cdr')" id="btn-cdr" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap hover:bg-slate-100">4. DR-BIAS & CDR (CIKM 2023)</button>
+                <button onclick="switchTab('tab-idcf')" id="btn-idcf" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap hover:bg-slate-100">5. iDCF (WWW 2023)</button>
+                <button onclick="switchTab('tab-clev')" id="btn-clev" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap hover:bg-slate-100 font-bold text-blue-700">6. CLEV-DR (KDD 2025 SOTA)</button>
+                <button onclick="switchTab('tab-conalign')" id="btn-conalign" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap hover:bg-slate-100 font-bold text-emerald-700">7. ConAlign (RecSys 2026 SOTA)</button>
+                <button onclick="switchTab('tab-pipeline')" id="btn-pipeline" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap hover:bg-slate-100">8. Pipeline 2 Tầng & Phục Vụ</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+        <!-- TAB 1: USE CASE -->
+        <div id="tab-usecase" class="tab-content">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Phân tích & Thiết kế Hệ thống</span>
+                        <h2 class="text-xl font-bold text-slate-900">Sơ Đồ Use Case Tổng Thể Hệ Thống Khuyến Nghị Video Ngắn TopTop</h2>
+                    </div>
+                    <span class="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full font-semibold">Chuẩn UML 2.5</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex justify-center border border-slate-100">
+                    <pre class="mermaid" id="code-usecase">
+flowchart LR
+    %% Actors
+    subgraph Actors["Tác Nhân (Actors)"]
+        Consumer["👤 Người Xem Nông Sản<br/>(Consumer / Buyer)"]
+        Farmer["👨‍🌾 Nông Hộ Sáng Tạo<br/>(Farmer / Creator)"]
+        RecEngine["🧠 Động Cơ Khử Thiên Lệch<br/>(AI RecSys Engine)"]
+        Admin["🛠️ Quản Trị Viên<br/>(System Admin)"]
+    end
+
+    %% System Boundary
+    subgraph SystemBoundary["HỆ THỐNG GỢI Ý VIDEO NGẮN TOPTOP (VIFARM ECOSYSTEM)"]
+        UC1(["UC01: Lướt Feed Video Vô Tận"])
+        UC2(["UC02: Tương Tác Video<br/>(Xem >= 3s, Thả Tim, Share)"])
+        UC3(["UC03: Tải Lên Video Canh Tác"])
+        UC4(["UC04: Gợi Ý Danh Sách Top-K Cá Nhân Hóa"])
+        UC5(["UC05: Gợi Ý Khởi Động Lạnh (Cold-Start)"])
+        UC6(["UC06: Khử Thiên Lệch Hiển Thị & Mức Phổ Biến"])
+        UC7(["UC07: Huấn Luyện Ngầm Định Kỳ & Cập Nhật Trọng Số"])
+        UC8(["UC08: Giám Sát Độ Trễ API & Nhật Ký Lỗi"])
+    end
+
+    %% Relationships
+    Consumer --> UC1
+    Consumer --> UC2
+    Farmer --> UC3
+
+    UC1 -.->|"<<include>>"| UC4
+    UC4 -.->|"<<extend>> Người dùng mới"| UC5
+    UC4 -.->|"<<include>>"| UC6
+
+    RecEngine --> UC4
+    RecEngine --> UC6
+    RecEngine --> UC7
+
+    Admin --> UC8
+    Admin --> UC7
+
+    %% Styling
+    classDef actorStyle fill:#e0e7ff,stroke:#4338ca,stroke-width:2px,color:#1e1b4b;
+    classDef ucStyle fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d;
+    classDef aiUcStyle fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f;
+
+    class Consumer,Farmer,RecEngine,Admin actorStyle;
+    class UC1,UC2,UC3,UC5,UC8 ucStyle;
+    class UC4,UC6,UC7 aiUcStyle;
+                    </pre>
+                </div>
+            </div>
+
+            <!-- Expert Audit Card -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 rounded-xl p-5 text-amber-900 shadow-sm">
+                <div class="flex items-center gap-2 mb-2 font-bold text-amber-800">
+                    <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Góc Nhìn Giám Khảo Khó Tính: Các Điểm Sẽ Bị Chất Vấn & Chiến Lược Trả Lời
+                </div>
+                <ul class="list-disc list-inside space-y-1.5 text-sm text-amber-800">
+                    <li><strong>Câu hỏi:</strong> <em>"Tại sao AI Engine lại được định nghĩa là một Actor thay vì một component bên trong hệ thống?"</em></li>
+                    <li><strong>Trả lời:</strong> Trong chuẩn UML 2.5, bất kỳ hệ thống con bên ngoài nào chủ động kích hoạt tương tác (autonomous agent) đều được xem là Secondary Actor. AI RecSys Engine tự động đọc log hành vi từ Firestore và chủ động cập nhật vector biểu diễn theo lô (batch cycle) độc lập với hành động của người dùng cuối.</li>
+                    <li><strong>Mối quan hệ Include / Extend:</strong> UC01 (Lướt feed) bắt buộc phải <em>include</em> UC04 (Gợi ý top-K), và chỉ khi người dùng là tài khoản mới tinh (chưa có tương tác), UC04 mới <em>extend</em> sang UC05 (Khởi động lạnh).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB 2: MF BASELINE -->
+        <div id="tab-mf" class="tab-content hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Mô hình Lọc cộng tác Tuyến tính</span>
+                        <h2 class="text-xl font-bold text-slate-900">Mô hình Phân Rã Ma Trận Cơ Bản (Matrix Factorization Baseline)</h2>
+                    </div>
+                    <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full font-semibold">Tuyến Tính / BCE Loss</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex justify-center border border-slate-100">
+                    <pre class="mermaid" id="code-mf">
+flowchart LR
+    subgraph Inputs["ĐẦU VÀO ONE-HOT"]
+        U_ID["User ID: u ∈ ℝ^N"]
+        I_ID["Video ID: i ∈ ℝ^M"]
+    end
+
+    subgraph EmbeddingLayers["TẦNG VECTOR TIỀM ẨN (EMBEDDINGS)"]
+        P_u["Vector p_u ∈ ℝ^d<br/>(User Embedding)"]
+        Q_i["Vector q_i ∈ ℝ^d<br/>(Video Embedding)"]
+        B_u["Độ lệch b_u ∈ ℝ"]
+        B_i["Độ lệch b_i ∈ ℝ"]
+    end
+
+    U_ID --> P_u
+    U_ID --> B_u
+    I_ID --> Q_i
+    I_ID --> B_i
+
+    subgraph Interaction["TÍCH VÔ HƯỚNG TUYẾN TÍNH"]
+        DotProd["Dot Product: ⟨p_u, q_i⟩ = ∑ p_uk · q_ik"]
+        SumBias["Cộng Bias: ŷ_ui = ⟨p_u, q_i⟩ + b_u + b_i + μ"]
+    end
+
+    P_u --> DotProd
+    Q_i --> DotProd
+    DotProd --> SumBias
+    B_u --> SumBias
+    B_i --> SumBias
+
+    subgraph OutputLoss["ĐẦU RA & TỐI ƯU HÓA"]
+        Sigmoid["Hàm Sigmoid: σ(ŷ_ui) ∈ [0, 1]"]
+        Loss["Hàm BCE Loss + L2 Regularization:<br/>min -∑ (y log σ + (1-y) log(1-σ)) + λ(||P||² + ||Q||²)"]
+    end
+
+    SumBias --> Sigmoid --> Loss
+
+    classDef inStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#0f172a;
+    classDef embStyle fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a8a;
+    classDef mathStyle fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f;
+    classDef lossStyle fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d;
+
+    class U_ID,I_ID inStyle;
+    class P_u,Q_i,B_u,B_i embStyle;
+    class DotProd,SumBias mathStyle;
+    class Sigmoid,Loss lossStyle;
+                    </pre>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 rounded-xl p-5 text-blue-900 shadow-sm">
+                <div class="flex items-center gap-2 mb-2 font-bold text-blue-800">
+                    <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Phản Biện: Điểm Giới Hạn Cốt Tử Của MF Truyền Thống
+                </div>
+                <p class="text-sm">MF chỉ mô hình hóa được phép nhân vô hướng tuyến tính (Linear Dot Product). Nó ngầm giả định không gian sở thích là đẳng hướng và bất biến. Quan trọng nhất, MF tối ưu trên dữ liệu quan sát tự nhiên mà không có cơ chế bù trừ xác suất hiển thị (Propensity), dẫn đến việc video nổi tiếng sẽ luôn được dự đoán điểm cao dù người dùng không hề thích nội dung đó.</p>
+            </div>
+        </div>
+
+        <!-- TAB 3: NEUMF -->
+        <div id="tab-neumf" class="tab-content hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">Học sâu Tương tác Song song</span>
+                        <h2 class="text-xl font-bold text-slate-900">Mô hình Ma Trận Nơ-ron (NeuMF - He et al., WWW 2017)</h2>
+                    </div>
+                    <span class="bg-purple-50 text-purple-700 text-xs px-2.5 py-1 rounded-full font-semibold">GMF + Deep MLP</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex justify-center border border-slate-100">
+                    <pre class="mermaid" id="code-neumf">
+flowchart TB
+    subgraph InputIDs["ĐẦU VÀO ONE-HOT"]
+        UID["User ID: u"]
+        IID["Video ID: i"]
+    end
+
+    subgraph DualEmbeddings["KHÔNG GIAN EMBEDDING KÉP"]
+        subgraph GMF_Emb["Nhánh Generalized Matrix Factorization"]
+            P_G["Vector p_u^G ∈ ℝ^8"]
+            Q_G["Vector q_i^G ∈ ℝ^8"]
+        end
+        subgraph MLP_Emb["Nhánh Multi-Layer Perceptron"]
+            P_M["Vector p_u^M ∈ ℝ^8"]
+            Q_M["Vector q_i^M ∈ ℝ^8"]
+        end
+    end
+
+    UID --> P_G
+    UID --> P_M
+    IID --> Q_G
+    IID --> Q_M
+
+    subgraph ProcessingBranches["HAI NHÁNH XỬ LÝ SONG SONG"]
+        subgraph GMF_Branch["Nhánh Tuyến Tính GMF"]
+            Hadamard["Tích Hadamard (Element-wise):<br/>ϕ^G = p_u^G ⊙ q_i^G ∈ ℝ^8"]
+            P_G --> Hadamard
+            Q_G --> Hadamard
+        end
+
+        subgraph MLP_Branch["Nhánh Phi Tuyến Sâu MLP"]
+            Concat["Ghép Nối (Concatenation):<br/>ϕ_0^M = [p_u^M ∥ q_i^M] ∈ ℝ^16"]
+            MLP1["Tầng Ẩn 1: ReLU(W_1 ϕ_0 + b_1) → ℝ^64"]
+            MLP2["Tầng Ẩn 2: ReLU(W_2 ϕ_1 + b_2) → ℝ^32"]
+            MLP3["Tầng Ẩn 3: ReLU(W_3 ϕ_2 + b_3) → ℝ^16"]
+            P_M --> Concat
+            Q_M --> Concat
+            Concat --> MLP1 --> MLP2 --> MLP3
+        end
+    end
+
+    subgraph NeuMFLayer["TẦNG TỔNG HỢP NEUMF"]
+        FinalConcat["Ghép Vector: [ϕ^G ∥ ϕ_3^M] ∈ ℝ^24"]
+        Hadamard --> FinalConcat
+        MLP3 --> FinalConcat
+        OutputNeuron["Tầng Dự Đoán Tuyến Tính:<br/>z = h^T [ϕ^G ∥ ϕ_3^M]"]
+        SigmoidAct["ŷ_ui = Sigmoid(z) ∈ [0, 1]"]
+        FinalConcat --> OutputNeuron --> SigmoidAct
+    end
+
+    classDef inStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#0f172a;
+    classDef gmfStyle fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#1e3a8a;
+    classDef mlpStyle fill:#f3e8ff,stroke:#7e22ce,stroke-width:2px,color:#581c87;
+    classDef outStyle fill:#ecfdf5,stroke:#059669,stroke-width:2px,color:#064e3b;
+
+    class UID,IID inStyle;
+    class P_G,Q_G,Hadamard gmfStyle;
+    class P_M,Q_M,Concat,MLP1,MLP2,MLP3 mlpStyle;
+    class FinalConcat,OutputNeuron,SigmoidAct outStyle;
+                    </pre>
+                </div>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-500 rounded-xl p-5 text-purple-900 shadow-sm">
+                <div class="flex items-center gap-2 mb-2 font-bold text-purple-800">
+                    <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Vũ Khí Lý Luận: Tại Sao Kích Thước Đầu Ra Là 24 Chiều?
+                </div>
+                <p class="text-sm">Nhánh GMF tạo vector 8 chiều (tích Hadamard 8x8). Nhánh MLP nhận đầu vào 16 chiều và sau 3 tầng nơ-ron rút trích về 16 chiều. Hai nhánh này được ghép nối (concatenate) lại thành vector 24 chiều trước khi qua lớp tích vô hướng trọng số $\mathbf{h} \in \mathbb{R}^{24}$. Điều này chứng minh bạn nắm vững từng chiều ma trận trong mã nguồn!</p>
+            </div>
+        </div>
+
+        <!-- TAB 4: CDR -->
+        <div id="tab-cdr" class="tab-content hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-pink-600 uppercase tracking-wider">Khử Thiên Lệch Bằng Kỳ Vọng Kép</span>
+                        <h2 class="text-xl font-bold text-slate-900">Mô hình DR-BIAS & Causal Debiased Recommendation (CDR - CIKM 2023)</h2>
+                    </div>
+                    <span class="bg-pink-50 text-pink-700 text-xs px-2.5 py-1 rounded-full font-semibold">Doubly Robust + Variance Control</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex justify-center border border-slate-100">
+                    <pre class="mermaid" id="code-cdr">
+flowchart TB
+    subgraph DataStream["DỮ LIỆU ĐẦU VÀO"]
+        Observed["Dữ Liệu Quan Sát Tự Nhiên:<br/>D_obs = {(u, i, y_ui, O_ui=1)}"]
+        Unobserved["Dữ Liệu Chưa Quan Sát:<br/>D_unobs = {(u, j, O_uj=0)}"]
+    end
+
+    subgraph ImputationModule["MÔ HÌNH ĐIỀN KHUYẾT SAI SỐ (m_ui)"]
+        ImpModel["Mạng Dự Đoán Sai Số Thực Tế:<br/>m_ui = f_imp(u, i; θ_imp) ≈ ℒ(y_ui, ŷ_ui)"]
+    end
+
+    subgraph PropensityModule["MÔ HÌNH XÁC SUẤT HIỂN THỊ (p_ui)"]
+        PropModel["Mạng Dự Đoán Xu Hướng Hiển Thị:<br/>p_ui = P(O_ui = 1 | u, i; θ_prop)"]
+        PropClip["Cắt Ngưỡng An Toàn (Propensity Clipping):<br/>p_ui_safe = max(p_ui, p_min) với p_min = 0.05"]
+        PropModel --> PropClip
+    end
+
+    Observed --> ImpModel
+    Observed --> PropModel
+    Unobserved --> ImpModel
+
+    subgraph CDR_VarianceFilter["CƠ CHẾ ĐẶC BIỆT CỦA CDR (CIKM 2023)"]
+        VarCalc["Tính Phương Sai Của Mẫu:<br/>Var_ui = (1 - p_ui) / (p_ui)² · (ℒ - m_ui)²"]
+        FilterGate{"Var_ui > Ngưỡng τ ?"}
+        DropSample["Loại Bỏ / Giảm Trọng Số Mẫu Nhiễu<br/>(Variance Dropout Control)"]
+        KeepSample["Giữ Mẫu Đào Tạo Bình Thường"]
+        VarCalc --> FilterGate
+        FilterGate -- Có --> DropSample
+        FilterGate -- Không --> KeepSample
+    end
+
+    ImpModel --> VarCalc
+    PropClip --> VarCalc
+
+    subgraph FinalObjective["HÀM MỤC TIÊU BẢO VỆ KÉP (DOUBLY ROBUST)"]
+        LossDR["ℒ_DR = ∑_(u,i) [ m_ui + (O_ui × (ℒ(y_ui, ŷ_ui) - m_ui)) / p_ui_safe ]"]
+    end
+
+    KeepSample --> LossDR
+    DropSample -.->|Trọng số suy giảm| LossDR
+
+    classDef dataStyle fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#0f172a;
+    classDef impStyle fill:#e0e7ff,stroke:#4338ca,stroke-width:2px,color:#1e1b4b;
+    classDef propStyle fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f;
+    classDef cdrStyle fill:#fce7f3,stroke:#db2777,stroke-width:2px,color:#831843;
+    classDef lossStyle fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d;
+
+    class Observed,Unobserved dataStyle;
+    class ImpModel impStyle;
+    class PropModel,PropClip propStyle;
+    class VarCalc,FilterGate,DropSample,KeepSample cdrStyle;
+    class LossDR lossStyle;
+                    </pre>
+                </div>
+            </div>
+
+            <div class="bg-pink-50 border-l-4 border-pink-500 rounded-xl p-5 text-pink-900 shadow-sm">
+                <div class="flex items-center gap-2 mb-2 font-bold text-pink-800">
+                    <svg class="w-5 h-5 text-pink-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Bảo Vệ Tính Không Chệch: Nguyên Lý Của CDR
+                </div>
+                <p class="text-sm">Khi $p_{ui}$ được ước lượng chính xác, kỳ vọng của số hạng điều chỉnh bằng 0, giá trị hội tụ về $\mathcal{L}_{ideal}$. Ngược lại nếu $p_{ui}$ sai, nhưng mô hình điền khuyết $m_{ui}$ xấp xỉ đúng sai số thực tế, phần dư $(\mathcal{L} - m_{ui}) \to 0$, mô hình vẫn không chệch! CDR là bước tiến quan trọng kiểm soát phương sai của phương pháp này.</p>
+            </div>
+        </div>
+
+        <!-- TAB 5: IDCF -->
+        <div id="tab-idcf" class="tab-content hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Suy Luận Biến Tiềm Ẩn Khả Quy</span>
+                        <h2 class="text-xl font-bold text-slate-900">Mô hình Lọc Cộng Tác Khả Quy iDCF (WWW 2023)</h2>
+                    </div>
+                    <span class="bg-indigo-50 text-indigo-700 text-xs px-2.5 py-1 rounded-full font-semibold">Identifiable VAE / ELBO</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex justify-center border border-slate-100">
+                    <pre class="mermaid" id="code-idcf">
+flowchart TB
+    subgraph ObservableData["CÁC BIẾN QUAN SÁT ĐƯỢC"]
+        UserNode["Người Dùng: u"]
+        ItemNode["Video: i"]
+        Feedback["Tương Tác Thực: y_ui ∈ {0, 1}"]
+    end
+
+    subgraph iVAE_Architecture["MẠNG NHÂN QUẢ KHẢ QUY (iVAE FRAMEWORK)"]
+        subgraph PriorNetwork["Mạng Tiên Nghiệm Có Điều Kiện (Conditional Prior)"]
+            PriorNet["p_θ(z | u): Dự đoán phân phối biến tiềm ẩn z theo User Context"]
+            PriorDist["N(μ_prior(u), σ²_prior(u))"]
+            PriorNet --> PriorDist
+        end
+
+        subgraph EncoderNetwork["Mạng Suy Luận Hậu Nghiệm (Variational Posterior)"]
+            EncNet["q_ϕ(z | u, i, y): Bộ mã hóa trạng thái quan sát"]
+            PostDist["N(μ_post(u, i, y), σ²_post(u, i, y))"]
+            EncNet --> PostDist
+        end
+
+        subgraph Reparameterization["Kỹ Thuật Tái Tham Số Hóa (Reparameterization Trick)"]
+            Epsilon["ϵ ~ N(0, I)"]
+            SampleZ["z = μ_post + σ_post ⊙ ϵ<br/>(Vector Yếu Tố Nhiễu Tiềm Ẩn)"]
+            PostDist --> SampleZ
+            Epsilon --> SampleZ
+        end
+
+        subgraph DecoderNetwork["Bộ Giải Mã Khử Nhiễu (Causal Decoder)"]
+            DecNet["p_θ(y | u, i, z): Tách biệt sở thích thuần túy và biến tiềm ẩn z"]
+            PredProb["ŷ_ui = DecNet(p_u, q_i, z)"]
+            SampleZ --> DecNet
+        end
+    end
+
+    UserNode --> PriorNet
+    UserNode --> EncNet
+    ItemNode --> EncNet
+    Feedback --> EncNet
+    UserNode --> DecNet
+    ItemNode --> DecNet
+    DecNet --> PredProb
+
+    subgraph ELBO_Objective["HÀM MỤC TIÊU ELBO CHẶN DƯỚI"]
+        LossELBO["max ELBO = 𝔼_q [ log p_θ(y | u, i, z) ] - β · D_KL ( q_ϕ(z | u, i, y) ∥ p_θ(z | u) )"]
+    end
+
+    PredProb --> LossELBO
+    PriorDist --> LossELBO
+    PostDist --> LossELBO
+
+    classDef obsStyle fill:#f1f5f9,stroke:#334155,stroke-width:2px,color:#0f172a;
+    classDef vaeStyle fill:#ede9fe,stroke:#6d28d9,stroke-width:2px,color:#3b0764;
+    classDef mathStyle fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#713f12;
+    classDef lossStyle fill:#fee2e2,stroke:#b91c1c,stroke-width:2px,color:#450a0a;
+
+    class UserNode,ItemNode,Feedback obsStyle;
+    class PriorNet,PriorDist,EncNet,PostDist,DecNet,PredProb vaeStyle;
+    class Epsilon,SampleZ mathStyle;
+    class LossELBO lossStyle;
+                    </pre>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50 border-l-4 border-indigo-500 rounded-xl p-5 text-indigo-900 shadow-sm">
+                <div class="flex items-center gap-2 mb-2 font-bold text-indigo-800">
+                    <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Định Lý Nhận Dạng (Identifiability Theorem - Khemakhem 2020)
+                </div>
+                <p class="text-sm">Nếu không có biến điều kiện phụ trợ $u$ đưa vào mạng Prior, VAE sẽ bị nghiệm suy biến do bất biến quay. Mạng $p_\theta(z|u)$ trong iDCF chính là mỏ neo toán học giúp ánh xạ một-một giữa biểu diễn tiềm ẩn và các yếu tố gây nhiễu môi trường của người dùng.</p>
+            </div>
+        </div>
+
+        <!-- TAB 6: CLEV-DR -->
+        <div id="tab-clev" class="tab-content hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Mô hình Chủ Đạo (Core Contribution)</span>
+                        <h2 class="text-xl font-bold text-slate-900">Mô hình Khử Thiên Lệch Đỉnh Cao CLEV-DR (Zhang et al., KDD 2025)</h2>
+                    </div>
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-bold">KDD 2025 / Multi-tower Monte Carlo</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex justify-center border border-slate-100">
+                    <pre class="mermaid" id="code-clev">
+flowchart TB
+    subgraph Inputs["ĐẦU VÀO ĐẶC TRƯNG"]
+        U_vec["Vector User u"]
+        I_vec["Vector Item i"]
+        X_ui["Ghép Nối: x_ui = [u ∥ i]"]
+        U_vec --> X_ui
+        I_vec --> X_ui
+    end
+
+    subgraph LatentModule["BỘ SINH BIẾN TIỀM ẨN NGOẠI SINH (CLEV Module)"]
+        iVAE_Enc["Bộ Mã Hóa iVAE (Encoder)"]
+        LatentDist["Không Gian Tiềm Ẩn q(z | x_ui)"]
+        MonteCarlo["Lấy Mẫu Monte Carlo (M = 50 mẫu):<br/>{z^(1), z^(2), ..., z^(M)}"]
+        X_ui --> iVAE_Enc --> LatentDist --> MonteCarlo
+    end
+
+    subgraph MultiTowerInference["KIẾN TRÚC ĐA THÁP ĐIỀU CHỈNH BIẾN TIỀM ẨN"]
+        subgraph MainPred["Tháp Dự Đoán Tương Tác Chính (Prediction Tower)"]
+            MLP_Pred["Tầng Ẩn Dense [64, 32]"]
+            ScoreY["Điểm Quan Tâm Khử Thiên Lệch: ŷ_ui"]
+            MLP_Pred --> ScoreY
+        end
+
+        subgraph ImpTower["Tháp Điền Khuyết Sai Số (Error Imputation Tower)"]
+            MLP_m["Tầng Ẩn Dense [64, 32] có điều kiện trên z"]
+            ImputedError["Sai Số Dự Đoán Ước Tính: m_ui(z)"]
+            MLP_m --> ImputedError
+        end
+
+        subgraph PropTower["Tháp Xác Suất Hiển Thị (Propensity Tower)"]
+            MLP_p["Tầng Ẩn Dense [32, 16] có điều kiện trên z"]
+            Propensity["Xác Suất Hiển Thị Ước Tính: p_ui(z)"]
+            MLP_p --> Propensity
+        end
+    end
+
+    X_ui --> MLP_Pred
+    X_ui --> MLP_m
+    MonteCarlo --> MLP_m
+    X_ui --> MLP_p
+    MonteCarlo --> MLP_p
+
+    subgraph IntegrationLoss["HÀM MẤT MÁT TÍCH PHÂN KỲ VỌNG KÉP (DOUBLY ROBUST)"]
+        MC_Integral["Tích Phân Monte Carlo Qua Mẫu Tiềm Ẩn:<br/>𝔼_z [ m_ui(z) + (O_ui × (ℒ(y, ŷ) - m_ui(z))) / p_ui(z) ]"]
+        FinalLoss["Tổng Hàm Mất Mát:<br/>ℒ_Total = ℒ_DR + α · ℒ_iVAE"]
+    end
+
+    ScoreY --> MC_Integral
+    ImputedError --> MC_Integral
+    Propensity --> MC_Integral
+    MC_Integral --> FinalLoss
+
+    classDef inStyle fill:#f8fafc,stroke:#475569,stroke-width:2px,color:#0f172a;
+    classDef vaeStyle fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#78350f;
+    classDef towerStyle fill:#f3e8ff,stroke:#9333ea,stroke-width:2px,color:#581c87;
+    classDef lossStyle fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d;
+
+    class U_vec,I_vec,X_ui inStyle;
+    class iVAE_Enc,LatentDist,MonteCarlo vaeStyle;
+    class MLP_Pred,ScoreY,MLP_m,ImputedError,MLP_p,Propensity towerStyle;
+    class MC_Integral,FinalLoss lossStyle;
+                    </pre>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-600 rounded-xl p-5 text-blue-950 shadow-sm">
+                <div class="flex items-center gap-2 mb-2 font-bold text-blue-900">
+                    <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Phân Tích Chuyên Sâu Của Chuyên Gia: Tại Sao CLEV-DR Đạt Đỉnh Cao KDD 2025?
+                </div>
+                <p class="text-sm">CLEV-DR là kiến trúc đầu tiên trên thế giới tích hợp thành công việc ước lượng biến nhiễu tiềm ẩn $z$ vào cả 2 tháp của Doubly Robust (tháp $m_{ui}(z)$ và tháp $p_{ui}(z)$). Tích phân Monte Carlo $M=50$ mẫu quét qua toàn bộ phân phối hậu nghiệm, giúp triệt tiêu cả thiên lệch quan sát lẫn thiên lệch tiềm ẩn không thể đo lường.</p>
+            </div>
+        </div>
+
+        <!-- TAB 7: CONALIGN -->
+        <div id="tab-conalign" class="tab-content hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Trường Phái Học Biểu Diễn Tương Phản</span>
+                        <h2 class="text-xl font-bold text-slate-900">Mô hình Căn Chỉnh Tương Phản ConAlign (Guo et al., RecSys 2026)</h2>
+                    </div>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-bold">RecSys 2026 / Conditional InfoNCE</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex justify-center border border-slate-100">
+                    <pre class="mermaid" id="code-conalign">
+flowchart TB
+    subgraph Inputs["CẶP TƯƠNG TÁC ĐẦU VÀO"]
+        AnchorUser["Người Dùng Truy Vấn: u"]
+        PosItem["Video Tương Tác Dương: i^+"]
+        NegItems["K Video Âm Lấy Mẫu: {j_1^-, j_2^-, ..., j_K^-}"]
+    end
+
+    subgraph DualEncoders["BỘ MÃ HÓA BIỂU DIỄN HAI ĐẦU (DUAL ENCODERS)"]
+        subgraph UserEncoder["Bộ Mã Hóa Người Dùng (User Encoder)"]
+            U_Embed["User Embedding Lookup"]
+            U_Proj["Mạng Chiếu (Projection Head g_u): Dense [64] + L2 Norm"]
+            AnchorUser --> U_Embed --> U_Proj
+            U_Norm["Vector Chuẩn Hóa: z_u ∈ S^(d-1)"]
+            U_Proj --> U_Norm
+        end
+
+        subgraph ItemEncoder["Bộ Mã Hóa Video (Video Encoder)"]
+            I_Embed["Item Embedding Lookup"]
+            I_Proj["Mạng Chiếu (Projection Head g_v): Dense [64] + L2 Norm"]
+            PosItem --> I_Embed --> I_Proj
+            NegItems --> I_Embed
+            I_NormPos["Vector Chuẩn Hóa Dương: z_i^+ ∈ S^(d-1)"]
+            I_NormNeg["Các Vector Chuẩn Hóa Âm: {z_j^-} ∈ S^(d-1)"]
+            I_Proj --> I_NormPos
+            I_Proj --> I_NormNeg
+        end
+    end
+
+    subgraph SimilarityMatrix["KHÔNG GIAN HÌNH CẦU & ĐỘ ĐO COSINE (HYPERSPHERE)"]
+        CosPos["Tương Đồng Dương: sim(u, i^+) = z_u^T · z_i^+ / τ"]
+        CosNeg["Tương Đồng Âm: sim(u, j_k^-) = z_u^T · z_j_k^- / τ"]
+        U_Norm --> CosPos
+        I_NormPos --> CosPos
+        U_Norm --> CosNeg
+        I_NormNeg --> CosNeg
+    end
+
+    subgraph InfoNCELoss["HÀM MẤT MÁT TƯƠNG PHẢN ĐIỀU CHỈNH (CONDITIONAL InfoNCE)"]
+        Formula["ℒ_ConAlign = - log [ exp(sim(u, i^+)) / ( exp(sim(u, i^+)) + ∑_k w_k · exp(sim(u, j_k^-)) ) ]"]
+        Weights["Trọng Số Căn Chỉnh Phân Phối w_k:<br/>(Hiệu chỉnh thiên lệch phân phối tập quan sát sang tập mục tiêu)"]
+        CosPos --> Formula
+        CosNeg --> Formula
+        Weights --> Formula
+    end
+
+    classDef inStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#0f172a;
+    classDef uStyle fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#1e3a8a;
+    classDef vStyle fill:#fef3c7,stroke:#b45309,stroke-width:2px,color:#78350f;
+    classDef simStyle fill:#f3e8ff,stroke:#7e22ce,stroke-width:2px,color:#581c87;
+    classDef lossStyle fill:#dcfce7,stroke:#15803d,stroke-width:2px,color:#14532d;
+
+    class AnchorUser,PosItem,NegItems inStyle;
+    class U_Embed,U_Proj,U_Norm uStyle;
+    class I_Embed,I_Proj,I_NormPos,I_NormNeg vStyle;
+    class CosPos,CosNeg simStyle;
+    class Formula,Weights lossStyle;
+                    </pre>
+                </div>
+            </div>
+
+            <div class="bg-emerald-50 border-l-4 border-emerald-600 rounded-xl p-5 text-emerald-950 shadow-sm">
+                <div class="flex items-center gap-2 mb-2 font-bold text-emerald-900">
+                    <svg class="w-5 h-5 text-emerald-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Tại Sao ConAlign Đạt NDCG Cao Nhất Trên Cả 3 Dataset?
+                </div>
+                <p class="text-sm">Hàm mất mát InfoNCE tối ưu hóa trực tiếp trật tự tương đối giữa tương tác dương và tương tác âm trên mặt cầu siêu đa chiều với tham số nhiệt độ $\tau = 0.1$. Trong khi các mô hình như MF/NeuMF/CLEV-DR tối ưu lỗi điểm (Pointwise BCE Loss), ConAlign tối ưu trực tiếp Ranking Metric, khiến thứ hạng Top-5 của nó đạt độ chính xác vô địch.</p>
+            </div>
+        </div>
+
+        <!-- TAB 8: PIPELINE & SERVING -->
+        <div id="tab-pipeline" class="tab-content hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Hạ Tầng & Triển Khai Thực Tế</span>
+                        <h2 class="text-xl font-bold text-slate-900">Kiến Trúc Phục Vụ 2 Tầng & Sơ Đồ Tuần Tự (Serving & Sequence Flow)</h2>
+                    </div>
+                    <span class="bg-emerald-50 text-emerald-700 text-xs px-2.5 py-1 rounded-full font-semibold">Latency < 45ms</span>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-xl overflow-x-auto flex flex-col gap-8 border border-slate-100">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">1. Kiến Trúc Pipeline 2 Tầng Công Nghiệp (Two-Stage Pipeline)</h3>
+                        <pre class="mermaid" id="code-pipeline">
+flowchart LR
+    subgraph Stage0["KHO VIDEO GỐC (Catalog)"]
+        Pool["Hơn 31.000 Video Nông Sản<br/>(KuaiRand / ViFarm DB)"]
+    end
+
+    subgraph Stage1["TẦNG 1: TRÍCH XUẤT ỨNG VIÊN (Candidate Retrieval)"]
+        Model1["Mô Hình ConAlign (RecSys 2026)<br/>• Hàm mất mát: InfoNCE Ranking Loss<br/>• Tìm kiếm véc-tơ siêu tốc (Faiss / HNSW)"]
+        Candidate["Top 100 Video Tiềm Năng<br/>(Độ trễ < 15ms)"]
+        Model1 --> Candidate
+    end
+
+    subgraph Stage2["TẦNG 2: XẾP HẠNG CHI TIẾT & HIỆU CHỈNH (Fine-Ranking)"]
+        Model2["Mô Hình CLEV-DR (KDD 2025)<br/>• Suy luận biến tiềm ẩn iVAE<br/>• Ước lượng không chệch Doubly Robust<br/>• Hiệu chỉnh công bằng cho nông hộ mới"]
+        Top5["Top 5 Video Tối Ưu Nhất<br/>(Hiển thị trên Feed App TopTop)"]
+        Model2 --> Top5
+    end
+
+    Pool --> Model1
+    Candidate --> Model2
+
+    classDef poolStyle fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#0f172a;
+    classDef stage1Style fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px,color:#1e3a8a;
+    classDef stage2Style fill:#fef3c7,stroke:#b45309,stroke-width:2px,color:#78350f;
+    classDef outStyle fill:#dcfce7,stroke:#15803d,stroke-width:2px,color:#14532d;
+
+    class Pool poolStyle;
+    class Model1,Candidate stage1Style;
+    class Model2 stage2Style;
+    class Top5 outStyle;
+                        </pre>
+                    </div>
+
+                    <div class="border-t border-slate-200 pt-6">
+                        <h3 class="text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">2. Sơ Đồ Tuần Tự (UML Sequence) Xử Lý Thời Gian Thực</h3>
+                        <pre class="mermaid" id="code-seq">
+sequenceDiagram
+    autonumber
+    actor User as 📱 Người Dùng (TopTop Flutter)
+    participant API as ⚡ FastAPI Backend
+    participant Cache as 🧠 RAM Cache (User/Item Embeddings)
+    participant Worker as 🔄 Asynchronous Worker
+    participant DB as 🔥 Firestore / RTDB
+
+    Note over User,API: Bắt đầu phiên lướt Feed Video ngắn
+    User->>API: POST /api/v1/recommend {user_id: "U7584", k: 5, model: "clev_dr"}
+    activate API
+
+    API->>Cache: Kiểm tra Vector Embedding p_u
+    alt [Trường Hợp 1: Người Dùng Đã Có Embedding]
+        Cache-->>API: Trả về vector p_u (kích thước 16-d)
+        API->>API: Tính tích vô hướng O(d) với kho video Q<br/>(Thời gian tính toán: ~12ms)
+        API->>API: Sắp xếp lấy Top-5 điểm số cao nhất
+        API-->>User: HTTP 200 OK: {videos: [v1, v2, v3, v4, v5], latency_ms: 28.4, model_used: "clev_dr"}
+    else [Trường Hợp 2: Người Dùng Mới Tinh (Cold-Start)]
+        Cache-->>API: Không tìm thấy vector p_u
+        API->>DB: Lấy danh sách video thịnh hành đã khử thiên lệch (Debiased Popular)
+        DB-->>API: Trả về Top video phổ biến
+        API-->>User: HTTP 200 OK: {videos: [...], latency_ms: 18.2, fallback_reason: "cold_start"}
+    end
+    deactivate API
+
+    Note over User: Người dùng xem video v1 (thời lượng 12 giây, thả tim)
+    User->>API: POST /api/v1/interaction {user_id: "U7584", video_id: "v1", watch_time_ms: 12000, is_like: true}
+    activate API
+    API-->>User: HTTP 202 Accepted (Phản hồi tức thì < 5ms)
+    API-)Worker: Đẩy sự kiện vào Background Queue
+    deactivate API
+
+    activate Worker
+    Worker->>DB: Ghi log tương tác vào Collection 'interactions'
+    Worker->>Worker: Kiểm tra số lượng tương tác mới
+    opt [Đạt ngưỡng tái huấn luyện (>= 20 tương tác)]
+        Worker->>Worker: Cập nhật vector embedding p_u
+        Worker->>Cache: Nạp vector mới vào RAM Cache
+    end
+    deactivate Worker
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+        <p>Đồ án chuyên ngành Công nghệ Thông tin - ViFarm Short-form Video Recommendation System (TopTop App).</p>
+        <p class="mt-1">Nghiên cứu & thực nghiệm bởi Vũ Thế Huỳnh & Phùng Nguyễn Hoài Bo.</p>
+    </footer>
+
+    <!-- JavaScript Handling -->
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: { curve: 'basis', htmlLabels: true },
+            sequence: { actorMargin: 50, useMaxWidth: true }
+        });
+
+        let currentActiveTab = 'tab-usecase';
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active-tab');
+                btn.classList.add('hover:bg-slate-100');
+            });
+
+            const activeBtn = document.getElementById('btn-' + tabId.replace('tab-', ''));
+            if (activeBtn) {
+                activeBtn.classList.add('active-tab');
+                activeBtn.classList.remove('hover:bg-slate-100');
+            }
+
+            currentActiveTab = tabId;
+        }
+
+        function copyMermaidCode() {
+            const activeTabEl = document.getElementById(currentActiveTab);
+            const mermaidCodeEl = activeTabEl.querySelector('.mermaid');
+            if (mermaidCodeEl) {
+                navigator.clipboard.writeText(mermaidCodeEl.innerText.trim()).then(() => {
+                    alert('Đã sao chép mã nguồn Mermaid vào bộ nhớ tạm! Bạn có thể dán vào mermaid.live hoặc tài liệu Markdown.');
+                });
+            }
+        }
+
+        function downloadCurrentSVG() {
+            const activeTabEl = document.getElementById(currentActiveTab);
+            const svgEl = activeTabEl.querySelector('svg');
+            if (!svgEl) {
+                alert('Sơ đồ đang được vẽ hoặc chưa sẵn sàng. Vui lòng thử lại sau giây lát!');
+                return;
+            }
+            const svgData = new XMLSerializer().serializeToString(svgEl);
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const svgUrl = URL.createObjectURL(svgBlob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = svgUrl;
+            downloadLink.download = currentActiveTab + '.svg';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    </script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Master Benchmark Runner: Thực hiện toàn diện thực nghiệm đối sánh
-MF, iDCF, IViDR, LCDR, DR-BIAS + CDR, ConAlign trên Coat, Yahoo! R3 và KuaiRand-Pure.
-LCDR dùng protocol H30 như iDCF; ConAlign giữ protocol và metric của source (C-src).
+MF, iDCF, LCDR, DR-BIAS + CDR, ConAlign trên Coat, Yahoo! R3 và KuaiRand-Pure.
+LCDR dùng protocol H30 như iDCF; ConAlign giữ protocol và metric của source (ConAlign-src).
 và hỗ trợ huấn luyện riêng lẻ, quét siêu tham số Grid Search.
 Project: ViFarm (services/recsys)
 """
@@ -30,7 +30,6 @@ from src.utils.helpers import set_seed, get_device, RESULTS_DIR, CHECKPOINT_DIR
 from src.utils.artifacts import validate_training, data_signature, source_signature, digest, evaluate_checkpoint
 from src.data_pipeline.kuairand_dataset import subset_kuairand_users
 from src.models.mf.train_mf import train_baseline_mf
-from src.models.ividr.ividr_staged import DEFAULT_ALPHA_RESIDUAL, mf_item_embeddings
 from src.models.idcf.train_idcf import IDCF_CONFIG, fit_idcf_pipeline
 from src.models.cdr.train_dr_bias_cdr import train_dr_bias_cdr
 from src.evaluation.diagnostics import evaluate_popularity, candidate_pool_diagnostics, paired_ndcg_difference
@@ -46,10 +45,10 @@ from src.models.conalign.data import load_conalign_data
 from src.models.conalign.train import setup_seed as conalign_setup_seed, train_conalign
 
 
-MODEL_NAMES = ("MF", "iDCF", "IViDR", "LCDR", "DR-BIAS + CDR", "ConAlign")
-# User-selected suite; IViDR uses learned reconstruction and BCE feedback.
+MODEL_NAMES = ("MF", "iDCF", "LCDR", "DR-BIAS + CDR", "ConAlign")
+# User-selected suite: CF and Causal Debiasing models
 STANDARD_MODELS = MODEL_NAMES
-MODEL_KEYS = {"MF": "mf", "iDCF": "idcf", "IViDR": "ividr", "LCDR": "lcdr", "DR-BIAS + CDR": "cdr",
+MODEL_KEYS = {"MF": "mf", "iDCF": "idcf", "LCDR": "lcdr", "DR-BIAS + CDR": "cdr",
               "ConAlign": "conalign"}
 # Rows trained and scored on their own source protocol: no shared-split paired tests.
 SOURCE_SCOPES = ("cdr_source_protocol", "conalign_source_protocol")
@@ -74,25 +73,20 @@ def paired_significance(dataset_results, data, device=None):
 
 def run_idcf_family(name, dataset, data, mf_result, mf_kwargs, tag, epochs, ivae_epochs,
                     train_overrides=None, ivae_overrides=None, device=None, checkpoint_dir=None):
-    """iDCF hoặc IViDR theo giai đoạn; IViDR lấy treatment T từ checkpoint MF (huấn luyện nếu chưa có)."""
-    item_emb = None
-    if name == "IViDR":
-        if not (mf_result or {}).get("checkpoint_path"):
-            mf_result = train_baseline_mf(dataset_name=dataset, evaluate_test=False,
-                                          checkpoint_tag=f"{tag}_treatment", **mf_kwargs)
-        item_emb = mf_item_embeddings(mf_result["checkpoint_path"])
+    """iDCF hoặc LCDR theo giai đoạn."""
     if name == "LCDR":
         return fit_lcdr_pipeline(data, dataset, seed=42, checkpoint_tag=tag, epochs=epochs,
                                  representation_epochs=ivae_epochs, train_overrides=train_overrides,
                                  representation_overrides=ivae_overrides, device=device,
                                  checkpoint_dir=checkpoint_dir)
-    return fit_idcf_pipeline(data, dataset, seed=42, item_emb=item_emb, checkpoint_tag=tag, epochs=epochs,
+    return fit_idcf_pipeline(data, dataset, seed=42, checkpoint_tag=tag, epochs=epochs,
                              ivae_epochs=ivae_epochs, train_overrides=train_overrides,
                              ivae_overrides=ivae_overrides, device=device, checkpoint_dir=checkpoint_dir)
 
 
 def run_conalign(dataset, quick_run=False, smoke_users=None, device=None, checkpoint_dir=None):
     """ConAlign trên dữ liệu/protocol riêng của source; bảng hiển thị tháp unbiased trên test unbiased."""
+    device = get_device(device)  # Dữ liệu và mô hình phải cùng thiết bị.
     conalign_setup_seed(CONALIGN_SEED)  # Trước khi nạp dữ liệu, giữ thứ tự RNG như source.
     data = load_conalign_data(dataset, seed=CONALIGN_SEED, device=device,
                               smoke_users=smoke_users if dataset == "kuairand" else None)
@@ -151,9 +145,9 @@ def run_all_benchmarks(
         raise ValueError("Grid search does not accept --lr, --quick or --smoke-users")
     if (grid_search or model_filter in ("mf", "cdr", "conalign")) and any(
             value is not None for value in (ivae_epochs, ivae_lr, ivae_batch_size, latent_dim)):
-        raise ValueError("iVAE overrides require an iDCF/IViDR/LCDR benchmark")
+        raise ValueError("iVAE overrides require an iDCF/LCDR benchmark")
     if init_scheme is not None and model_filter in ("cdr", "conalign"):
-        raise ValueError("--init-scheme applies to MF/iDCF/IViDR/LCDR")
+        raise ValueError("--init-scheme applies to MF/iDCF/LCDR")
     if smoke_users is not None and (not quick_run or dataset_filter not in ("kuairand","yahoo")):
         raise ValueError("--smoke-users requires --quick --dataset kuairand/yahoo")
     if init_scheme not in (None, "normal", "author_uniform"):
@@ -238,7 +232,7 @@ def run_all_benchmarks(
 
     # Cấu hình số epoch linh hoạt
     # MF KuaiRand với lr 5e-5 của tác giả hội tụ chậm (val còn tăng sau epoch 19), nên mặc định
-    # 100 epoch + patience 5 như MF.py (cả iDCF/IViDR); CDR dùng ngân sách từ config riêng.
+    # 100 epoch + patience 5 như MF.py (cả iDCF); CDR dùng ngân sách từ config riêng.
     mf_epochs_kr = epochs_kr if epochs_kr is not None else (3 if quick_run else mf_config("kuairand")["epochs"])
     ivae_epochs = ivae_epochs if ivae_epochs is not None else (2 if quick_run else 2000)
     epochs_yahoo = epochs_yahoo if epochs_yahoo is not None else (3 if quick_run else mf_config("yahoo")["epochs"])
@@ -271,7 +265,6 @@ def run_all_benchmarks(
             "include_zero_positive_users": {"coat": False, "kuairand": False, "yahoo": False},
             "coat_protocol": "paper_idcf",
             "idcf_config": IDCF_CONFIG,
-            "ividr_implementation": "ividr_reference_bce_v2",
             "lcdr_protocol": "H30, iDCF data/evaluator; stage 1 budget = ivae_epochs",
             "conalign_protocol": {"scope": "conalign_source_protocol", "seed": CONALIGN_SEED,
                                   "kuairand_window": "paper", "config": "source para()",
@@ -330,7 +323,7 @@ def run_all_benchmarks(
                 print(f"[LỖI] Huấn luyện MF trên Coat thất bại: {e}")
                 errors.append(("coat", "MF", str(e)))
 
-        for name in ("iDCF", "IViDR", "LCDR"):
+        for name in ("iDCF", "LCDR"):
             if selected(name):
                 print(f"\n>>> Huấn luyện {name} (Coat)...")
                 try:
@@ -385,7 +378,7 @@ def run_all_benchmarks(
                     value=train_baseline_mf(dataset_name="yahoo",**mf_yahoo)
                 elif name=="ConAlign":
                     value=train_conalign_row("yahoo")
-                elif name in ("iDCF", "IViDR", "LCDR"):
+                elif name in ("iDCF", "LCDR"):
                     value=run_idcf_family(name,"yahoo",yahoo_data,all_results['yahoo'].get('MF'),mf_yahoo,
                         checkpoint_tag(f"yahoo_{name.lower()}",epochs_yahoo),epochs_yahoo,ivae_epochs,
                         train_overrides=train_overrides,ivae_overrides=ivae_overrides,device=device,
@@ -429,7 +422,7 @@ def run_all_benchmarks(
                 print(f"[LỖI] Huấn luyện MF trên KuaiRand thất bại: {e}")
                 errors.append(("kuairand", "MF", str(e)))
 
-        for name in ("iDCF", "IViDR", "LCDR"):
+        for name in ("iDCF", "LCDR"):
             if selected(name):
                 print(f"\n>>> Huấn luyện {name} (KuaiRand)...")
                 try:
@@ -504,13 +497,12 @@ def get_benchmark_tables_data(results):
                 continue
             scope = metric.get("evaluation_scope")
             source = scope in SOURCE_SCOPES
-            protocol = ("C-src" if scope == "conalign_source_protocol" else
-                        ("S-KR" if dataset == "kuairand" else "S-full") if source else "H30")
+            protocol = ("ConAlign-src" if scope == "conalign_source_protocol" else
+                        ("CDR-KR" if dataset == "kuairand" else "CDR-src") if source else "H30")
             def value(key):
                 actual = metric.get(key)
                 return f"{actual:.6f}" if actual is not None else "N/A"
-            label = (metric.get('metadata',{}).get('config',{}).get('display_name','IViDR-approx')
-                     if name == "IViDR" else name)
+            label = name
             rows.append([title, label, protocol, value("NDCG@5"),
                          value("Recall@5_bounded"), value("Precision@5"), value("HitRate@5"),
                          value("AUC_global" if source else "AUC"), "global" if source else "macro-user"])
@@ -528,7 +520,7 @@ def conalign_notes(results):
     return lines
 
 
-CONALIGN_NOTE = ("C-src: ConAlign theo source (seed 0, para()); tháp unbiased trên test unbiased; Coat/Yahoo chia "
+CONALIGN_NOTE = ("ConAlign-src: ConAlign theo source (seed 0, para()); tháp unbiased trên test unbiased; Coat/Yahoo chia "
                  "ngẫu nhiên, rating >=4; KuaiRand train 22/04-05/05 theo paper. NDCG@5 = NDCG của source "
                  "(user có cả hai nhãn); không có Recall bounded/HitRate.")
 
@@ -542,11 +534,11 @@ def generate_console_grid_report(results):
     extra = "".join(f"{line}\n" for line in conalign_notes(results))
     return (f"\n{grid}\n{extra}"
             "H30: held-out user split 30/70, Coat/Yahoo >=4.\n"
-            "S-full: CDR Coat/Yahoo >=3, toàn random log, 5% nhãn random để calibration.\n"
-            "S-KR: CDR KuaiRand local split, calibration 5% validation; adaptation theo metadata.\n"
+            "CDR-src: CDR Coat/Yahoo >=3, toàn random log, 5% nhãn random để calibration.\n"
+            "CDR-KR: CDR KuaiRand local split, calibration 5% validation; adaptation theo metadata.\n"
             f"{CONALIGN_NOTE}\n"
             "Recall@5 bounded: hits/min(5, tổng positive). Recall/all positives vẫn lưu trong JSON.\n"
-            "CDR S-full giữ quy ước empty-positive Recall=1; precision/hit-rate=0.\n"
+            "CDR CDR-src giữ quy ước empty-positive Recall=1; precision/hit-rate=0.\n"
             "Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức.\n")
 
 
@@ -573,9 +565,9 @@ def generate_markdown_report(results):
         "",
         "Ranking trên exposure đã ghi log. MF/iDCF chọn checkpoint bằng validation; CDR source dừng theo train loss.",
         "Bảng chỉ hiển thị Recall@5 bounded; JSON giữ cả hai Recall. AUC có giá trị và loại riêng ở từng dòng.",
-        "H30: split 30/70 theo user, loại zero-positive; S-full: toàn random log và giữ empty-positive Recall=1; S-KR: dữ liệu KuaiRand địa phương.",
+        "H30: split 30/70 theo user, loại zero-positive; CDR-src: toàn random log và giữ empty-positive Recall=1; CDR-KR: dữ liệu KuaiRand địa phương.",
         "LCDR cài đặt lại từ paper (không có mã tác giả) trên pipeline iDCF, cùng protocol H30. " + CONALIGN_NOTE,
-        "MF/iDCF/LCDR giữ MSE; IViDR, CDR và ConAlign dùng BCE. IViDR: BCE trên xác suất đã marginalize, giai đoạn 1 prior mean 0 và mẫu âm trọng số .1 (khác Eq. 42/25 của paper); coordinate adapter Eq. (10) ghi trong metadata, chưa chứng nhận tái lập tác giả. Không paired-test chéo protocol.",
+        "MF/iDCF/LCDR giữ MSE; CDR và ConAlign dùng BCE. Không paired-test chéo protocol.",
         "Tất cả điểm đo từ checkpoint thực, không thay bằng số paper. CDR source dùng một phần nhãn random chấm điểm để calibration, không phải held-out độc lập.",
         "",
         "### Kết quả theo giao thức từng mô hình:",
@@ -587,7 +579,7 @@ def generate_markdown_report(results):
     if notes:
         lines.extend([f"- {line}" for line in notes] + [""])
     lines.extend([
-        "Recall@5 bounded = hits/min(5,n_positive). CDR S-full giữ empty-positive Recall=1; Precision/HitRate=0. Recall/all positives vẫn lưu trong JSON.",
+        "Recall@5 bounded = hits/min(5,n_positive). CDR CDR-src giữ empty-positive Recall=1; Precision/HitRate=0. Recall/all positives vẫn lưu trong JSON.",
         "Gộp để đọc kết quả; các dòng khác protocol không tương đương về điều kiện thực nghiệm.", ""])
     for name in ("coat", "yahoo", "kuairand"):
         d = results.get("diagnostics", {}).get(name)
@@ -646,9 +638,9 @@ def generate_markdown_report(results):
         "- Khoảng tin cậy trong JSON là xấp xỉ theo người dùng của một lần chạy; chưa bao gồm biến thiên do seed hoặc chọn cấu hình.",
         "- Random (expected) là kỳ vọng xếp hạng ngẫu nhiên có điều kiện trên candidate pool hiện có; Popularity dùng tần suất exposure trong train.",
         "- KuaiRand dùng is_click, ghép hai standard log, lọc user/item tối thiểu 10 exposure một lượt và chia random log theo user. CDR source calibration 5% validation; dữ liệu/sampler là adaptation địa phương.",
-        "- Coat H30 dùng rating ≥4 và split user seed 1234; CDR S-full dùng rating ≥3, toàn bộ 4.640 random ratings. Giữ overlap train/random.",
-        "- Yahoo H30 dùng rating ≥4, raw IDs trừ 1; CDR S-full dùng ≥3 và giữ raw IDs. iDCF dùng survey thật, user thiếu survey có missing category; đây là mở rộng địa phương.",
-        "- iDCF dùng exposure iVAE rồi feedback MSE. IViDR dùng learned IV và hai posterior, feature embedding học được, sau đó tối ưu BCE trên xác suất đã marginalize; Eq. (10) có coordinate adapter được công bố trong metadata.",
+        "- Coat H30 dùng rating ≥4 và split user seed 1234; CDR CDR-src dùng rating ≥3, toàn bộ 4.640 random ratings. Giữ overlap train/random.",
+        "- Yahoo H30 dùng rating ≥4, raw IDs trừ 1; CDR CDR-src dùng ≥3 và giữ raw IDs. iDCF dùng survey thật, user thiếu survey có missing category; đây là mở rộng địa phương.",
+        "- iDCF dùng exposure iVAE rồi feedback MSE; LCDR dùng latent representation learning.",
         "",
     ])
     return "\n".join(lines)
@@ -659,7 +651,7 @@ def main(argv=None):
     parser.add_argument("--quick", action="store_true", help="Chạy nhanh kiểm thử (ít epoch)")
     parser.add_argument("--dataset", type=str, default="all", choices=["all", "coat", "kuairand", "yahoo"], help="Chọn dataset thực thi")
     parser.add_argument("--model", type=str, default="all", choices=["all", *MODEL_KEYS.values()],
-                        help="Chọn mô hình thực thi (mặc định all: MF, iDCF, IViDR, LCDR, CDR, ConAlign)")
+                        help="Chọn mô hình thực thi (mặc định all: MF, iDCF, LCDR, CDR, ConAlign)")
     parser.add_argument("--epochs", type=int, default=None, help="Số epoch chung cho các dataset")
     parser.add_argument("--epochs-coat", type=int, default=None, help="Số epoch cho Coat (mặc định 100)")
     parser.add_argument("--epochs-kr", type=int, default=None, help="Số epoch cho KuaiRand (mặc định 100)")
@@ -669,7 +661,7 @@ def main(argv=None):
     parser.add_argument("--dim", type=int, default=None, help="Số chiều embedding (mặc định theo từng mô hình)")
     parser.add_argument("--lr", type=float, default=None, help="Tốc độ học Adam")
     parser.add_argument("--batch-size", type=int, default=None, help="Kích thước batch")
-    parser.add_argument("--alpha", type=float, default=0.0, help="Trọng số positive cho MF (mặc định 0; không áp dụng cho iDCF/IViDR/CDR)")
+    parser.add_argument("--alpha", type=float, default=0.0, help="Trọng số positive cho MF (mặc định 0; không áp dụng cho iDCF/CDR)")
     parser.add_argument("--grid-search", action="store_true", help="Kích hoạt quét siêu tham số Grid Search trên KuaiRand")
     parser.add_argument("--smoke-users", type=int, default=None, help="Subset of KuaiRand users for smoke testing; requires --quick")
     parser.add_argument("--init-scheme", choices=["normal", "author_uniform"], default=None)

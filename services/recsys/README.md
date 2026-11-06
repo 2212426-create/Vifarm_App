@@ -1,172 +1,154 @@
-# RecSys: MF, CDR, iDCF, IViDR, LCDR và ConAlign
+# RecSys: Hệ Thống Gợi Ý Video Ngắn Khử Thiên Lệch & Học Sâu NCF
 
-[Trạng thái hiện hành](docs/CURRENT_STATE.md) · [Mục lục](docs/README.md) ·
-[Catalog kết quả](results/CATALOG.md).
-Bộ mặc định gồm sáu mô hình trên **Coat, Yahoo! R3, KuaiRand-Pure**.
-**IViDR** học reconstruction và feature embedding,
-hai posterior iVAE và feedback BCE theo công thức arXiv, lấy kỳ vọng xác suất trước BCE;
-Eq. (10) dùng coordinate adapter được ghi rõ. Từ 28/10/2026 mặc định có hai điều chỉnh
-từ [phân tích nguyên nhân](docs/benchmarks/ividr_root_cause_20261027.md): prior mean giai đoạn 1
-bằng 0 (như mã iDCF) và mẫu âm trong BCE có trọng số .1. Chưa chứng nhận khớp mã tác giả.
-Các lựa chọn triển khai địa phương được ghi metadata; chưa chứng nhận tái lập paper.
-CDR mặc định dùng bản released và source protocol; Coat/Yahoo theo script khóa commit,
-KuaiRand có điều chỉnh dữ liệu/sampler được ghi metadata;
-MF/iDCF giữ MSE; IViDR và CDR dùng BCE. IViDR dùng MF làm treatment;
-CDR huấn luyện độc lập, không nạp checkpoint MF.
+[Trạng thái hiện hành](docs/CURRENT_STATE.md) · [Mục lục tài liệu](docs/README.md) · [Catalog kết quả](results/CATALOG.md)
+
+Hệ thống gợi ý video ngắn của đồ án ViFarm được tổ chức thành **hai module kiến trúc độc lập**:
+
+1. **Module 1: Lọc cộng tác & Khử thiên lệch nhân quả (CF & Causal Debiasing):**
+   Gồm 5 mô hình cốt lõi trên **Coat, Yahoo! R3, KuaiRand-Pure**:
+   * **`MF`**: Baseline phân rã ma trận cổ điển (Matrix Factorization).
+   * **`iDCF`**: Khử thiên lệch qua tách biến tiềm ẩn nhân quả (Causal Disentanglement).
+   * **`LCDR`**: Học biểu diễn tiềm ẩn kết hợp khử thiên lệch (Latent Causal Debiased Rec).
+   * **`DR-BIAS + CDR`**: Mô hình khử thiên lệch kép Doubly Robust.
+   * **`ConAlign`**: Học tương phản cân chỉnh phân phối (Contrastive Alignment).
+   *(Lưu ý: Mô hình `IViDR` đã được rút khỏi bộ benchmark thực nghiệm chính theo quyết định ngày 04/11/2026 do tác giả không công bố mã nguồn; các phân tích tính tái lập được lưu trữ tại [docs/benchmarks/ividr_root_cause_20261027.md](docs/benchmarks/ividr_root_cause_20261027.md)).*
+
+2. **Module 2: Mạng nơ-ron học sâu (Neural Collaborative Filtering - NCF):**
+   * **`GMF`**: Generalized Matrix Factorization (nhánh tuyến tính).
+   * **`MLP`**: Multi-Layer Perceptron (nhánh phi tuyến nhiều tầng).
+   * **`NeuMF`**: Ghép song song tháp đôi GMF + MLP.
+   * **`NeuMF-pre`**: NeuMF khởi tạo trọng số tiền huấn luyện từ GMF và MLP.
+   * Đi kèm các baseline lọc cộng tác cổ điển đối chứng: **`TopPop`**, **`ItemKNN`**.
+
+3. **Các mô hình hội thảo đỉnh cao mở rộng (2025):**
+   * **`MRDR-CAL`** (Hu et al., TKDE 2025).
+   * **`CLEV-DR`** (Zhang et al., KDD 2025, "Ours-DR").
+
+---
 
 ## Cấu trúc mã nguồn
 
-Mỗi mô hình có package riêng trong `src/models/`: `mf/`, `cdr/`, `idcf/`, `ividr/`, `lcdr/`, `conalign/`.
-Các import cũ được giữ tương thích; dữ liệu và artifact giữ đường dẫn hiện tại.
+Mỗi mô hình có package riêng trong `src/models/`: `mf/`, `idcf/`, `lcdr/`, `cdr/`, `conalign/`, `ncf/`, `neighborhood/`, `mrdr_cal/`, `clev/`.
 Xem [cây thư mục, trách nhiệm và đường dẫn mã chuẩn](docs/architecture/directory_layout.md).
 
-`benchmark --model all` gồm cả hai mô hình thực nghiệm: LCDR (cài đặt lại từ paper
-trên protocol H30 của iDCF) và ConAlign (port từ source tác giả, protocol riêng, ghi `C-src` trong bảng;
-KuaiRand dùng cửa sổ train của paper). Lệnh riêng vẫn dùng được:
+---
 
+## Chuẩn bị môi trường & Dữ liệu
+
+Chạy từ thư mục `services/recsys`:
 ```powershell
-.\venv\Scripts\python.exe experiments\run.py lcdr --dataset coat --smoke --compare-idcf
-.\venv\Scripts\python.exe experiments\run.py conalign --dataset coat --smoke
-```
-
-Xem [lệnh chạy, giao thức và giới hạn](docs/benchmarks/lcdr_conalign_20261027.md).
-
-## Chuẩn bị và dữ liệu
-
-Chạy từ `services/recsys`. Môi trường venv hiện tại đã được kiểm chứng trên CPU.
-Nếu cài mới:
-
-```powershell
+# Nếu cài mới:
 py -3.12 -m venv venv
 .\venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-Coat cần `train.ascii`, `test.ascii`, `propensities.ascii` và thư mục
-`user_item_features/` ở `data/raw/coat/`.
-KuaiRand cần hai standard log, random log và `user_features_pure.csv` trong
-`data/raw/kuairand_pure/data/` hoặc `kuairand_pure/`.
-Loader ưu tiên `./data/`, rồi `../data/`; data_dir tường minh không tự fallback.
+Cả 3 bộ dữ liệu đã được nạp sẵn tại `data/raw/`:
+* **Coat:** `data/raw/coat/` (`train.ascii`, `test.ascii`, `propensities.ascii`, `user_item_features/`).
+* **KuaiRand-Pure:** `data/raw/kuairand_pure/data/` (standard log, random log, `user_features_pure.csv`).
+* **Yahoo! R3:** `data/raw/yahoo/` (15.400 user, 1.000 item, 311.704 biased / 54.000 random ratings).
 
-Yahoo đã tải đầy đủ vào `data/raw/yahoo/`. Để tải lại trên máy khác:
-
+Để tải lại Yahoo nếu chạy trên máy mới:
 ```powershell
 .\venv\Scripts\python.exe experiments\run.py download-yahoo
 ```
 
-Lệnh lấy đúng 6 file từ commit
-`6b4e6cca3df23b8d85b38fdc2e7eb5c812861ea9`, kiểm tra SHA-256 và giữ README
-Yahoo Webscope cùng điều kiện sử dụng đi kèm. Raw data không đưa vào Git.
-Dữ liệu: 15.400 user, 1.000 item, 311.704 biased / 54.000 random ratings.
-iDCF Yahoo dùng survey thật; nhóm thiếu survey có category thiếu. Đây là mở
-rộng dataset của dự án, chưa phải kết quả Yahoo từ paper iDCF.
+---
 
-## Chạy thử và chạy đầy đủ
+## Hướng dẫn chạy thực nghiệm
 
-Kiểm tra nhanh sáu mô hình trên Yahoo: MF/iDCF/IViDR/LCDR subset 64 user, CDR source và ConAlign toàn dữ liệu;
-1 epoch feedback / 2 epoch iVAE:
+### 1. Module 1: Benchmark Causal CF (`experiments/run.py benchmark`)
 
+* **Kiểm tra nhanh (Smoke/Quick test - ~1-2 phút):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py benchmark --dataset all --model all --quick --epochs 2 --ivae-epochs 2 --threads 4
+  ```
+
+* **Chạy Full đầy đủ trên tập Coat (~2-3 phút - Khuyên dùng):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py benchmark --dataset coat --model all --threads 4
+  ```
+
+* **Chạy Full đầy đủ trên tập Yahoo! R3 (~15-20 phút):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py benchmark --dataset yahoo --model all --threads 4
+  ```
+
+* **Chạy Full đầy đủ trên tập KuaiRand-Pure (~35-45 phút):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py benchmark --dataset kuairand --model all --threads 4
+  ```
+
+* **Chạy Full TOÀN BỘ 3 DATASET (~1 giờ):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py benchmark --dataset all --model all --threads 4
+  ```
+
+* **Chạy riêng từng mô hình:**
+  Thêm `--model mf|idcf|lcdr|cdr|conalign` (ví dụ: `--dataset coat --model idcf`).
+
+---
+
+### 2. Module 2: NCF Deep Learning (`experiments/run.py ncf` hoặc `cf-dl`)
+
+* **Kiểm tra nhanh (Smoke test - ~30 giây):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py ncf --dataset coat --smoke
+  ```
+
+* **Chạy Full NCF trên tập Coat (~1-2 phút):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py ncf --dataset coat --seeds 42
+  ```
+
+* **Chạy Full NCF trên tất cả Dataset:**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py ncf --dataset all --seeds 42 --threads 4
+  ```
+
+---
+
+### 3. Chạy tự động cả 2 Module liên tiếp trên tất cả Dataset:
 ```powershell
-.\venv\Scripts\python.exe experiments\run.py smoke --dataset yahoo
+.\venv\Scripts\python.exe experiments\run.py benchmark --dataset all --model all --threads 4; .\venv\Scripts\python.exe experiments\run.py ncf --dataset all --seeds 42 --threads 4
 ```
 
-Chạy đầy đủ sáu mô hình trên Yahoo với ngân sách riêng của từng mô hình:
+---
 
+### 4. Chạy các mô hình hội thảo mới 2025:
 ```powershell
-.\venv\Scripts\python.exe experiments\run.py benchmark --dataset yahoo --model all --device cpu --threads 2
+.\venv\Scripts\python.exe experiments\run.py mrdr-cal --dataset coat
+.\venv\Scripts\python.exe experiments\run.py clev --dataset coat
 ```
 
-Chạy đầy đủ sáu mô hình trên Coat:
+---
 
-```powershell
-.\venv\Scripts\python.exe experiments\run.py benchmark --dataset coat --model all --device cpu --threads 2
-```
+## Bảng kết quả và Chỉ số đánh giá
 
-Đổi `--dataset all` để chạy cả Coat, Yahoo và KuaiRand.
-Đổi `--model mf|idcf|ividr|lcdr|cdr|conalign` để chạy riêng (chọn một giá trị).
-Mỗi lượt benchmark tạo JSON/Markdown riêng trong `results/`, checkpoint riêng
-trong `checkpoints/benchmark_runs/`. iVAE mặc định có trần 2000 epoch và chọn
-checkpoint sau full-beta warm-up, nên có thể cần nhiều thời gian.
-CDR có seed 2020, trần 1000 epoch, train-loss stopping và lấy trọng số cuối như source;
-không dùng epoch budget 100 mặc định của MF. `--epochs` là override tường minh.
-MF/iDCF/IViDR chọn checkpoint bằng validation. Bảng tổng hợp ghi giao thức
-và loại AUC ở mỗi dòng. Gộp bảng để đọc không có nghĩa các protocol tương đương.
+Mỗi lượt chạy xuất báo cáo Markdown và JSON vào thư mục `results/`, checkpoint lưu trong `checkpoints/benchmark_runs/`.
 
-Log huấn luyện dùng chung định dạng `[Mô hình][DATASET] Epoch ...`.
-iDCF hiển thị tiến độ cả iVAE và feedback; CDR hiển thị rec/imp loss từng epoch.
-Kết quả cuối ghi rõ `TEST` hoặc `SOURCE EVAL`, metric đúng tên và đường dẫn checkpoint.
-Log mới có hiệu lực từ lần khởi chạy tiếp theo, không thay đổi thuật toán hoặc điểm số.
+* **`NDCG@5`**: Chỉ số xếp hạng top-5 quan trọng nhất.
+* **`Recall@5 bounded`**: `hits / min(5, tổng_positive)`.
+* **`Precision@5`**: Tỷ lệ gợi ý chính xác trong top-5.
+* **`HitRate@5`**: Xác suất có ít nhất 1 video phù hợp.
+* **`AUC`**: `macro-user` cho H30 hoặc `global` cho CDR-src.
 
-Mỗi dòng chỉ hiển thị `Recall@5 bounded` (chia min(5, số positive)), Precision,
-HitRate. JSON vẫn giữ cả Recall/all positives và Recall bounded. CDR tính metric bổ sung từ cùng
-ranking và cùng tập user của source; với empty-positive, source giữ Recall=1,
-còn Precision/HitRate=0. AUC ghi rõ `macro-user` hoặc `global`.
+---
 
-Cập nhật bảng cho báo cáo đã chạy, **không huấn luyện lại**:
+## Kiểm thử và API Serving cho Ứng dụng
 
-```powershell
-.\venv\Scripts\python.exe experiments\run.py report --input results\benchmark_all_8e44de4472_20261020_232046_d992f0ff_v4.json --threads 2
-```
+* **Chạy toàn bộ Suite kiểm thử (210 tests):**
+  ```powershell
+  .\venv\Scripts\python.exe experiments\run.py test
+  ```
 
-Lệnh đọc lại checkpoint CDR, kiểm tra điểm gốc không đổi và tạo JSON/Markdown mới.
-Báo cáo cũ và metadata source của lượt huấn luyện được giữ nguyên.
+* **Khởi chạy RecSys Serving API (FastAPI) phục vụ Mobile App:**
+  ```powershell
+  .\venv\Scripts\python.exe -m uvicorn src.api.app:app --host 0.0.0.0 --port 8000 --reload
+  ```
+  Truy cập Swagger docs: [http://localhost:8000/docs](http://localhost:8000/docs).
+  Kiểm tra trạng thái hệ thống: [http://localhost:8000/health](http://localhost:8000/health).
 
-Thử toàn dữ liệu Yahoo với ngân sách ngắn:
-`benchmark --dataset yahoo --model all --quick --epochs 1 --ivae-epochs 2 --device cpu --threads 2`.
-Điểm smoke/quick không dùng để so chất lượng với paper.
-
-## CDR source đã là mặc định
-
-```powershell
-.\venv\Scripts\python.exe experiments\run.py cdr-source --dataset coat --threads 2
-.\venv\Scripts\python.exe experiments\run.py cdr-source --dataset yahoo --threads 2
-```
-
-Lệnh này giữ điều kiện script: >=3, 5% nhãn random chấm điểm dùng cho propensity,
-toàn bộ random log, zero-positive nhận 1, Recall bounded và dừng theo train loss.
-Kết quả Coat kiểm chứng: NDCG .656665 / Recall bounded .667816.
-`benchmark --dataset coat --model cdr` gọi cùng hàm với lệnh trên và đạt cùng điểm.
-Yahoo source đầy đủ đã đạt NDCG .655929 / Recall bounded .731299 / AUC global .684930.
-Source protocol dùng nhãn tập chấm cho calibration, không phải held-out test độc lập.
-MF/iDCF vẫn dùng >=4, user split 30/70. Muốn so cùng protocol, chọn CDR
-`--cdr-implementation shared` tường minh; điểm này sẽ khác source protocol.
-Xem [định nghĩa và khác biệt paper/source](docs/benchmarks/paper_model_alignment.md).
-
-## Các lệnh khác
-
-| Lệnh sau `experiments/run.py` | Phạm vi |
-| :-- | :-- |
-| `test` | Suite kiểm thử |
-| `smoke` | Sáu mô hình, ngân sách ngắn; chỉ kiểm tra vận hành |
-| `evaluate --dataset yahoo --checkpoint FILE` | Chấm checkpoint tương thích, không huấn luyện lại |
-| `coat-seeds` | MF/iDCF/IViDR/CDR released, seed 42–51; có `--cdr-implementation equation` |
-| `benchmark ... --cdr-implementation shared` | Released CDR trên giao thức held-out chung; lựa chọn đối chứng |
-| `benchmark ... --cdr-implementation equation` | Biến thể Eq. (7)/CV cũ; chỉ chạy tường minh |
-| `benchmark --dataset coat --model cdr --cdr-implementation equation --cdr-propensity provided_coat` | Đối chứng propensity file Coat của bản Eq. (7) |
-| `tune --model mf` / `tune-kr --model mf` | Tuning MF trên Coat / KuaiRand |
-| `tune --model cdr` / `tune-kr --model cdr` | Grid 1.120 cấu hình released estimator; calibration/chọn cấu hình chỉ validation; chưa có CLI tune Yahoo |
-| `mf --dataset yahoo` | MF riêng |
-| `optimizers` | Thí nghiệm Adam/SGD riêng |
-| `cdr-author` / `cdr-tune` | Alias của cdr-source / tuning released |
-| `protocol` | In giao thức đánh giá |
-| `clean` / `clean --apply` | Xem trước / dọn checkpoint, log, bytecode; giữ raw data và báo cáo |
-
-Mỗi lệnh có `--help`. IViDR thuộc bộ mặc định. Với budget feedback >=20 epoch
-và không override LR/weight decay, pipeline quét 10 cấu hình LR/WD theo khoảng
-paper, chọn bằng validation, rồi chỉ chấm test checkpoint thắng. Smoke không quét.
-Yahoo dùng survey địa phương/missing category, chưa tái lập dữ liệu tác giả.
-Xem [triển khai IViDR hiện hành](docs/benchmarks/ividr_reference_20261022.md).
-
-## Kiểm chứng và API
-
-```powershell
-.\venv\Scripts\python.exe experiments\run.py test
-.\venv\Scripts\python.exe docs\check_docs.py
-.\venv\Scripts\python.exe -m uvicorn src.api.app:app --port 8000
-```
-
-[Giao thức từng mô hình](docs/benchmarks/evaluation_protocol.md) ·
-[Config MF/CDR](src/training/config.py) · [Config iDCF](src/models/idcf/train_idcf.py).
-API TopTop giữ cấu hình phục vụ riêng, user mới dùng popularity.
-CDR API dùng ReleasedCDR; không có random log nên ghi rõ propensity proxy và sampler
-có hoàn lại trong `training_stats.cdr`, không coi là thí nghiệm paper.
-[Hướng dẫn API/Colab](docs/api/colab_api_guide.md).
+* **Mở Cloudflare Tunnel kết nối ra Internet:**
+  ```powershell
+  .\venv\Scripts\python.exe -m src.api.tunnel --port 8000
+  ```

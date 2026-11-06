@@ -32,7 +32,7 @@ Mục tiêu chi tiết:
 - **Xây dựng mô hình học máy:** phân tích sở thích cá nhân, dự đoán mức độ quan tâm và đề xuất video phù hợp cho từng
   người dùng, đồng thời giảm thiên lệch hiển thị trong dữ liệu quan sát.
 - **So sánh và đánh giá:** triển khai song song và đo lường hiệu quả giữa các thuật toán Lọc cộng tác (MF, DR-BIAS + CDR,
-  ConAlign) và Học sâu (iDCF, IViDR, LCDR) theo từng giao thức đánh giá.
+  ConAlign) và Học sâu khử thiên lệch (iDCF, LCDR, CLEV-DR, MRDR-CAL) theo từng giao thức đánh giá.
 
 ## II. Nội dung đề tài
 
@@ -47,7 +47,7 @@ Mục tiêu chi tiết:
 
 1. Thu thập và tiền xử lý dữ liệu.
 2. Xây dựng mô hình phân tích sở thích người dùng dựa trên Lọc cộng tác: MF, DR-BIAS + CDR, ConAlign.
-3. Xây dựng mô hình dự đoán mức độ quan tâm dựa trên Học sâu: iDCF, IViDR, LCDR.
+3. Xây dựng mô hình dự đoán mức độ quan tâm dựa trên Học sâu: iDCF, LCDR, CLEV-DR, MRDR-CAL đối chứng với NeuMF.
 4. Lập bảng so sánh hiệu quả giữa các mô hình trên từng giao thức đánh giá. Ba giao thức (H30, CDR source, ConAlign source)
    không so trực tiếp với nhau ([giao thức](../benchmarks/evaluation_protocol.md)).
 5. Đóng gói mô hình thành API và tích hợp vào ứng dụng TopTop.
@@ -113,8 +113,8 @@ Mục tiêu chi tiết:
 7. Marlin, B. M., & Zemel, R. S. (2009). Collaborative Prediction and Ranking with Non-Random Missing Data. RecSys.
 8. Khemakhem, I., Kingma, D., Monti, R., & Hyvärinen, A. (2020). Variational Autoencoders and Nonlinear ICA: A Unifying
    Framework. AISTATS.
-9. Song, Z., Chen, J., Zhou, S., Shi, Q., Feng, Y., Chen, C., & Wang, C. (2023). Conservative Doubly Robust Learning for
-   Debiased Recommendation. CIKM.
+9. Song, Z., Chen, J., Zhou, S., Shi, Q., Feng, Y., Chen, C., & Wang, C. (2023). CDR: Conservative Doubly Robust Learning
+   for Debiased Recommendation. CIKM.
 10. Zhang, Q., Zhang, X., Liu, Y., Wang, H., Gao, M., Zhang, J., & Guo, R. (2023). Debiasing Recommendation by Learning
     Identifiable Latent Confounders. KDD.
 11. Deng, J., Chen, Q., Cheng, D., Li, J., Liu, L., & Du, X. (2024). Mitigating Dual Latent Confounding Biases in

@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 class RecommendRequest(BaseModel):
     user_id: str = "guest"
     k: int = Field(default=10, ge=1, le=100)
-    model: str = "mf"
+    model: str = "conalign"
     filter_rejected: bool = True
     exclude_video_ids: List[str] = Field(default_factory=list)
 

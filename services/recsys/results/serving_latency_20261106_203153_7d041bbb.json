@@ -1,0 +1,152 @@
+{
+  "kind": "serving_latency",
+  "created_at": "2026-11-06T20:31:15",
+  "source_sha256": "e386ad6aae5f409b2b9d2ee26650130d577184e6a30b728962a936fc0bbb7ed2",
+  "environment": {
+    "python": "3.12.10",
+    "torch": "2.14.1+cpu",
+    "processor": "AMD64 Family 23 Model 104 Stepping 1, AuthenticAMD",
+    "machine": "AMD64",
+    "torch_threads": 8,
+    "device": "cpu",
+    "os": "Windows-11-10.0.26100-SP0"
+  },
+  "setup": {
+    "n_users": 23533,
+    "n_items": 6712,
+    "candidates": [
+      1000,
+      6712
+    ],
+    "warmup": 20,
+    "repeats": 300,
+    "seed": 0,
+    "weights": "random init; latency depends on architecture only"
+  },
+  "model_inference": {
+    "1000": {
+      "MF": {
+        "median_ms": 0.3692,
+        "p95_ms": 0.9044,
+        "repeats": 300
+      },
+      "NeuMF": {
+        "median_ms": 0.9593,
+        "p95_ms": 1.8975,
+        "repeats": 300
+      },
+      "DR-BIAS + CDR (released)": {
+        "median_ms": 0.1903,
+        "p95_ms": 0.3901,
+        "repeats": 300
+      },
+      "iDCF / LCDR (posterior mean)": {
+        "median_ms": 0.7768,
+        "p95_ms": 1.4965,
+        "repeats": 300
+      },
+      "iDCF / LCDR (sample=True, 10 mẫu)": {
+        "median_ms": 6.1405,
+        "p95_ms": 11.1652,
+        "repeats": 300
+      },
+      "CLEV-DR (predict)": {
+        "median_ms": 0.457,
+        "p95_ms": 0.9158,
+        "repeats": 300
+      },
+      "ConAlign (tháp unbiased)": {
+        "median_ms": 0.2899,
+        "p95_ms": 0.5363,
+        "repeats": 300
+      }
+    },
+    "6712": {
+      "MF": {
+        "median_ms": 1.1162,
+        "p95_ms": 2.1854,
+        "repeats": 300
+      },
+      "NeuMF": {
+        "median_ms": 3.2429,
+        "p95_ms": 8.6117,
+        "repeats": 300
+      },
+      "DR-BIAS + CDR (released)": {
+        "median_ms": 0.8524,
+        "p95_ms": 1.4491,
+        "repeats": 300
+      },
+      "iDCF / LCDR (posterior mean)": {
+        "median_ms": 2.2087,
+        "p95_ms": 5.1275,
+        "repeats": 300
+      },
+      "iDCF / LCDR (sample=True, 10 mẫu)": {
+        "median_ms": 35.807,
+        "p95_ms": 47.8995,
+        "repeats": 300
+      },
+      "CLEV-DR (predict)": {
+        "median_ms": 1.2854,
+        "p95_ms": 2.404,
+        "repeats": 300
+      },
+      "ConAlign (tháp unbiased)": {
+        "median_ms": 0.5417,
+        "p95_ms": 1.214,
+        "repeats": 300
+      }
+    }
+  },
+  "api_recommend_in_process": {
+    "training_stats": {
+      "interactions": 363,
+      "positives": 239,
+      "users_with_history": 26,
+      "videos": 85,
+      "trained_models": [
+        "cdr",
+        "conalign",
+        "mf"
+      ],
+      "train_seconds": 5.484,
+      "trained_at": 1793971900992,
+      "cdr": {
+        "implementation": "cdr_released",
+        "embedding_dim": 4,
+        "un_thres": 10.0,
+        "dropout_rate": 0.5,
+        "lr": 0.05,
+        "weight_decay": 0.0001,
+        "epochs_run": 33,
+        "propensity": "item_frequency_proxy_no_random_log",
+        "catalog_sampler": "replacement",
+        "scope": "serving_adaptation_not_paper_experiment"
+      }
+    },
+    "user_interactions": 18,
+    "models": {
+      "conalign": {
+        "median_ms": 9.8899,
+        "p95_ms": 12.2021,
+        "repeats": 300
+      },
+      "mf": {
+        "median_ms": 10.1188,
+        "p95_ms": 15.0561,
+        "repeats": 300
+      },
+      "cdr": {
+        "median_ms": 9.9732,
+        "p95_ms": 13.0906,
+        "repeats": 300
+      },
+      "popularity": {
+        "median_ms": 8.9787,
+        "p95_ms": 12.9061,
+        "repeats": 300
+      }
+    }
+  }
+}

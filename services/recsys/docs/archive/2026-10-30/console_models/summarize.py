@@ -24,7 +24,7 @@ for window, files in (('source', ['conalign_kuairand_20261028_081519_b614253e.js
                                   'conalign_kuairand_window_source_seed2_20261028.json']),
                       ('intended', [f'conalign_kuairand_window_intended_seed{s}_20261028.json' for s in (0, 1)]),
                       ('paper', [f'conalign_kuairand_window_paper_seed{s}_20261028.json' for s in (0, 1, 2)])):
-    towers = [json.loads(((RESULTS if '_window_' not in f else STUDIES) / f).read_text(encoding='utf-8'))
+    towers = [json.loads((STUDIES / f).read_text(encoding='utf-8'))
               ['source_metrics']['test_unbiased']['unbiased_tower'] for f in files]
     windows[window] = dict(files=files, **{k: stats([t[k] for t in towers]) for k in ('UAUC', 'NDCG', 'UNDCG', 'AUC')})
 

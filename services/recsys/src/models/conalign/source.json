@@ -21,6 +21,7 @@
     "Reads data/raw instead of the repository datasets folder; rebuilt rows are byte-identical",
     "Returns metrics/history and saves the checkpoint under checkpoints/conalign instead of the script folder",
     "Optional --smoke-users subset and epoch overrides for smoke runs only",
+    "EarlyStopping clones best_state: source utils/early_stop.py uses value.cpu(), which on CPU aliases live weights, so the best epoch is restored only on GPU. Since 2026-11-02 the port restores it on every device",
     "Since 2026-10-30 KuaiRand defaults to the paper window (kuairand_window='paper'): only logs 2022-04-22..05-08, train 04-22..05-05; kuairand_window='source' keeps the released loader byte-for-byte"
   ],
   "paper_source_differences": [

@@ -9,7 +9,7 @@ Tích hợp DR-BIAS+CDR từ
 [released.py](../../src/models/cdr/released.py) giữ dot MF không bias, khởi tạo rec
 Xavier/imp mặc định, BCE, MC 10, variance filter, dropout cả embedding/output,
 reverse BCE imputation, DR-BIAS sum loss, rec step trước imp.
-Giữ giấy phép Apache-2.0 và kiểm thử tham số khớp lớp gốc sau 3 epoch CPU.
+Kiểm thử tham số khớp lớp gốc sau 3 epoch CPU.
 
 | Dataset | Dim | LR | Weight decay | Batch | Variance threshold | Dropout | G |
 | :-- | --: | --: | --: | --: | --: | --: | --: |
@@ -63,7 +63,8 @@ survey; dự án giữ 15.400 user nên dữ liệu train khác nhau. Xem
 
 IViDR (tên hiển thị **IViDR**) thay pipeline staged MSE cũ theo yêu cầu mới:
 MLP0 + pseudoinverse theo item + hai gate MLP học fitted/residual; dual iVAE;
-feedback marginal BCE. Từ 28/10/2026 mặc định cố định prior mean bằng 0 (Eq. 42 học nó)
+feedback marginal BCE. Giai đoạn 1 không có phạt L2 .01 như iDCF và LCDR (ghi trong metadata, chưa đo tác động).
+Từ 28/10/2026 mặc định cố định prior mean bằng 0 (Eq. 42 học nó)
 và đặt trọng số mẫu âm .1 trong BCE (Eq. 25 không trọng số); lý do và bằng chứng 10 seed ở
 [phân tích nguyên nhân](ividr_root_cause_20261027.md). Checkpoint chứa cả stage1
 và feedback; không diễn giải lại trọng số cũ thành phiên bản mới. T/Z dựng từ biased exposure

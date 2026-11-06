@@ -28,9 +28,11 @@ class VideoRepository {
   Future<List<VideoModel>> getRecommendedVideos(String? currentUid) async {
     // 0. ƯU TIÊN 1: Lấy danh sách video từ Colab AI RecSys Server (nếu đang hoạt động)
     if (_recsysService != null) {
+      final watchedIds = currentUid != null ? await getWatchedVideoIds(currentUid) : <String>[];
       final aiVideos = await _recsysService.getRecommendations(
         userId: currentUid,
         limit: AppConstants.videoFeedLimit,
+        excludeVideoIds: watchedIds,
       );
       if (aiVideos != null && aiVideos.isNotEmpty) {
         return aiVideos;
@@ -46,7 +48,7 @@ class VideoRepository {
 
     final allVideos = snapshot.docs
         .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-        .where((v) => v.moderationStatus == 'approved')
+        .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
         .toList();
 
     // 1. NGƯỜI DÙNG CHƯA ĐĂNG NHẬP: Trả về ngẫu nhiên để test và đa dạng
@@ -84,7 +86,8 @@ class VideoRepository {
     return _rankVideos(unwatchedVideos, topInterests);
   }
 
-  /// Lấy danh sách video thuộc Lâm Đồng dựa trên thuật toán 5 bước (ASR, OCR, NER, Landmark, GPS)
+  /// Lấy danh sách video thuộc Lâm Đồng bằng heuristic từ khóa trên caption, hashtag và
+  /// trường location (không chạy OCR/ASR/nhận dạng ảnh; xem _calculateLamDongScore).
   Future<List<VideoModel>> getLamDongVideos(String? currentUid) async {
     final snapshot = await _firestore
         .collection(AppConstants.videosCollection)
@@ -94,7 +97,7 @@ class VideoRepository {
 
     final allVideos = snapshot.docs
         .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-        .where((v) => v.moderationStatus == 'approved')
+        .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
         .toList();
 
     // Chấm điểm từng video theo thuật toán 5 bước
@@ -111,19 +114,19 @@ class VideoRepository {
     return _rankVideos(lamDongVideos, topInterests);
   }
 
-  /// Thuật toán 5 bước chấm điểm video về Lâm Đồng
+  /// Chấm điểm video về Lâm Đồng bằng luật cộng điểm theo từ khóa (heuristic).
+  /// Chỉ dùng văn bản có sẵn: description, hashtags, location. Không có OCR, ASR hay
+  /// nhận dạng địa danh từ hình ảnh; các trường đó chưa tồn tại trong VideoModel.
   double _calculateLamDongScore(VideoModel video) {
     double score = 0;
 
-    // Bước 1 & 2: Gom thông tin văn bản (Giả lập OCR, ASR từ description/hashtags nếu chưa có trường riêng)
+    // Gom văn bản có sẵn của video (caption, hashtag, location).
     final String caption = video.description.toLowerCase();
     final List<String> hashtags = video.hashtags.map((h) => h.toLowerCase()).toList();
 
-    // Giả lập dữ liệu ASR/OCR (trong thực tế sẽ lấy từ metadata của video)
-    // Nếu trong description có dấu hiệu của hội thoại hoặc chữ trên màn hình
     final String combinedText = '$caption ${hashtags.join(' ')} ${video.location ?? ''}'.toLowerCase();
 
-    // Bước 3: Nhận diện địa danh ( NER / Dictionary Lookup)
+    // Tra từ điển địa danh trong văn bản (so khớp chuỗi con, không phải NER).
     const lamDongPlaces = [
       // Tỉnh & Thành phố
       'lâm đồng', 'lamdong', 'đà lạt', 'dalat', 'bảo lộc', 'baoloc',
@@ -173,7 +176,7 @@ class VideoRepository {
       score += 40;
     }
 
-    // Bước 5: Chấm điểm theo điều kiện
+    // Cộng điểm theo từng luật từ khóa
 
     // 1. Caption có "Đà Lạt" hoặc "Đức Trọng" (+40)
     if (caption.contains('đà lạt') || caption.contains('đức trọng') || caption.contains('liên nghĩa')) {
@@ -191,17 +194,17 @@ class VideoRepository {
       score += 35;
     }
 
-    // 4. OCR thấy "Đà Lạt" (+40) - Giả lập
+    // 4. Văn bản nhắc "da lat" không dấu (+40)
     if (combinedText.contains('welcome to da lat') || combinedText.contains('da lat')) score += 40;
 
-    // 5. Landmark recognition (+50) - Giả lập dựa trên các địa danh nổi tiếng
+    // 5. Văn bản nhắc địa danh nổi tiếng (+50)
     if (combinedText.contains('quảng trường lâm viên') ||
         combinedText.contains('hồ xuân hương') ||
         combinedText.contains('lang biang')) {
       score += 50;
     }
 
-    // 6. GPS/video location = Lâm Đồng (+100)
+    // 6. Trường location do người đăng nhập chứa Đà Lạt/Lâm Đồng (+100; không phải GPS)
     if (video.location?.toLowerCase().contains('da lat') == true ||
         video.location?.toLowerCase().contains('lâm đồng') == true) {
       score += 100;
@@ -246,7 +249,7 @@ class VideoRepository {
 
       final videos = snapshot.docs
           .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-          .where((v) => v.moderationStatus == 'approved')
+          .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
           .toList();
 
       // Sắp xếp thủ công in-memory theo thời gian giảm dần (mới nhất lên đầu)

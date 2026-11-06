@@ -1,0 +1,68 @@
+{
+  "model": "MRDR-CAL",
+  "paper": {
+    "title": "Uncertainty Calibration for Counterfactual Propensity Estimation in Recommendation",
+    "authors": [
+      "Wenbo Hu",
+      "Xin Sun",
+      "Qiang Liu",
+      "Le Wu",
+      "Liang Wang"
+    ],
+    "venue": "IEEE TKDE 37(6): 3781-3793, 2025",
+    "doi": "10.1109/TKDE.2025.3552658",
+    "arxiv": "2303.12973v3",
+    "pdf": "docs/papers/UncertaintyCalibration_TKDE2025.pdf"
+  },
+  "source": [
+    {
+      "repository": "https://github.com/sunxin000/uncertainty4recsys",
+      "commit": "36dc7c6198c4f7722ee4634c41254e8fe48decdf",
+      "copied_code": false,
+      "files": [
+        "model/neumf.py",
+        "model/layers.py",
+        "utils/dataset.py",
+        "utils/platt.py",
+        "utils/metrics.py",
+        "train_propensity_platt.py",
+        "platt_scale.py",
+        "train_rec_with_ips.py"
+      ],
+      "missing_from_repository": "train_rec_with_MRDR.py, called by scripts/train_rec_with_MRDR.sh; no DR or MRDR training code is public"
+    },
+    {
+      "repository": "https://github.com/guosyjlu/MRDR-DL",
+      "commit": "a89d2aa4aba929e48e61415d593b46d4b5f0170d",
+      "copied_code": false,
+      "files": [
+        "real-world/MRDR-DL.py",
+        "real-world/FM.py",
+        "real-world/metric.py"
+      ],
+      "role": "MRDR losses and training loop (reference [1] of the paper), ported from TensorFlow 1 to PyTorch"
+    }
+  ],
+  "parity": "DCG@{2,4,6} and Recall@{2,4,6}: author utils/metrics.py vs port on 50 random draws, both branches, max |difference| 2.2e-16 (docs/archive/2026-11-04/mrdr_cal_clev/mrdr_metrics_parity.log)",
+  "from_source": [
+    "NeuMF: GMF and MLP embeddings of 64, MLP [64, 32, 16] with dropout before each layer, xavier MLP weights, N(0, 0.01) embeddings",
+    "Propensity: logit NeuMF on observed pairs plus as many sampled unobserved pairs, 90% random split, BCE with logits, Adam 1e-3, Coat 100 epochs, others 20, no label smoothing",
+    "Platt: a = 0.6, b = 0 at start, LBFGS lr 0.01, max_iter 1000, fitted on a fresh observed + unobserved sample; logits computed without model.eval()",
+    "MRDR (Guo): copy prediction -> imputation each epoch; imputation loss mean(CE / p * (1 - p) / p) on observed pairs; DR loss (e - e_il) * o / p + e_il on observed pairs mixed with 6x unobserved pairs (len(observed) rows drawn without replacement); keep the epoch with the lowest validation cross-entropy",
+    "Backbone hyperparameters from the paper appendix: embedding 64, batch 1024, lr 1e-3, dropout 0.2, L2 1e-4; imputation L2 1e-3 from Guo",
+    "Data: Coat/Yahoo MNAR train, MAR test, conversion = rating > 3; KuaiRand-Pure standard logs train, random log 10% validation / 90% test, target is_click",
+    "Metrics: global AUC, per-user AUC, unnormalised DCG@{2,4,6}, Recall@{2,4,6} hit counts (Coat, Yahoo), per-user normalised recall for KuaiRand"
+  ],
+  "local_choices": [
+    "CPU, PyTorch; Adam weight decay instead of the explicit L2 terms of the TF1 code",
+    "Coat/Yahoo: 10% of the MNAR ratings are held out for MRDR selection (paper text); the propensity model still uses the whole MNAR set as in the author code",
+    "Epoch caps for MRDR: Coat 200, Yahoo 50, KuaiRand 20 (Guo stops after 100 epochs without improvement; CPU budget)",
+    "Seeded numpy Generator for negative sampling instead of the unseeded global np.random",
+    "KuaiRand: users and videos mapped jointly over the three Pure logs; duplicate rows kept (author code reads rows as they are)"
+  ],
+  "known_paper_code_differences": [
+    "Appendix L2 1e-4; train_rec_with_ips.py default weight_decay 1e-3",
+    "KuaiRand: the author recall_at_k divides by the user's positives (<= 1) while Tables V-VI report Recall@4 and Recall@6 above 1; both forms are reported here",
+    "Paper reports 1,186,509 random KuaiRand rows; the Pure random log has 1,186,059"
+  ]
+}

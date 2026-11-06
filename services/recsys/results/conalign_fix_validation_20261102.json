@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "code_sha256": "4e05072a90c309d7122c826e480cc921c095c56c2b505ebc10b1fbcfb32de5c6"
+  },
+  "runs": [
+    {
+      "seed": 2020,
+      "best_epoch": 23,
+      "best_val_ndcg": 0.6699348906169417,
+      "epochs_run": 23,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\conalign_fix_validation_20261102\\coat_cdr_released_seed2020_v4_0ea233bdc3b8b896.pt"
+    },
+    {
+      "seed": 2021,
+      "best_epoch": 35,
+      "best_val_ndcg": 0.6546685444276458,
+      "epochs_run": 35,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\conalign_fix_validation_20261102\\coat_cdr_released_seed2021_v4_d8e8594f9f889723.pt"
+    },
+    {
+      "seed": 2022,
+      "best_epoch": 25,
+      "best_val_ndcg": 0.6669383509943496,
+      "epochs_run": 25,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\conalign_fix_validation_20261102\\coat_cdr_released_seed2022_v4_11179fa3ced51a57.pt"
+    }
+  ],
+  "evaluation": "validation_only_no_held_out_test",
+  "regression": "Exact CDR validation scores and selected epochs after the ConAlign best-state and device fixes"
+}
