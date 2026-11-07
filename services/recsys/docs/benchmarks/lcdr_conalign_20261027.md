@@ -91,23 +91,18 @@ kết quả này cho thấy giới hạn của việc cài đặt lại; nó kh�
 
 ## Kết quả đầy đủ ba dataset, 28–30/10/2026
 
-LCDR và IViDR: source `fd1df699561e` (mốc IViDR mặc định 28/10), seed 42, chọn cấu hình theo validation, test chấm một lần.
+LCDR: source `fd1df699561e`, seed 42, chọn cấu hình theo validation, test chấm một lần.
 ConAlign: source `4e05072a90c3`, xem bảng riêng bên dưới.
 
-| Dataset | LCDR NDCG@5 / Recall@5 | Paper LCDR | IViDR NDCG@5 / Recall@5 | Paper IViDR |
-| :-- | :-- | :-- | :-- | :-- |
-| Coat | .5629 / .5406 | .5973 / .5878 | .5288 / .5031 | .5903 / .5783 |
-| Yahoo!R3 | .6569 / .7856 | .6631 / .7928 | .6460 / .7792 | .6602 / .7901 |
-| KuaiRand | .4209 / .3588 | .4176 / .3575 | .4095 / .3493 | .4161 / .3549 |
+| Dataset | LCDR NDCG@5 / Recall@5 | Paper LCDR |
+| :-- | :-- | :-- |
+| Coat | .5629 / .5406 | .5973 / .5878 |
+| Yahoo!R3 | .6569 / .7856 | .6631 / .7928 |
+| KuaiRand | .4209 / .3588 | .4176 / .3575 |
 
 Báo cáo: [LCDR Coat](../../results/lcdr_coat_20261028_081517_b71fff26.json),
 [Yahoo](../../results/lcdr_yahoo_20261028_081517_b71fff26.json),
-[KuaiRand](../../results/lcdr_kuairand_20261028_081517_b71fff26.json);
-[IViDR KuaiRand](../../results/benchmark_kuairand_ividr_be219eee39_20261029_193713_d87515c9_v4.json),
-[IViDR Coat/Yahoo](../../results/ividr_benchmark_recovered_coat_yahoo_20261029.json). Lượt IViDR ba dataset bị
-dừng vì máy khởi động lại khi đang ở KuaiRand; Coat/Yahoo được chấm lại từ checkpoint đã chọn theo validation
-(cùng quy tắc với pipeline, [script](../archive/2026-10-28/full_benchmark/recover_coat_yahoo.py)), KuaiRand chạy lại
-riêng. Coat seed 42 trùng chính xác lượt 10 seed (.5288; trung bình 10 seed .5657 ± .0212).
+[KuaiRand](../../results/lcdr_kuairand_20261028_081517_b71fff26.json).
 
 ConAlign, tháp unbiased trên test unbiased (ConAlign-src), seed 0/1/2, KuaiRand cửa sổ paper, chạy lại ngày 02/11/2026
 sau khi sửa `best_state` ([tổng hợp](../../results/conalign_summary_20261102.json)):

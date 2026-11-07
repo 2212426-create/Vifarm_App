@@ -131,10 +131,10 @@ class EngineTests(unittest.TestCase):
         self.assertIsNotNone(reason)
         self.assertEqual(recs[0]["videoId"], "v5")
 
-    def test_ividr_request_reports_fallback(self):
-        _, used, _, reason = self.engine.recommend("u0", k=3, model="ividr")
+    def test_unknown_model_request_reports_fallback(self):
+        _, used, _, reason = self.engine.recommend("u0", k=3, model="no_such_model")
         self.assertEqual(used, "conalign")
-        self.assertIn("IViDR", reason)
+        self.assertIn("no_such_model", reason)
 
     def test_too_little_data_serves_popularity(self):
         engine = make_engine(min_interactions=10_000)
@@ -231,7 +231,7 @@ class HttpTests(unittest.TestCase):
 
     def test_recommend_contract_matches_flutter_client(self):
         body = self.client.post("/api/v1/recommend",
-                                json={"user_id": "u1", "k": 4, "model": "ividr", "filter_rejected": True}).json()
+                                json={"user_id": "u1", "k": 4, "model": "conalign", "filter_rejected": True}).json()
         self.assertEqual(len(body["recommendations"]), 4)
         item = body["recommendations"][0]
         for key in ("videoId", "videoUri", "authorId", "username", "totalLikes", "watchCount", "moderationStatus"):

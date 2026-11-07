@@ -310,7 +310,7 @@ def run_all_benchmarks(
         all_results["diagnostics"]["coat_validation"] = candidate_pool_diagnostics(coat_data, split="val")
 
         # Cấu hình MF của mã tác giả iDCF (MF.py): MSE trên điểm thô, Adam decay mọi tham số,
-        # không scheduler, intercept cố định 0; Coat lr 5e-4, wd 1e-6, patience 5. Cũng là treatment của IViDR.
+        # không scheduler, intercept cố định 0; Coat lr 5e-4, wd 1e-6, patience 5.
         mf_coat = mf_config("coat", embedding_dim=dim, epochs=epochs_coat, lr=lr,
                             batch_size=batch_size, device=device, data_dict=coat_data, init_scheme=init_scheme,
                             checkpoint_dir=os.path.join(checkpoint_root, "coat", "mf"))

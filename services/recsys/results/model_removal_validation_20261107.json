@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "code_sha256": "c236f08c87bd9d95de6d82c34236111d87d9a0deaca22ae9c9d9496646a60b1e"
+  },
+  "runs": [
+    {
+      "seed": 2020,
+      "best_epoch": 23,
+      "best_val_ndcg": 0.6699348906169417,
+      "epochs_run": 23,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\model_removal_validation_20261107\\coat_cdr_released_seed2020_v4_d3137d068bbd533e.pt"
+    },
+    {
+      "seed": 2021,
+      "best_epoch": 35,
+      "best_val_ndcg": 0.6546685444276458,
+      "epochs_run": 35,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\model_removal_validation_20261107\\coat_cdr_released_seed2021_v4_e691429cd7a3327d.pt"
+    },
+    {
+      "seed": 2022,
+      "best_epoch": 25,
+      "best_val_ndcg": 0.6669383509943496,
+      "epochs_run": 25,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\model_removal_validation_20261107\\coat_cdr_released_seed2022_v4_ed77f4ab3af67579.pt"
+    }
+  ],
+  "evaluation": "validation_only_no_held_out_test",
+  "regression": "Exact CDR validation scores and selected epochs after deleting IViDR and TopPop/ItemKNN-CF (CDR code unchanged)"
+}

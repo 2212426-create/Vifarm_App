@@ -1,7 +1,7 @@
 # Khác biệt protocol của CDR và các kết luận còn dùng
 
 Phân tích này giải thích vì sao DR-BIAS + CDR đạt .6567 theo script tác giả nhưng thấp hơn nhiều trên protocol H30
-của dự án. Phân tích IViDR nằm ở [tài liệu riêng](ividr_root_cause_20261027.md); định nghĩa mô hình ở
+của dự án. Định nghĩa mô hình ở
 [paper_model_alignment](paper_model_alignment.md).
 
 ## Đối chứng với mã CDR công bố

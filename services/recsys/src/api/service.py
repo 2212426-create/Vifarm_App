@@ -33,8 +33,7 @@ logger = logging.getLogger(__name__)
 
 TRAINABLE_MODELS = ("conalign", "mf", "cdr")
 UNSUPPORTED_MODELS = {
-    "clev_dr": "CLEV-DR được huấn luyện offline (chi phí tích phân Monte Carlo); online phục vụ qua ConAlign/MF/CDR.",
-    "ividr": "Mô hình IViDR đã bị loại bỏ khỏi hệ thống do không đạt chuẩn tái lập; rơi về ConAlign/MF/CDR.",
+    "clev_dr": "CLEV-DR chưa được tích hợp vào engine phục vụ (huấn luyện offline mất khoảng 4.000–4.700 s mỗi lượt trên CPU); online phục vụ qua ConAlign/MF/CDR.",
 }
 
 

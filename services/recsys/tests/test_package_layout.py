@@ -19,9 +19,9 @@ class PackageLayoutTests(unittest.TestCase):
                         for path in (row['old'], row['new']))
             with self.subTest(old=old):
                 self.assertIs(importlib.import_module(old), importlib.import_module(new))
-        with patch('src.causal.idcf.train_ividr.train_dual_ivae') as old_patch:
-            new = importlib.import_module('src.models.ividr.train_ividr')
-            self.assertIs(new.train_dual_ivae, old_patch)
+        with patch('src.causal.idcf.train_idcf.train_idcf') as old_patch:
+            new = importlib.import_module('src.models.idcf.train_idcf')
+            self.assertIs(new.train_idcf, old_patch)
 
     def test_storage_paths_do_not_follow_model_packages(self):
         from src.utils import helpers

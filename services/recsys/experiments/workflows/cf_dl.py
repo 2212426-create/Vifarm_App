@@ -1,6 +1,6 @@
-"""CF versus deep learning on the H30 protocol: TopPop, ItemKNN, MF against GMF, MLP and NeuMF.
+"""CF versus deep learning on the H30 protocol: MF against GMF, MLP and NeuMF.
 
-Every model sees the same data, labels, evaluator and seeds. TopPop and ItemKNN are deterministic and run once;
+Every model sees the same data, labels, evaluator and seeds.
 MF uses the project defaults (iDCF author MF, MSE); the NCF models use the author's code defaults (log loss with
 four sampled negatives). NeuMF-pre is NeuMF initialised from the GMF and MLP of the same seed.
 Separate from `benchmark --model all`. Each dataset writes one JSON report under results/.
@@ -24,21 +24,16 @@ from src.evaluation.diagnostics import paired_ndcg_difference
 from src.evaluation.protocol import PRIMARY_METRICS
 from src.models.mf.train_mf import train_baseline_mf
 from src.models.ncf.train_ncf import NCF_CONFIG, train_ncf
-from src.models.neighborhood.recommenders import (ITEM_KNN_GRID, ItemKNNCF, TopPop, evaluate_test,
-                                                  positive_matrix, select_item_knn)
 from src.training.config import mf_config
 from src.utils.artifacts import evaluate_checkpoint, source_signature
 from src.utils.helpers import CHECKPOINT_DIR, RESULTS_DIR
 
 LOADERS = {"coat": load_coat_processed, "yahoo": load_yahoo_processed, "kuairand": load_kuairand_processed}
 SUBSETS = {"yahoo": subset_yahoo_users, "kuairand": subset_kuairand_users}
-DETERMINISTIC = ("TopPop", "ItemKNN")
-TRAINED = ("MF", "GMF", "MLP", "NeuMF", "NeuMF-pre")
-MODELS = DETERMINISTIC + TRAINED
-FAMILY = {"TopPop": "non-personalised", "ItemKNN": "CF, memory-based", "MF": "CF, model-based",
-          "GMF": "NCF, linear", "MLP": "NCF, deep", "NeuMF": "NCF, deep", "NeuMF-pre": "NCF, deep"}
+MODELS = ("MF", "GMF", "MLP", "NeuMF", "NeuMF-pre")
+FAMILY = {"MF": "CF, model-based", "GMF": "NCF, linear", "MLP": "NCF, deep", "NeuMF": "NCF, deep", "NeuMF-pre": "NCF, deep"}
 PAIRS = (("NeuMF", "MF"), ("NeuMF-pre", "MF"), ("MLP", "MF"), ("GMF", "MF"), ("MLP", "GMF"), ("NeuMF", "GMF"),
-         ("NeuMF-pre", "NeuMF"), ("MF", "ItemKNN"), ("NeuMF", "ItemKNN"), ("ItemKNN", "TopPop"))
+         ("NeuMF-pre", "NeuMF"))
 KEPT = (*PRIMARY_METRICS, "Recall@5_bounded", "Precision@5", "HitRate@5", "AUC", "best_epoch", "best_val_ndcg",
         "checkpoint_path")
 
@@ -69,35 +64,21 @@ def run_seed(models, data, dataset, seed, epochs, folder, device):
     return out
 
 
-def user_ndcg(name, result, data, models, device):
-    if name in DETERMINISTIC:
-        return evaluate_test(models[name], data, return_user_ndcg=True)
+def user_ndcg(result, data, device):
     return evaluate_checkpoint(result["checkpoint_path"], data, device, return_user_ndcg=True)
 
 
-def run(dataset, models, seeds, epochs, smoke_users, knn_grid, device):
+def run(dataset, models, seeds, epochs, smoke_users, device):
     data = LOADERS[dataset]()
     if smoke_users is not None:
         data = SUBSETS[dataset](data, smoke_users)
     folder = os.path.join(CHECKPOINT_DIR, "cf_dl")
     report = {"dataset": dataset, "families": {name: FAMILY[name] for name in models},
-              "deterministic": {}, "per_seed": {}, "user_paired": {}, "seed_paired": {}}
-    fitted = {}
-    if "TopPop" in models:
-        fitted["TopPop"] = TopPop(positive_matrix(data))
-        report["deterministic"]["TopPop"] = row(evaluate_test(fitted["TopPop"], data))
-    if "ItemKNN" in models:
-        selected = select_item_knn(data, grid=knn_grid)
-        fitted["ItemKNN"] = ItemKNNCF(positive_matrix(data), **selected["config"])
-        report["deterministic"]["ItemKNN"] = dict(row(evaluate_test(fitted["ItemKNN"], data)),
-                                                  config=selected["config"],
-                                                  best_val_ndcg=selected["validation"]["NDCG@5"],
-                                                  grid=selected["grid"])
+              "per_seed": {}, "user_paired": {}, "seed_paired": {}}
     for seed in seeds:
         results = run_seed(models, data, dataset, seed, epochs, folder, device)
         report["per_seed"][str(seed)] = {name: row(result) for name, result in results.items()}
-        scored = {name: user_ndcg(name, results.get(name), data, fitted, device)
-                  for name in models if name in DETERMINISTIC or name in results}
+        scored = {name: user_ndcg(results[name], data, device) for name in models if name in results}
         report["user_paired"][str(seed)] = {f"{a} vs {b}": paired_ndcg_difference(scored[a], scored[b])
                                             for a, b in PAIRS if a in scored and b in scored}
     report["summary"] = summarize(report, models, seeds)
@@ -107,16 +88,13 @@ def run(dataset, models, seeds, epochs, smoke_users, knn_grid, device):
 
 
 def ndcg_by_seed(report, name, seeds):
-    if name in DETERMINISTIC:
-        return np.full(len(seeds), report["deterministic"][name]["NDCG@5"])
     return np.array([report["per_seed"][str(seed)][name]["NDCG@5"] for seed in seeds])
 
 
 def summarize(report, models, seeds):
     out = {}
     for name in models:
-        rows = ([report["deterministic"][name]] if name in DETERMINISTIC
-                else [report["per_seed"][str(seed)][name] for seed in seeds])
+        rows = [report["per_seed"][str(seed)][name] for seed in seeds]
         out[name] = {metric: {"mean": float(np.mean([r[metric] for r in rows])),
                               "std": float(np.std([r[metric] for r in rows], ddof=1)) if len(rows) > 1 else None,
                               "n": len(rows)}
@@ -127,7 +105,7 @@ def summarize(report, models, seeds):
 def seed_pairs(report, models, seeds):
     out = {}
     for a, b in PAIRS:
-        if a in models and b in models and not (a in DETERMINISTIC and b in DETERMINISTIC):
+        if a in models and b in models:
             diff = ndcg_by_seed(report, a, seeds) - ndcg_by_seed(report, b, seeds)
             out[f"{a} vs {b}"] = {"mean_delta_ndcg": float(diff.mean()), "wins": int((diff > 0).sum()),
                                   "seeds": len(seeds),
@@ -147,12 +125,7 @@ def format_cfdl_tables(report, dataset):
 
     for name in report.get("models", []):
         family = families.get(name, "N/A")
-        if name in report.get("deterministic", {}):
-            m = report["deterministic"][name]
-            def fmt(k, m=m):
-                val = m.get(k)
-                return f"{val:.6f}" if val is not None else "N/A"
-        elif not is_multi_seed and first_seed in report.get("per_seed", {}) and name in report["per_seed"][first_seed]:
+        if not is_multi_seed and first_seed in report.get("per_seed", {}) and name in report["per_seed"][first_seed]:
             m = report["per_seed"][first_seed][name]
             def fmt(k, m=m):
                 val = m.get(k)
@@ -192,8 +165,6 @@ def format_cfdl_tables(report, dataset):
 {md}
 
 - **Ghi chú phân loại:**
-  - `TopPop`: Phổ biến không cá nhân hóa (Non-personalized).
-  - `ItemKNN`: Lọc cộng tác dựa trên lân cận (Memory-based CF).
   - `MF`: Lọc cộng tác dựa trên mô hình phân rã ma trận (Model-based CF).
   - `GMF / MLP / NeuMF / NeuMF-pre`: Mạng nơ-ron lọc cộng tác học sâu (Neural Collaborative Filtering).
 """
@@ -206,7 +177,7 @@ def main(argv=None):
     parser.add_argument("--models", nargs="+", choices=MODELS, default=list(MODELS))
     parser.add_argument("--seeds", nargs="+", type=int, default=[42])
     parser.add_argument("--epochs", type=int, default=None, help="Override MF and NCF epoch caps")
-    parser.add_argument("--smoke", action="store_true", help="1 epoch, user subset, two ItemKNN configs")
+    parser.add_argument("--smoke", action="store_true", help="1 epoch, user subset")
     parser.add_argument("--smoke-users", type=int, default=64)
     parser.add_argument("--threads", type=int, default=2)
     parser.add_argument("--device", choices=["cpu", "cuda"], default="cpu")
@@ -216,12 +187,11 @@ def main(argv=None):
         args.models = list(dict.fromkeys([*args.models, "GMF", "MLP"]))
     models = [name for name in MODELS if name in args.models]
     epochs = 1 if args.smoke else args.epochs
-    knn_grid = ITEM_KNN_GRID[:2] if args.smoke else None
     datasets = ["coat", "yahoo", "kuairand"] if args.dataset == "all" else [args.dataset]
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + uuid4().hex[:8]
     for dataset in datasets:
         smoke_users = args.smoke_users if args.smoke and dataset in SUBSETS else None
-        report = run(dataset, models, args.seeds, epochs, smoke_users, knn_grid, args.device)
+        report = run(dataset, models, args.seeds, epochs, smoke_users, args.device)
         report.update(run_id=run_id, smoke=args.smoke, smoke_users=smoke_users, seeds=args.seeds, models=models,
                       epochs_override=epochs, ncf_config={k: list(v) if isinstance(v, tuple) else v
                                                           for k, v in NCF_CONFIG[dataset].items()},

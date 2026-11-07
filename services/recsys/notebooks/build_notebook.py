@@ -31,8 +31,8 @@ Chạy **Runtime → Run all**. Notebook:
 3. Huấn luyện thật **MF** và **DR-BIAS + CDR** trên tương tác TopTop (nhãn dương: like hoặc xem ≥ 3 giây).
 4. Mở Cloudflare Tunnel và ghi URL vào `server_config/recsys_url` để app tự kết nối.
 
-User chưa có lịch sử nhận gợi ý theo độ phổ biến. App gửi `model="ividr"`: dữ liệu TopTop chưa có đặc trưng user
-để làm biến công cụ/proxy cho IViDR, nên API chọn mô hình khả dụng và trả `fallback_reason` trong phản hồi.
+User chưa có lịch sử nhận gợi ý theo độ phổ biến. App gửi `model="conalign"`; nếu mô hình được yêu cầu
+chưa huấn luyện được, API chọn mô hình khả dụng và trả `fallback_reason` trong phản hồi.
 Benchmark mặc định chạy sáu mô hình; API chỉ phục vụ MF và CDR. MF dùng MSE; CDR dùng BCE và huấn luyện độc lập. Đọc docs/CURRENT_STATE.md ở đúng revision repo đang chạy.
 """),
     make_cell("code", f"""

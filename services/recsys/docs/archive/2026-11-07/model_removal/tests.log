@@ -1,0 +1,409 @@
+D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_interaction_is_recorded_for_token_owner (test_api.AuthHttpTests.test_interaction_is_recorded_for_token_owner) ... ok
+test_interaction_requires_token (test_api.AuthHttpTests.test_interaction_requires_token) ... ok
+test_invalid_and_malformed_tokens_are_rejected (test_api.AuthHttpTests.test_invalid_and_malformed_tokens_are_rejected) ... ok
+test_recommend_with_token_is_personalised (test_api.AuthHttpTests.test_recommend_with_token_is_personalised) ... ok
+test_recommend_without_token_serves_guest (test_api.AuthHttpTests.test_recommend_without_token_serves_guest) ... ok
+test_spoofed_user_id_is_rejected (test_api.AuthHttpTests.test_spoofed_user_id_is_rejected) ... ok
+test_sync_disabled_without_configured_key (test_api.AuthHttpTests.test_sync_disabled_without_configured_key) ... ok
+test_sync_requires_admin_key (test_api.AuthHttpTests.test_sync_requires_admin_key) ... ok
+test_unknown_auth_mode_fails_fast (test_api.AuthHttpTests.test_unknown_auth_mode_fails_fast) ... ok
+test_verifier_outage_is_503_not_401 (test_api.AuthHttpTests.test_verifier_outage_is_503_not_401) ... ok
+test_failed_retrain_keeps_previous_models (test_api.BackgroundRetrainTests.test_failed_retrain_keeps_previous_models) ... ok
+test_only_one_retrain_runs_at_a_time (test_api.BackgroundRetrainTests.test_only_one_retrain_runs_at_a_time) ... ok
+test_recommend_is_served_by_old_models_while_retraining (test_api.BackgroundRetrainTests.test_recommend_is_served_by_old_models_while_retraining) ... ok
+test_ambiguous_username_is_dropped (test_api.BridgeTests.test_ambiguous_username_is_dropped) ... ok
+test_behavior_label_rule (test_api.BridgeTests.test_behavior_label_rule) ... ok
+test_export_snapshot_merges_log_and_drops_unknown_videos (test_api.BridgeTests.test_export_snapshot_merges_log_and_drops_unknown_videos) ... ok
+test_likes_are_attributed_to_liker_not_notification_owner (test_api.BridgeTests.test_likes_are_attributed_to_liker_not_notification_owner) ... ok
+test_normalize_snake_case_bundle_video (test_api.BridgeTests.test_normalize_snake_case_bundle_video) ... ok
+test_parse_firestore_typed_values (test_api.BridgeTests.test_parse_firestore_typed_values) ... ok
+test_cold_start_uses_popularity (test_api.EngineTests.test_cold_start_uses_popularity) ... ok
+test_conalign_learns_user_preferences (test_api.EngineTests.test_conalign_learns_user_preferences) ... ok
+test_filters_rejected_and_unplayable (test_api.EngineTests.test_filters_rejected_and_unplayable) ... ok
+test_mf_learns_user_preferences (test_api.EngineTests.test_mf_learns_user_preferences) ... ok
+test_recommendation_is_deterministic (test_api.EngineTests.test_recommendation_is_deterministic) ... ok
+test_too_little_data_serves_popularity (test_api.EngineTests.test_too_little_data_serves_popularity) ... ok
+test_trains_real_models (test_api.EngineTests.test_trains_real_models) ... ok
+test_unknown_model_request_reports_fallback (test_api.EngineTests.test_unknown_model_request_reports_fallback) ... ok
+test_bad_signature_is_rejected (test_api.FirebaseVerifierTests.test_bad_signature_is_rejected) ... ok
+test_cert_download_failure_is_unavailable (test_api.FirebaseVerifierTests.test_cert_download_failure_is_unavailable) ... ok
+test_token_from_other_issuer_is_rejected (test_api.FirebaseVerifierTests.test_token_from_other_issuer_is_rejected) ... ok
+test_valid_token_is_cached_until_expiry (test_api.FirebaseVerifierTests.test_valid_token_is_cached_until_expiry) ... ok
+test_health (test_api.HttpTests.test_health) ... ok
+test_interaction_and_compare (test_api.HttpTests.test_interaction_and_compare) ... ok
+test_invalid_k_is_rejected (test_api.HttpTests.test_invalid_k_is_rejected) ... ok
+test_recommend_contract_matches_flutter_client (test_api.HttpTests.test_recommend_contract_matches_flutter_client) ... ok
+test_new_user_becomes_warm_after_retrain (test_api.InteractionTests.test_new_user_becomes_warm_after_retrain) ... ok
+test_synchronous_mode_retrains_before_returning (test_api.InteractionTests.test_synchronous_mode_retrains_before_returning) ... ok
+test_watched_videos_are_excluded_and_retrain_triggers (test_api.InteractionTests.test_watched_videos_are_excluded_and_retrain_triggers) ... ok
+test_cv_filter_compares_std_to_mean_and_zero_variance_is_zero_cv (test_cdr_paper.ImputedErrorTests.test_cv_filter_compares_std_to_mean_and_zero_variance_is_zero_cv) ... ok
+test_extreme_logits_keep_loss_and_both_gradients_finite (test_cdr_paper.ImputedErrorTests.test_extreme_logits_keep_loss_and_both_gradients_finite) ... ok
+test_training_imputation_fits_the_error_used_for_recommendation (test_cdr_paper.ImputedErrorTests.test_training_imputation_fits_the_error_used_for_recommendation) ... ok
+test_batch_ratio_changes_neither_loss_nor_gradient (test_cdr_paper.PaperEstimatorTests.test_batch_ratio_changes_neither_loss_nor_gradient) ... ok
+test_correct_propensity_recovers_risk_in_expectation_with_wrong_imputation (test_cdr_paper.PaperEstimatorTests.test_correct_propensity_recovers_risk_in_expectation_with_wrong_imputation) ... ok
+test_filtering_everything_yields_population_normalized_ips (test_cdr_paper.PaperEstimatorTests.test_filtering_everything_yields_population_normalized_ips) ... ok
+test_full_and_complement_estimators_agree_on_exact_populations (test_cdr_paper.PaperEstimatorTests.test_full_and_complement_estimators_agree_on_exact_populations) ... ok
+test_perfect_imputation_recovers_population_risk_with_wrong_propensities (test_cdr_paper.PaperEstimatorTests.test_perfect_imputation_recovers_population_risk_with_wrong_propensities) ... ok
+test_requires_population_density_and_rejects_legacy_scaling (test_cdr_paper.PaperEstimatorTests.test_requires_population_density_and_rejects_legacy_scaling) ... ok
+test_pair_aggregation_retains_negatives_and_averages_repeated_labels (test_cdr_paper.PaperTrainingTests.test_pair_aggregation_retains_negatives_and_averages_repeated_labels) ... ok
+test_trainer_records_density_filter_counts_revision_and_reloads_checkpoint (test_cdr_paper.PaperTrainingTests.test_trainer_records_density_filter_counts_revision_and_reloads_checkpoint) ... ok
+test_all_source_defaults_and_tuning_grids_use_released_estimator (test_cdr_source_default.SourceDefaultTests.test_all_source_defaults_and_tuning_grids_use_released_estimator) ... ok
+test_serving_sampler_handles_more_events_than_catalog_pairs (test_cdr_source_default.SourceDefaultTests.test_serving_sampler_handles_more_events_than_catalog_pairs) ... ok
+test_source_checkpoint_does_not_enter_shared_paired_test (test_cdr_source_default.SourceDefaultTests.test_source_checkpoint_does_not_enter_shared_paired_test) ... ok
+test_source_metrics_keep_empty_users_bounded_recall_and_global_auc (test_cdr_source_default.SourceDefaultTests.test_source_metrics_keep_empty_users_bounded_recall_and_global_auc) ... ok
+test_report_keeps_per_seed_rows (test_cf_dl.CFDLReportTests.test_report_keeps_per_seed_rows) ... ok
+test_author_script_hyperparameters (test_clev.CLEVConfigTests.test_author_script_hyperparameters) ... ok
+test_binarize_is_greater_or_equal_threshold (test_clev.CLEVDataTests.test_binarize_is_greater_or_equal_threshold) ... ok
+test_kuairand_maps_ids_jointly_and_keeps_one_row_per_pair (test_clev.CLEVDataTests.test_kuairand_maps_ids_jointly_and_keeps_one_row_per_pair) ... ok
+test_rating_matrix_to_samples_keeps_nonzero_cells (test_clev.CLEVDataTests.test_rating_matrix_to_samples_keeps_nonzero_cells) ... ok
+test_chunked_noise_equals_one_draw (test_clev.CLEVLargeTests.test_chunked_noise_equals_one_draw) ... ok
+test_int32_shuffle_parity_across_seeds (test_clev.CLEVLargeTests.test_int32_shuffle_parity_across_seeds) ... ok
+test_large_mode_matches_the_author_layout_exactly (test_clev.CLEVLargeTests.test_large_mode_matches_the_author_layout_exactly) ... ok
+test_large_mode_never_builds_all_pairs (test_clev.CLEVLargeTests.test_large_mode_never_builds_all_pairs) ... ok
+test_large_mode_pair_indices_dtype_is_int32 (test_clev.CLEVLargeTests.test_large_mode_pair_indices_dtype_is_int32) ... ok
+test_large_mode_rejects_duplicate_pairs (test_clev.CLEVLargeTests.test_large_mode_rejects_duplicate_pairs) ... ok
+test_auc_matches_pairwise_definition_with_ties (test_clev.CLEVMetricTests.test_auc_matches_pairwise_definition_with_ties) ... ok
+test_ndcg_counts_users_without_positives_as_one (test_clev.CLEVMetricTests.test_ndcg_counts_users_without_positives_as_one) ... ok
+test_precision_divides_by_k (test_clev.CLEVMetricTests.test_precision_divides_by_k) ... ok
+test_recall_divides_by_max_one_positive_count (test_clev.CLEVMetricTests.test_recall_divides_by_max_one_positive_count) ... ok
+test_all_pairs_is_row_major (test_clev.CLEVModelTests.test_all_pairs_is_row_major) ... ok
+test_four_towers_and_bounded_rho (test_clev.CLEVModelTests.test_four_towers_and_bounded_rho) ... D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\tests\test_clev.py:39: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  self.assertLess(float(model.rho()), 1.0)
+ok
+test_ncf_tower_is_2k_k_k_1 (test_clev.CLEVModelTests.test_ncf_tower_is_2k_k_k_1) ... ok
+test_predict_is_sigmoid_of_prediction_tower (test_clev.CLEVModelTests.test_predict_is_sigmoid_of_prediction_tower) ... ok
+test_short_fit_runs_and_changes_weights (test_clev.CLEVModelTests.test_short_fit_runs_and_changes_weights) ... ok
+test_one_ips_per_seed_gives_the_same_runs_as_separate_runs (test_clev.CLEVSharedIPSTests.test_one_ips_per_seed_gives_the_same_runs_as_separate_runs) ... ok
+test_imputation_step_observes_updated_rec_and_has_no_gradient_into_it (test_coat_pipeline_fix.AlternatingCDRTests.test_imputation_step_observes_updated_rec_and_has_no_gradient_into_it) ... ok
+test_repeated_run_preserves_reports_and_uses_separate_checkpoints (test_coat_pipeline_fix.BenchmarkArtifactTests.test_repeated_run_preserves_reports_and_uses_separate_checkpoints) ... ok
+test_bayes_rule_uses_population_density_and_calibration_class_frequencies (test_coat_pipeline_fix.PropensityCalibrationTests.test_bayes_rule_uses_population_density_and_calibration_class_frequencies) ... ok
+test_calibration_never_reads_test_and_includes_zero_positive_validation_users (test_coat_pipeline_fix.PropensityCalibrationTests.test_calibration_never_reads_test_and_includes_zero_positive_validation_users) ... ok
+test_invalid_calibration_is_rejected_without_silent_fallback_or_clipping (test_coat_pipeline_fix.PropensityCalibrationTests.test_invalid_calibration_is_rejected_without_silent_fallback_or_clipping) ... ok
+test_early_low_elbo_does_not_stop_warmup_or_win_against_mature_checkpoint (test_coat_pipeline_fix.WarmupSelectionTests.test_early_low_elbo_does_not_stop_warmup_or_win_against_mature_checkpoint) ... ok
+test_short_budget_is_explicitly_reported_instead_of_claiming_convergence (test_coat_pipeline_fix.WarmupSelectionTests.test_short_budget_is_explicitly_reported_instead_of_claiming_convergence) ... ok
+test_both_recalls_precision_and_hit_rate_match_hand_calculation (test_complete_metric_report.CompleteMetricTests.test_both_recalls_precision_and_hit_rate_match_hand_calculation) ... ok
+test_lcdr_and_conalign_rows_keep_their_protocols (test_complete_metric_report.CompleteMetricTests.test_lcdr_and_conalign_rows_keep_their_protocols) ... ok
+test_precision_uses_k_even_if_candidate_pool_is_short (test_complete_metric_report.CompleteMetricTests.test_precision_uses_k_even_if_candidate_pool_is_short) ... ok
+test_unified_rows_retain_protocol_and_auc_type (test_complete_metric_report.CompleteMetricTests.test_unified_rows_retain_protocol_and_auc_type) ... ok
+test_automatic_device_is_resolved_once_for_data_and_model (test_conalign.ConAlignBenchmarkDeviceTest.test_automatic_device_is_resolved_once_for_data_and_model) ... ok
+test_best_state_survives_later_training_steps (test_conalign.ConAlignEarlyStoppingTest.test_best_state_survives_later_training_steps) ... ok
+test_paper_window_trains_on_22_04_to_05_05_only (test_conalign.ConAlignKuaiRandWindowTest.test_paper_window_trains_on_22_04_to_05_05_only) ... D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\src\models\conalign\data.py:77: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\Context.cpp:855.)
+  return torch.sparse_coo_tensor(indices, values, torch.Size(sparse_mx.shape))
+ok
+test_rejects_unknown_window (test_conalign.ConAlignKuaiRandWindowTest.test_rejects_unknown_window) ... ok
+test_source_window_matches_released_loader (test_conalign.ConAlignKuaiRandWindowTest.test_source_window_matches_released_loader) ... ok
+test_dual_tower_forward_and_init_match_source (test_conalign.ConAlignSourceParityTest.test_dual_tower_forward_and_init_match_source) ... ok
+test_rebuilt_rows_are_byte_identical_to_source_datasets (test_conalign.ConAlignSourceParityTest.test_rebuilt_rows_are_byte_identical_to_source_datasets) ... ok
+test_two_epoch_training_matches_source_on_coat (test_conalign.ConAlignSourceParityTest.test_two_epoch_training_matches_source_on_coat) ... Compressing IDs...
+Label range: [0, 1] (0=negative, 1=positive)
+Dataset: coat | Users: 290, Items: 300
+ok
+test_vendored_files_match_manifest (test_conalign.ConAlignSourceParityTest.test_vendored_files_match_manifest) ... ok
+test_author_ips_subtracts_unweighted_imputation (test_idcf.CDRAuthorModeTests.test_author_ips_subtracts_unweighted_imputation) ... ok
+test_rejects_unknown_modes (test_idcf.CDRAuthorModeTests.test_rejects_unknown_modes) ... ok
+test_variance_filter_keeps_what_cv_filter_drops (test_idcf.CDRAuthorModeTests.test_variance_filter_keeps_what_cv_filter_drops) ... ok
+test_decoder_reconstructs_exposure (test_idcf.ExposureIVAETests.test_decoder_reconstructs_exposure) ... ok
+test_returns_confounders_for_every_user (test_idcf.ExposureIVAETests.test_returns_confounders_for_every_user) ... ok
+test_sampling_averages_around_mean (test_idcf.IDCFModelTests.test_sampling_averages_around_mean) ... ok
+test_score_is_mf_plus_confounder_term_and_factors_agree (test_idcf.IDCFModelTests.test_score_is_mf_plus_confounder_term_and_factors_agree) ... ok
+test_constraint_is_mean_non_squared_l2_norm (test_lcdr.LCDRObjectiveTests.test_constraint_is_mean_non_squared_l2_norm) ... ok
+test_encoder_sees_exposure_only (test_lcdr.LCDRObjectiveTests.test_encoder_sees_exposure_only) ... ok
+test_kl_matches_standard_normal_prior (test_lcdr.LCDRObjectiveTests.test_kl_matches_standard_normal_prior) ... ok
+test_paper_lambda_and_idcf_sizes (test_lcdr.LCDRObjectiveTests.test_paper_lambda_and_idcf_sizes) ... ok
+test_pipeline_saves_reloadable_lcdr_checkpoint (test_lcdr.LCDRTrainingTests.test_pipeline_saves_reloadable_lcdr_checkpoint) ... ok
+test_representations_cover_every_user (test_lcdr.LCDRTrainingTests.test_representations_cover_every_user) ... ok
+test_benchmark_mf_uses_author_mse_configuration (test_methodology.AuthorConfigTests.test_benchmark_mf_uses_author_mse_configuration) ... ================================================================================
+ BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH TRÊN COAT / YAHOO / KUAIRAND
+ Thiết bị: cpu | Dataset: coat | Model: mf
+================================================================================
+ [CẤU HÌNH EPOCHS] Coat: 100 | Yahoo: 100 | KuaiRand-Pure: 100 (MF: 100)
+ [CDR SOURCE] seed 2020; epoch budgets: {'coat': 1000, 'yahoo': 1000, 'kuairand': 1000}; train-loss stopping
+
+################################################################################
+ PHẦN 1: THỰC NGHIỆM TRÊN TẬP DỮ LIỆU COAT (290 Users, 300 Items)
+################################################################################
+
+>>> Huấn luyện Baseline PyTorch MF (Coat)...
+[LỖI] Huấn luyện MF trên Coat thất bại: stop after capturing config
+ok
+test_author_proxy_is_one_hot_with_nan_category (test_methodology.AuthorProxyTests.test_author_proxy_is_one_hot_with_nan_category) ... ok
+test_author_metrics_score_zero_positive_users_as_one_and_bound_recall (test_methodology.CdrAuthorProtocolTests.test_author_metrics_score_zero_positive_users_as_one_and_bound_recall) ... ok
+test_naive_bayes_propensity_depends_only_on_label (test_methodology.CdrAuthorProtocolTests.test_naive_bayes_propensity_depends_only_on_label) ... ok
+test_exposure_keeps_non_clicks_and_sparse_ivae_matches_dense (test_methodology.KuaiRandIDCFInputTests.test_exposure_keeps_non_clicks_and_sparse_ivae_matches_dense) ... ok
+test_tab_shares_use_only_mapped_train_rows (test_methodology.KuaiRandTabInstrumentTests.test_tab_shares_use_only_mapped_train_rows) ... ok
+test_consistent_gain_is_significant (test_methodology.PairedTestTests.test_consistent_gain_is_significant) ... ok
+test_identical_models_are_not_significant (test_methodology.PairedTestTests.test_identical_models_are_not_significant) ... ok
+test_user_order_must_match (test_methodology.PairedTestTests.test_user_order_must_match) ... ok
+test_neumf_matches_author_layout (test_mrdr_cal.MRDRCalModelTests.test_neumf_matches_author_layout) ... ok
+test_platt_fit_reduces_nll (test_mrdr_cal.MRDRCalModelTests.test_platt_fit_reduces_nll) ... ok
+test_platt_is_affine_on_logits (test_mrdr_cal.MRDRCalModelTests.test_platt_is_affine_on_logits) ... ok
+test_paper_appendix_backbone (test_mrdr_cal.MRDRConfigTests.test_paper_appendix_backbone) ... ok
+test_implicit_target_is_rating_above_three (test_mrdr_cal.MRDRDataTests.test_implicit_target_is_rating_above_three) ... ok
+test_kuairand_builder_maps_ids_jointly_and_splits_random_log (test_mrdr_cal.MRDRDataTests.test_kuairand_builder_maps_ids_jointly_and_splits_random_log) ... ok
+test_sampled_negatives_are_unobserved (test_mrdr_cal.MRDRDataTests.test_sampled_negatives_are_unobserved) ... ok
+test_dr_loss_does_not_train_the_imputation_model (test_mrdr_cal.MRDRLossTests.test_dr_loss_does_not_train_the_imputation_model) ... ok
+test_dr_loss_is_imputed_error_plus_ipw_correction (test_mrdr_cal.MRDRLossTests.test_dr_loss_is_imputed_error_plus_ipw_correction) ... ok
+test_imputation_loss_weights_by_one_minus_p_over_p_squared (test_mrdr_cal.MRDRLossTests.test_imputation_loss_weights_by_one_minus_p_over_p_squared) ... ok
+test_kuairand_recall_is_normalised_per_user (test_mrdr_cal.MRDRMetricTests.test_kuairand_recall_is_normalised_per_user) ... ok
+test_reshaped_dcg_and_count_recall_skip_users_without_positives (test_mrdr_cal.MRDRMetricTests.test_reshaped_dcg_and_count_recall_skip_users_without_positives) ... ok
+test_author_defaults (test_ncf.NCFArchitectureTests.test_author_defaults) ... ok
+test_initialisation_matches_author_code (test_ncf.NCFArchitectureTests.test_initialisation_matches_author_code) ... ok
+test_mlp_tower_follows_layers_argument (test_ncf.NCFArchitectureTests.test_mlp_tower_follows_layers_argument) ... ok
+test_predict_matches_forward (test_ncf.NCFArchitectureTests.test_predict_matches_forward) ... ok
+test_prediction_input_per_variant (test_ncf.NCFArchitectureTests.test_prediction_input_per_variant) ... ok
+test_pretrained_neumf_averages_gmf_and_mlp (test_ncf.NCFArchitectureTests.test_pretrained_neumf_averages_gmf_and_mlp) ... ok
+test_four_negatives_per_positive_never_hit_positives (test_ncf.NCFSamplingTests.test_four_negatives_per_positive_never_hit_positives) ... ok
+test_user_with_every_item_positive_is_rejected (test_ncf.NCFSamplingTests.test_user_with_every_item_positive_is_rejected) ... ok
+test_checkpoint_reloads_with_identical_test_scores (test_ncf.NCFTrainingTests.test_checkpoint_reloads_with_identical_test_scores) ... ok
+test_pretrain_requires_neumf (test_ncf.NCFTrainingTests.test_pretrain_requires_neumf) ... ok
+test_pretrained_neumf_records_its_sources (test_ncf.NCFTrainingTests.test_pretrained_neumf_records_its_sources) ... ok
+test_old_and_new_module_names_share_state (test_package_layout.PackageLayoutTests.test_old_and_new_module_names_share_state) ... ok
+test_storage_paths_do_not_follow_model_packages (test_package_layout.PackageLayoutTests.test_storage_paths_do_not_follow_model_packages) ... ok
+test_cdr_paper_backbone_matches_source_dot_product_and_factor_scores (test_paper_model_profiles.PaperModelProfileTests.test_cdr_paper_backbone_matches_source_dot_product_and_factor_scores) ... ok
+test_cdr_seed_workflow_never_trains_mf (test_paper_model_profiles.PaperModelProfileTests.test_cdr_seed_workflow_never_trains_mf) ... ok
+test_default_configs_keep_each_methods_objective_and_initialization (test_paper_model_profiles.PaperModelProfileTests.test_default_configs_keep_each_methods_objective_and_initialization) ... ok
+test_legacy_checkpoint_without_backbone_reloads_exact_old_biased_scores (test_paper_model_profiles.PaperModelProfileTests.test_legacy_checkpoint_without_backbone_reloads_exact_old_biased_scores) ... ok
+test_paper_profile_rejects_hybrid_or_modified_estimator_before_reading_data (test_paper_model_profiles.PaperModelProfileTests.test_paper_profile_rejects_hybrid_or_modified_estimator_before_reading_data) ... ok
+test_tuning_uses_published_cartesian_ranges_without_duplicate_baseline (test_paper_model_profiles.PaperModelProfileTests.test_tuning_uses_published_cartesian_ranges_without_duplicate_baseline) ... ok
+test_user_selected_five_model_benchmark_never_warms_cdr (test_paper_model_profiles.PaperModelProfileTests.test_user_selected_five_model_benchmark_never_warms_cdr) ... ok
+test_yahoo_runs_five_models (test_paper_model_profiles.PaperModelProfileTests.test_yahoo_runs_five_models) ... ok
+test_degrading_fine_tune_retains_exact_epoch_zero_weights (test_review_fixes.CDRCheckpointTests.test_degrading_fine_tune_retains_exact_epoch_zero_weights) ... ok
+test_author_initialization_includes_bias_and_is_recorded_in_checkpoint (test_review_fixes.CausalTrainingTests.test_author_initialization_includes_bias_and_is_recorded_in_checkpoint) ... ok
+test_benchmark_forwards_overrides_to_causal_pipeline (test_review_fixes.CausalTrainingTests.test_benchmark_forwards_overrides_to_causal_pipeline) ... ok
+test_both_causal_stages_train_on_cuda_and_checkpoint_loads_on_cpu (test_review_fixes.CausalTrainingTests.test_both_causal_stages_train_on_cuda_and_checkpoint_loads_on_cpu) ... skipped 'CUDA unavailable'
+test_pipeline_passes_stage_overrides_without_mutating_defaults (test_review_fixes.CausalTrainingTests.test_pipeline_passes_stage_overrides_without_mutating_defaults) ... 
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 1/2: iVAE: COAT
+ Thiết bị: cpu | Latent dim: 2 | Hidden dim: 32 | Layers: 3 | LR: 0.0005 | Batch: 4 | Seed: 42
+ Giao thức: Exposure-user validation | chọn ELBO sau full-beta warm-up
+========================================================================
+ok
+test_validation_noise_is_repeatable_and_does_not_advance_training_rng (test_review_fixes.CausalTrainingTests.test_validation_noise_is_repeatable_and_does_not_advance_training_rng) ... ok
+test_dense_observation_with_one_missing_pair_and_empty_pool (test_review_fixes.CounterfactualSamplingTests.test_dense_observation_with_one_missing_pair_and_empty_pool) ... ok
+test_uniform_complement_excludes_all_observed_pairs_including_negatives (test_review_fixes.CounterfactualSamplingTests.test_uniform_complement_excludes_all_observed_pairs_including_negatives) ... ok
+test_coat_cli_trains_cdr_independently_and_honors_patience (test_review_fixes.TuningConfigTests.test_coat_cli_trains_cdr_independently_and_honors_patience) ... ok
+test_grid_contains_current_baseline_and_dispatches_explicit_objective (test_review_fixes.TuningConfigTests.test_grid_contains_current_baseline_and_dispatches_explicit_objective) ... ok
+test_legacy_grid_entrypoint_also_uses_current_mf_objective (test_review_fixes.TuningConfigTests.test_legacy_grid_entrypoint_also_uses_current_mf_objective) ... ok
+test_click_label_is_required_and_binary (test_suite.BenchmarkProtocolTests.test_click_label_is_required_and_binary) ... ok
+test_coat_mf_validation_trial_does_not_evaluate_test (test_suite.BenchmarkProtocolTests.test_coat_mf_validation_trial_does_not_evaluate_test) ... 
+========================================================================
+ HUẤN LUYỆN MF: COAT
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 512 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][COAT] Epoch 001/001 | Train Loss: 0.2715 | Val NDCG@5: 0.5000 | Val Recall@5: 0.5000 | Val HR@5: 0.5000
+[MF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.5000
+ok
+test_coat_paper_split_keeps_random_users_disjoint (test_suite.BenchmarkProtocolTests.test_coat_paper_split_keeps_random_users_disjoint) ... ok
+test_grid_trial_never_evaluates_test (test_suite.BenchmarkProtocolTests.test_grid_trial_never_evaluates_test) ... 
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 5e-05 | Batch: 4 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0209 | Val NDCG@5: 0.5000 | Val Recall@5: 0.5000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.5000
+ok
+test_paper_idcf_uses_click_two_train_logs_and_user_split (test_suite.BenchmarkProtocolTests.test_paper_idcf_uses_click_two_train_logs_and_user_split) ... [Data Pipeline] Đang nạp Biased Train Set từ: C:\Users\phung\AppData\Local\Temp\tmpwh5gbsi2\log_standard_4_08_to_4_21_pure.csv ...
+[Data Pipeline] Đang nạp Unbiased Test Set từ: C:\Users\phung\AppData\Local\Temp\tmpwh5gbsi2\log_random_4_22_to_5_08_pure.csv ...
+[Data Pipeline] Không gian thực nghiệm: 4 Users | 2 Videos
+[Data Pipeline] Random validation: 2 users; held-out test: 2 users
+[Data Pipeline] Đã lưu bộ đệm KuaiRand is_click tại: C:\Users\phung\AppData\Local\Temp\tmpwh5gbsi2\cache\kuairand_v7_e51180615aaf761d.pkl
+[Data Pipeline] Đang nạp Biased Train Set từ: C:\Users\phung\AppData\Local\Temp\tmpwh5gbsi2\log_standard_4_08_to_4_21_pure.csv ...
+[Data Pipeline] Đang nạp Unbiased Test Set từ: C:\Users\phung\AppData\Local\Temp\tmpwh5gbsi2\log_random_4_22_to_5_08_pure.csv ...
+[Data Pipeline] Không gian thực nghiệm: 4 Users | 2 Videos
+[Data Pipeline] Random validation: 2 users; held-out test: 2 users
+[Data Pipeline] Đã lưu bộ đệm KuaiRand is_click tại: C:\Users\phung\AppData\Local\Temp\tmpwh5gbsi2\cache\kuairand_v7_6bbde0560ff035e8.pkl
+ok
+test_zero_positive_user_contributes_zero_to_macro_metrics (test_suite.BenchmarkProtocolTests.test_zero_positive_user_contributes_zero_to_macro_metrics) ... ok
+test_atomic_replace_retries_transient_permission_and_preserves_old_file (test_suite.CheckpointCorrectionTests.test_atomic_replace_retries_transient_permission_and_preserves_old_file) ... ok
+test_empty_validation_does_not_create_a_selected_checkpoint (test_suite.CheckpointCorrectionTests.test_empty_validation_does_not_create_a_selected_checkpoint) ... 
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+ok
+test_idcf_checkpoint_roundtrip_and_old_architecture_rejected (test_suite.CheckpointCorrectionTests.test_idcf_checkpoint_roundtrip_and_old_architecture_rejected) ... 
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.0005 | Batch: 4 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[iDCF/feedback][KUAIRAND] Epoch 001/002 | Train Loss: 0.5077 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[iDCF/feedback][KUAIRAND] Epoch 002/002 | Train Loss: 0.5055 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[iDCF/feedback][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+ok
+test_invalid_candidate_ids_cannot_silently_use_numpy_negative_index (test_suite.CheckpointCorrectionTests.test_invalid_candidate_ids_cannot_silently_use_numpy_negative_index) ... ok
+test_single_mf_uses_shared_entrypoint (test_suite.EntrypointTests.test_single_mf_uses_shared_entrypoint) ... ok
+test_smoke_keeps_subset_out_of_full_benchmarks (test_suite.EntrypointTests.test_smoke_keeps_subset_out_of_full_benchmarks) ... ok
+test_test_command_propagates_failure_exit_status (test_suite.EntrypointTests.test_test_command_propagates_failure_exit_status) ... ok
+test_workflows_receive_only_their_arguments (test_suite.EntrypointTests.test_workflows_receive_only_their_arguments) ... ok
+test_experiment_lock_excludes_second_writer_and_releases_after_failure (test_suite.ExperimentInfraTests.test_experiment_lock_excludes_second_writer_and_releases_after_failure) ... ok
+test_paper_mf_global_intercept_remains_zero (test_suite.ExperimentInfraTests.test_paper_mf_global_intercept_remains_zero) ... 
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/002 | Train Loss: 0.4925 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Epoch 002/002 | Train Loss: 0.4923 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+ok
+test_fused_adam_matches_standard_steps_with_l2 (test_suite.FusedAdamTests.test_fused_adam_matches_standard_steps_with_l2) ... ok
+test_comparison_selects_on_validation_before_any_test (test_suite.OptimizerTests.test_comparison_selects_on_validation_before_any_test) ... Report: C:\Users\phung\AppData\Local\Temp\tmpg_5pj0ps\mf_optimizers_coat_bdf642747696a332.json
+{
+  "adam": {
+    "NDCG@5": {
+      "mean": 0.1,
+      "std": null,
+      "n_seeds": 1
+    },
+    "Recall@5": {
+      "mean": 0.2,
+      "std": null,
+      "n_seeds": 1
+    }
+  },
+  "sgd": {
+    "NDCG@5": {
+      "mean": 0.1,
+      "std": null,
+      "n_seeds": 1
+    },
+    "Recall@5": {
+      "mean": 0.2,
+      "std": null,
+      "n_seeds": 1
+    }
+  }
+}
+ok
+test_entrypoint_accepts_canonical_shape_keys_and_rejects_als (test_suite.OptimizerTests.test_entrypoint_accepts_canonical_shape_keys_and_rejects_als) ... 
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: sgd | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.4925 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+ok
+test_sgd_one_step_matches_objective_gradient_for_both_losses (test_suite.OptimizerTests.test_sgd_one_step_matches_objective_gradient_for_both_losses) ... 
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0398 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: bce | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0398 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0001 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.1 | Batch: 6 | Optimizer: sgd | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 1.0001 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 1.0000
+ok
+test_candidate_validation_and_deterministic_ties (test_suite.PaperMetricTests.test_candidate_validation_and_deterministic_ties) ... ok
+test_ndcg_recall_match_hand_computed_idcf_binary_definition (test_suite.PaperMetricTests.test_ndcg_recall_match_hand_computed_idcf_binary_definition) ... ok
+test_old_metric_protocol_cannot_silently_mix_with_new_evaluation (test_suite.PaperMetricTests.test_old_metric_protocol_cannot_silently_mix_with_new_evaluation) ... 
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.5076 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6309
+ok
+test_reference_dense_ranking_agrees_without_duplicates_or_ties (test_suite.PaperMetricTests.test_reference_dense_ranking_agrees_without_duplicates_or_ties) ... ok
+test_seed_std_auc_and_split_are_explicit (test_suite.PaperMetricTests.test_seed_std_auc_and_split_are_explicit) ... ok
+test_cdr_counterfactual_sampling_weight_scales_direct_term (test_suite.RegressionTests.test_cdr_counterfactual_sampling_weight_scales_direct_term) ... ok
+test_cdr_gradient_isolation_and_ips_fallback (test_suite.RegressionTests.test_cdr_gradient_isolation_and_ips_fallback) ... ok
+test_empty_pools_small_catalog_and_masked_truth (test_suite.RegressionTests.test_empty_pools_small_catalog_and_masked_truth) ... ok
+test_explicit_feature_root_does_not_fallback (test_suite.RegressionTests.test_explicit_feature_root_does_not_fallback) ... ok
+test_invalid_cli_is_rejected_before_loading_data (test_suite.RegressionTests.test_invalid_cli_is_rejected_before_loading_data) ... ok
+test_mf_entrypoints_match_and_selected_checkpoint_is_not_retrained (test_suite.RegressionTests.test_mf_entrypoints_match_and_selected_checkpoint_is_not_retrained) ... 
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.001 | Batch: 3 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/002 | Train Loss: 0.5072 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Epoch 002/002 | Train Loss: 0.5037 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val NDCG@5: 1.0000
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 4 | LR: 0.001 | Batch: 3 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/002 | Train Loss: 0.5072 | Val NDCG@5: 0.6309 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Epoch 002/002 | Train Loss: 0.5037 | Val NDCG@5: 1.0000 | Val Recall@5: 1.0000 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val NDCG@5: 1.0000
+ok
+test_tuning_evaluates_only_selected_checkpoint (test_suite.RegressionTests.test_tuning_evaluates_only_selected_checkpoint) ... =====================================================================================
+ BẮT ĐẦU QUY TRÌNH TINH CHỈNH SIÊU THAM SỐ (TUNING) TRÊN COAT DATASET
+ Mô hình: ['mf'] | Epochs: {'mf': 1} | Patience: {'mf': 5}
+=====================================================================================
+ Đang nạp dữ liệu Coat...
+
+#####################################################################################
+ >>> BẮT ĐẦU TINH CHỈNH MÔ HÌNH: MF (Tổng cộng: 2 trials)
+#####################################################################################
+
+--- [MF Trial 1/2] Cấu hình: {'lr': 0.01} ---
+ [KẾT QUẢ TRIAL 1] Best Val NDCG@5 = 0.0100 (tại epoch 1) | Thời gian: 0.0s
+
+--- [MF Trial 2/2] Cấu hình: {'lr': 0.02} ---
+ [KẾT QUẢ TRIAL 2] Best Val NDCG@5 = 0.0200 (tại epoch 1) | Thời gian: 0.0s
+
+>>> [LỰA CHỌN TỐI ƯU CHO MF] Cấu hình: {'lr': 0.02}
+    Điểm Validation NDCG@5 cao nhất: 0.0200 (epoch 1)
+    -> Đang tiến hành đánh giá DUY NHẤT 1 LẦN trên tập Held-Out Test...
+    -> KẾT QUẢ TEST: NDCG@5 = 0.5000 | Recall@5 = 0.5000 | AUC = N/A
+
++---------------------------------------------------------------------------------+
+|               KẾT QUẢ CUỐI CÙNG SAU KHI TUNING TRÊN COAT DATASET                |
++=========+=================+============+=============+===============+==========+
+| Mô Hình | Cấu Hình Tối Ưu | Val NDCG@5 | Test NDCG@5 | Test Recall@5 | Test AUC |
++=========+=================+============+=============+===============+==========+
+| MF      | {"lr": 0.02}    |   0.0200   |   0.5000    |    0.5000     |   N/A    |
++---------+-----------------+------------+-------------+---------------+----------+
+
+[HOÀN THÀNH] Báo cáo chi tiết JSON : C:\Users\phung\AppData\Local\Temp\tmpw1ra3y66\tuning_coat_mf_e1_e4f22947d7a66537_c1ec0d4b_v4.json
+[HOÀN THÀNH] Báo cáo khoa học Markdown: C:\Users\phung\AppData\Local\Temp\tmpw1ra3y66\tuning_coat_mf_e1_e4f22947d7a66537_c1ec0d4b_v4.md
+[HOÀN THÀNH] Toàn bộ nhật ký Log    : C:\Users\phung\AppData\Local\Temp\tmpw1ra3y66\tuning_coat_mf_e1_e4f22947d7a66537_c1ec0d4b_v4.log
+
+ok
+test_cdr_progress_preserves_parameters_history_and_train_loss_stop (test_training_progress.TrainingProgressTests.test_cdr_progress_preserves_parameters_history_and_train_loss_stop) ... ok
+test_ivae_progress_preserves_latents_and_checkpoint_selection (test_training_progress.TrainingProgressTests.test_ivae_progress_preserves_latents_and_checkpoint_selection) ... ok
+test_three_cpu_epochs_match_upstream_parameters_exactly (test_yahoo_released_cdr.ReleasedCDRParityTests.test_three_cpu_epochs_match_upstream_parameters_exactly) ... ok
+test_yahoo_three_models_train_without_test_selection_and_released_checkpoint_reloads (test_yahoo_released_cdr.ReleasedCDRParityTests.test_yahoo_three_models_train_without_test_selection_and_released_checkpoint_reloads) ... ok
+test_one_based_ids_survey_rows_and_missing_users_align (test_yahoo_released_cdr.YahooDataTests.test_one_based_ids_survey_rows_and_missing_users_align) ... ok
+test_proxies_do_not_depend_on_random_ratings_and_affect_data_identity (test_yahoo_released_cdr.YahooDataTests.test_proxies_do_not_depend_on_random_ratings_and_affect_data_identity) ... ok
+test_smoke_remaps_users_and_preserves_survey_alignment (test_yahoo_released_cdr.YahooDataTests.test_smoke_remaps_users_and_preserves_survey_alignment) ... ok
+
+----------------------------------------------------------------------
+Ran 199 tests in 49.040s
+
+OK (skipped=1)
