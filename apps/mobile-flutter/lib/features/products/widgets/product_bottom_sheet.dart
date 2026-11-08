@@ -240,7 +240,7 @@ class _ProductBottomSheetState extends ConsumerState<ProductBottomSheet> {
                               );
                             }
                           } else {
-                            final reqId = await ref.read(quoteRepositoryProvider).createQuoteRequest(
+                            await ref.read(quoteRepositoryProvider).createQuoteRequest(
                                   buyerId: currentUser.uid,
                                   buyerName: currentUser.email?.split('@')[0] ?? 'Người mua',
                                   product: product,

@@ -19,10 +19,9 @@ class RecSysService {
 
   RecSysService({
     http.Client? client,
-    FirebaseDatabase? database,
+    this._database,
     Future<String?> Function()? idTokenProvider,
   })  : _client = client ?? http.Client(),
-        _database = database,
         _idTokenProvider = idTokenProvider ?? _firebaseIdToken;
 
   /// Firebase ID token của người dùng hiện tại; server lấy user_id từ token này.

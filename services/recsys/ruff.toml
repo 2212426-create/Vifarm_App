@@ -1,0 +1,16 @@
+# Lint cấu hình cho services/recsys. Chạy: ruff check src experiments tests
+# Mã tác giả chép nguyên trong third_party/ không lint để giữ đúng bản gốc.
+line-length = 120
+target-version = "py312"
+extend-exclude = ["third_party", "venv", "notebooks", "docs/archive"]
+
+[lint]
+# Pyflakes (import/biến thừa, tên chưa định nghĩa) và flake8-bugbear.
+select = ["F", "B"]
+ignore = [
+    "B905",  # zip(strict=) đổi hành vi khi độ dài lệch; chưa áp dụng đồng loạt
+]
+
+[lint.per-file-ignores]
+# Lớp import tương thích cũ re-export bằng import *.
+"src/causal/**/__init__.py" = ["F403"]

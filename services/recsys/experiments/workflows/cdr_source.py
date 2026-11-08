@@ -1,6 +1,6 @@
 """Canonical published-source CDR workflow (also used by benchmark and seeds)."""
 import argparse
-from src.models.cdr.source_protocol import run_source, source_metrics
+from src.models.cdr.source_protocol import run_source
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)

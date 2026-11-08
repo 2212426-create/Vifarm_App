@@ -27,7 +27,7 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from src.utils.helpers import set_seed, get_device, RESULTS_DIR, CHECKPOINT_DIR
-from src.utils.artifacts import validate_training, data_signature, source_signature, digest, evaluate_checkpoint
+from src.utils.artifacts import validate_training, data_signature, source_signature, evaluate_checkpoint
 from src.data_pipeline.kuairand_dataset import subset_kuairand_users
 from src.models.mf.train_mf import train_baseline_mf
 from src.models.idcf.train_idcf import IDCF_CONFIG, fit_idcf_pipeline
@@ -310,7 +310,7 @@ def run_all_benchmarks(
         all_results["diagnostics"]["coat_validation"] = candidate_pool_diagnostics(coat_data, split="val")
 
         # Cấu hình MF của mã tác giả iDCF (MF.py): MSE trên điểm thô, Adam decay mọi tham số,
-        # không scheduler, intercept cố định 0; Coat lr 5e-4, wd 1e-6, patience 5. Cũng là treatment của IViDR.
+        # không scheduler, intercept cố định 0; Coat lr 5e-4, wd 1e-6, patience 5.
         mf_coat = mf_config("coat", embedding_dim=dim, epochs=epochs_coat, lr=lr,
                             batch_size=batch_size, device=device, data_dict=coat_data, init_scheme=init_scheme,
                             checkpoint_dir=os.path.join(checkpoint_root, "coat", "mf"))
@@ -499,7 +499,7 @@ def get_benchmark_tables_data(results):
             source = scope in SOURCE_SCOPES
             protocol = ("ConAlign-src" if scope == "conalign_source_protocol" else
                         ("CDR-KR" if dataset == "kuairand" else "CDR-src") if source else "H30")
-            def value(key):
+            def value(key, metric=metric):
                 actual = metric.get(key)
                 return f"{actual:.6f}" if actual is not None else "N/A"
             label = name

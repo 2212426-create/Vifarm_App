@@ -42,9 +42,8 @@ class CartNotifier extends StateNotifier<List<CartItemModel>> {
   final FirebaseFirestore _firestore;
   final String? currentUserId;
 
-  CartNotifier({required FirebaseFirestore firestore, required this.currentUserId})
-      : _firestore = firestore,
-        super([]) {
+  CartNotifier({required this._firestore, required this.currentUserId})
+      : super([]) {
     _loadCart();
   }
 

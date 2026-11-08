@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../products/models/product_model.dart';
 import '../../products/repositories/product_repository.dart';
 
 /// Màn hình Quản Lý Sản Phẩm của Gian hàng (Seller Workspace)
@@ -121,7 +120,7 @@ class _SellerProductsScreenState extends ConsumerState<SellerProductsScreen> {
                         ),
                         title: Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                         subtitle: Text(
-                          'Tồn: ${product.stock} ${product.unit} • ${product.saleType == "fixed_price" ? "${_formatVND(product.listedPrice)}" : "Báo giá tham khảo"}',
+                          'Tồn: ${product.stock} ${product.unit} • ${product.saleType == "fixed_price" ? _formatVND(product.listedPrice) : "Báo giá tham khảo"}',
                           style: const TextStyle(fontSize: 12),
                         ),
                         trailing: Row(

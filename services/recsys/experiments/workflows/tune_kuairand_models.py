@@ -93,8 +93,8 @@ def write_report(payload: dict, json_path: Path):
         "# KuaiRand-Pure: Báo Cáo Tinh Chỉnh Siêu Tham Số (Validation Tuning)",
         "",
         f"- **Số Epoch Tối Đa**: {payload['epochs']} epochs (kèm Early Stopping)",
-        f"- **Giao thức thực nghiệm**: Chọn cấu hình tốt nhất hoàn toàn bằng tập Validation (30% Random log).",
-        f"- **Đánh giá khách quan**: Chỉ chấm điểm Held-Out Test DUY NHẤT 1 LẦN cho mô hình được chọn.",
+        "- **Giao thức thực nghiệm**: Chọn cấu hình tốt nhất hoàn toàn bằng tập Validation (30% Random log).",
+        "- **Đánh giá khách quan**: Chỉ chấm điểm Held-Out Test DUY NHẤT 1 LẦN cho mô hình được chọn.",
         "",
         "CDR tuning uses the released estimator, source train-loss stopping and 5% validation calibration. It is not the default source-protocol benchmark; Coat labels: CDR >=3, MF >=4. Do not compare these rows as identical protocols.",
         "",
@@ -244,7 +244,7 @@ def main(argv=None):
             trial_patience = budgets[name]["patience"]
             grid_list = effective_grids[name]
             total_trials = len(grid_list)
-            print(f"\n" + "#" * 85)
+            print("\n" + "#" * 85)
             print(f" >>> BẮT ĐẦU TINH CHỈNH MÔ HÌNH: {name.upper()} (Tổng cộng: {total_trials} trials)")
             print("#" * 85)
 
@@ -290,7 +290,7 @@ def main(argv=None):
             
             print(f"\n>>> [LỰA CHỌN TỐI ƯU CHO {name.upper()}] Cấu hình: {best_config}")
             print(f"    Điểm Validation NDCG@5 cao nhất: {best['best_val_ndcg']:.4f} (epoch {best['best_epoch']})")
-            print(f"    -> Đang tiến hành đánh giá DUY NHẤT 1 LẦN trên tập Held-Out Test...")
+            print("    -> Đang tiến hành đánh giá DUY NHẤT 1 LẦN trên tập Held-Out Test...")
             
             test_metrics = evaluate_checkpoint(best["checkpoint_path"], data)
             payload["selected"][name] = {

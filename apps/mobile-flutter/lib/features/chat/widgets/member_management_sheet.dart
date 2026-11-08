@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_theme.dart';
-import '../../auth/models/profile_model.dart';
 import '../../profile/providers/profile_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -100,7 +98,7 @@ class MemberManagementSheet extends ConsumerWidget {
                     );
                   },
                   loading: () => const ListTile(title: Text('Đang tải...')),
-                  error: (_, __) => const SizedBox.shrink(),
+                  error: (_, _) => const SizedBox.shrink(),
                 );
               },
             ),

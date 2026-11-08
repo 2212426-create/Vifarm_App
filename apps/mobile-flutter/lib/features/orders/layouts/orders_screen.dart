@@ -128,7 +128,6 @@ class _OrderCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isBuyer = currentUserId == order.buyerId;
-    final isSeller = currentUserId == order.sellerId;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),

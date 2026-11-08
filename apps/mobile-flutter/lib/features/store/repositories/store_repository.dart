@@ -31,10 +31,9 @@ class StoreRepository {
   final FirebaseStorage _storage;
 
   StoreRepository({
-    required FirebaseFirestore firestore,
+    required this._firestore,
     FirebaseStorage? storage,
-  })  : _firestore = firestore,
-        _storage = storage ?? FirebaseStorage.instance;
+  })  : _storage = storage ?? FirebaseStorage.instance;
 
   /// Stream thông tin gian hàng của user (Mỗi tài khoản tối đa 1 gian hàng)
   Stream<StoreModel?> watchUserStore(String ownerId) {

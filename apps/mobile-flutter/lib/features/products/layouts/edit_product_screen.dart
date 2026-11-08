@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../profile/providers/profile_provider.dart';
-import '../../profile/repositories/profile_repository.dart';
 import '../models/product_model.dart';
 import '../repositories/product_repository.dart';
 

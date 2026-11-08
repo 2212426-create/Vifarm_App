@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../orders/models/order_model.dart';
 import '../../orders/repositories/order_repository.dart';
 import '../../quote_requests/repositories/quote_repository.dart';
 import '../../quote_requests/widgets/quote_card_widget.dart';

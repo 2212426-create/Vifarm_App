@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -380,9 +378,6 @@ class _ConversationTile extends ConsumerWidget {
     required bool isOnline,
     required bool isSystem,
   }) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
     final currentUid = ref.read(authStateProvider).valueOrNull?.uid;
 
     final chatPreview = ChatPreview(

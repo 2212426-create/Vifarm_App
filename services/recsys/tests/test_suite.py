@@ -22,7 +22,6 @@ from src.evaluation.vectorized_evaluator import GPUVectorizedEvaluator
 from src.utils.artifacts import data_signature, digest, load_checkpoint, evaluate_checkpoint
 from experiments.workflows.run_all_benchmarks import run_all_benchmarks
 from src.models.matrix_factorization import MatrixFactorization
-from src.utils.artifacts import load_checkpoint
 from src.utils.helpers import set_seed
 from experiments.workflows import compare_mf_optimizers as comparison
 from src.evaluation.protocol import protocol_metadata, summarize_seeds, validate_paper_split

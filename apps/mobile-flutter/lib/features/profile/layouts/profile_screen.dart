@@ -33,7 +33,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _bioController = TextEditingController();
-  bool _isEditingBio = false;
+  final bool _isEditingBio = false;
   bool _isFollowLoading = false;
 
   @override
@@ -374,85 +374,84 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with SingleTicker
                   const SizedBox(height: 16),
 
                   // 6. Linked Store Card
-                  if (storeState != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: storeState.when(
-                        data: (store) {
-                          if (store == null && isMe) {
-                            return _buildStoreCardTile(
-                              title: 'Đăng ký bán hàng',
-                              subtitle: 'Mở gian hàng nông sản, vật tư',
-                              buttonText: 'Đăng ký ngay',
-                              color: AppColors.primary,
-                              onPressed: () => context.push('/store/register'),
-                            );
-                          }
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: storeState.when(
+                      data: (store) {
+                        if (store == null && isMe) {
+                          return _buildStoreCardTile(
+                            title: 'Đăng ký bán hàng',
+                            subtitle: 'Mở gian hàng nông sản, vật tư',
+                            buttonText: 'Đăng ký ngay',
+                            color: AppColors.primary,
+                            onPressed: () => context.push('/store/register'),
+                          );
+                        }
 
-                          if (store != null) {
-                            if (isMe) {
-                              if (store.status == 'draft') {
-                                return _buildStoreCardTile(
-                                  title: 'Hồ sơ gian hàng dở dang',
-                                  subtitle: 'Bạn có bản nháp chưa gửi',
-                                  buttonText: 'Tiếp tục',
-                                  color: AppColors.warning,
-                                  onPressed: () => context.push('/store/register'),
-                                );
-                              }
-
-                              if (store.status == 'pending') {
-                                return _buildStoreCardTile(
-                                  title: 'Hồ sơ gian hàng đang chờ xét duyệt',
-                                  subtitle: store.storeName,
-                                  buttonText: 'Xem hồ sơ',
-                                  color: Colors.orange,
-                                  onPressed: () => context.push('/store/register'),
-                                );
-                              }
-
-                              if (store.status == 'needs_changes') {
-                                return _buildStoreCardTile(
-                                  title: 'Cần bổ sung thông tin hồ sơ',
-                                  subtitle: store.rejectionReason ?? 'Vui lòng kiểm tra lại thông tin',
-                                  buttonText: 'Cập nhật',
-                                  color: Colors.redAccent,
-                                  onPressed: () => context.push('/store/register'),
-                                );
-                              }
-
-                              if (store.isApproved) {
-                                return _buildStoreCardTile(
-                                  title: 'Gian hàng: ${store.storeName}',
-                                  subtitle: store.storeType == 'individual' ? 'Cá nhân / Nhà vườn' : 'Đơn vị kinh doanh',
-                                  buttonText: 'Vào Gian Hàng',
-                                  color: AppColors.primary,
-                                  onPressed: () async {
-                                    final success = await ref.read(appModeProvider.notifier).switchToSellerMode();
-                                    if (success && mounted) {
-                                      context.go('/seller/overview');
-                                    }
-                                  },
-                                );
-                              }
-                            } else if (store.isApproved) {
-                              // Other user's approved public store
+                        if (store != null) {
+                          if (isMe) {
+                            if (store.status == 'draft') {
                               return _buildStoreCardTile(
-                                title: store.storeName,
-                                subtitle: store.storeType == 'individual' ? 'Cá nhân / Nhà vườn' : 'Đơn vị kinh doanh',
-                                buttonText: 'Xem Gian Hàng',
-                                color: AppColors.primary,
-                                onPressed: () => context.push('/store/${store.storeId}'),
+                                title: 'Hồ sơ gian hàng dở dang',
+                                subtitle: 'Bạn có bản nháp chưa gửi',
+                                buttonText: 'Tiếp tục',
+                                color: AppColors.warning,
+                                onPressed: () => context.push('/store/register'),
                               );
                             }
-                          }
 
-                          return const SizedBox.shrink();
-                        },
-                        loading: () => const SizedBox.shrink(),
-                        error: (e, s) => const SizedBox.shrink(),
-                      ),
+                            if (store.status == 'pending') {
+                              return _buildStoreCardTile(
+                                title: 'Hồ sơ gian hàng đang chờ xét duyệt',
+                                subtitle: store.storeName,
+                                buttonText: 'Xem hồ sơ',
+                                color: Colors.orange,
+                                onPressed: () => context.push('/store/register'),
+                              );
+                            }
+
+                            if (store.status == 'needs_changes') {
+                              return _buildStoreCardTile(
+                                title: 'Cần bổ sung thông tin hồ sơ',
+                                subtitle: store.rejectionReason ?? 'Vui lòng kiểm tra lại thông tin',
+                                buttonText: 'Cập nhật',
+                                color: Colors.redAccent,
+                                onPressed: () => context.push('/store/register'),
+                              );
+                            }
+
+                            if (store.isApproved) {
+                              return _buildStoreCardTile(
+                                title: 'Gian hàng: ${store.storeName}',
+                                subtitle: store.storeType == 'individual' ? 'Cá nhân / Nhà vườn' : 'Đơn vị kinh doanh',
+                                buttonText: 'Vào Gian Hàng',
+                                color: AppColors.primary,
+                                onPressed: () async {
+                                  final success = await ref.read(appModeProvider.notifier).switchToSellerMode();
+                                  if (success && mounted) {
+                                    context.go('/seller/overview');
+                                  }
+                                },
+                              );
+                            }
+                          } else if (store.isApproved) {
+                            // Other user's approved public store
+                            return _buildStoreCardTile(
+                              title: store.storeName,
+                              subtitle: store.storeType == 'individual' ? 'Cá nhân / Nhà vườn' : 'Đơn vị kinh doanh',
+                              buttonText: 'Xem Gian Hàng',
+                              color: AppColors.primary,
+                              onPressed: () => context.push('/store/${store.storeId}'),
+                            );
+                          }
+                        }
+
+                        return const SizedBox.shrink();
+                      },
+                      loading: () => const SizedBox.shrink(),
+                      error: (e, s) => const SizedBox.shrink(),
                     ),
+                  ),
                   const SizedBox(height: 16),
 
                   // 7. Content Tabs (Video / Nhật ký / Kho kỹ thuật)

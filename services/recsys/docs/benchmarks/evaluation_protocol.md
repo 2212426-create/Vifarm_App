@@ -9,7 +9,7 @@ của source tác giả (chia ngẫu nhiên biased/unbiased, cổng thời gian 
 protocol `ConAlign-src` (NDCG = `NDCG` của source, AUC global, không có Recall bounded/HitRate; UAUC/UNDCG
 in dưới bảng). Không so trực tiếp hay paired-test dòng ConAlign-src với H30/CDR; KuaiRand dùng cửa sổ paper.
 
-## MF/iDCF/IViDR và chế độ CDR shared
+## MF/iDCF và chế độ CDR shared
 
 Nguồn thực thi: src/evaluation/protocol.py và evaluator.py.
 Giữ nhãn Coat/Yahoo >=4, KuaiRand is_click; biased train; random log chia
@@ -77,7 +77,7 @@ Kiểm tra bằng `experiments/run.py test`; smoke chỉ xác nhận vận hành
 
 ## Bảng tổng hợp và cập nhật báo cáo — 21/10/2026
 
-H30: MF/iDCF/IViDR hoặc CDR shared, split 30/70 theo user; Coat/Yahoo >=4; AUC macro-user.
+H30: MF/iDCF hoặc CDR shared, split 30/70 theo user; Coat/Yahoo >=4; AUC macro-user.
 CDR-src: CDR Coat/Yahoo source, >=3, toàn random log, calibration 5% nhãn chấm điểm;
 AUC toàn cục. CDR-KR: CDR KuaiRand local split, calibration validation, AUC toàn cục.
 Hai Recall luôn được tính và lưu JSON; bảng chỉ hiển thị Recall@5 bounded theo
@@ -96,7 +96,7 @@ Tên protocol theo mô hình có mã nguồn định nghĩa protocol đó; H30 g
 
 | Tên hiện hành | Nhãn cũ | Mô hình | Theo mã của |
 | :-- | :-- | :-- | :-- |
-| H30 | H30 | MF, NeuMF, iDCF, LCDR (nghiên cứu tái lập IViDR) | iDCF |
+| H30 | H30 | MF, NeuMF, iDCF, LCDR | iDCF |
 | CDR-src / CDR-KR | S-full / S-KR | DR-BIAS + CDR | Song et al. (CDR); CDR-KR là bản KuaiRand của đồ án |
 | ConAlign-src | C-src | ConAlign | Zhang et al. (ConAlign) |
 | MRDR-CAL-src | Hu-src | MRDR-CAL | Hu et al.; phần MRDR theo Guo et al. |

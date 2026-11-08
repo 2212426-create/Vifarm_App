@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../profile/providers/profile_provider.dart';
 import '../models/journal_model.dart';
 import '../repositories/journal_repository.dart';
 

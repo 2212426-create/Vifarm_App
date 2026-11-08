@@ -14,7 +14,7 @@ import torch
 from src.causal.cdr.sampling import CounterfactualSampler
 from src.causal.idcf.ivae import ExposureIVAE, validation_elbo, train_exposure_ivae
 from src.models.matrix_factorization import MatrixFactorization
-from src.training.config import mf_config, cdr_config, tuning_grids
+from src.training.config import mf_config, tuning_grids
 from src.utils.artifacts import make_metadata, save_checkpoint, load_checkpoint
 
 

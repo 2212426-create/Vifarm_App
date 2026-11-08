@@ -159,15 +159,15 @@ class UploadRepository {
       'allowDownload': allowDownload,
       'allowDuet': allowDuet,
       'isCopyrightProtected': isCopyrightProtected,
-      if (topic != null) 'topic': topic,
+      'topic': ?topic,
       'isSponsored': isSponsored,
       if (crop != null && crop.isNotEmpty) 'crop': crop,
       if (growthStage != null && growthStage.isNotEmpty) 'growthStage': growthStage,
       if (region != null && region.isNotEmpty) 'region': region,
       if (relatedJournalId != null && relatedJournalId.isNotEmpty) 'relatedJournalId': relatedJournalId,
       if (taggedProductIds != null && taggedProductIds.isNotEmpty) 'taggedProductIds': taggedProductIds,
-      if (keyframesPhash != null) 'keyframes_phash': keyframesPhash,
-      if (copyrightMatch != null) 'copyrightMatch': copyrightMatch,
+      'keyframes_phash': ?keyframesPhash,
+      'copyrightMatch': ?copyrightMatch,
     };
 
     await _firestore

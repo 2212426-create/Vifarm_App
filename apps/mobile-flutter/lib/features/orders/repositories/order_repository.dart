@@ -21,7 +21,7 @@ final orderDetailStreamProvider = StreamProvider.family<OrderModel?, String>((re
 class OrderRepository {
   final FirebaseFirestore _firestore;
 
-  OrderRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
+  OrderRepository({required this._firestore});
 
   /// Stream danh sách đơn hàng liên quan đến user (là buyer hoặc seller)
   Stream<List<OrderModel>> watchUserOrders(String userId) {

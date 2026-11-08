@@ -5,12 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toptop_flutter/core/theme/app_theme.dart';
 import 'package:toptop_flutter/features/profile/providers/profile_provider.dart';
-import 'package:toptop_flutter/features/auth/models/profile_model.dart';
-import 'package:toptop_flutter/features/chat/models/chat_message_model.dart';
-import 'package:toptop_flutter/features/chat/providers/chat_provider.dart';
 import 'package:toptop_flutter/features/chat/widgets/add_members_sheet.dart';
-import 'package:toptop_flutter/features/chat/widgets/member_management_sheet.dart';
-import 'package:toptop_flutter/features/chat/layouts/group_management_screen.dart';
 
 class GroupSettingsScreen extends ConsumerStatefulWidget {
   final String groupId;
@@ -38,8 +33,6 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> with 
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
 
     return StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance.collection('chats').doc(widget.groupId).snapshots(),
@@ -191,7 +184,7 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> with 
             subtitle: userId == creatorId ? const Text('Chủ nhóm', style: TextStyle(color: Colors.grey, fontSize: 12)) : null,
           ),
           loading: () => const SizedBox.shrink(),
-          error: (_, __) => const SizedBox.shrink(),
+          error: (_, _) => const SizedBox.shrink(),
         );
       },
     );

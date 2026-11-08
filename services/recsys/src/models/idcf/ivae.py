@@ -31,12 +31,11 @@ def mlp(input_dim, hidden_dim, output_dim, n_layers):
 
 
 class ExposureIVAE(nn.Module):
-    def __init__(self, n_items, aux_dim, latent_dim=32, hidden_dim=64, n_layers=3, extra_dim=0):
+    def __init__(self, n_items, aux_dim, latent_dim=32, hidden_dim=64, n_layers=3):
         super().__init__()
         self.prior_log_var = mlp(aux_dim, hidden_dim, latent_dim, n_layers)
-        # extra_dim > 0: encoder nhận thêm đặc trưng (IViDR: treatment tái tạo), decoder vẫn tái tạo A.
-        self.mean_z = mlp(n_items + extra_dim + aux_dim, hidden_dim, latent_dim, n_layers)
-        self.log_var_z = mlp(n_items + extra_dim + aux_dim, hidden_dim, latent_dim, n_layers)
+        self.mean_z = mlp(n_items + aux_dim, hidden_dim, latent_dim, n_layers)
+        self.log_var_z = mlp(n_items + aux_dim, hidden_dim, latent_dim, n_layers)
         self.decoder = mlp(latent_dim, hidden_dim, n_items, n_layers)
 
     def encode(self, a, w):
@@ -44,7 +43,7 @@ class ExposureIVAE(nn.Module):
         return self.mean_z(aw), self.log_var_z(aw)
 
     def forward(self, x, w, noise=None):
-        """x = A (iDCF) hoặc [A, đặc trưng phụ]; mục tiêu tái tạo luôn là A."""
+        """x = A (exposure); mục tiêu tái tạo là A."""
         prior_log_var = self.prior_log_var(w)
         mean, log_var = self.encode(x, w)
         z = mean + torch.exp(0.5 * log_var) * (torch.randn_like(mean) if noise is None else noise)
@@ -89,10 +88,9 @@ def validation_elbo(model, batches, beta=1.0, samples=8, seed=1234):
 def train_exposure_ivae(exposure, user_features, latent_dim=32, hidden_dim=64, n_layers=3, lr=5e-4,
                         weight_decay=1e-6, l2_penalty=0.01, batch_size=512, epochs=2000, patience=100,
                         beta_max=1.0, train_ratio=0.8, split_seed=1234, seed=42, verbose=False,
-                        extra_input=None, device=None, validation_samples=8, validation_seed=1234,
+                        device=None, validation_samples=8, validation_seed=1234,
                         on_progress=None):
-    """Trả về (mean, std) của q(C | A, W) cho mọi user, từ mô hình có val loss tốt nhất.
-    extra_input (n_users × d) được nối vào đầu vào encoder (nhánh C1 của IViDR)."""
+    """Trả về (mean, std) của q(C | A, W) cho mọi user, từ mô hình có val loss tốt nhất."""
     a_all = binary_exposure(exposure)
     validate_training(latent_dim=latent_dim, hidden_dim=hidden_dim, n_layers=n_layers,
                       lr=lr, batch_size=batch_size, epochs=epochs, patience=patience,
@@ -103,17 +101,16 @@ def train_exposure_ivae(exposure, user_features, latent_dim=32, hidden_dim=64, n
         raise ValueError("Invalid iVAE regularization or split")
     device = get_device(device)
     w_all = torch.as_tensor(np.asarray(user_features), dtype=torch.float32, device=device)
-    extra = None if extra_input is None else torch.as_tensor(np.asarray(extra_input), dtype=torch.float32, device=device)
     n_users, n_items = a_all.shape
     if (not 0 < int(train_ratio * n_users) < n_users or w_all.ndim != 2
-            or len(w_all) != n_users or (extra is not None and (extra.ndim != 2 or len(extra) != n_users))):
+            or len(w_all) != n_users):
         raise ValueError("iVAE requires aligned features and nonempty train/validation users")
 
     def batch(users):
         rows = a_all[users]
         a = torch.as_tensor(rows.toarray() if sparse.issparse(rows) else rows, dtype=torch.float32, device=device)
         users = torch.as_tensor(users, dtype=torch.long, device=device)
-        return (a if extra is None else torch.cat([a, extra[users]], 1)), a, w_all[users]
+        return a, a, w_all[users]
 
     def chunks(users):
         return [users[i:i + batch_size] for i in range(0, len(users), batch_size)]
@@ -124,8 +121,7 @@ def train_exposure_ivae(exposure, user_features, latent_dim=32, hidden_dim=64, n
 
     torch.manual_seed(seed)
     np.random.seed(seed)
-    model = ExposureIVAE(n_items, w_all.shape[1], latent_dim, hidden_dim, n_layers,
-                         extra_dim=0 if extra is None else extra.shape[1]).to(device)
+    model = ExposureIVAE(n_items, w_all.shape[1], latent_dim, hidden_dim, n_layers).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     total_steps = epochs * ((len(train_users) + batch_size - 1) // batch_size)
     anneal_steps = max(int(0.2 * total_steps / beta_max), 1) if beta_max else 1

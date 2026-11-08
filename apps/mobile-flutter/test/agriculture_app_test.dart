@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toptop_flutter/features/cart/models/cart_model.dart';
 import 'package:toptop_flutter/features/orders/models/order_model.dart';
-import 'package:toptop_flutter/features/products/models/product_model.dart';
 import 'package:toptop_flutter/features/quote_requests/models/quote_model.dart';
 import 'package:toptop_flutter/features/video_feed/models/video_model.dart';
 

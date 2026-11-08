@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 
 from src.models.mrdr_cal.data import build_kuairand, implicit_target, sample_unobserved
-from src.models.mrdr_cal.metrics import dcg_at_k, recall_at_k
+from src.models.mrdr_cal.metrics import dcg_at_k, project_topk, recall_at_k
 from src.models.mrdr_cal.model import NeuMF, Platt
 from src.models.mrdr_cal.train import MRDR_CAL_CONFIG, dr_loss, mrdr_imputation_loss
 
@@ -92,6 +92,22 @@ class MRDRMetricTests(unittest.TestCase):
 
 
 class MRDRConfigTests(unittest.TestCase):
+    def test_project_topk_matches_project_definitions(self):
+        # user 0: positives ranked 1st and 3rd of 6, two positives; user 1: no positive (skipped)
+        label = np.array([1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        score = np.array([.9, .8, .7, .1, .2, .3, .9, .8, .7, .6, .5, .4])
+        out = project_topk(label, score, 2, 6, k=5)
+        idcg = 1 + 1 / np.log2(3)
+        self.assertAlmostEqual(out["NDCG@5"], (1 + 1 / np.log2(4)) / idcg)
+        self.assertAlmostEqual(out["Recall@5"], 1.0)
+        self.assertAlmostEqual(out["Recall@5_bounded"], 1.0)
+        # seven positives, three in the top 5: recall 3/7, bounded 3/5
+        label = np.array([1, 0, 1, 0, 1, 1, 1, 1, 1])
+        score = np.arange(9)[::-1].astype(float)
+        out = project_topk(label, score, 1, 9, k=5)
+        self.assertAlmostEqual(out["Recall@5"], 3 / 7)
+        self.assertAlmostEqual(out["Recall@5_bounded"], 3 / 5)
+
     def test_paper_appendix_backbone(self):
         for config in MRDR_CAL_CONFIG.values():
             self.assertEqual((config["embedding_size"], config["mlp_layers"], config["batch_size"], config["lr"],

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../models/store_model.dart';
 import '../providers/app_mode_provider.dart';
 import '../repositories/store_repository.dart';
 
@@ -18,7 +17,6 @@ class SellerStoreSettingsScreen extends ConsumerWidget {
     if (currentUser == null) return const Scaffold(body: Center(child: Text('Vui lòng đăng nhập!')));
 
     final storeAsync = ref.watch(userStoreStreamProvider(currentUser.uid));
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(

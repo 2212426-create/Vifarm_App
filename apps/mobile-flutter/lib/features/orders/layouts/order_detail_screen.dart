@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../models/order_model.dart';
 import '../repositories/order_repository.dart';
 
 /// Màn hình Chi Tiết Đơn Hàng & Chuyển Trạng Thái (State Machine)
@@ -29,7 +28,6 @@ class OrderDetailScreen extends ConsumerWidget {
           );
         }
 
-        final isBuyer = currentUser?.uid == order.buyerId;
         final isSeller = currentUser?.uid == order.sellerId;
 
         return Scaffold(

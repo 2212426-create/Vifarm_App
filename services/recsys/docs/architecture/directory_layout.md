@@ -12,7 +12,6 @@ recsys/
 │   │   ├── mf/                 # MF và train_mf.py
 │   │   ├── cdr/                # Released/source protocol và biến thể equation
 │   │   ├── idcf/               # iVAE, iDCF và trainer feedback dùng chung
-│   │   ├── ividr/              # Reference v2, pipeline và biến thể cũ có tên riêng
 │   │   ├── lcdr/               # LCDR thực nghiệm: iVAE + LCVAE, feedback theo iDCF
 │   │   └── conalign/           # ConAlign thực nghiệm: port source tác giả, protocol riêng
 │   ├── data_pipeline/          # Đọc dữ liệu, preprocessing, split, cache
@@ -21,7 +20,7 @@ recsys/
 │   ├── api/                    # FastAPI, phục vụ và kết nối ứng dụng
 │   ├── utils/                  # Đường dẫn, seed, artifact identity, logging, lock
 │   ├── baselines/              # Import tương thích cho MF cũ
-│   └── causal/                 # Import tương thích cho CDR/iDCF/IViDR cũ
+│   └── causal/                 # Import tương thích cho CDR/iDCF cũ
 ├── experiments/
 │   ├── run.py                  # CLI duy nhất cho người chạy
 │   └── workflows/              # Benchmark, tuning, tải dữ liệu, tổng hợp report
@@ -57,13 +56,11 @@ Không dùng tên thư mục để suy ra chất lượng hoặc bản paper.
 | CDR người dùng chọn | [source_protocol.py](../../src/models/cdr/source_protocol.py) |
 | Estimator CDR công bố | [released.py](../../src/models/cdr/released.py) |
 | iDCF | [idcf_model.py](../../src/models/idcf/idcf_model.py), [train_idcf.py](../../src/models/idcf/train_idcf.py) |
-| IViDR reference v2 | [ividr_reference.py](../../src/models/ividr/ividr_reference.py), [train_ividr.py](../../src/models/ividr/train_ividr.py) |
 | LCDR (thực nghiệm) | [lcvae.py](../../src/models/lcdr/lcvae.py), [train_lcdr.py](../../src/models/lcdr/train_lcdr.py), [source.json](../../src/models/lcdr/source.json) |
 | ConAlign (thực nghiệm) | [train.py](../../src/models/conalign/train.py), [data.py](../../src/models/conalign/data.py), [source.json](../../src/models/conalign/source.json) |
 
-iVAE ở `models/idcf/ivae.py` được IViDR tái sử dụng. Trainer feedback
-`models/idcf/train_idcf.py` vẫn phục vụ cả hai mô hình qua factory tường minh;
-pipeline IViDR thuộc `models/ividr/train_ividr.py`. Chưa đổi logic trong đợt sắp xếp này.
+iVAE ở `models/idcf/ivae.py` được LCDR tái sử dụng. Trainer feedback
+`models/idcf/train_idcf.py` phục vụ iDCF và LCDR (`variant='lcdr'`).
 
 Các file `src/causal/...`, `src/baselines/train_mf.py` và
 `src/models/matrix_factorization.py` chỉ chuyển import tới module chuẩn. Chúng dùng

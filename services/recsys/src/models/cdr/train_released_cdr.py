@@ -3,7 +3,6 @@ import hashlib
 import os
 
 import numpy as np
-import torch
 
 from src.models.cdr.released import ReleasedCDR, fit_released, released_inverse_propensity, UPSTREAM_COMMIT, UPSTREAM_URL
 from src.models.cdr.propensity import validation_labels, propensity_diagnostics

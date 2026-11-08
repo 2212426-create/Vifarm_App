@@ -236,7 +236,7 @@ def load_kuairand_processed(
 
 
 # =============================================================================
-# 4. BIẾN CÔNG CỤ Z VÀ PROXY W CHO iDCF / IViDR
+# 4. BIẾN CÔNG CỤ Z VÀ PROXY W CHO iDCF
 # =============================================================================
 
 def load_kuairand_tab_instruments(user_mapping, video_mapping, data_dir=None):

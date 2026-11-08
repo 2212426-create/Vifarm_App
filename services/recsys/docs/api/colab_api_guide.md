@@ -13,7 +13,6 @@ Mã nguồn: [`src/api/`](../../src/api/). Kiểm thử: [`tests/test_api.py`](.
 | `mf` | sigmoid(⟨p_u, q_i⟩ + b_u + b_i), μ=0 | Adam + MSE trên score thô, decay mọi tham số, khởi tạo uniform như iDCF |
 | `cdr` | sigmoid(⟨p_u, q_i⟩), ReleasedCDR 4 chiều, variance filter 10, dropout .5 | Source DR-BIAS update/loss, LR .05, wd .0001; item-frequency propensity (kẹp 0,05–1), MC 10; sampler có hoàn lại |
 | `popularity` | log(1 + watchCount + 5·totalLikes) + log(1 + số lượt dương) | Không học; dùng cho user chưa có lịch sử |
-| `ividr` | Không phục vụ | Đã loại khỏi hệ thống do tác giả không công bố mã nguồn và không thể tái lập; tự động chọn mô hình khả dụng kèm `fallback_reason` |
 
 Nhãn dương: `is_like` hoặc `play_time_ms ≥ 3000`. Cặp user–video lặp được gộp, dương nếu có ít nhất một lần dương.
 Mô hình được huấn luyện lại sau mỗi `retrain_every` (mặc định 20) tương tác mới, hoặc khi gọi `/api/v1/sync`.

@@ -11,14 +11,12 @@ Hệ thống gợi ý video ngắn của đồ án ViFarm được tổ chức t
    * **`LCDR`**: Học biểu diễn tiềm ẩn kết hợp khử thiên lệch (Latent Causal Debiased Rec).
    * **`DR-BIAS + CDR`**: Mô hình khử thiên lệch kép Doubly Robust.
    * **`ConAlign`**: Học tương phản cân chỉnh phân phối (Contrastive Alignment).
-   *(Lưu ý: Mô hình `IViDR` đã được rút khỏi bộ benchmark thực nghiệm chính theo quyết định ngày 04/11/2026 do tác giả không công bố mã nguồn; các phân tích tính tái lập được lưu trữ tại [docs/benchmarks/ividr_root_cause_20261027.md](docs/benchmarks/ividr_root_cause_20261027.md)).*
 
 2. **Module 2: Mạng nơ-ron học sâu (Neural Collaborative Filtering - NCF):**
    * **`GMF`**: Generalized Matrix Factorization (nhánh tuyến tính).
    * **`MLP`**: Multi-Layer Perceptron (nhánh phi tuyến nhiều tầng).
    * **`NeuMF`**: Ghép song song tháp đôi GMF + MLP.
    * **`NeuMF-pre`**: NeuMF khởi tạo trọng số tiền huấn luyện từ GMF và MLP.
-   * Đi kèm các baseline lọc cộng tác cổ điển đối chứng: **`TopPop`**, **`ItemKNN`**.
 
 3. **Các mô hình hội thảo đỉnh cao mở rộng (2025):**
    * **`MRDR-CAL`** (Hu et al., TKDE 2025).
@@ -28,7 +26,7 @@ Hệ thống gợi ý video ngắn của đồ án ViFarm được tổ chức t
 
 ## Cấu trúc mã nguồn
 
-Mỗi mô hình có package riêng trong `src/models/`: `mf/`, `idcf/`, `lcdr/`, `cdr/`, `conalign/`, `ncf/`, `neighborhood/`, `mrdr_cal/`, `clev/`.
+Mỗi mô hình có package riêng trong `src/models/`: `mf/`, `idcf/`, `lcdr/`, `cdr/`, `conalign/`, `ncf/`, `mrdr_cal/`, `clev/`.
 Xem [cây thư mục, trách nhiệm và đường dẫn mã chuẩn](docs/architecture/directory_layout.md).
 
 ---
@@ -136,9 +134,15 @@ Mỗi lượt chạy xuất báo cáo Markdown và JSON vào thư mục `results
 
 ## Kiểm thử và API Serving cho Ứng dụng
 
-* **Chạy toàn bộ Suite kiểm thử (210 tests):**
+* **Chạy toàn bộ Suite kiểm thử (200 tests):**
   ```powershell
   .\venv\Scripts\python.exe experiments\run.py test
+  ```
+
+* **Lint (import/biến thừa, lỗi thường gặp) theo `ruff.toml`:**
+  ```powershell
+  .\venv\Scripts\python.exe -m pip install ruff
+  .\venv\Scripts\python.exe -m ruff check src experiments tests
   ```
 
 * **Khởi chạy RecSys Serving API (FastAPI) phục vụ Mobile App:**
