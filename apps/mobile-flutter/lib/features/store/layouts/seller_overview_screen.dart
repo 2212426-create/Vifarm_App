@@ -25,7 +25,6 @@ class SellerOverviewScreen extends ConsumerWidget {
     final quotesAsync = ref.watch(userQuotesStreamProvider(currentUser.uid));
     final productsAsync = ref.watch(sellerProductsStreamProvider(currentUser.uid));
 
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(

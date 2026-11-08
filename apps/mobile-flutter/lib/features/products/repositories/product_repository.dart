@@ -27,7 +27,7 @@ final productDetailStreamProvider = StreamProvider.family<ProductModel?, String>
 class ProductRepository {
   final FirebaseFirestore _firestore;
 
-  ProductRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
+  ProductRepository({required this._firestore});
 
   /// Stream danh sách sản phẩm hiển thị trên Chợ
   Stream<List<ProductModel>> watchMarketplaceProducts({

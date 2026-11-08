@@ -267,7 +267,7 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                         ? Image.network(
                             widget.content.imageUrl!,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => _getFallbackIcon(),
+                            errorBuilder: (_, _, _) => _getFallbackIcon(),
                           )
                         : _getFallbackIcon(),
                   ),

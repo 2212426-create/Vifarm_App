@@ -26,7 +26,7 @@ final journalEntriesStreamProvider = StreamProvider.family<List<JournalEntryMode
 class JournalRepository {
   final FirebaseFirestore _firestore;
 
-  JournalRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
+  JournalRepository({required this._firestore});
 
   /// Stream danh sách nhật ký của người dùng
   Stream<List<JournalModel>> watchUserJournals(String userId) {

@@ -8,8 +8,6 @@ import '../../../core/providers/firebase_providers.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../video_upload/providers/upload_provider.dart';
 import '../models/chat_message_model.dart';
-import '../providers/chat_provider.dart';
-import '../repositories/chat_repository.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/add_members_sheet.dart';
 import '../widgets/member_management_sheet.dart';
@@ -33,14 +31,12 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  late final ChatRepository _chatRepository;
   String? _myUid;
   bool _isSearching = false;
 
   @override
   void initState() {
     super.initState();
-    _chatRepository = ref.read(chatRepositoryProvider);
     _myUid = ref.read(authStateProvider).valueOrNull?.uid;
   }
 

@@ -2,10 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../auth/models/profile_model.dart';
-import '../../profile/providers/profile_provider.dart';
 import '../providers/chat_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AddMembersSheet extends ConsumerStatefulWidget {
   final String groupId;
@@ -58,7 +55,6 @@ class _AddMembersSheetState extends ConsumerState<AddMembersSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUid = FirebaseAuth.instance.currentUser?.uid ?? '';
     final friendsAsync = ref.watch(selectableFriendsProvider);
     final theme = Theme.of(context);
 

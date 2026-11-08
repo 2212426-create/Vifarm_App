@@ -309,7 +309,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             }
                           } else {
                             // Yêu cầu báo giá -> Tạo yêu cầu & mở chat
-                            final reqId = await ref.read(quoteRepositoryProvider).createQuoteRequest(
+                            await ref.read(quoteRepositoryProvider).createQuoteRequest(
                                   buyerId: currentUser.uid,
                                   buyerName: currentUser.email?.split('@')[0] ?? 'Người mua',
                                   product: product,

@@ -18,12 +18,10 @@ class ProfileRepository {
   final Set<String> _pendingFollowLocks = {};
 
   ProfileRepository({
-    required FirebaseFirestore firestore,
-    required FirebaseDatabase database,
-    required FirebaseStorage storage,
-  }) : _firestore = firestore,
-       _database = database,
-       _storage = storage;
+    required this._firestore,
+    required this._database,
+    required this._storage,
+  });
 
   Future<ProfileModel?> getProfile(String uid) async {
     final doc = await _firestore

@@ -22,7 +22,7 @@ final isTechniqueSavedProvider = StreamProvider.family<bool, ({String userId, St
 class SavedTechniquesRepository {
   final FirebaseFirestore _firestore;
 
-  SavedTechniquesRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
+  SavedTechniquesRepository({required this._firestore});
 
   /// Stream danh sách ID kỹ thuật đã lưu
   Stream<List<VideoModel>> watchSavedTechniques(String userId) {
