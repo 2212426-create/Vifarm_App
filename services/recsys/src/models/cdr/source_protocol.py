@@ -3,7 +3,6 @@
 This explicitly uses 5% of the random evaluation labels for Naive Bayes, as the
 published script does. Results must not be substituted for shared test scores.
 """
-import argparse
 import hashlib
 from datetime import datetime
 import json

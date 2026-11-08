@@ -22,7 +22,6 @@ from scipy import sparse
 from src.models.idcf.idcf_model import IDCFModel
 from src.models.idcf.ivae import train_exposure_ivae
 from src.data_pipeline.coat_dataset import load_coat_processed, load_coat_raw_features
-from src.data_pipeline.yahoo_dataset import load_yahoo_processed
 from src.data_pipeline.kuairand_dataset import load_kuairand_author_proxy, load_kuairand_tab_instruments
 from src.evaluation.evaluator import evaluate_unbiased_model
 from src.evaluation.protocol import TOP_K

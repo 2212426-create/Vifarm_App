@@ -115,7 +115,7 @@ def measure_api(export_dir, warmup, repeats):
     for model in ("conalign", "mf", "cdr", "popularity"):
         body = {"user_id": user, "k": 10, "model": model}
 
-        def call():
+        def call(body=body):
             res = client.post("/api/v1/recommend", json=body)
             assert res.status_code == 200, res.text
         out["models"][model] = time_call(call, warmup, repeats)

@@ -20,11 +20,9 @@ except Exception:
     pass
 
 import argparse
-import time
 import math
 import numpy as np
 import torch
-import torch.nn as nn
 import torch.optim as optim
 
 from src.utils.helpers import set_seed, get_device, CHECKPOINT_DIR
@@ -108,10 +106,10 @@ def train_dr_bias_cdr(dataset_name="coat", embedding_dim=None, un_thres=None,
         raise ValueError("weight_decay must be finite and nonnegative")
     G = 4 if dataset_name.lower() == "coat" else 1
 
-    print(f"\n=======================================================")
+    print("\n=======================================================")
     print(f" HUẤN LUYỆN MÔ HÌNH CAUSAL DEBIASING: DR-BIAS + CDR [{dataset_name.upper()}]")
     print(f" Thiết bị: {device} | Dim: {embedding_dim} | Unc Threshold: {un_thres} | LR: {lr}")
-    print(f"=======================================================")
+    print("=======================================================")
 
     proc_data = data_dict if data_dict is not None else (
         load_coat_processed() if dataset_name.lower() == "coat" else

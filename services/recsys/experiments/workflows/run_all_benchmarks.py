@@ -27,7 +27,7 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from src.utils.helpers import set_seed, get_device, RESULTS_DIR, CHECKPOINT_DIR
-from src.utils.artifacts import validate_training, data_signature, source_signature, digest, evaluate_checkpoint
+from src.utils.artifacts import validate_training, data_signature, source_signature, evaluate_checkpoint
 from src.data_pipeline.kuairand_dataset import subset_kuairand_users
 from src.models.mf.train_mf import train_baseline_mf
 from src.models.idcf.train_idcf import IDCF_CONFIG, fit_idcf_pipeline
@@ -499,7 +499,7 @@ def get_benchmark_tables_data(results):
             source = scope in SOURCE_SCOPES
             protocol = ("ConAlign-src" if scope == "conalign_source_protocol" else
                         ("CDR-KR" if dataset == "kuairand" else "CDR-src") if source else "H30")
-            def value(key):
+            def value(key, metric=metric):
                 actual = metric.get(key)
                 return f"{actual:.6f}" if actual is not None else "N/A"
             label = name

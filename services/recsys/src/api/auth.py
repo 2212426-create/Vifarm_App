@@ -124,9 +124,9 @@ class ApiAuth:
         try:
             uid = self.verify(token)
         except TokenRejected:
-            raise HTTPException(status_code=401, detail="Firebase ID token không hợp lệ hoặc đã hết hạn.")
+            raise HTTPException(status_code=401, detail="Firebase ID token không hợp lệ hoặc đã hết hạn.") from None
         except VerifierUnavailable as exc:
-            raise HTTPException(status_code=503, detail=str(exc))
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
         if claimed not in (None, "", GUEST, uid):
             raise HTTPException(status_code=403, detail="user_id không khớp với tài khoản đăng nhập.")
         return uid

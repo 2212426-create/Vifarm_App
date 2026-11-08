@@ -134,9 +134,15 @@ Mỗi lượt chạy xuất báo cáo Markdown và JSON vào thư mục `results
 
 ## Kiểm thử và API Serving cho Ứng dụng
 
-* **Chạy toàn bộ Suite kiểm thử (210 tests):**
+* **Chạy toàn bộ Suite kiểm thử (200 tests):**
   ```powershell
   .\venv\Scripts\python.exe experiments\run.py test
+  ```
+
+* **Lint (import/biến thừa, lỗi thường gặp) theo `ruff.toml`:**
+  ```powershell
+  .\venv\Scripts\python.exe -m pip install ruff
+  .\venv\Scripts\python.exe -m ruff check src experiments tests
   ```
 
 * **Khởi chạy RecSys Serving API (FastAPI) phục vụ Mobile App:**

@@ -1,8 +1,9 @@
 # Trạng thái RecSys hiện hành
 
-Mốc mã đã kiểm chứng: **07/11/2026**, source
-`c236f08c87bd9d95de6d82c34236111d87d9a0deaca22ae9c9d9496646a60b1e`.
-Mốc này xóa toàn bộ mã IViDR và TopPop/ItemKNN-CF theo yêu cầu người dùng; `cf-dl` còn MF, GMF, MLP, NeuMF,
+Mốc mã đã kiểm chứng: **08/11/2026**, source
+`97ca516a40dfbf2fdf854a444308ecd5bc773604788ff2bff0d126c5ef577e96`.
+Mốc này thêm NDCG@5, Recall@5, Recall@5_bounded (định nghĩa của đồ án) cho MRDR-CAL và chạy lại MRDR-CAL trên ba
+dataset. Mốc 07/11 trước đó dọn lint (`ruff.toml`, không đổi hành vi) và xóa toàn bộ mã IViDR và TopPop/ItemKNN-CF theo yêu cầu người dùng; `cf-dl` còn MF, GMF, MLP, NeuMF,
 NeuMF-pre. Mốc 04/11 trước đó thêm MRDR-CAL (Hu et al., TKDE 2025) và CLEV-DR (Zhang et al., KDD 2025, "Ours-DR")
 theo protocol tác giả. Năm mô hình của `benchmark --model all` không đổi mã và không đổi điểm. Lịch sử trước đó nằm trong Git, xem [cách khôi phục](MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
 
@@ -15,7 +16,7 @@ theo protocol tác giả. Năm mô hình của `benchmark --model all` không đ
 | **H30** | MF, NeuMF, iDCF, LCDR | Coat/Yahoo ≥4, KuaiRand is_click; random log chia user 30/70; loại user không positive |
 | **CDR-src / CDR-KR** | DR-BIAS + CDR | Theo script tác giả: ≥3, toàn random log, 5% nhãn tập chấm để hiệu chỉnh, user không positive = 1 (CDR-src Coat/Yahoo; CDR-KR là KuaiRand địa phương) |
 | **ConAlign-src** | ConAlign | Theo source tác giả: chia ngẫu nhiên riêng, tháp unbiased, seed 0–2 |
-| **MRDR-CAL-src** | MRDR-CAL | Theo Hu et al.: train MNAR/log thiên lệch, test MAR/log ngẫu nhiên, nhãn rating > 3 hoặc is_click; AUC, DCG@{2,4,6}, Recall@{2,4,6} |
+| **MRDR-CAL-src** | MRDR-CAL | Theo Hu et al.: train MNAR/log thiên lệch, test MAR/log ngẫu nhiên, nhãn rating > 3 hoặc is_click; AUC, DCG@{2,4,6}, Recall@{2,4,6}; thêm NDCG@5, Recall@5 theo định nghĩa đồ án |
 | **CLEV-DR-src** | CLEV-DR | Theo Zhang et al.: train log thiên lệch, test toàn log ngẫu nhiên, nhãn rating ≥ 3 hoặc watch ratio ≥ 2; AUC, Recall@K, NDCG@K (K = 5 Coat/Yahoo, 50 KuaiRec) |
 
 **Chỉ so sánh được trong cùng nhóm.** CDR và ConAlign có điểm cao hơn trên Coat chủ yếu vì protocol dễ hơn:
@@ -43,7 +44,7 @@ ConAlign đo theo metric của source, 3 seed ([chi tiết](benchmarks/lcdr_cona
 | Yahoo!R3 | .6771 ± .0077 | .6841 | .7783 ± .0055 | .7761 |
 | KuaiRand | .6607 ± .0002 | .6372 | .6141 ± .0003 | .5656 |
 
-### MRDR-CAL và CLEV-DR (protocol tác giả, 04/11/2026)
+### MRDR-CAL và CLEV-DR (protocol tác giả; MRDR-CAL chạy lại 07–08/11, CLEV-DR 04/11)
 
 Cả hai dùng nền NCF/NeuMF, cài lại theo mã công khai (không chép file); nguồn và lựa chọn địa phương
 ở `src/models/mrdr_cal/source.json`, `src/models/clev/source.json`.
@@ -52,8 +53,20 @@ Cả hai dùng nền NCF/NeuMF, cài lại theo mã công khai (không chép fil
 | MRDR-CAL | Seed | AUC | DCG@2 | Recall@2 | Bài báo (Bảng VI) |
 | :-- | :-- | --: | --: | --: | :-- |
 | Coat | 0–9 | .724 ± .008 | .597 ± .028 | .723 ± .036 | .7728 / .7648 / .8987 |
-| Yahoo!R3 | 0–9 | .673 ± .008 | .452 ± .037 | .546 ± .040 | .6988 / .5623 / .6687 |
-| KuaiRand | 0–2 | .577 ± .009 | .453 ± .009 | .551 ± .010 (đếm) | .6247 / .4928 / .5971 |
+| Yahoo!R3 | 0–9 | .671 ± .009 | .440 ± .039 | .535 ± .041 | .6988 / .5623 / .6687 |
+| KuaiRand | 0–2 | .574 ± .006 | .455 ± .021 | .554 ± .025 (đếm) | .6247 / .4928 / .5971 |
+
+| MRDR-CAL, chỉ số @5 của đồ án (không có trong bài báo) | Seed | NDCG@5 | Recall@5 | Recall@5 bounded |
+| :-- | :-- | --: | --: | --: |
+| Coat | 0–9 | .446 ± .014 | .470 ± .016 | .520 ± .016 |
+| Yahoo!R3 | 0–9 | .469 ± .023 | .645 ± .021 | .650 ± .021 |
+| KuaiRand | 0–2 | .330 ± .014 | .295 ± .014 | .379 ± .016 |
+
+NDCG@5/Recall@5 tính như H30 (IDCG trên min(5, số positive), macro theo user có positive) nhưng trên tập test
+MRDR-CAL-src (toàn log ngẫu nhiên, nhãn rating > 3 hoặc is_click), nên không so trực tiếp với bảng H30.
+Coat chạy lại khớp lượt 04/11 tuyệt đối ở mọi seed. Yahoo và KuaiRand lệch từng seed (tối đa .056) do tính toán số
+thực trên CPU không tất định với dữ liệu lớn (tham số Platt đã khác ở chữ số thứ ba–tư); trung bình lệch dưới một độ
+lệch chuẩn. Mọi số trong hai bảng trên lấy từ cùng lượt chạy lại.
 
 | CLEV-DR (alpha tốt nhất, chọn trên test như script tác giả) | Seed | AUC | Recall@K | NDCG@K | Bài báo (Bảng 2, Ours-DR) |
 | :-- | :-- | --: | --: | --: | :-- |
@@ -68,7 +81,7 @@ Cả hai dùng nền NCF/NeuMF, cài lại theo mã công khai (không chép fil
   cách nằm ở phần MRDR tự ghép. Chẩn đoán với loss dạng tổng và train tới khoảng epoch 150 đạt AUC .746, DCG@2 .670;
   cấu hình này chọn sau khi xem test nên không đưa vào bảng.
 - **KuaiRand Recall:** mã Hu chuẩn hóa recall theo số positive (≤ 1), Bảng VI ghi giá trị > 1; dạng đếm của đồ án
-  (.551 / 1.052 / 1.512) khớp thang của bài, nên bảng trên dùng dạng đếm.
+  (.554 / 1.046 / 1.506) khớp thang của bài, nên bảng trên dùng dạng đếm.
 
 Coat nhỏ nên phải đọc theo nhiều seed:
 
@@ -116,10 +129,10 @@ Tham số chi tiết: [config MF/CDR](../src/training/config.py), `IDCF_CONFIG` 
 
 ## Kiểm chứng
 
-**199 test: 198 đạt, 1 CUDA skip** ([log](archive/2026-11-07/model_removal/tests.log)); smoke năm mô hình trên ba
-dataset và `cf-dl` ([log](archive/2026-11-07/model_removal/smoke.log)); CDR validation ba seed khớp chính xác mốc trước
-([validation](../results/model_removal_validation_20261107.json)). `clev` và `mrdr-cal` không đổi mã từ mốc 04/11 nên
-không chạy lại smoke. MF Coat trong `cf-dl` ra lại .5476 ở seed 42 (mốc 04/11); LCDR Coat 10 seed
+**200 test: 199 đạt, 1 CUDA skip** ([log](archive/2026-11-08/mrdr_topk/tests.log)); smoke năm mô hình trên ba
+dataset, `cf-dl` và `mrdr-cal` ([log](archive/2026-11-08/mrdr_topk/smoke.log)); CDR validation ba seed khớp chính xác mốc
+trước ([validation](../results/mrdr_topk_validation_20261108.json)); `ruff check src experiments tests` sạch. `clev` không
+đổi mã từ mốc 04/11 nên không chạy lại smoke. MRDR-CAL Coat chạy lại khớp tuyệt đối lượt 04/11. MF Coat trong `cf-dl` ra lại .5476 ở seed 42 (mốc 04/11); LCDR Coat 10 seed
 ([file](../results/lcdr_coat_20261104_001633_38fc69d6.json)) ra lại .5629 ở seed 42.
 
 Môi trường: Python 3.12.10, PyTorch 2.14.1+cpu, NumPy 2.5.4, pandas 3.0.6, CPU.

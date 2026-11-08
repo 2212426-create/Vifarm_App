@@ -29,7 +29,6 @@ class PackageLayoutTests(unittest.TestCase):
         self.assertEqual(Path(helpers.CHECKPOINT_DIR), ROOT / 'checkpoints')
         self.assertEqual(Path(helpers.RESULTS_DIR), ROOT / 'results')
         from src.models.mf import train_mf
-        from src.models.cdr import train_dr_bias_cdr
         trainer = importlib.import_module('src.models.cdr.train_dr_bias_cdr')
         self.assertEqual(Path(train_mf.PROJECT_ROOT), ROOT)
         self.assertEqual(Path(trainer.PROJECT_ROOT), ROOT)

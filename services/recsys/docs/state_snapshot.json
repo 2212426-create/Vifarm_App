@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "source_sha256": "c236f08c87bd9d95de6d82c34236111d87d9a0deaca22ae9c9d9496646a60b1e",
-  "scope": "IViDR and TopPop/ItemKNN-CF code deleted at user request; cf-dl keeps MF, GMF, MLP, NeuMF, NeuMF-pre. Builds on the MRDR-CAL/CLEV-DR milestone; five-model benchmark code and scores unchanged",
+  "source_sha256": "97ca516a40dfbf2fdf854a444308ecd5bc773604788ff2bff0d126c5ef577e96",
+  "scope": "MRDR-CAL gains project NDCG@5/Recall@5/Recall@5_bounded and is rerun on Coat (exact match), Yahoo and KuaiRand (CPU float nondeterminism, within seed std). Builds on the 07/11 lint cleanup and IViDR/TopPop/ItemKNN-CF removal; five-model benchmark code and scores unchanged",
   "default_models": [
     "MF",
     "iDCF",
@@ -161,13 +161,13 @@
     "conalign": "conalign_source_protocol (ConAlign-src): source para(), seeds 0-2, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
   },
   "test_suite": {
-    "total": 199,
-    "passed": 198,
+    "total": 200,
+    "passed": 199,
     "skipped": 1,
     "skip_reason": "CUDA unavailable",
-    "log": "docs/archive/2026-11-07/model_removal/tests.log"
+    "log": "docs/archive/2026-11-08/mrdr_topk/tests.log"
   },
-  "validation_artifact": "results/model_removal_validation_20261107.json",
+  "validation_artifact": "results/mrdr_topk_validation_20261108.json",
   "independent_cdr_validation": [
     {
       "seed": 2020,
@@ -198,7 +198,7 @@
     "kuairand": "released_source_protocol"
   },
   "displayed_recall": "Recall@5_bounded",
-  "reviewed_on": "2026-11-07",
+  "reviewed_on": "2026-11-08",
   "comparison_models": {
     "workflow": "cf-dl",
     "protocol": "H30",

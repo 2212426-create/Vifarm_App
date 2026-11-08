@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "code_sha256": "ef1afd78b1177b74b3e09a5b4c754e0a2fe46902ae3b95a05f06b8118a95f202"
+  },
+  "runs": [
+    {
+      "seed": 2020,
+      "best_epoch": 23,
+      "best_val_ndcg": 0.6699348906169417,
+      "epochs_run": 23,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lint_cleanup_validation_20261107\\coat_cdr_released_seed2020_v4_6e4324fa84f53fcd.pt"
+    },
+    {
+      "seed": 2021,
+      "best_epoch": 35,
+      "best_val_ndcg": 0.6546685444276458,
+      "epochs_run": 35,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lint_cleanup_validation_20261107\\coat_cdr_released_seed2021_v4_4a8395d9d5914222.pt"
+    },
+    {
+      "seed": 2022,
+      "best_epoch": 25,
+      "best_val_ndcg": 0.6669383509943496,
+      "epochs_run": 25,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\lint_cleanup_validation_20261107\\coat_cdr_released_seed2022_v4_9e1be7724883651e.pt"
+    }
+  ],
+  "evaluation": "validation_only_no_held_out_test",
+  "regression": "Exact CDR validation scores and selected epochs after removing unused imports/variables (no behaviour change)"
+}

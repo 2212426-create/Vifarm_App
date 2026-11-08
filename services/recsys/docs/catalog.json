@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_on": "2026-11-07",
+  "reviewed_on": "2026-11-08",
   "read_first": "docs/CURRENT_STATE.md",
   "files": [
     {
@@ -766,20 +766,60 @@
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-11-07/model_removal/tests.log",
-      "role": "verification_log",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-11-07/model_removal/smoke.log",
-      "role": "verification_log",
-      "immutable": false
-    },
-    {
       "path": "results/model_removal_validation_20261107.json",
       "role": "validation_result",
       "immutable": true,
       "sha256": "30f81ed08a3b6535bda49eca338a00538e3c907aec66101f86840ecb474b2c8d"
+    },
+    {
+      "path": "docs/archive/2026-11-07/lint_cleanup/validate.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "results/lint_cleanup_validation_20261107.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "8dc9db76ae54661268207a771275799142b1c627bb7a12c39506284cd8e50865"
+    },
+    {
+      "path": "docs/archive/2026-11-08/mrdr_topk/validate.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-08/mrdr_topk/tests.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-08/mrdr_topk/smoke.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "results/mrdr_topk_validation_20261108.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "d64036da02f304cc90089b5edf3277fb0d39ca097296b9d85de0d757fe1b8b62"
+    },
+    {
+      "path": "results/mrdr_cal_coat_20261107_222905_f9db8ab0.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "aedc0945dcd2971506d226b3c99958be42631a6b557d77df0a144b57db289043"
+    },
+    {
+      "path": "results/mrdr_cal_yahoo_20261107_224026_a0c7fad3.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "753d7d917c89ad1ef2aeb6fd2022078f2e4922ce53e732db2912b94f47985273"
+    },
+    {
+      "path": "results/mrdr_cal_kuairand_20261108_022532_067ff6a2.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "04e92286d00b608d2c8f63ff99ada36bc9d362d89de0e56c31abed9a686ad13d"
     }
   ]
 }

@@ -1,0 +1,590 @@
+== python experiments/run.py smoke --dataset all --model all
+================================================================================
+ BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH TRÊN COAT / YAHOO / KUAIRAND
+ Thiết bị: cpu | Dataset: coat | Model: all
+================================================================================
+ [CẤU HÌNH EPOCHS] Coat: 1 | Yahoo: 1 | KuaiRand-Pure: 1 (MF: 1)
+ [CDR SOURCE] seed 2020; epoch budgets: {'coat': 1, 'yahoo': 1, 'kuairand': 1}; train-loss stopping
+
+################################################################################
+ PHẦN 1: THỰC NGHIỆM TRÊN TẬP DỮ LIỆU COAT (290 Users, 300 Items)
+################################################################################
+
+>>> Huấn luyện Baseline PyTorch MF (Coat)...
+
+========================================================================
+ HUẤN LUYỆN MF: COAT
+ Thiết bị: cpu | Dim: 16 | LR: 0.0005 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][COAT] Epoch 001/001 | Train Loss: 0.2707 | Val NDCG@5: 0.4089 | Val Recall@5: 0.4325 | Val HR@5: 0.7286
+[MF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4089
+[MF][COAT] TEST | NDCG@5: 0.356273 | Recall@5: 0.381983 | Recall@5_bounded: 0.429641 | HitRate@5: 0.724551 | AUC: 0.560906
+[MF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070836_eb317838\coat\mf\coat_mf_v4_e1_quick_2f742a64ce_v4_4e5cb5079fe39d25.pt
+
+>>> Huấn luyện iDCF (Coat)...
+
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 1/2: iVAE: COAT
+ Thiết bị: cpu | Latent dim: 16 | Hidden dim: 32 | Layers: 3 | LR: 0.0005 | Batch: 512 | Seed: 42
+ Giao thức: Exposure-user validation | chọn ELBO sau full-beta warm-up
+========================================================================
+[iDCF/iVAE][COAT] Epoch 001/002 | Train ELBO+L2: 209.7639 | Val ELBO: 209.1812 | Beta: 0.0000 | Phase: warm-up
+[iDCF/iVAE][COAT] Epoch 002/002 | Train ELBO+L2: 209.6391 | Val ELBO: 208.8296 | Beta: 1.0000 | Phase: full-beta
+[iDCF/iVAE][COAT] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val ELBO: 208.8296
+
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 2/2: feedback: COAT
+ Thiết bị: cpu | Dim: 16 | LR: 0.0005 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[iDCF/feedback][COAT] Epoch 001/001 | Train Loss: 0.2698 | Val NDCG@5: 0.3956 | Val Recall@5: 0.4294 | Val HR@5: 0.7429
+[iDCF/feedback][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3956
+[iDCF][COAT] TEST | NDCG@5: 0.375360 | Recall@5: 0.408853 | Recall@5_bounded: 0.457186 | HitRate@5: 0.760479 | AUC: 0.596855
+[iDCF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070836_eb317838\coat\idcf\coat_idcf_v4_e1_quick_662200ef2c_v4_8a92d2e3685d7ac5.pt
+
+>>> Huấn luyện LCDR (Coat)...
+
+========================================================================
+ HUẤN LUYỆN LCDR | Giai đoạn 1/2: iVAE + LCVAE: COAT
+ Thiết bị: cpu | Lambda: 0.9 | Latent dim: 16 | Hidden dim: 32 | Layers: 3 | LR: 0.0005 | Batch: 512 | Seed: 42
+ Giao thức: Exposure-user validation | chọn loss iVAE + LCVAE sau full-beta warm-up
+========================================================================
+[LCDR/LCVAE][COAT] Epoch 001/002 | Train loss: 425.6526 | Val loss: 424.4720 | Val ||Zlc-Z||: 5.7134 | Beta: 0.0000 | Phase: warm-up
+[LCDR/LCVAE][COAT] Epoch 002/002 | Train loss: 425.0361 | Val loss: 423.7833 | Val ||Zlc-Z||: 5.7055 | Beta: 1.0000 | Phase: full-beta
+[LCDR/LCVAE][COAT] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val loss: 423.7833
+
+========================================================================
+ HUẤN LUYỆN LCDR | Giai đoạn 2/2: feedback: COAT
+ Thiết bị: cpu | Dim: 16 | LR: 0.0005 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[LCDR/feedback][COAT] Epoch 001/001 | Train Loss: 0.2701 | Val NDCG@5: 0.4237 | Val Recall@5: 0.4602 | Val HR@5: 0.7571
+[LCDR/feedback][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4237
+[LCDR][COAT] TEST | NDCG@5: 0.376627 | Recall@5: 0.403262 | Recall@5_bounded: 0.453792 | HitRate@5: 0.760479 | AUC: 0.585741
+[LCDR][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070836_eb317838\coat\lcdr\coat_lcdr_v4_e1_quick_64057e7b3d_v4_d9a966c1d99ce087.pt
+
+>>> Huấn luyện DR-BIAS + CDR (Coat)...
+
+========================================================================
+ HUẤN LUYỆN CDR: COAT
+ Thiết bị: cpu | Dim: 16 | LR: 0.05 | Batch: 256 | Optimizer: adam | Loss: bce | Seed: 2020 | Dropout: 0.5 | Variance threshold: 10.0
+ Giao thức: Source protocol | rating >=3 | calibration 5% random | chấm toàn random log
+========================================================================
+[CDR][COAT] Epoch 001/001 | Train Rec Loss: 2.6510 | Train Imp Loss: 740813.7731 | Filtered: 0.0%
+[CDR][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1
+[CDR][COAT] SOURCE EVAL | NDCG@5: 0.540071 | Recall@5: 0.396132 | Recall@5_bounded: 0.554483 | HitRate@5: 0.882759 | AUC_global: 0.624691 | users: 290
+[CDR][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070836_eb317838\coat\cdr\20261108_070841_4e357563\coat.pt
+[CDR][COAT] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_coat_20261108_070841_4e357563.json
+
+>>> Huấn luyện ConAlign (coat, protocol source)...
+D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\src\models\conalign\data.py:77: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\Context.cpp:855.)
+  return torch.sparse_coo_tensor(indices, values, torch.Size(sparse_mx.shape))
+[ConAlign][coat][Stage 1] Epoch   0 | Train BCE 0.6869 AUC 0.5283 | Val BCE 0.6749 AUC 0.5529
+[ConAlign][coat][Stage 1] Epoch   1 | Train BCE 0.6607 AUC 0.6391 | Val BCE 0.6561 AUC 0.6009
+[ConAlign][coat][Stage 2] Epoch   0 | Train BCE 0.6491 AUC 0.6205 | Val BCE 0.6394 AUC 0.6843
+[ConAlign][coat][Stage 2] Epoch   1 | Train BCE 0.6476 AUC 0.6260 | Val BCE 0.6382 AUC 0.6861
+
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_b5b3bbfa00_20261108_070836_eb317838_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_coat_all_quick_b5b3bbfa00_20261108_070836_eb317838_v4.md
+
++----------------------------------------------------------------------------------------------------------------------------+
+|                                            KẾT QUẢ THEO GIAO THỨC TỪNG MÔ HÌNH                                             |
++=============+===============+==============+==========+==================+=============+===========+==========+============+
+| Tập dữ liệu |    Mô hình    |  Giao thức   |  NDCG@5  | Recall@5 bounded | Precision@5 | HitRate@5 |   AUC    |  Loại AUC  |
++=============+===============+==============+==========+==================+=============+===========+==========+============+
+| Coat        | MF            |     H30      | 0.356273 |         0.429641 |    0.273054 |  0.724551 | 0.560906 | macro-user |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Coat        | iDCF          |     H30      | 0.375360 |         0.457186 |    0.283832 |  0.760479 | 0.596855 | macro-user |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Coat        | LCDR          |     H30      | 0.376627 |         0.453792 |    0.283832 |  0.760479 | 0.585741 | macro-user |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Coat        | DR-BIAS + CDR |   CDR-src    | 0.540071 |         0.554483 |    0.451724 |  0.882759 | 0.624691 | global     |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Coat        | ConAlign      | ConAlign-src | 0.603922 |              N/A |    0.309827 |       N/A | 0.633157 | global     |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+ConAlign Coat: UAUC 0.575661 | UNDCG@5 0.610673 | Recall (source) 0.836788
+H30: held-out user split 30/70, Coat/Yahoo >=4.
+CDR-src: CDR Coat/Yahoo >=3, toàn random log, 5% nhãn random để calibration.
+CDR-KR: CDR KuaiRand local split, calibration 5% validation; adaptation theo metadata.
+ConAlign-src: ConAlign theo source (seed 0, para()); tháp unbiased trên test unbiased; Coat/Yahoo chia ngẫu nhiên, rating >=4; KuaiRand train 22/04-05/05 theo paper. NDCG@5 = NDCG của source (user có cả hai nhãn); không có Recall bounded/HitRate.
+Recall@5 bounded: hits/min(5, tổng positive). Recall/all positives vẫn lưu trong JSON.
+CDR CDR-src giữ quy ước empty-positive Recall=1; precision/hit-rate=0.
+Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức.
+
+================================================================================
+ BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH TRÊN COAT / YAHOO / KUAIRAND
+ Thiết bị: cpu | Dataset: yahoo | Model: all
+================================================================================
+ [CẤU HÌNH EPOCHS] Coat: 1 | Yahoo: 1 | KuaiRand-Pure: 1 (MF: 1)
+ [CDR SOURCE] seed 2020; epoch budgets: {'coat': 1, 'yahoo': 1, 'kuairand': 1}; train-loss stopping
+
+========================================================================
+ HUẤN LUYỆN MF: YAHOO
+ Thiết bị: cpu | Dim: 16 | LR: 0.0005 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][YAHOO] Epoch 001/001 | Train Loss: 0.3845 | Val NDCG@5: 0.3681 | Val Recall@5: 0.4667 | Val HR@5: 0.8750
+[MF][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3681
+[MF][YAHOO] TEST | NDCG@5: 0.312902 | Recall@5: 0.395833 | Recall@5_bounded: 0.402500 | HitRate@5: 0.500000 | AUC: 0.432292
+[MF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070842_e81a31e0\yahoo\mf\yahoo_mf_manual_v4_96f66acad623925b.pt
+
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 1/2: iVAE: YAHOO
+ Thiết bị: cpu | Latent dim: 16 | Hidden dim: 32 | Layers: 3 | LR: 0.0005 | Batch: 512 | Seed: 42
+ Giao thức: Exposure-user validation | chọn ELBO sau full-beta warm-up
+========================================================================
+[iDCF/iVAE][YAHOO] Epoch 001/002 | Train ELBO+L2: 699.2548 | Val ELBO: 697.7536 | Beta: 0.0000 | Phase: warm-up
+[iDCF/iVAE][YAHOO] Epoch 002/002 | Train ELBO+L2: 698.2320 | Val ELBO: 696.8403 | Beta: 1.0000 | Phase: full-beta
+[iDCF/iVAE][YAHOO] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val ELBO: 696.8403
+
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 2/2: feedback: YAHOO
+ Thiết bị: cpu | Dim: 16 | LR: 0.0005 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[iDCF/feedback][YAHOO] Epoch 001/001 | Train Loss: 0.3843 | Val NDCG@5: 0.4247 | Val Recall@5: 0.5333 | Val HR@5: 0.8750
+[iDCF/feedback][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4247
+[iDCF][YAHOO] TEST | NDCG@5: 0.313200 | Recall@5: 0.445833 | Recall@5_bounded: 0.452500 | HitRate@5: 0.600000 | AUC: 0.484028
+[iDCF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070842_e81a31e0\yahoo\idcf\yahoo_idcf_v4_e1_quick_62006d374c_v4_df452453016b185b.pt
+
+========================================================================
+ HUẤN LUYỆN LCDR | Giai đoạn 1/2: iVAE + LCVAE: YAHOO
+ Thiết bị: cpu | Lambda: 0.1 | Latent dim: 16 | Hidden dim: 32 | Layers: 3 | LR: 0.0005 | Batch: 512 | Seed: 42
+ Giao thức: Exposure-user validation | chọn loss iVAE + LCVAE sau full-beta warm-up
+========================================================================
+[LCDR/LCVAE][YAHOO] Epoch 001/002 | Train loss: 1396.3124 | Val loss: 1393.1029 | Val ||Zlc-Z||: 5.9115 | Beta: 0.0000 | Phase: warm-up
+[LCDR/LCVAE][YAHOO] Epoch 002/002 | Train loss: 1394.4591 | Val loss: 1391.0115 | Val ||Zlc-Z||: 5.9029 | Beta: 1.0000 | Phase: full-beta
+[LCDR/LCVAE][YAHOO] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val loss: 1391.0115
+
+========================================================================
+ HUẤN LUYỆN LCDR | Giai đoạn 2/2: feedback: YAHOO
+ Thiết bị: cpu | Dim: 16 | LR: 0.0005 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[LCDR/feedback][YAHOO] Epoch 001/001 | Train Loss: 0.3845 | Val NDCG@5: 0.3713 | Val Recall@5: 0.3979 | Val HR@5: 0.7500
+[LCDR/feedback][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3713
+[LCDR][YAHOO] TEST | NDCG@5: 0.283977 | Recall@5: 0.408333 | Recall@5_bounded: 0.415000 | HitRate@5: 0.500000 | AUC: 0.455556
+[LCDR][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070842_e81a31e0\yahoo\lcdr\yahoo_lcdr_v4_e1_quick_e349483d66_v4_64d37deb950ab1ad.pt
+
+========================================================================
+ HUẤN LUYỆN CDR: YAHOO
+ Thiết bị: cpu | Dim: 16 | LR: 0.05 | Batch: 256 | Optimizer: adam | Loss: bce | Seed: 2020 | Dropout: 0.7 | Variance threshold: 10.0
+ Giao thức: Source protocol | rating >=3 | calibration 5% random | chấm toàn random log
+========================================================================
+[CDR][YAHOO] Epoch 001/001 | Train Rec Loss: 31.2105 | Train Imp Loss: 127693465.0530 | Filtered: 0.0%
+[CDR][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1
+[CDR][YAHOO] SOURCE EVAL | NDCG@5: 0.600397 | Recall@5: 0.658159 | Recall@5_bounded: 0.682611 | HitRate@5: 0.603333 | AUC_global: 0.632860 | users: 5400
+[CDR][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070842_e81a31e0\yahoo\cdr\20261108_070904_2a9785d3\yahoo.pt
+[CDR][YAHOO] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_yahoo_20261108_070904_2a9785d3.json
+
+>>> Huấn luyện ConAlign (yahoo, protocol source)...
+[ConAlign][yahoo][Stage 1] Epoch   0 | Train BCE 0.6896 AUC 0.5497 | Val BCE 0.6825 AUC 0.6058
+[ConAlign][yahoo][Stage 1] Epoch   1 | Train BCE 0.6794 AUC 0.6200 | Val BCE 0.6751 AUC 0.6311
+[ConAlign][yahoo][Stage 2] Epoch   0 | Train BCE 0.6577 AUC 0.6044 | Val BCE 0.6429 AUC 0.6583
+[ConAlign][yahoo][Stage 2] Epoch   1 | Train BCE 0.6248 AUC 0.6933 | Val BCE 0.6158 AUC 0.6856
+
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_yahoo_all_quick_fd38cdb6f1_20261108_070842_e81a31e0_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_yahoo_all_quick_fd38cdb6f1_20261108_070842_e81a31e0_v4.md
+
++----------------------------------------------------------------------------------------------------------------------------+
+|                                            KẾT QUẢ THEO GIAO THỨC TỪNG MÔ HÌNH                                             |
++=============+===============+==============+==========+==================+=============+===========+==========+============+
+| Tập dữ liệu |    Mô hình    |  Giao thức   |  NDCG@5  | Recall@5 bounded | Precision@5 | HitRate@5 |   AUC    |  Loại AUC  |
++=============+===============+==============+==========+==================+=============+===========+==========+============+
+| Yahoo! R3   | MF            |     H30      | 0.312902 |         0.402500 |    0.150000 |  0.500000 | 0.432292 | macro-user |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Yahoo! R3   | iDCF          |     H30      | 0.313200 |         0.452500 |    0.160000 |  0.600000 | 0.484028 | macro-user |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Yahoo! R3   | LCDR          |     H30      | 0.283977 |         0.415000 |    0.150000 |  0.500000 | 0.455556 | macro-user |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Yahoo! R3   | DR-BIAS + CDR |   CDR-src    | 0.600397 |         0.682611 |    0.239370 |  0.603333 | 0.632860 | global     |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| Yahoo! R3   | ConAlign      | ConAlign-src | 0.760652 |              N/A |    0.263109 |       N/A | 0.673729 | global     |
++-------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+ConAlign Yahoo! R3: UAUC 0.657487 | UNDCG@5 0.770758 | Recall (source) 0.974297
+H30: held-out user split 30/70, Coat/Yahoo >=4.
+CDR-src: CDR Coat/Yahoo >=3, toàn random log, 5% nhãn random để calibration.
+CDR-KR: CDR KuaiRand local split, calibration 5% validation; adaptation theo metadata.
+ConAlign-src: ConAlign theo source (seed 0, para()); tháp unbiased trên test unbiased; Coat/Yahoo chia ngẫu nhiên, rating >=4; KuaiRand train 22/04-05/05 theo paper. NDCG@5 = NDCG của source (user có cả hai nhãn); không có Recall bounded/HitRate.
+Recall@5 bounded: hits/min(5, tổng positive). Recall/all positives vẫn lưu trong JSON.
+CDR CDR-src giữ quy ước empty-positive Recall=1; precision/hit-rate=0.
+Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức.
+
+================================================================================
+ BẮT ĐẦU CHẠY THỰC NGHIỆM ĐỐI SÁNH TRÊN COAT / YAHOO / KUAIRAND
+ Thiết bị: cpu | Dataset: kuairand | Model: all
+================================================================================
+ [CẤU HÌNH EPOCHS] Coat: 1 | Yahoo: 1 | KuaiRand-Pure: 1 (MF: 1)
+ [CDR SOURCE] seed 2020; epoch budgets: {'coat': 1, 'yahoo': 1, 'kuairand': 1}; train-loss stopping
+
+################################################################################
+ PHẦN 2: THỰC NGHIỆM KUAIRAND-PURE (IS_CLICK, IDCF DATA SPLIT)
+################################################################################
+
+>>> Huấn luyện Baseline PyTorch MF (KuaiRand)...
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 16 | LR: 5e-05 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.4558 | Val NDCG@5: 0.6837 | Val Recall@5: 0.8717 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6837
+[MF][KUAIRAND] TEST | NDCG@5: 0.485544 | Recall@5: 0.614516 | Recall@5_bounded: 0.620968 | HitRate@5: 0.838710 | AUC: 0.471529
+[MF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070921_e8571936\kuairand\mf\kuairand_mf_v4_e1_quick_6c163ebe34_v4_7e4cb5caea7b65dd.pt
+
+>>> Huấn luyện iDCF (KuaiRand)...
+
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 1/2: iVAE: KUAIRAND
+ Thiết bị: cpu | Latent dim: 32 | Hidden dim: 64 | Layers: 2 | LR: 0.0005 | Batch: 2048 | Seed: 42
+ Giao thức: Exposure-user validation | chọn ELBO sau full-beta warm-up
+========================================================================
+[iDCF/iVAE][KUAIRAND] Epoch 001/002 | Train ELBO+L2: 1161.6204 | Val ELBO: 1154.8533 | Beta: 0.0000 | Phase: warm-up
+[iDCF/iVAE][KUAIRAND] Epoch 002/002 | Train ELBO+L2: 1154.8519 | Val ELBO: 1149.9425 | Beta: 1.0000 | Phase: full-beta
+[iDCF/iVAE][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val ELBO: 1149.9425
+
+========================================================================
+ HUẤN LUYỆN iDCF | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 16 | LR: 0.0001 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[iDCF/feedback][KUAIRAND] Epoch 001/001 | Train Loss: 0.4550 | Val NDCG@5: 0.7059 | Val Recall@5: 0.8558 | Val HR@5: 1.0000
+[iDCF/feedback][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.7059
+[iDCF][KUAIRAND] TEST | NDCG@5: 0.531144 | Recall@5: 0.661828 | Recall@5_bounded: 0.671505 | HitRate@5: 0.870968 | AUC: 0.531691
+[iDCF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070921_e8571936\kuairand\idcf\kuairand_idcf_v4_e1_quick_901b7384f4_v4_ab0a5697989a41c2.pt
+
+>>> Huấn luyện LCDR (KuaiRand)...
+
+========================================================================
+ HUẤN LUYỆN LCDR | Giai đoạn 1/2: iVAE + LCVAE: KUAIRAND
+ Thiết bị: cpu | Lambda: 0.9 | Latent dim: 32 | Hidden dim: 64 | Layers: 2 | LR: 0.0005 | Batch: 2048 | Seed: 42
+ Giao thức: Exposure-user validation | chọn loss iVAE + LCVAE sau full-beta warm-up
+========================================================================
+[LCDR/LCVAE][KUAIRAND] Epoch 001/002 | Train loss: 2328.6355 | Val loss: 2317.2310 | Val ||Zlc-Z||: 7.9498 | Beta: 0.0000 | Phase: warm-up
+[LCDR/LCVAE][KUAIRAND] Epoch 002/002 | Train loss: 2317.5134 | Val loss: 2307.1386 | Val ||Zlc-Z||: 7.9264 | Beta: 1.0000 | Phase: full-beta
+[LCDR/LCVAE][KUAIRAND] Đạt ngân sách epoch tại epoch 2 | Chọn epoch: 2 | Best Val loss: 2307.1386
+
+========================================================================
+ HUẤN LUYỆN LCDR | Giai đoạn 2/2: feedback: KUAIRAND
+ Thiết bị: cpu | Dim: 16 | LR: 0.0001 | Batch: 256 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[LCDR/feedback][KUAIRAND] Epoch 001/001 | Train Loss: 0.4551 | Val NDCG@5: 0.7255 | Val Recall@5: 0.9087 | Val HR@5: 1.0000
+[LCDR/feedback][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.7255
+[LCDR][KUAIRAND] TEST | NDCG@5: 0.554737 | Recall@5: 0.703763 | Recall@5_bounded: 0.713441 | HitRate@5: 0.967742 | AUC: 0.527667
+[LCDR][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070921_e8571936\kuairand\lcdr\kuairand_lcdr_v4_e1_quick_9059e981e2_v4_1a1a19f51be5e47f.pt
+
+>>> Huấn luyện DR-BIAS + CDR (KuaiRand)...
+
+========================================================================
+ HUẤN LUYỆN CDR: KUAIRAND
+ Thiết bị: cpu | Dim: 16 | LR: 0.05 | Batch: 256 | Optimizer: adam | Loss: bce | Seed: 2020 | Dropout: 0.5 | Variance threshold: 10.0
+ Giao thức: Source protocol | calibration 5% validation
+========================================================================
+[CDR][KUAIRAND] Epoch 001/001 | Train Rec Loss: 21.6689 | Train Imp Loss: 14671309.9167 | Filtered: 0.0%
+[CDR][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1
+[CDR][KUAIRAND] SOURCE EVAL | NDCG@5: 0.524673 | Recall@5: 0.672581 | Recall@5_bounded: 0.682258 | HitRate@5: 0.935484 | AUC_global: 0.510491 | users: 31
+[CDR][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\benchmark_runs\20261108_070921_e8571936\kuairand\cdr\20261108_070928_a37e4624\kuairand.pt
+[CDR][KUAIRAND] Báo cáo: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cdr_source_kuairand_20261108_070928_a37e4624.json
+
+>>> Huấn luyện ConAlign (kuairand, protocol source)...
+[ConAlign][kuairand][Stage 1] Epoch   0 | Train BCE 0.6990 AUC 0.4989 | Val BCE 0.6695 AUC 0.7105
+[ConAlign][kuairand][Stage 1] Epoch   1 | Train BCE 0.6888 AUC 0.5649 | Val BCE 0.6655 AUC 0.7434
+[ConAlign][kuairand][Stage 2] Epoch   0 | Train BCE 0.6663 AUC 0.4783 | Val BCE 0.6578 AUC 0.4188
+[ConAlign][kuairand][Stage 2] Epoch   1 | Train BCE 0.6023 AUC 0.5304 | Val BCE 0.6334 AUC 0.4162
+
+[OK] Đã lưu kết quả chi tiết JSON tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_all_quick_e0f2e041f4_20261108_070921_e8571936_v4.json
+[OK] Đã lưu báo cáo khoa học Markdown tại: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\benchmark_kuairand_all_quick_e0f2e041f4_20261108_070921_e8571936_v4.md
+
++------------------------------------------------------------------------------------------------------------------------------+
+|                                             KẾT QUẢ THEO GIAO THỨC TỪNG MÔ HÌNH                                              |
++===============+===============+==============+==========+==================+=============+===========+==========+============+
+|  Tập dữ liệu  |    Mô hình    |  Giao thức   |  NDCG@5  | Recall@5 bounded | Precision@5 | HitRate@5 |   AUC    |  Loại AUC  |
++===============+===============+==============+==========+==================+=============+===========+==========+============+
+| KuaiRand-Pure | MF            |     H30      | 0.485544 |         0.620968 |    0.245161 |  0.838710 | 0.471529 | macro-user |
++---------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| KuaiRand-Pure | iDCF          |     H30      | 0.531144 |         0.671505 |    0.277419 |  0.870968 | 0.531691 | macro-user |
++---------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| KuaiRand-Pure | LCDR          |     H30      | 0.554737 |         0.713441 |    0.290323 |  0.967742 | 0.527667 | macro-user |
++---------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| KuaiRand-Pure | DR-BIAS + CDR |    CDR-KR    | 0.524673 |         0.682258 |    0.277419 |  0.935484 | 0.510491 | global     |
++---------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+| KuaiRand-Pure | ConAlign      | ConAlign-src | 0.310574 |              N/A |    0.200000 |       N/A | 0.531097 | global     |
++---------------+---------------+--------------+----------+------------------+-------------+-----------+----------+------------+
+ConAlign KuaiRand-Pure: UAUC 0.489153 | UNDCG@5 0.358121 | Recall (source) 0.405681
+H30: held-out user split 30/70, Coat/Yahoo >=4.
+CDR-src: CDR Coat/Yahoo >=3, toàn random log, 5% nhãn random để calibration.
+CDR-KR: CDR KuaiRand local split, calibration 5% validation; adaptation theo metadata.
+ConAlign-src: ConAlign theo source (seed 0, para()); tháp unbiased trên test unbiased; Coat/Yahoo chia ngẫu nhiên, rating >=4; KuaiRand train 22/04-05/05 theo paper. NDCG@5 = NDCG của source (user có cả hai nhãn); không có Recall bounded/HitRate.
+Recall@5 bounded: hits/min(5, tổng positive). Recall/all positives vẫn lưu trong JSON.
+CDR CDR-src giữ quy ước empty-positive Recall=1; precision/hit-rate=0.
+Bảng gộp để đọc; không xếp hạng hay paired-test chéo giao thức.
+
+== python experiments/run.py cf-dl --dataset all --smoke
+
+========================================================================
+ HUẤN LUYỆN MF: COAT
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 512 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][COAT] Epoch 001/001 | Train Loss: 0.2715 | Val NDCG@5: 0.2476 | Val Recall@5: 0.2617 | Val HR@5: 0.5429
+[MF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.2476
+[MF][COAT] TEST | NDCG@5: 0.295275 | Recall@5: 0.290692 | Recall@5_bounded: 0.331337 | HitRate@5: 0.646707 | AUC: 0.503527
+[MF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\coat_mf_cfdl_seed42_v4_1f3e438e338942da.pt
+
+========================================================================
+ HUẤN LUYỆN GMF: COAT
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[GMF][COAT] Epoch 001/001 | Train Loss: 0.6878 | Val NDCG@5: 0.3066 | Val Recall@5: 0.3216
+[GMF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.3240
+[GMF][COAT] TEST | NDCG@5: 0.310580 | Recall@5: 0.323362 | Recall@5_bounded: 0.370659 | HitRate@5: 0.670659 | AUC: 0.528927
+[GMF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\coat_gmf_cfdl_seed42_v4_62666c539370fd0c.pt
+
+========================================================================
+ HUẤN LUYỆN MLP: COAT
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[MLP][COAT] Epoch 001/001 | Train Loss: 0.6091 | Val NDCG@5: 0.4788 | Val Recall@5: 0.4917
+[MLP][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4788
+[MLP][COAT] TEST | NDCG@5: 0.431236 | Recall@5: 0.442239 | Recall@5_bounded: 0.496607 | HitRate@5: 0.772455 | AUC: 0.630865
+[MLP][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\coat_mlp_cfdl_seed42_v4_65c96fd71209b7ca.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF: COAT
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF][COAT] Epoch 001/001 | Train Loss: 0.6834 | Val NDCG@5: 0.4540 | Val Recall@5: 0.4783
+[NeuMF][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.4540
+[NeuMF][COAT] TEST | NDCG@5: 0.407206 | Recall@5: 0.438525 | Recall@5_bounded: 0.488423 | HitRate@5: 0.784431 | AUC: 0.616276
+[NeuMF][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\coat_neumf_cfdl_seed42_v4_e612a6354360606d.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF-pre: COAT
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF-pre][COAT] Epoch 001/001 | Train Loss: 0.5034 | Val NDCG@5: 0.5039 | Val Recall@5: 0.5341
+[NeuMF-pre][COAT] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.5039
+[NeuMF-pre][COAT] TEST | NDCG@5: 0.438887 | Recall@5: 0.456453 | Recall@5_bounded: 0.510379 | HitRate@5: 0.778443 | AUC: 0.644901
+[NeuMF-pre][COAT] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\coat_neumf_pre_cfdl_seed42_v4_bc7cca3ef042acf4.pt
+
++--------------------------------------------------------------------------------------------------------------+
+|                               KẾT QUẢ MODULE NCF & LỌC CỘNG TÁC (CF-DL) — COAT                               |
++=============+===========+=================+==========+==================+=============+===========+==========+
+| Tập dữ liệu |  Mô hình  |    Phân loại    |  NDCG@5  | Recall@5 bounded | Precision@5 | HitRate@5 |   AUC    |
++=============+===========+=================+==========+==================+=============+===========+==========+
+| Coat        | MF        | CF, model-based | 0.295275 |         0.331337 |    0.221557 |  0.646707 | 0.503527 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Coat        | GMF       | NCF, linear     | 0.310580 |         0.370659 |    0.250299 |  0.670659 | 0.528927 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Coat        | MLP       | NCF, deep       | 0.431236 |         0.496607 |    0.317365 |  0.772455 | 0.630865 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Coat        | NeuMF     | NCF, deep       | 0.407206 |         0.488423 |    0.310180 |  0.784431 | 0.616276 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Coat        | NeuMF-pre | NCF, deep       | 0.438887 |         0.510379 |    0.322156 |  0.778443 | 0.644901 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+
+[HOÀN THÀNH] Báo cáo chi tiết JSON : D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cf_dl_coat_smoke_20261108_070946_ceca3cb5.json
+[HOÀN THÀNH] Báo cáo khoa học Markdown: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cf_dl_coat_smoke_20261108_070946_ceca3cb5.md
+
+========================================================================
+ HUẤN LUYỆN MF: YAHOO
+ Thiết bị: cpu | Dim: 64 | LR: 0.0005 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][YAHOO] Epoch 001/001 | Train Loss: 0.3860 | Val NDCG@5: 0.3208 | Val Recall@5: 0.4917 | Val HR@5: 0.8750
+[MF][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3208
+[MF][YAHOO] TEST | NDCG@5: 0.346474 | Recall@5: 0.537500 | Recall@5_bounded: 0.542500 | HitRate@5: 0.650000 | AUC: 0.519792
+[MF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\yahoo_mf_cfdl_seed42_v4_910fb0d83f9d83e7.pt
+
+========================================================================
+ HUẤN LUYỆN GMF: YAHOO
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[GMF][YAHOO] Epoch 001/001 | Train Loss: 0.6917 | Val NDCG@5: 0.3996 | Val Recall@5: 0.6333
+[GMF][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.3996
+[GMF][YAHOO] TEST | NDCG@5: 0.270568 | Recall@5: 0.408333 | Recall@5_bounded: 0.415000 | HitRate@5: 0.550000 | AUC: 0.443750
+[GMF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\yahoo_gmf_cfdl_seed42_v4_959a9b4d580aa8b6.pt
+
+========================================================================
+ HUẤN LUYỆN MLP: YAHOO
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[MLP][YAHOO] Epoch 001/001 | Train Loss: 0.6897 | Val NDCG@5: 0.4409 | Val Recall@5: 0.5292
+[MLP][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.4741
+[MLP][YAHOO] TEST | NDCG@5: 0.317497 | Recall@5: 0.495833 | Recall@5_bounded: 0.502500 | HitRate@5: 0.650000 | AUC: 0.476389
+[MLP][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\yahoo_mlp_cfdl_seed42_v4_5848e0b9bfea3d47.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF: YAHOO
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF][YAHOO] Epoch 001/001 | Train Loss: 0.6868 | Val NDCG@5: 0.5336 | Val Recall@5: 0.6583
+[NeuMF][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.5336
+[NeuMF][YAHOO] TEST | NDCG@5: 0.411220 | Recall@5: 0.658333 | Recall@5_bounded: 0.665000 | HitRate@5: 0.750000 | AUC: 0.548958
+[NeuMF][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\yahoo_neumf_cfdl_seed42_v4_92a9d763a71860a0.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF-pre: YAHOO
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF-pre][YAHOO] Epoch 001/001 | Train Loss: 0.6890 | Val NDCG@5: 0.4409 | Val Recall@5: 0.5292
+[NeuMF-pre][YAHOO] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.4720
+[NeuMF-pre][YAHOO] TEST | NDCG@5: 0.321511 | Recall@5: 0.495833 | Recall@5_bounded: 0.502500 | HitRate@5: 0.650000 | AUC: 0.479514
+[NeuMF-pre][YAHOO] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\yahoo_neumf_pre_cfdl_seed42_v4_d0cfc597b6290ccf.pt
+
++--------------------------------------------------------------------------------------------------------------+
+|                            KẾT QUẢ MODULE NCF & LỌC CỘNG TÁC (CF-DL) — YAHOO! R3                             |
++=============+===========+=================+==========+==================+=============+===========+==========+
+| Tập dữ liệu |  Mô hình  |    Phân loại    |  NDCG@5  | Recall@5 bounded | Precision@5 | HitRate@5 |   AUC    |
++=============+===========+=================+==========+==================+=============+===========+==========+
+| Yahoo! R3   | MF        | CF, model-based | 0.346474 |         0.542500 |    0.190000 |  0.650000 | 0.519792 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Yahoo! R3   | GMF       | NCF, linear     | 0.270568 |         0.415000 |    0.150000 |  0.550000 | 0.443750 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Yahoo! R3   | MLP       | NCF, deep       | 0.317497 |         0.502500 |    0.180000 |  0.650000 | 0.476389 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Yahoo! R3   | NeuMF     | NCF, deep       | 0.411220 |         0.665000 |    0.230000 |  0.750000 | 0.548958 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| Yahoo! R3   | NeuMF-pre | NCF, deep       | 0.321511 |         0.502500 |    0.180000 |  0.650000 | 0.479514 |
++-------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+
+[HOÀN THÀNH] Báo cáo chi tiết JSON : D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cf_dl_yahoo_smoke_20261108_070946_ceca3cb5.json
+[HOÀN THÀNH] Báo cáo khoa học Markdown: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cf_dl_yahoo_smoke_20261108_070946_ceca3cb5.md
+
+========================================================================
+ HUẤN LUYỆN MF: KUAIRAND
+ Thiết bị: cpu | Dim: 64 | LR: 5e-05 | Batch: 2048 | Optimizer: adam | Loss: mse | Seed: 42
+ Giao thức: Held-out | chọn checkpoint bằng Val NDCG@5
+========================================================================
+[MF][KUAIRAND] Epoch 001/001 | Train Loss: 0.4534 | Val NDCG@5: 0.6687 | Val Recall@5: 0.7540 | Val HR@5: 1.0000
+[MF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 1 | Best Val NDCG@5: 0.6687
+[MF][KUAIRAND] TEST | NDCG@5: 0.481944 | Recall@5: 0.606989 | Recall@5_bounded: 0.616667 | HitRate@5: 0.806452 | AUC: 0.461303
+[MF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\kuairand_mf_cfdl_seed42_v4_58f2214c94f60d4d.pt
+
+========================================================================
+ HUẤN LUYỆN GMF: KUAIRAND
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[GMF][KUAIRAND] Epoch 001/001 | Train Loss: 0.6889 | Val NDCG@5: 0.5591 | Val Recall@5: 0.7910
+[GMF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.5963
+[GMF][KUAIRAND] TEST | NDCG@5: 0.527435 | Recall@5: 0.688172 | Recall@5_bounded: 0.707527 | HitRate@5: 0.903226 | AUC: 0.465922
+[GMF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\kuairand_gmf_cfdl_seed42_v4_52ddb1acba1cd09d.pt
+
+========================================================================
+ HUẤN LUYỆN MLP: KUAIRAND
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[MLP][KUAIRAND] Epoch 001/001 | Train Loss: 0.6477 | Val NDCG@5: 0.5545 | Val Recall@5: 0.7910
+[MLP][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.6621
+[MLP][KUAIRAND] TEST | NDCG@5: 0.594801 | Recall@5: 0.724731 | Recall@5_bounded: 0.740860 | HitRate@5: 0.967742 | AUC: 0.563546
+[MLP][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\kuairand_mlp_cfdl_seed42_v4_a09ab2d0dc55e9ff.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF: KUAIRAND
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF][KUAIRAND] Epoch 001/001 | Train Loss: 0.6722 | Val NDCG@5: 0.4862 | Val Recall@5: 0.7262
+[NeuMF][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.4921
+[NeuMF][KUAIRAND] TEST | NDCG@5: 0.550443 | Recall@5: 0.696774 | Recall@5_bounded: 0.703226 | HitRate@5: 0.870968 | AUC: 0.489302
+[NeuMF][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\kuairand_neumf_cfdl_seed42_v4_3e4553c5f5e10cd4.pt
+
+========================================================================
+ HUẤN LUYỆN NeuMF-pre: KUAIRAND
+ Thiết bị: cpu | Dim: 8 | Layers: [64, 32, 16, 8] | LR: 0.001 | Batch: 256 | Neg: 4 | Seed: 42
+ Giao thức: Held-out | chọn epoch bằng Val NDCG@5
+========================================================================
+[NeuMF-pre][KUAIRAND] Epoch 001/001 | Train Loss: 0.6660 | Val NDCG@5: 0.5545 | Val Recall@5: 0.7910
+[NeuMF-pre][KUAIRAND] Đạt ngân sách epoch tại epoch 1 | Chọn epoch: 0 | Best Val NDCG@5: 0.6621
+[NeuMF-pre][KUAIRAND] TEST | NDCG@5: 0.592491 | Recall@5: 0.718280 | Recall@5_bounded: 0.734409 | HitRate@5: 0.967742 | AUC: 0.565876
+[NeuMF-pre][KUAIRAND] Checkpoint: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\checkpoints\cf_dl\kuairand_neumf_pre_cfdl_seed42_v4_84cd8fc69405d250.pt
+
++----------------------------------------------------------------------------------------------------------------+
+|                           KẾT QUẢ MODULE NCF & LỌC CỘNG TÁC (CF-DL) — KUAIRAND-PURE                            |
++===============+===========+=================+==========+==================+=============+===========+==========+
+|  Tập dữ liệu  |  Mô hình  |    Phân loại    |  NDCG@5  | Recall@5 bounded | Precision@5 | HitRate@5 |   AUC    |
++===============+===========+=================+==========+==================+=============+===========+==========+
+| KuaiRand-Pure | MF        | CF, model-based | 0.481944 |         0.616667 |    0.251613 |  0.806452 | 0.461303 |
++---------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| KuaiRand-Pure | GMF       | NCF, linear     | 0.527435 |         0.707527 |    0.296774 |  0.903226 | 0.465922 |
++---------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| KuaiRand-Pure | MLP       | NCF, deep       | 0.594801 |         0.740860 |    0.316129 |  0.967742 | 0.563546 |
++---------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| KuaiRand-Pure | NeuMF     | NCF, deep       | 0.550443 |         0.703226 |    0.277419 |  0.870968 | 0.489302 |
++---------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+| KuaiRand-Pure | NeuMF-pre | NCF, deep       | 0.592491 |         0.734409 |    0.309677 |  0.967742 | 0.565876 |
++---------------+-----------+-----------------+----------+------------------+-------------+-----------+----------+
+
+[HOÀN THÀNH] Báo cáo chi tiết JSON : D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cf_dl_kuairand_smoke_20261108_070946_ceca3cb5.json
+[HOÀN THÀNH] Báo cáo khoa học Markdown: D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\results\cf_dl_kuairand_smoke_20261108_070946_ceca3cb5.md
+== python experiments/run.py mrdr-cal --dataset all --smoke --threads 4
+D:\University\DoAnChuyenNganh\ViFarm_App\services\recsys\src\models\mrdr_cal\model.py:79: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  return {"a": float(self.a), "b": float(self.b),
+{"dataset": "coat", "seed": 0, "AUC": 0.6149580103359173, "DCG@2": 0.5037109883062163, "Recall@2": 0.6033755274261603, "NDCG@5": 0.3743726944342353, "Recall@5": 0.38850126666582363, "seconds": 7.1}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\mrdr_cal_coat_smoke_20261108_071004_96c0c09c.json",
+  "summary": {
+    "AUC": 0.615,
+    "UAUC": 0.57,
+    "DCG@2": 0.5037,
+    "DCG@4": 0.7327,
+    "DCG@6": 0.9078,
+    "Recall@2": 0.6034,
+    "Recall@4": 1.097,
+    "Recall@6": 1.5696,
+    "NDCG@5": 0.3744,
+    "Recall@5": 0.3885,
+    "Recall@5_bounded": 0.4334
+  }
+}
+{"dataset": "yahoo", "seed": 0, "AUC": 0.7032326991540264, "DCG@2": 0.5181289867948128, "Recall@2": 0.6276683087027914, "NDCG@5": 0.5180829005930212, "Recall@5": 0.6839528435895431, "seconds": 68.2}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\mrdr_cal_yahoo_smoke_20261108_071004_96c0c09c.json",
+  "summary": {
+    "AUC": 0.7032,
+    "UAUC": 0.6551,
+    "DCG@2": 0.5181,
+    "DCG@4": 0.7261,
+    "DCG@6": 0.8606,
+    "Recall@2": 0.6277,
+    "Recall@4": 1.0718,
+    "Recall@6": 1.4335,
+    "NDCG@5": 0.5181,
+    "Recall@5": 0.684,
+    "Recall@5_bounded": 0.6893
+  }
+}
+{"dataset": "kuairand", "seed": 0, "AUC": 0.5946489996649614, "DCG@2": 0.4690039657870658, "Recall@2": 0.1346077327775724, "NDCG@5": 0.3368512675214288, "Recall@5": 0.30005633852654984, "seconds": 447.8}
+{
+  "report": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\results\\mrdr_cal_kuairand_smoke_20261108_071004_96c0c09c.json",
+  "summary": {
+    "AUC": 0.5946,
+    "UAUC": 0.5596,
+    "DCG@2": 0.469,
+    "DCG@4": 0.7002,
+    "DCG@6": 0.8725,
+    "Recall@2": 0.1346,
+    "Recall@4": 0.2477,
+    "Recall@6": 0.3504,
+    "NDCG@5": 0.3369,
+    "Recall@5": 0.3001,
+    "Recall@5_bounded": 0.3856,
+    "Recall@2_count": 0.5697,
+    "Recall@4_count": 1.0658,
+    "Recall@6_count": 1.5292
+  }
+}

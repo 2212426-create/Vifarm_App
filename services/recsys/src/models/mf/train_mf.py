@@ -18,7 +18,6 @@ except Exception:
     pass
 
 import argparse
-import time
 import numpy as np
 import torch
 import torch.nn as nn
@@ -81,8 +80,6 @@ def train_baseline_mf(dataset_name="coat", embedding_dim=64, epochs=None, lr=Non
         train_c = np.ones_like(train_y)
         val_candidates = data["val_candidates"]
         val_ground_truth = data["val_ground_truth"]
-        test_candidates = data["test_candidates"]
-        test_ground_truth = data["test_ground_truth"]
         n_samples = len(train_u)
         batch_size = batch_size or 512
         lr = lr if lr is not None else (0.005 if optimizer_name == "adam" else 0.1)
@@ -96,8 +93,6 @@ def train_baseline_mf(dataset_name="coat", embedding_dim=64, epochs=None, lr=Non
         train_c = data["train_c"]
         val_candidates = data["val_candidates"]
         val_ground_truth = data["val_ground_truth"]
-        test_candidates = data["test_candidates"]
-        test_ground_truth = data["test_ground_truth"]
         n_samples = len(train_u)
         batch_size = batch_size or 4096
         lr = lr if lr is not None else (0.001 if optimizer_name == "adam" else 0.1)
