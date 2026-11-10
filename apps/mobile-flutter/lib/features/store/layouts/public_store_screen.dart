@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+import '../../near_me/providers/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -107,10 +109,57 @@ class PublicStoreScreen extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        'Khu vực: ${store.region} • Nhận hàng: ${store.address}',
-                        style: const TextStyle(color: Colors.grey, fontSize: 13),
-                      ),
+                      Builder(builder: (context) {
+                        final locState = ref.watch(nearMeLocationProvider);
+                        String? distanceBadge;
+                        if (store.latitude != null && store.longitude != null) {
+                          final distM = Geolocator.distanceBetween(
+                            locState.latitude,
+                            locState.longitude,
+                            store.latitude!,
+                            store.longitude!,
+                          );
+                          if (distM < 1000) {
+                            distanceBadge = '${distM.round()} m';
+                          } else {
+                            distanceBadge = '${(distM / 1000).toStringAsFixed(1)} km';
+                          }
+                        }
+
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Khu vực: ${store.region} • Nhận hàng: ${store.address}',
+                                style: const TextStyle(color: Colors.grey, fontSize: 13),
+                              ),
+                            ),
+                            if (distanceBadge != null)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withAlpha(20),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.near_me, size: 12, color: AppColors.primary),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Cách $distanceBadge',
+                                      style: const TextStyle(
+                                        color: AppColors.primary,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        );
+                      }),
                       if (store.description.isNotEmpty) ...[
                         const SizedBox(height: 8),
                         Text(store.description, style: const TextStyle(fontSize: 13, height: 1.4)),

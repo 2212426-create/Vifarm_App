@@ -17,14 +17,15 @@ class VideoShareBottomSheet extends ConsumerStatefulWidget {
   const VideoShareBottomSheet({super.key, required this.video});
 
   @override
-  ConsumerState<VideoShareBottomSheet> createState() => _VideoShareBottomSheetState();
+  ConsumerState<VideoShareBottomSheet> createState() =>
+      _VideoShareBottomSheetState();
 }
 
 class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
   final TextEditingController _captionController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
-  final Set<String> _selectedRecipients = {}; 
-  final Map<String, bool> _isGroupMap = {}; 
+  final Set<String> _selectedRecipients = {};
+  final Map<String, bool> _isGroupMap = {};
   String _searchQuery = '';
 
   @override
@@ -34,7 +35,10 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
     super.dispose();
   }
 
-  Future<void> _handleSend({String? singleRecipientId, bool isSingleGroup = false}) async {
+  Future<void> _handleSend({
+    String? singleRecipientId,
+    bool isSingleGroup = false,
+  }) async {
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) return;
 
@@ -51,15 +55,15 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
       );
       if (mounted) {
         context.pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Đã gửi video!')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Đã gửi video!')));
       }
       return;
     }
 
     if (_selectedRecipients.isEmpty) return;
-    
+
     for (final recipientId in _selectedRecipients) {
       final isGroup = _isGroupMap[recipientId] ?? false;
       await repo.sendVideoShare(
@@ -74,7 +78,11 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
     if (mounted) {
       context.pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Đã chia sẻ cho ${_selectedRecipients.length} cuộc hội thoại!')),
+        SnackBar(
+          content: Text(
+            'Đã chia sẻ cho ${_selectedRecipients.length} cuộc hội thoại!',
+          ),
+        ),
       );
     }
   }
@@ -94,7 +102,14 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
       child: Column(
         children: [
           _buildHandle(),
-          Text('Gửi tới', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: isDark ? Colors.white : Colors.black87)),
+          Text(
+            'Gửi tới',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: isDark ? Colors.white : Colors.black87,
+            ),
+          ),
           const SizedBox(height: 12),
 
           _buildActionRow(shareUrl, isDark),
@@ -104,9 +119,14 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
 
           Expanded(
             child: conversationsAsync.when(
-              data: (convs) {
+              data: (allConversations) {
+                final convs = allConversations
+                    .where((c) => c['closed'] != true)
+                    .toList();
                 if (convs.isEmpty) {
-                  return const Center(child: Text('Chưa có cuộc trò chuyện nào.'));
+                  return const Center(
+                    child: Text('Chưa có cuộc trò chuyện nào.'),
+                  );
                 }
 
                 return ListView.builder(
@@ -134,7 +154,10 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
                           }
                         });
                       },
-                      onQuickSend: () => _handleSend(singleRecipientId: id, isSingleGroup: isGroup),
+                      onQuickSend: () => _handleSend(
+                        singleRecipientId: id,
+                        isSingleGroup: isGroup,
+                      ),
                     );
                   },
                 );
@@ -152,8 +175,13 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
 
   Widget _buildHandle() {
     return Container(
-      width: 40, height: 4, margin: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), borderRadius: BorderRadius.circular(2)),
+      width: 40,
+      height: 4,
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.grey.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(2),
+      ),
     );
   }
 
@@ -166,7 +194,9 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
         children: [
           _buildOption(Icons.copy, 'Sao chép', isDark, () {
             Clipboard.setData(ClipboardData(text: shareUrl));
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã sao chép link!')));
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Đã sao chép link!')));
           }),
           _buildOption(Icons.download_rounded, 'Tải về', isDark, () {}),
           _buildOption(Icons.qr_code_scanner_rounded, 'Mã QR', isDark, () {}),
@@ -177,20 +207,33 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
     );
   }
 
-  Widget _buildOption(IconData icon, String label, bool isDark, VoidCallback onTap) {
+  Widget _buildOption(
+    IconData icon,
+    String label,
+    bool isDark,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 80, padding: const EdgeInsets.symmetric(vertical: 8),
+        width: 80,
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           children: [
             CircleAvatar(
               radius: 24,
               backgroundColor: isDark ? Colors.white12 : Colors.grey[200],
-              child: Icon(icon, color: isDark ? Colors.white : Colors.black87, size: 24),
+              child: Icon(
+                icon,
+                color: isDark ? Colors.white : Colors.black87,
+                size: 24,
+              ),
             ),
             const SizedBox(height: 6),
-            Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 10, color: Colors.grey),
+            ),
           ],
         ),
       ),
@@ -207,7 +250,10 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
         children: [
           Container(
             height: 40,
-            decoration: BoxDecoration(color: isDark ? Colors.white12 : Colors.grey[200], borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(
+              color: isDark ? Colors.white12 : Colors.grey[200],
+              borderRadius: BorderRadius.circular(8),
+            ),
             child: TextField(
               controller: _searchController,
               cursorColor: AppColors.primary,
@@ -237,13 +283,21 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
               filled: false,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: isDark ? Colors.white24 : Colors.grey[400]!),
+                borderSide: BorderSide(
+                  color: isDark ? Colors.white24 : Colors.grey[400]!,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+                borderSide: const BorderSide(
+                  color: AppColors.primary,
+                  width: 1.5,
+                ),
               ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
+              ),
             ),
           ),
         ],
@@ -258,12 +312,18 @@ class _VideoShareBottomSheetState extends ConsumerState<VideoShareBottomSheet> {
         width: double.infinity,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.primaryColor, foregroundColor: Colors.white,
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
           onPressed: () => _handleSend(),
-          child: Text('Gửi (${_selectedRecipients.length})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+          child: Text(
+            'Gửi (${_selectedRecipients.length})',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
         ),
       ),
     );
@@ -280,35 +340,66 @@ class _RecipientTile extends ConsumerWidget {
   final VoidCallback onQuickSend;
 
   const _RecipientTile({
-    required this.id, required this.isGroup, this.title, this.avatar,
-    required this.isSelected, required this.onTap, required this.onQuickSend,
+    required this.id,
+    required this.isGroup,
+    this.title,
+    this.avatar,
+    required this.isSelected,
+    required this.onTap,
+    required this.onQuickSend,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return FutureBuilder(
-      future: isGroup ? Future.value(null) : ref.read(userProfileStreamProvider(id).future),
+      future: isGroup
+          ? Future.value(null)
+          : ref.read(userProfileStreamProvider(id).future),
       builder: (context, snap) {
         final profile = snap.data;
-        final displayTitle = isGroup ? (title ?? 'Nhóm') : (profile?.username ?? id.substring(0, 8));
-        final displayAvatar = isGroup ? (avatar ?? '') : (profile?.avatarUrl ?? '');
+        final displayTitle = isGroup
+            ? (title ?? 'Nhóm')
+            : (profile?.username ?? id.substring(0, 8));
+        final displayAvatar = isGroup
+            ? (avatar ?? '')
+            : (profile?.avatarUrl ?? '');
 
         return ListTile(
           onTap: onTap,
           leading: Stack(
             children: [
               CircleAvatar(
-                radius: 22, backgroundColor: Colors.grey[200],
-                backgroundImage: displayAvatar.isNotEmpty ? NetworkImage(displayAvatar) : null,
-                child: displayAvatar.isEmpty ? Icon(isGroup ? Icons.group : Icons.person, color: Colors.grey, size: 22) : null,
+                radius: 22,
+                backgroundColor: Colors.grey[200],
+                backgroundImage: displayAvatar.isNotEmpty
+                    ? NetworkImage(displayAvatar)
+                    : null,
+                child: displayAvatar.isEmpty
+                    ? Icon(
+                        isGroup ? Icons.group : Icons.person,
+                        color: Colors.grey,
+                        size: 22,
+                      )
+                    : null,
               ),
               if (isSelected)
-                Positioned(right: -2, bottom: -2, child: Container(
-                  decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                  padding: const EdgeInsets.all(2),
-                  child: const Icon(Icons.check_circle, color: AppTheme.primaryColor, size: 18),
-                )),
+                Positioned(
+                  right: -2,
+                  bottom: -2,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    padding: const EdgeInsets.all(2),
+                    child: const Icon(
+                      Icons.check_circle,
+                      color: AppTheme.primaryColor,
+                      size: 18,
+                    ),
+                  ),
+                ),
             ],
           ),
           title: Text(
@@ -319,15 +410,24 @@ class _RecipientTile extends ConsumerWidget {
               color: isDark ? Colors.white : Colors.black87,
             ),
           ),
-          trailing: isSelected ? null : ElevatedButton(
-            onPressed: onQuickSend,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryColor, foregroundColor: Colors.white,
-              minimumSize: const Size(60, 32), padding: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-            ),
-            child: const Text('Gửi', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-          ),
+          trailing: isSelected
+              ? null
+              : ElevatedButton(
+                  onPressed: onQuickSend,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.primaryColor,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(60, 32),
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  child: const Text(
+                    'Gửi',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                ),
         );
       },
     );

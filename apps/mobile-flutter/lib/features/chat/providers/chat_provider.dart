@@ -18,11 +18,49 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   );
 });
 
+final chatConnectionProvider = StreamProvider<bool>((ref) {
+  return ref
+      .watch(realtimeDbProvider)
+      .ref('.info/connected')
+      .onValue
+      .map((event) => event.snapshot.value == true);
+});
+
+final groupDetailsProvider = StreamProvider.autoDispose
+    .family<Map<String, dynamic>?, String>((ref, groupId) {
+      return ref
+          .watch(firestoreProvider)
+          .collection('chats')
+          .doc(groupId)
+          .snapshots()
+          .map((snapshot) => snapshot.data());
+    });
+
+// Chat needs display identity, never the private profile (birthdate, etc.).
+final chatProfileProvider = StreamProvider.family<ProfileModel, String>((
+  ref,
+  uid,
+) {
+  return ref
+      .watch(firestoreProvider)
+      .collection('public_profiles')
+      .doc(uid)
+      .snapshots()
+      .map((snapshot) {
+        final data = snapshot.data();
+        return ProfileModel(
+          userId: uid,
+          username: data?['username'] as String? ?? 'Người dùng',
+          avatarUrl: data?['avatarUrl'] as String? ?? '',
+        );
+      });
+});
+
 /// StreamProvider theo dõi danh sách tin nhắn theo Room ID
 final chatMessagesProvider =
     StreamProvider.family<List<ChatMessageModel>, String>((ref, roomId) {
-  return ref.watch(chatRepositoryProvider).watchMessages(roomId);
-});
+      return ref.watch(chatRepositoryProvider).watchMessages(roomId);
+    });
 
 /// StreamProvider cho 1-1 chats từ RTDB
 final directChatsProvider = StreamProvider<List<Map<String, dynamic>>>((ref) {
@@ -41,45 +79,51 @@ final groupChatsProvider = StreamProvider<List<Map<String, dynamic>>>((ref) {
 });
 
 /// StreamProvider tổng hợp cả 1-1 và Group chats
-final chatConversationsProvider = Provider<AsyncValue<List<Map<String, dynamic>>>>((ref) {
-  final direct = ref.watch(directChatsProvider);
-  final groups = ref.watch(groupChatsProvider);
+final chatConversationsProvider =
+    Provider<AsyncValue<List<Map<String, dynamic>>>>((ref) {
+      final direct = ref.watch(directChatsProvider);
+      final groups = ref.watch(groupChatsProvider);
 
-  if (direct is AsyncLoading || groups is AsyncLoading) {
-    return const AsyncLoading();
-  }
-  if (direct is AsyncError) return AsyncError(direct.error!, direct.stackTrace ?? StackTrace.empty);
-  if (groups is AsyncError) return AsyncError(groups.error!, groups.stackTrace ?? StackTrace.empty);
+      if (direct is AsyncLoading || groups is AsyncLoading) {
+        return const AsyncLoading();
+      }
+      if (direct is AsyncError) {
+        return AsyncError(direct.error!, direct.stackTrace ?? StackTrace.empty);
+      }
+      if (groups is AsyncError) {
+        return AsyncError(groups.error!, groups.stackTrace ?? StackTrace.empty);
+      }
 
-  final list = <Map<String, dynamic>>[
-    ...direct.value ?? [],
-    ...groups.value ?? [],
-  ];
+      final list = <Map<String, dynamic>>[
+        ...direct.value ?? [],
+        ...groups.value ?? [],
+      ];
 
-  // Sắp xếp: 1. Pinned lên đầu, 2. Theo timestamp giảm dần
-  list.sort((a, b) {
-    final p1 = (a['isPinned'] == true) ? 1 : 0;
-    final p2 = (b['isPinned'] == true) ? 1 : 0;
-    if (p1 != p2) return p2.compareTo(p1);
+      // Sắp xếp: 1. Pinned lên đầu, 2. Theo timestamp giảm dần
+      list.sort((a, b) {
+        final p1 = (a['isPinned'] == true) ? 1 : 0;
+        final p2 = (b['isPinned'] == true) ? 1 : 0;
+        if (p1 != p2) return p2.compareTo(p1);
 
-    final t1 = a['timestamp'] as int? ?? 0;
-    final t2 = b['timestamp'] as int? ?? 0;
-    return t2.compareTo(t1);
-  });
+        final t1 = a['timestamp'] as int? ?? 0;
+        final t2 = b['timestamp'] as int? ?? 0;
+        return t2.compareTo(t1);
+      });
 
-  return AsyncData(list);
-});
+      return AsyncData(list);
+    });
 
 /// StreamProvider theo dõi trạng thái online của một user cụ thể
-final userOnlineStatusProvider =
-    StreamProvider.family<bool, String>((ref, userId) {
+final userOnlineStatusProvider = StreamProvider.family<bool, String>((
+  ref,
+  userId,
+) {
   return ref.watch(chatRepositoryProvider).watchUserOnlineStatus(userId);
 });
 
 /// StreamProvider theo dõi trạng thái "đang nhập" trong một room
 /// Key = "$roomId|$otherUserId"
-final typingStatusProvider =
-    StreamProvider.family<bool, String>((ref, key) {
+final typingStatusProvider = StreamProvider.family<bool, String>((ref, key) {
   final parts = key.split('|');
   if (parts.length != 2) return Stream.value(false);
   final roomId = parts[0];
@@ -88,8 +132,7 @@ final typingStatusProvider =
 });
 
 /// StreamProvider theo dõi danh sách thông báo của user hiện tại
-final notificationsProvider =
-    StreamProvider<List<NotificationModel>>((ref) {
+final notificationsProvider = StreamProvider<List<NotificationModel>>((ref) {
   final authState = ref.watch(authStateProvider);
   final currentUid = authState.valueOrNull?.uid;
 
@@ -160,28 +203,33 @@ final activeUsersProvider = StreamProvider<List<String>>((ref) {
 
   for (final uid in userIds) {
     if (uid == 'system_admin') continue;
-    final sub = database.ref('status').child(uid).child('online').onValue.listen(
-      (event) {
-        final val = event.snapshot.value;
-        final bool isOnline;
-        if (val is bool) {
-          isOnline = val;
-        } else if (val is String) {
-          isOnline = val.toLowerCase() == 'true';
-        } else if (val is num) {
-          isOnline = val == 1;
-        } else {
-          isOnline = false;
-        }
-        onlineStates[uid] = isOnline;
-        emitCurrentOnline();
-      },
-      onError: (error) {
-        debugPrint("Error listening to online status of $uid: $error");
-        onlineStates[uid] = false;
-        emitCurrentOnline();
-      },
-    );
+    final sub = database
+        .ref('status')
+        .child(uid)
+        .child('online')
+        .onValue
+        .listen(
+          (event) {
+            final val = event.snapshot.value;
+            final bool isOnline;
+            if (val is bool) {
+              isOnline = val;
+            } else if (val is String) {
+              isOnline = val.toLowerCase() == 'true';
+            } else if (val is num) {
+              isOnline = val == 1;
+            } else {
+              isOnline = false;
+            }
+            onlineStates[uid] = isOnline;
+            emitCurrentOnline();
+          },
+          onError: (error) {
+            debugPrint("Error listening to online status of $uid: $error");
+            onlineStates[uid] = false;
+            emitCurrentOnline();
+          },
+        );
     subscriptions.add(sub);
   }
 
@@ -201,27 +249,33 @@ final activeUsersProvider = StreamProvider<List<String>>((ref) {
 /// FutureProvider lấy hồ sơ của tất cả người dùng trong danh sách chat (Inbox)
 final inboxProfilesProvider = FutureProvider<List<ProfileModel>>((ref) async {
   final userIds = ref.watch(chatUserIdsProvider);
-  final repo = ref.read(profileRepositoryProvider);
   final profiles = <ProfileModel>[];
-  
+
   for (final id in userIds) {
     if (id == 'system_admin') continue;
     try {
-      final p = await repo.getProfile(id);
-      if (p != null) profiles.add(p);
+      final p = await ref.read(chatProfileProvider(id).future);
+      profiles.add(p);
     } catch (_) {}
   }
   return profiles;
 });
 
 /// Provider tổng hợp danh sách người dùng có thể thêm vào nhóm (Following + Inbox)
-final selectableFriendsProvider = FutureProvider<List<ProfileModel>>((ref) async {
+final selectableFriendsProvider = FutureProvider<List<ProfileModel>>((
+  ref,
+) async {
   final currentUid = ref.watch(authStateProvider).valueOrNull?.uid ?? '';
   if (currentUid.isEmpty) return [];
 
   // 1. Lấy danh sách Following
-  final following = await ref.read(followingFutureProvider(currentUid).future);
-  
+  List<ProfileModel> following = [];
+  try {
+    following = await ref.read(followingFutureProvider(currentUid).future);
+  } catch (_) {
+    // Inbox contacts remain usable when legacy following profiles are unavailable.
+  }
+
   // 2. Lấy danh sách từ Inbox
   final inbox = await ref.read(inboxProfilesProvider.future);
 
@@ -254,9 +308,10 @@ class AsyncStreamController<T> {
 }
 
 /// Provider quản lý timestamp thời điểm cuối cùng người dùng xem thông báo
-final lastReadNotificationTimestampProvider = StateNotifierProvider<LastReadTimestampNotifier, int>((ref) {
-  return LastReadTimestampNotifier();
-});
+final lastReadNotificationTimestampProvider =
+    StateNotifierProvider<LastReadTimestampNotifier, int>((ref) {
+      return LastReadTimestampNotifier();
+    });
 
 class LastReadTimestampNotifier extends StateNotifier<int> {
   LastReadTimestampNotifier() : super(0) {
@@ -296,21 +351,24 @@ final currentUserPresenceProvider = Provider<void>((ref) {
   chatRepo.updatePresence(uid, true);
 
   // Lắng nghe tự động trạng thái kết nối mạng của Firebase
-  final sub = database.ref('.info/connected').onValue.listen(
-    (event) {
-      try {
-        final connected = event.snapshot.value as bool? ?? false;
-        if (connected) {
-          chatRepo.updatePresence(uid, true);
-        }
-      } catch (e) {
-        debugPrint("Error in presence connection listener: $e");
-      }
-    },
-    onError: (e) {
-      debugPrint("Presence connection stream error: $e");
-    },
-  );
+  final sub = database
+      .ref('.info/connected')
+      .onValue
+      .listen(
+        (event) {
+          try {
+            final connected = event.snapshot.value as bool? ?? false;
+            if (connected) {
+              chatRepo.updatePresence(uid, true);
+            }
+          } catch (e) {
+            debugPrint("Error in presence connection listener: $e");
+          }
+        },
+        onError: (e) {
+          debugPrint("Presence connection stream error: $e");
+        },
+      );
 
   ref.onDispose(() {
     sub.cancel();
@@ -318,4 +376,3 @@ final currentUserPresenceProvider = Provider<void>((ref) {
     chatRepo.updatePresence(uid, false);
   });
 });
-

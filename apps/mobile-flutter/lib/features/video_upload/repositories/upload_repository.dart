@@ -139,7 +139,7 @@ class UploadRepository {
     String? relatedJournalId,
     List<String>? taggedProductIds,
     List<String>? keyframesPhash,
-    String moderationStatus = 'pending',
+    String moderationStatus = 'approved',
     Map<String, dynamic>? copyrightMatch,
   }) async {
     // 1. Tạo bản ghi video gốc trong bộ sưu tập "videos"
@@ -153,7 +153,9 @@ class UploadRepository {
       'totalComments': 0,
       'watchCount': 0,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'status': 'active',
       'moderationStatus': moderationStatus,
+      'isPublic': true,
       'hashtags': hashtags,
       'location': location,
       'allowDownload': allowDownload,

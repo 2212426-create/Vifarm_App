@@ -1,4 +1,4 @@
-rules_version = '2';
+﻿rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -10,16 +10,44 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    function isAdminOrModerator() {
+    function hasStaffRole(roles) {
       return isSignedIn() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'moderator']);
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('status', 'active') != 'banned' &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', 'user') in roles;
+    }
+
+    function isAdmin() {
+      return hasStaffRole(['admin']);
+    }
+
+    function isAdminOrModerator() {
+      return hasStaffRole(['admin', 'moderator']);
     }
 
     // 1. Users collection - protect PII (email, phone, birthdate)
     match /users/{userId} {
       allow read: if isSignedIn();
-      allow create, update: if isOwner(userId) || isAdminOrModerator();
-      allow delete: if isAdminOrModerator();
+      allow create: if isOwner(userId) &&
+        request.resource.data.userId == userId &&
+        request.resource.data.role == 'user' &&
+        request.resource.data.status == 'active' &&
+        request.resource.data.keys().hasOnly([
+          'userId', 'role', 'status', 'username', 'avatarUrl', 'email', 'phone',
+          'birthdate', 'isPrivate', 'followers', 'following', 'likes', 'createdAt'
+        ]);
+      allow update: if
+        (isOwner(userId) && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'username', 'avatarUrl', 'email', 'phone', 'birthdate', 'isPrivate'
+        ])) ||
+        (isAdmin() && !isOwner(userId) &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'status']) &&
+          request.resource.data.get('role', 'user') in ['user', 'viewer', 'moderator', 'admin'] &&
+          request.resource.data.get('status', 'active') in ['active', 'warned', 'banned']) ||
+        (isAdminOrModerator() && !isOwner(userId) &&
+          resource.data.get('role', 'user') == 'user' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']) &&
+          request.resource.data.status in ['active', 'warned', 'banned']);
+      allow delete: if isAdmin() && !isOwner(userId);
 
       match /saved_techniques/{videoId} {
         allow read, write: if isOwner(userId);
@@ -28,22 +56,76 @@ service cloud.firestore {
 
     // 2. Stores collection (Gian hàng)
     match /stores/{storeId} {
-      allow read: if resource.data.status == 'approved' ||
-                  (isSignedIn() && resource.data.ownerId == request.auth.uid) ||
-                  isAdminOrModerator();
-      allow create: if isSignedIn();
-      allow update: if (isSignedIn() && resource.data.ownerId == request.auth.uid) || isAdminOrModerator();
+      // Registration first checks whether its new document already exists.
+      allow get: if isSignedIn() && !exists(/databases/$(database)/documents/stores/$(storeId));
+      allow read: if true;
+      allow create: if isSignedIn() &&
+        request.resource.data.ownerId == request.auth.uid &&
+        request.resource.data.storeId == storeId &&
+        request.resource.data.status in ['draft', 'pending'] &&
+        request.resource.data.get('operatingStatus', 'active') == 'active' &&
+        request.resource.data.get('reviewedBy', null) == null &&
+        request.resource.data.get('reviewedByName', null) == null &&
+        request.resource.data.get('reviewedAt', null) == null &&
+        request.resource.data.get('rejectionReason', null) == null &&
+        request.resource.data.get('auditHistory', []) == [];
+      allow update: if
+        (isOwner(resource.data.ownerId) &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'ownerName', 'storeType', 'businessSubtype', 'storeName', 'avatarUrl',
+            'coverUrl', 'description', 'contactName', 'phone', 'address', 'region',
+            'pickupLocation', 'targetCategories', 'fulfillmentMethods',
+            'verificationDocs', 'taxCode', 'representative', 'status',
+            'operatingStatus', 'version', 'submittedAt', 'updatedAt'
+          ]) &&
+          (request.resource.data.status == resource.data.status ||
+            (resource.data.status in ['draft', 'pending', 'needs_changes', 'rejected'] &&
+              request.resource.data.status in ['draft', 'pending'])) &&
+          (request.resource.data.get('operatingStatus', 'active') == resource.data.get('operatingStatus', 'active') ||
+            (resource.data.get('operatingStatus', 'active') in ['active', 'closed'] &&
+              request.resource.data.operatingStatus in ['active', 'closed']))) ||
+        (isAdminOrModerator() && !isOwner(resource.data.ownerId) &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'status', 'operatingStatus', 'rejectionReason', 'reviewedBy',
+            'reviewedByName', 'reviewedAt', 'updatedAt', 'auditHistory'
+          ]) &&
+          request.resource.data.status in ['draft', 'pending', 'approved', 'needs_changes', 'rejected'] &&
+          request.resource.data.get('operatingStatus', 'active') in ['active', 'suspended', 'closed']);
       allow delete: if isAdminOrModerator();
     }
 
     // 3. Videos collection
     match /videos/{videoId} {
-      allow read: if resource.data.moderationStatus in ['approved', 'APPROVED'] ||
-                  resource.data.isPublic == true ||
-                  (isSignedIn() && resource.data.authorId == request.auth.uid) ||
-                  isAdminOrModerator();
+      allow read: if true;
       allow create: if isSignedIn();
-      allow update, delete: if (isSignedIn() && resource.data.authorId == request.auth.uid) || isAdminOrModerator();
+      allow update, delete: if (isSignedIn() && resource.data.get('authorId', '') == request.auth.uid) || isAdminOrModerator();
+    }
+
+    match /public_profiles/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isOwner(userId) &&
+        request.resource.data.keys().hasOnly(['username', 'avatarUrl']) &&
+        request.resource.data.username is string &&
+        request.resource.data.username.size() > 0 &&
+        request.resource.data.username.size() <= 80 &&
+        request.resource.data.avatarUrl is string &&
+        request.resource.data.avatarUrl.size() <= 2048;
+    }
+
+    match /profiles/{userId} {
+      allow read: if true;
+
+      match /watched_videos/{videoId} {
+        allow read, delete: if isOwner(userId);
+        allow create, update: if isOwner(userId) &&
+          request.resource.data.keys().hasOnly(['timestamp']) &&
+          request.resource.data.timestamp is int;
+      }
+
+      match /public_videos/{videoId} {
+        allow read: if true;
+        allow write: if isOwner(userId) || isAdminOrModerator();
+      }
     }
 
     // 4. Journals collection
@@ -63,11 +145,9 @@ service cloud.firestore {
 
     // 5. Products collection
     match /products/{productId} {
-      allow read: if resource.data.status == 'active' ||
-                  (isSignedIn() && resource.data.sellerId == request.auth.uid) ||
-                  isAdminOrModerator();
+      allow read: if true;
       allow create: if isSignedIn();
-      allow update, delete: if (isSignedIn() && resource.data.sellerId == request.auth.uid) || isAdminOrModerator();
+      allow update, delete: if (isSignedIn() && resource.data.get('sellerId', '') == request.auth.uid) || isAdminOrModerator();
     }
 
     // 6. Carts collection
@@ -78,24 +158,27 @@ service cloud.firestore {
     // 7. Quote Requests collection
     match /quote_requests/{quoteId} {
       allow read, write: if isSignedIn() &&
-        (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid);
+        (resource.data.buyerId == request.auth.uid || resource.data.get('sellerId', '') == request.auth.uid);
       allow create: if isSignedIn();
     }
 
     // 8. Orders collection
     match /orders/{orderId} {
       allow read: if isSignedIn() &&
-        (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid || isAdminOrModerator());
+        (resource.data.buyerId == request.auth.uid || resource.data.get('sellerId', '') == request.auth.uid || isAdminOrModerator());
       allow create: if isSignedIn();
       allow update: if isSignedIn() &&
-        (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid || isAdminOrModerator());
+        (resource.data.buyerId == request.auth.uid || resource.data.get('sellerId', '') == request.auth.uid || isAdminOrModerator());
     }
 
     // 9. Comments collection
     match /comments/{commentId} {
       allow read: if true;
       allow create: if isSignedIn();
-      allow update, delete: if (isSignedIn() && resource.data.authorId == request.auth.uid) || isAdminOrModerator();
+      allow update: if (isSignedIn() && resource.data.authorId == request.auth.uid) || isAdminOrModerator();
+      allow delete: if (isSignedIn() &&
+        (resource.data.authorId == request.auth.uid ||
+         get(/databases/$(database)/documents/videos/$(resource.data.videoId)).data.authorId == request.auth.uid)) || isAdminOrModerator();
     }
 
     // 10. Reports collection
@@ -106,18 +189,80 @@ service cloud.firestore {
 
     // 11. Chats & Direct Messages
     match /chats/{chatId} {
-      allow read, write: if isSignedIn() &&
-        (resource.data.participants.hasAny([request.auth.uid]) ||
-         request.resource.data.participants.hasAny([request.auth.uid]));
+      function isMember() {
+        return isSignedIn() && request.auth.uid in resource.data.memberIds;
+      }
+      function activeGroup() {
+        return resource.data.get('closed', false) == false;
+      }
+      function validMembers() {
+        return request.resource.data.memberIds is list &&
+          request.resource.data.memberIds.size() > 0 &&
+          request.resource.data.memberIds.size() <= 50 &&
+          request.resource.data.memberIds.toSet().size() == request.resource.data.memberIds.size() &&
+          resource.data.createdBy in request.resource.data.memberIds;
+      }
+      allow read: if isMember();
+      allow create: if isSignedIn() &&
+        request.resource.data.createdBy == request.auth.uid &&
+        request.resource.data.isGroup == true &&
+        request.resource.data.memberIds is list &&
+        request.resource.data.memberIds.size() >= 2 &&
+        request.resource.data.memberIds.size() <= 50 &&
+        request.resource.data.memberIds.toSet().size() == request.resource.data.memberIds.size() &&
+        request.resource.data.get('closed', false) == false &&
+        request.resource.data.groupName is string &&
+        request.resource.data.groupName.size() > 0 && request.resource.data.groupName.size() <= 80 &&
+        request.auth.uid in request.resource.data.memberIds;
+      allow update: if isMember() && activeGroup() && (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastMessage', 'lastMessageAt']) ||
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pinnedBy']) &&
+          request.resource.data.pinnedBy.diff(resource.data.get('pinnedBy', {})).affectedKeys().hasOnly([request.auth.uid]) &&
+          request.resource.data.pinnedBy[request.auth.uid] is bool) ||
+        (request.auth.uid == resource.data.createdBy && validMembers() &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['groupName', 'avatarUrl', 'memberIds', 'closed']) &&
+          request.resource.data.groupName is string && request.resource.data.groupName.size() > 0 &&
+          request.resource.data.groupName.size() <= 80 && request.resource.data.get('closed', false) is bool) ||
+        (request.auth.uid != resource.data.createdBy && validMembers() &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberIds']) &&
+          request.resource.data.memberIds.toSet() == resource.data.memberIds.toSet().difference([request.auth.uid].toSet()))
+      );
 
       match /messages/{messageId} {
+        function belongsToGroup() {
+          return isSignedIn() && request.auth.uid in
+            get(/databases/$(database)/documents/chats/$(chatId)).data.memberIds;
+        }
+        allow read: if belongsToGroup();
+        allow create: if belongsToGroup() &&
+          get(/databases/$(database)/documents/chats/$(chatId)).data.get('closed', false) == false &&
+          request.resource.data.senderId == request.auth.uid &&
+          request.resource.data.type in ['text', 'image', 'sticker', 'video_share'] &&
+          request.resource.data.message is string &&
+          request.resource.data.message.size() > 0 &&
+          request.resource.data.message.size() <= 4000 &&
+          request.resource.data.get('seenBy', {}).keys().hasOnly([request.auth.uid]);
+        allow update: if belongsToGroup() &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['seenBy']) &&
+          request.resource.data.seenBy.diff(resource.data.get('seenBy', {}))
+            .affectedKeys().hasOnly([request.auth.uid]);
+      }
+    }
+
+
+    match /user_interests/{userId} {
+      allow read, write: if isSignedIn();
+      match /{allSubcollections=**} {
         allow read, write: if isSignedIn();
       }
     }
 
+    match /campaign_analytics/{id} {
+      allow read, write: if true;
+    }
     // 12. Ads collection
     match /ads/{adId} {
-      allow read: if resource.data.status == 'active' || isAdminOrModerator();
+      allow read: if true;
       allow create, update, delete: if isAdminOrModerator();
     }
 

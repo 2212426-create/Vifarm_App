@@ -6,12 +6,12 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/providers/firebase_providers.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../profile/providers/profile_provider.dart';
 import '../../video_upload/providers/upload_provider.dart';
 import '../providers/chat_provider.dart';
 import '../repositories/chat_repository.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/typing_indicator.dart';
+import '../widgets/chat_connection_banner.dart';
 
 /// Màn hình Chat chi tiết giữa 2 người dùng
 /// Đã tích hợp: VideoShareCard, Typing Indicator, Read Receipt
@@ -38,6 +38,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   String? _roomId;
   late final ChatRepository _chatRepository;
   String? _myUid;
+  bool _sending = false;
 
   @override
   void initState() {
@@ -86,23 +87,42 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     } catch (_) {}
   }
 
-  void _sendMessage({String type = 'text', String? messageText}) {
+  Future<bool> _sendMessage({String type = 'text', String? messageText}) async {
     final text = messageText ?? _messageController.text.trim();
-    if (text.isEmpty && type == 'text') return;
-    if (_myUid == null) return;
+    if (_sending || text.isEmpty || _myUid == null) return false;
+    final draft = _messageController.text;
+    setState(() => _sending = true);
 
     // Dừng typing khi gửi
     _typingTimer?.cancel();
     _stopTyping();
 
-    _chatRepository.sendMessage(
-      senderId: _myUid!,
-      receiverId: widget.receiverId,
-      message: text,
-      type: type,
-    );
+    try {
+      await _chatRepository.sendMessage(
+        senderId: _myUid!,
+        receiverId: widget.receiverId,
+        message: text,
+        type: type,
+      );
 
-    if (type == 'text') _messageController.clear();
+      if (mounted && type == 'text' && _messageController.text == draft) {
+        _messageController.clear();
+      }
+      return true;
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Chưa gửi được tin nhắn. Kiểm tra kết nối và thử lại.',
+            ),
+          ),
+        );
+      }
+      return false;
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
   }
 
   Future<void> _sendImage() async {
@@ -117,7 +137,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Đang tải ảnh lên Cloudinary...'), duration: Duration(seconds: 30)),
+        const SnackBar(
+          content: Text('Đang tải ảnh lên Cloudinary...'),
+          duration: Duration(seconds: 30),
+        ),
       );
     }
 
@@ -125,21 +148,22 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       final uploadRepo = ref.read(uploadRepositoryProvider);
       final url = await uploadRepo.uploadImageToCloudinary(file: picked);
 
-      _sendMessage(type: 'image', messageText: url);
+      final sent = await _sendMessage(type: 'image', messageText: url);
+      if (!sent) return;
 
       if (mounted) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gửi ảnh thành công!')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Gửi ảnh thành công!')));
       }
     } catch (e) {
       debugPrint("Error sending image to Cloudinary in ChatScreen: $e");
       if (mounted) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi gửi ảnh: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Lỗi gửi ảnh: $e')));
       }
     }
   }
@@ -164,11 +188,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final cs = theme.colorScheme;
-    final bubbleInputBg =
-        isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF0F0F0);
+    final bubbleInputBg = isDark
+        ? const Color(0xFF2C2C2E)
+        : const Color(0xFFF0F0F0);
     final inputBarBg = isDark ? const Color(0xFF1E1E1E) : Colors.white;
-    final inputBarBorder =
-        isDark ? AppTheme.dividerColor : const Color(0xFFE3E3E4);
+    final inputBarBorder = isDark
+        ? AppTheme.dividerColor
+        : const Color(0xFFE3E3E4);
 
     // Xác định Room ID
     final roomId = currentUid != null
@@ -187,9 +213,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final messagesAsync = ref.watch(chatMessagesProvider(roomId));
 
     // Trạng thái đang nhập của đối phương
-    final isOtherTyping = ref
-        .watch(typingStatusProvider('$roomId|${widget.receiverId}'))
-        .valueOrNull ?? false;
+    final isOtherTyping =
+        ref
+            .watch(typingStatusProvider('$roomId|${widget.receiverId}'))
+            .valueOrNull ??
+        false;
 
     // Lấy thông tin thời gian thực của người nhận
     String displayUsername = widget.receiverName;
@@ -197,10 +225,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     bool isOnline = false;
 
     if (!isSystem) {
-      final profileAsync =
-          ref.watch(userProfileStreamProvider(widget.receiverId));
-      final onlineAsync =
-          ref.watch(userOnlineStatusProvider(widget.receiverId));
+      final profileAsync = ref.watch(chatProfileProvider(widget.receiverId));
+      final onlineAsync = ref.watch(
+        userOnlineStatusProvider(widget.receiverId),
+      );
       isOnline = onlineAsync.valueOrNull ?? false;
 
       if (profileAsync.valueOrNull != null) {
@@ -235,9 +263,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       : null,
                   child: displayAvatar.isEmpty
                       ? Icon(
-                          isSystem
-                              ? Icons.verified_user_rounded
-                              : Icons.person,
+                          isSystem ? Icons.verified_user_rounded : Icons.person,
                           color: isSystem
                               ? const Color(0xFFFE2C55)
                               : cs.onSurface,
@@ -310,6 +336,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            const ChatConnectionBanner(),
             // Danh sách tin nhắn
             Expanded(
               child: messagesAsync.when(
@@ -328,7 +355,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             ? 'Không có thông báo hệ thống nào.'
                             : 'Hãy gửi tin nhắn để bắt đầu cuộc trò chuyện.',
                         style: const TextStyle(
-                            color: AppTheme.textHint, fontSize: 13),
+                          color: AppTheme.textHint,
+                          fontSize: 13,
+                        ),
                       ),
                     );
                   }
@@ -339,7 +368,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   int latestSeenMsgIndex = -1;
                   for (int i = 0; i < reversedMessages.length; i++) {
                     final msg = reversedMessages[i];
-                    if (msg.senderId == currentUid && msg.isSeenBy(widget.receiverId)) {
+                    if (msg.senderId == currentUid &&
+                        msg.isSeenBy(widget.receiverId)) {
                       latestSeenMsgIndex = i;
                       break;
                     }
@@ -349,7 +379,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     controller: _scrollController,
                     reverse: true,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     itemCount:
                         reversedMessages.length + (isOtherTyping ? 1 : 0),
                     itemBuilder: (context, index) {
@@ -361,8 +393,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                         );
                       }
 
-                      final msgIndex =
-                          isOtherTyping ? index - 1 : index;
+                      final msgIndex = isOtherTyping ? index - 1 : index;
                       final msg = reversedMessages[msgIndex];
                       final isMsgMe = msg.senderId == currentUid;
 
@@ -378,8 +409,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 },
                 loading: () => const Center(
                   child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(Color(0xFFFE2C55)),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Color(0xFFFE2C55),
+                    ),
                   ),
                 ),
                 error: (error, _) => _buildErrorWidget(context, error),
@@ -400,16 +432,18 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 child: Text(
                   'Bạn không thể phản hồi tin nhắn hệ thống này.',
                   style: TextStyle(
-                      color:
-                          isDark ? AppTheme.textHint : Colors.grey[600],
-                      fontSize: 13),
+                    color: isDark ? AppTheme.textHint : Colors.grey[600],
+                    fontSize: 13,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               )
             else
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: inputBarBg,
                   border: Border(
@@ -420,7 +454,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   children: [
                     // Nút gửi ảnh
                     IconButton(
-                      icon: const Icon(Icons.camera_alt_outlined, color: AppTheme.textHint),
+                      icon: const Icon(
+                        Icons.camera_alt_outlined,
+                        color: AppTheme.textHint,
+                      ),
                       onPressed: _sendImage,
                     ),
                     // Input field
@@ -432,10 +469,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                         ),
                         child: TextField(
                           controller: _messageController,
-                          style:
-                              TextStyle(color: cs.onSurface, fontSize: 14),
-                          textCapitalization:
-                              TextCapitalization.sentences,
+                          style: TextStyle(color: cs.onSurface, fontSize: 14),
+                          textCapitalization: TextCapitalization.sentences,
                           minLines: 1,
                           maxLines: 4,
                           decoration: InputDecoration(
@@ -453,7 +488,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             disabledBorder: InputBorder.none,
                             filled: false,
                             contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
+                              horizontal: 16,
+                              vertical: 10,
+                            ),
                           ),
                           onSubmitted: (_) => _sendMessage(),
                         ),
@@ -467,11 +504,22 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       borderRadius: BorderRadius.circular(22),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(22),
-                        onTap: _sendMessage,
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(Icons.send_rounded,
-                              color: Colors.white, size: 20),
+                        onTap: _sending ? null : () => _sendMessage(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: _sending
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.send_rounded,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                         ),
                       ),
                     ),
@@ -486,7 +534,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   Widget _buildErrorWidget(BuildContext context, Object error) {
     final errStr = error.toString();
-    final isPermissionDenied = errStr.contains('permission-denied') ||
+    final isPermissionDenied =
+        errStr.contains('permission-denied') ||
         errStr.contains('Permission denied') ||
         errStr.contains('PERMISSION_DENIED');
 
@@ -499,28 +548,30 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             decoration: BoxDecoration(
               color: Colors.red.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(16),
-              border:
-                  Border.all(color: Colors.red.withValues(alpha: 0.2)),
+              border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.lock_person_rounded,
-                    color: Color(0xFFFE2C55), size: 44),
+                const Icon(
+                  Icons.lock_person_rounded,
+                  color: Color(0xFFFE2C55),
+                  size: 44,
+                ),
                 const SizedBox(height: 12),
                 const Text(
                   'Quyền truy cập bị từ chối',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 const Text(
                   'Không thể tải tin nhắn do Firebase Realtime Database Rules chưa cho phép.',
-                  style: TextStyle(
-                      color: AppTheme.textSecondary, fontSize: 12),
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -529,17 +580,22 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     backgroundColor: const Color(0xFFFE2C55),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                   ),
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
                         backgroundColor: const Color(0xFF1E1E1E),
-                        title: const Text('Cách cấu hình Firebase Rules',
-                            style: TextStyle(color: Colors.white)),
+                        title: const Text(
+                          'Cách cấu hình Firebase Rules',
+                          style: TextStyle(color: Colors.white),
+                        ),
                         content: const SingleChildScrollView(
                           child: Text(
                             'Vui lòng truy cập Firebase Console -> Realtime Database -> Rules, và dán cấu hình sau:\n\n'
@@ -551,24 +607,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             '}\n\n'
                             'Sau đó nhấn "Publish" để áp dụng.',
                             style: TextStyle(
-                                color: AppTheme.textSecondary,
-                                fontSize: 12,
-                                fontFamily: 'monospace'),
+                              color: AppTheme.textSecondary,
+                              fontSize: 12,
+                              fontFamily: 'monospace',
+                            ),
                           ),
                         ),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: const Text('Đã hiểu',
-                                style:
-                                    TextStyle(color: Color(0xFFFE2C55))),
+                            child: const Text(
+                              'Đã hiểu',
+                              style: TextStyle(color: Color(0xFFFE2C55)),
+                            ),
                           ),
                         ],
                       ),
                     );
                   },
-                  child: const Text('Xem cách cấu hình',
-                      style: TextStyle(fontSize: 12)),
+                  child: const Text(
+                    'Xem cách cấu hình',
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
               ],
             ),

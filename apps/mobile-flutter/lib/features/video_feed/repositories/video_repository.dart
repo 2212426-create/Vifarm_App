@@ -48,7 +48,9 @@ class VideoRepository {
 
     final allVideos = snapshot.docs
         .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-        .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
+        .where((v) =>
+            v.moderationStatus.trim().toLowerCase() == 'approved' ||
+            (currentUid != null && v.authorId == currentUid))
         .toList();
 
     // 1. NGƯỜI DÙNG CHƯA ĐĂNG NHẬP: Trả về ngẫu nhiên để test và đa dạng
@@ -97,7 +99,9 @@ class VideoRepository {
 
     final allVideos = snapshot.docs
         .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
-        .where((v) => v.moderationStatus.trim().toLowerCase() == 'approved')
+        .where((v) =>
+            v.moderationStatus.trim().toLowerCase() == 'approved' ||
+            (currentUid != null && v.authorId == currentUid))
         .toList();
 
     // Chấm điểm từng video theo thuật toán 5 bước

@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+import '../../store/repositories/store_repository.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +19,8 @@ class NearMeScreen extends ConsumerStatefulWidget {
 }
 
 class _NearMeScreenState extends ConsumerState<NearMeScreen> {
-  int _selectedRadius = 20; // km: 10, 20, 50
+  int _selectedRadius = 20;
+  bool _showStoresTab = true; // km: 10, 20, 50
 
   @override
   Widget build(BuildContext context) {
@@ -165,12 +168,143 @@ class _NearMeScreenState extends ConsumerState<NearMeScreen> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    ChoiceChip(
+                      label: const Text('Nhà vườn / Gian hàng', style: TextStyle(fontSize: 12)),
+                      selected: _showStoresTab,
+                      selectedColor: AppColors.primary,
+                      onSelected: (val) {
+                        if (val) setState(() => _showStoresTab = true);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChip(
+                      label: const Text('Nông sản', style: TextStyle(fontSize: 12)),
+                      selected: !_showStoresTab,
+                      selectedColor: AppColors.primary,
+                      onSelected: (val) {
+                        if (val) setState(() => _showStoresTab = false);
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
 
           Expanded(
-            child: productsAsync.when(
+            child: _showStoresTab
+                ? ref.watch(approvedStoresStreamProvider).when(
+                    data: (stores) {
+                      if (stores.isEmpty) {
+                        return const Center(child: Text('Chưa có gian hàng nào được kích hoạt.'));
+                      }
+
+                      final storesWithDist = stores.map((s) {
+                        double? dist;
+                        if (s.latitude != null && s.longitude != null) {
+                          dist = Geolocator.distanceBetween(
+                            locationState.latitude,
+                            locationState.longitude,
+                            s.latitude!,
+                            s.longitude!,
+                          );
+                        }
+                        return (store: s, distanceMeters: dist);
+                      }).toList();
+
+                      storesWithDist.sort((a, b) {
+                        if (a.distanceMeters == null && b.distanceMeters == null) return 0;
+                        if (a.distanceMeters == null) return 1;
+                        if (b.distanceMeters == null) return -1;
+                        return a.distanceMeters!.compareTo(b.distanceMeters!);
+                      });
+
+                      return ListView.separated(
+                        padding: const EdgeInsets.all(12),
+                        itemCount: storesWithDist.length,
+                        separatorBuilder: (context, index) => const Divider(height: 12),
+                        itemBuilder: (context, index) {
+                          final item = storesWithDist[index];
+                          final s = item.store;
+                          final dist = item.distanceMeters;
+
+                          String distText = 'Chưa có vị trí GPS';
+                          if (dist != null) {
+                            if (dist < 1000) {
+                              distText = 'Cách ${dist.round()} m';
+                            } else {
+                              distText = 'Cách ${(dist / 1000).toStringAsFixed(1)} km';
+                            }
+                          }
+
+                          return Card(
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 24,
+                                backgroundColor: AppColors.primary.withAlpha(25),
+                                backgroundImage: s.avatarUrl.isNotEmpty ? NetworkImage(s.avatarUrl) : null,
+                                child: s.avatarUrl.isEmpty ? const Icon(Icons.storefront, color: AppColors.primary) : null,
+                              ),
+                              title: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      s.storeName,
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.green.withAlpha(20),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      s.region,
+                                      style: const TextStyle(fontSize: 10, color: Colors.green, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    s.address,
+                                    style: const TextStyle(fontSize: 12, color: Colors.black87),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.near_me, size: 12, color: AppColors.primary),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        distText,
+                                        style: const TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              trailing: const Icon(Icons.chevron_right, size: 20),
+                              onTap: () {
+                                context.push('/store/${s.storeId}');
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    loading: () => const Center(child: CircularProgressIndicator()),
+                    error: (err, stack) => Center(child: Text('Lỗi: $err')),
+                  )
+                : productsAsync.when(
               data: (products) {
                 if (products.isEmpty) {
                   return const Center(child: Text('Không có nhà vườn nào trong bán kính chọn.'));

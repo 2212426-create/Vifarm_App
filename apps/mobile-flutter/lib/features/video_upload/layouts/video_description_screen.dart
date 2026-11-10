@@ -1,3 +1,4 @@
+import '../../video_feed/providers/video_provider.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/providers/firebase_providers.dart';
@@ -370,6 +371,9 @@ class _VideoDescriptionScreenState
           context,
         ).showSnackBar(const SnackBar(content: Text('Đăng video thành công!')));
         uploadNotifier.reset();
+        ref.invalidate(videoFeedProvider);
+        ref.invalidate(lamDongVideoFeedProvider);
+        ref.invalidate(followingVideoFeedProvider);
         context.go('/home');
       }
     } else {

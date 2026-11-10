@@ -1,9 +1,9 @@
+import 'group_chat_repository.dart';
 // ignore_for_file: prefer_initializing_formals
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
-import '../../../core/constants/app_constants.dart';
 import '../models/chat_message_model.dart';
 import '../models/notification_model.dart';
 
@@ -16,8 +16,8 @@ class ChatRepository {
   ChatRepository({
     required FirebaseFirestore firestore,
     required FirebaseDatabase database,
-  })  : _firestore = firestore,
-        _database = database;
+  }) : _firestore = firestore,
+       _database = database;
 
   /// Tạo Room ID duy nhất từ hai user ID (sắp xếp tăng dần theo bảng chữ cái)
   String getRoomId(String id1, String id2) {
@@ -33,13 +33,31 @@ class ChatRepository {
     Map<String, dynamic>? metadata,
   }) async {
     try {
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      // Native listeners can emit an initial false before the current state.
+      // Timeout only this read, never an enqueued write (which may commit later).
+      await _database
+          .ref('.info/connected')
+          .onValue
+          .firstWhere((event) => event.snapshot.value == true)
+          .timeout(const Duration(seconds: 3));
+      if (senderId == receiverId ||
+          message.trim().isEmpty ||
+          message.length > 4000) {
+        throw ArgumentError('Tin nhắn hoặc người nhận không hợp lệ.');
+      }
+      final timestamp = ServerValue.timestamp;
       final roomId = getRoomId(senderId, receiverId);
+      final members = [senderId, receiverId]..sort();
+      // Immutable membership is checked independently of message content.
+      await _database.ref('ChatMembers/$roomId').set({
+        'first': members[0],
+        'second': members[1],
+      });
 
       // 1. Đẩy tin nhắn vào node Chats/{roomId}
       final messagesRef = _database.ref('Chats').child(roomId);
       final msgKey = messagesRef.push().key;
-      if (msgKey == null) return;
+      if (msgKey == null) throw StateError('Không tạo được mã tin nhắn.');
 
       final Map<String, dynamic> msgData = {
         'senderId': senderId,
@@ -57,40 +75,39 @@ class ChatRepository {
       updates['/Chats/$roomId/$msgKey'] = msgData;
 
       // Cập nhật ChatList cho người gửi
-      updates['/ChatList/$senderId/$receiverId'] = {
+      final senderPreview = {
         'id': receiverId,
         'lastMessage': message,
         'lastMessageType': type,
         'timestamp': timestamp,
+        'roomId': roomId,
+        'messageId': msgKey,
       };
 
       // Cập nhật ChatList cho người nhận
-      updates['/ChatList/$receiverId/$senderId'] = {
+      final receiverPreview = {
         'id': senderId,
         'lastMessage': message,
         'lastMessageType': type,
         'timestamp': timestamp,
+        'roomId': roomId,
+        'messageId': msgKey,
       };
+      // Update fields so receiving a message does not reset a user's pin.
+      for (final field in senderPreview.entries) {
+        updates['/ChatList/$senderId/$receiverId/${field.key}'] = field.value;
+      }
+      for (final field in receiverPreview.entries) {
+        updates['/ChatList/$receiverId/$senderId/${field.key}'] = field.value;
+      }
 
       // Thực hiện cập nhật đồng thời
       await _database.ref().update(updates);
 
-      // 2. Gửi thông báo đến người nhận
-      try {
-        final doc = await _firestore.collection(AppConstants.profilesCollection).doc(senderId).get();
-        final senderUsername = doc.exists ? (doc.data()?['username'] as String? ?? 'Ai đó') : 'Ai đó';
-
-        final notifRef = _database.ref('Notifications').child(receiverId).push();
-        await notifRef.set({
-          'fromUsername': senderUsername,
-          'action': AppConstants.actionChat,
-          'timestamp': timestamp,
-        });
-      } catch (_) {
-        // Bỏ qua lỗi thông báo để không ngắt luồng gửi tin nhắn
-      }
+      // Cross-user notifications must be created by a trusted backend.
     } catch (e) {
       debugPrint("Firebase Database send message error: $e");
+      rethrow;
     }
   }
 
@@ -103,33 +120,18 @@ class ChatRepository {
     bool isGroup = false,
     Map<String, dynamic>? videoMeta,
   }) async {
-    final messageText = caption != null && caption.isNotEmpty 
-        ? caption 
+    final messageText = caption != null && caption.isNotEmpty
+        ? caption
         : 'Đã chia sẻ một video';
 
     if (isGroup) {
-      // 1. Gửi vào Firestore cho nhóm
-      await FirebaseFirestore.instance
-          .collection('chats')
-          .doc(receiverId)
-          .collection('messages')
-          .add({
-        'senderId': senderId,
-        'message': messageText,
-        'timestamp': DateTime.now().millisecondsSinceEpoch,
-        'type': 'video_share',
-        'metadata': {
-          'videoId': videoId,
-          ...?videoMeta,
-        },
-        'seenBy': {senderId: DateTime.now().millisecondsSinceEpoch},
-      });
-
-      // 2. Cập nhật lastMessage của nhóm
-      await FirebaseFirestore.instance.collection('chats').doc(receiverId).update({
-        'lastMessage': messageText,
-        'lastMessageAt': FieldValue.serverTimestamp(),
-      });
+      await GroupChatRepository(_firestore).send(
+        groupId: receiverId,
+        senderId: senderId,
+        text: messageText,
+        type: 'video_share',
+        metadata: {...?videoMeta, 'videoId': videoId},
+      );
     } else {
       // Gửi vào Realtime Database cho 1-1
       await sendMessage(
@@ -137,10 +139,7 @@ class ChatRepository {
         receiverId: receiverId,
         message: messageText,
         type: 'video_share',
-        metadata: {
-          'videoId': videoId,
-          ...?videoMeta,
-        },
+        metadata: {'videoId': videoId, ...?videoMeta},
       );
     }
   }
@@ -191,8 +190,8 @@ class ChatRepository {
         data.forEach((key, val) {
           if (val is Map) {
             final timestampVal = val['timestamp'] ?? val['lastTimestamp'] ?? 0;
-            final int timestamp = timestampVal is num 
-                ? timestampVal.toInt() 
+            final int timestamp = timestampVal is num
+                ? timestampVal.toInt()
                 : (int.tryParse(timestampVal.toString()) ?? 0);
 
             list.add({
@@ -221,21 +220,22 @@ class ChatRepository {
         .where('memberIds', arrayContains: userId)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) {
-        final data = doc.data();
-        final lastMsgAt = data['lastMessageAt'] as Timestamp?;
-        return {
-          'chatId': doc.id,
-          'title': data['groupName'] ?? 'Nhóm',
-          'avatarUrl': data['avatarUrl'] ?? '',
-          'lastMessage': data['lastMessage'] ?? '',
-          'timestamp': lastMsgAt?.millisecondsSinceEpoch ?? 0,
-          'isGroup': true,
-          'isPinned': data['isPinned'] ?? false,
-          'memberIds': List<String>.from(data['memberIds'] ?? []),
-        };
-      }).toList();
-    });
+          return snapshot.docs.map((doc) {
+            final data = doc.data();
+            final lastMsgAt = data['lastMessageAt'] as Timestamp?;
+            return {
+              'chatId': doc.id,
+              'title': data['groupName'] ?? 'Nhóm',
+              'avatarUrl': data['avatarUrl'] ?? '',
+              'lastMessage': data['lastMessage'] ?? '',
+              'timestamp': lastMsgAt?.millisecondsSinceEpoch ?? 0,
+              'isGroup': true,
+              'closed': data['closed'] == true,
+              'isPinned': (data['pinnedBy'] as Map?)?[userId] == true,
+              'memberIds': List<String>.from(data['memberIds'] ?? []),
+            };
+          }).toList();
+        });
   }
 
   /// Cập nhật trạng thái hoạt động (presence) của user hiện tại
@@ -271,21 +271,24 @@ class ChatRepository {
   void setupPresenceAutomation(String userId) {
     if (userId.trim().isEmpty) return;
     // Theo dõi trạng thái kết nối mạng của Firebase
-    _database.ref('.info/connected').onValue.listen(
-      (event) {
-        try {
-          final connected = event.snapshot.value as bool? ?? false;
-          if (connected) {
-            updatePresence(userId, true);
-          }
-        } catch (e) {
-          debugPrint("Error in presence connection listener: $e");
-        }
-      },
-      onError: (e) {
-        debugPrint("Presence connection stream error: $e");
-      },
-    );
+    _database
+        .ref('.info/connected')
+        .onValue
+        .listen(
+          (event) {
+            try {
+              final connected = event.snapshot.value as bool? ?? false;
+              if (connected) {
+                updatePresence(userId, true);
+              }
+            } catch (e) {
+              debugPrint("Error in presence connection listener: $e");
+            }
+          },
+          onError: (e) {
+            debugPrint("Presence connection stream error: $e");
+          },
+        );
   }
 
   /// Stream kiểm tra online status của một user cụ thể
@@ -293,7 +296,9 @@ class ChatRepository {
     if (userId.trim().isEmpty) {
       return Stream.value(false);
     }
-    return _database.ref('status').child(userId).child('online').onValue.map((event) {
+    return _database.ref('status').child(userId).child('online').onValue.map((
+      event,
+    ) {
       final val = event.snapshot.value;
       if (val is bool) return val;
       if (val is String) return val.toLowerCase() == 'true';
@@ -344,10 +349,7 @@ class ChatRepository {
     try {
       final ref = _database.ref('typing/$roomId/$userId');
       if (isTyping) {
-        await ref.set({
-          'isTyping': true,
-          'timestamp': ServerValue.timestamp,
-        });
+        await ref.set({'isTyping': true, 'timestamp': ServerValue.timestamp});
       } else {
         await ref.remove();
       }
@@ -359,10 +361,9 @@ class ChatRepository {
   /// Stream theo dõi trạng thái đang nhập của người khác trong room
   Stream<bool> watchTyping(String roomId, String otherUserId) {
     if (roomId.isEmpty || otherUserId.isEmpty) return Stream.value(false);
-    return _database
-        .ref('typing/$roomId/$otherUserId/isTyping')
-        .onValue
-        .map((event) {
+    return _database.ref('typing/$roomId/$otherUserId/isTyping').onValue.map((
+      event,
+    ) {
       final val = event.snapshot.value;
       if (val is bool) return val;
       if (val is String) return val.toLowerCase() == 'true';
@@ -394,7 +395,8 @@ class ChatRepository {
           final seenBy = val['seenBy'] as Map? ?? {};
           // Chỉ đánh dấu tin nhắn từ người khác, chưa được đọc
           if (senderId == otherUserId && !seenBy.containsKey(viewerId)) {
-            updates['Chats/$roomId/$key/seenBy/$viewerId'] = ServerValue.timestamp;
+            updates['Chats/$roomId/$key/seenBy/$viewerId'] =
+                ServerValue.timestamp;
           }
         }
       });
@@ -417,8 +419,11 @@ class ChatRepository {
   }) async {
     try {
       if (isGroup) {
+        if (currentUid == null) throw StateError('Cần đăng nhập.');
         // Cập nhật ghim cho nhóm (Firestore)
-        await _firestore.collection('chats').doc(chatId).update({'isPinned': isPinned});
+        await _firestore.collection('chats').doc(chatId).update({
+          'pinnedBy.$currentUid': isPinned,
+        });
       } else if (currentUid != null && otherUid != null) {
         // Cập nhật ghim cho chat 1-1 (Realtime Database)
         await _database

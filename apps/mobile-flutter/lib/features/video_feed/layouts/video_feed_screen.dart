@@ -9,6 +9,7 @@ import '../widgets/video_overlay.dart';
 import '../widgets/video_player_widget.dart';
 import '../widgets/ad_player_widget.dart';
 import '../models/feed_item.dart';
+import '../services/volume_sync_service.dart';
 
 /// Màn hình chính phát video cuộn dọc (Video Feed)
 class VideoFeedScreen extends ConsumerWidget {
@@ -16,13 +17,19 @@ class VideoFeedScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(volumeSyncServiceProvider);
     final feedState = ref.watch(homeFeedProvider);
     final selectedTab = ref.watch(homeTabProvider);
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onHorizontalDragUpdate: (_) {
+          // Chặn các thao tác vuốt ngang vô tình lôi sang trang cá nhân khi dùng tay trái
+        },
+        child: Stack(
+          children: [
           // 1. Màn hình Feed chính
           feedState.when(
             data: (items) {
@@ -75,31 +82,24 @@ class VideoFeedScreen extends ConsumerWidget {
                     } else if (item is VideoItem) {
                       final video = item.video;
 
-                      return GestureDetector(
-                        onHorizontalDragEnd: (details) {
-                          if (details.primaryVelocity != null && details.primaryVelocity! < -300) {
-                            context.push('/user/${video.authorId}');
-                          }
-                        },
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            VideoPlayerWidget(video: video),
-                            VideoOverlay(
-                              video: video,
-                              onCampaignBadgeTap: () {
-                                ref.read(videoRepositoryProvider).recordCampaignClick(video.videoId);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Cảm ơn bạn đã tham gia chiến dịch nông nghiệp Lâm Đồng! 🌲'),
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                            ),
-                            VideoActionBar(video: video),
-                          ],
-                        ),
+                      return Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          VideoPlayerWidget(video: video),
+                          VideoOverlay(
+                            video: video,
+                            onCampaignBadgeTap: () {
+                              ref.read(videoRepositoryProvider).recordCampaignClick(video.videoId);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Cảm ơn bạn đã tham gia chiến dịch nông nghiệp Lâm Đồng! 🌲'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                          ),
+                          VideoActionBar(video: video),
+                        ],
                       );
                     }
                     return const SizedBox.shrink();
@@ -204,6 +204,7 @@ class VideoFeedScreen extends ConsumerWidget {
             ),
           ),
         ],
+        ),
       ),
     );
   }

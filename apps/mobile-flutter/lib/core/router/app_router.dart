@@ -55,9 +55,22 @@ import 'package:toptop_flutter/features/video_upload/layouts/video_description_s
 import 'package:toptop_flutter/shared/widgets/bottom_nav_shell.dart';
 import 'package:toptop_flutter/shared/widgets/seller_bottom_nav_shell.dart';
 
+/// Notifier giúp GoRouter refresh mà không phải tái tạo lại instance toàn cục
+class RouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+
+  RouterNotifier(this._ref) {
+    _ref.listen(authStateProvider, (_, __) => notifyListeners());
+  }
+}
+
+final routerNotifierProvider = Provider<RouterNotifier>((ref) {
+  return RouterNotifier(ref);
+});
+
 /// Cấu hình GoRouter đa chế độ (Normal Buyer Shell vs Seller Workspace Shell)
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authStateProvider);
+  final notifier = ref.watch(routerNotifierProvider);
 
   CustomTransitionPage<void> buildSlidePage({
     required LocalKey key,
@@ -81,10 +94,12 @@ final routerProvider = Provider<GoRouter>((ref) {
   }
 
   return GoRouter(
-    initialLocation: '/', // Đổi về '/' để SplashScreen luôn được mount khi ứng dụng khởi động
+    refreshListenable: notifier,
+    initialLocation: '/home',
     debugLogDiagnostics: true,
 
     redirect: (context, state) {
+      final authState = ref.read(authStateProvider);
       final isLoggedIn = authState.valueOrNull != null;
       final isLoading = authState.isLoading;
       final currentPath = state.uri.path;

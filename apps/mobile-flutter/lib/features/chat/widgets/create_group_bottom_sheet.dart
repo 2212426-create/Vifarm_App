@@ -16,10 +16,12 @@ class CreateGroupBottomSheet extends ConsumerStatefulWidget {
   const CreateGroupBottomSheet({super.key, this.initialFriend});
 
   @override
-  ConsumerState<CreateGroupBottomSheet> createState() => _CreateGroupBottomSheetState();
+  ConsumerState<CreateGroupBottomSheet> createState() =>
+      _CreateGroupBottomSheetState();
 }
 
-class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet> {
+class _CreateGroupBottomSheetState
+    extends ConsumerState<CreateGroupBottomSheet> {
   final TextEditingController _nameController = TextEditingController();
   final List<String> _selectedUserIds = [];
   File? _groupAvatar;
@@ -28,22 +30,43 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
   @override
   void initState() {
     super.initState();
-    if (widget.initialFriend != null && widget.initialFriend!.userId.isNotEmpty) {
+    if (widget.initialFriend != null &&
+        widget.initialFriend!.userId.isNotEmpty) {
       _selectedUserIds.add(widget.initialFriend!.userId);
     }
   }
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
   Future<void> _pickAvatar() async {
     final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
-    if (picked != null) {
+    final picked = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    );
+    if (picked != null && mounted) {
       setState(() => _groupAvatar = File(picked.path));
     }
   }
 
   Future<void> _createGroup() async {
     final name = _nameController.text.trim();
-    if (name.isEmpty) return;
+    if (_isCreating) return;
+    if (name.isEmpty ||
+        name.length > 80 ||
+        _selectedUserIds.isEmpty ||
+        _selectedUserIds.length > 49) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Nhập tên 1–80 ký tự và chọn 1–49 thành viên.'),
+        ),
+      );
+      return;
+    }
 
     setState(() => _isCreating = true);
 
@@ -81,12 +104,17 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
       });
 
       if (mounted) {
-        context.pop();
-        context.push('/groupchat/${docRef.id}?name=${Uri.encodeComponent(name)}');
+        final router = GoRouter.of(context);
+        router.pop();
+        router.push(
+          '/groupchat/${docRef.id}?name=${Uri.encodeComponent(name)}',
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Lỗi tạo nhóm: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Lỗi tạo nhóm: $e')));
       }
     } finally {
       if (mounted) setState(() => _isCreating = false);
@@ -97,23 +125,23 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
   Widget build(BuildContext context) {
     final friendsAsync = ref.watch(selectableFriendsProvider);
     final theme = Theme.of(context);
-    
-    return Container(
+
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.85,
-      decoration: BoxDecoration(
+      child: Material(
         color: theme.scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: Column(
-        children: [
-          _buildHandle(),
-          _buildHeader(),
-          _buildAvatarPicker(),
-          _buildNameInput(),
-          const Divider(),
-          _buildFriendsList(friendsAsync),
-          _buildCreateButton(),
-        ],
+        child: Column(
+          children: [
+            _buildHandle(),
+            _buildHeader(),
+            _buildAvatarPicker(),
+            _buildNameInput(),
+            const Divider(),
+            _buildFriendsList(friendsAsync),
+            _buildCreateButton(),
+          ],
+        ),
       ),
     );
   }
@@ -137,10 +165,24 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(onPressed: () => context.pop(), child: const Text('Hủy')),
-          const Text('Nhóm mới', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+          const Text(
+            'Nhóm mới',
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+          ),
           TextButton(
-            onPressed: (_isCreating || _nameController.text.isEmpty) ? null : _createGroup,
-            child: _isCreating ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Tạo', style: TextStyle(fontWeight: FontWeight.bold)),
+            onPressed: (_isCreating || _nameController.text.isEmpty)
+                ? null
+                : _createGroup,
+            child: _isCreating
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Text(
+                    'Tạo',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
           ),
         ],
       ),
@@ -157,9 +199,16 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
         decoration: BoxDecoration(
           color: Colors.grey[200],
           shape: BoxShape.circle,
-          image: _groupAvatar != null ? DecorationImage(image: FileImage(_groupAvatar!), fit: BoxFit.cover) : null,
+          image: _groupAvatar != null
+              ? DecorationImage(
+                  image: FileImage(_groupAvatar!),
+                  fit: BoxFit.cover,
+                )
+              : null,
         ),
-        child: _groupAvatar == null ? const Icon(Icons.camera_alt, size: 30, color: Colors.grey) : null,
+        child: _groupAvatar == null
+            ? const Icon(Icons.camera_alt, size: 30, color: Colors.grey)
+            : null,
       ),
     );
   }
@@ -182,7 +231,9 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
     return Expanded(
       child: friendsAsync.when(
         data: (friends) {
-          if (friends.isEmpty) return const Center(child: Text('Không có bạn bè nào để thêm.'));
+          if (friends.isEmpty) {
+            return const Center(child: Text('Không có bạn bè nào để thêm.'));
+          }
           return ListView.builder(
             itemCount: friends.length,
             itemBuilder: (context, index) {
@@ -192,8 +243,12 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
                 value: isSelected,
                 title: Text(user.username),
                 secondary: CircleAvatar(
-                  backgroundImage: user.avatarUrl.isNotEmpty ? NetworkImage(user.avatarUrl) : null,
-                  child: user.avatarUrl.isEmpty ? const Icon(Icons.person) : null,
+                  backgroundImage: user.avatarUrl.isNotEmpty
+                      ? NetworkImage(user.avatarUrl)
+                      : null,
+                  child: user.avatarUrl.isEmpty
+                      ? const Icon(Icons.person)
+                      : null,
                 ),
                 onChanged: (val) {
                   setState(() {
@@ -219,13 +274,20 @@ class _CreateGroupBottomSheetState extends ConsumerState<CreateGroupBottomSheet>
       padding: const EdgeInsets.all(16),
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: (_isCreating || _nameController.text.isEmpty) ? null : _createGroup,
+        onPressed: (_isCreating || _nameController.text.isEmpty)
+            ? null
+            : _createGroup,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
-        child: const Text('Tạo nhóm', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        child: const Text(
+          'Tạo nhóm',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

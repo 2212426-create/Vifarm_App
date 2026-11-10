@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+import '../../near_me/services/geocoding_service.dart';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -40,6 +42,50 @@ class StoreRegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class _StoreRegistrationScreenState extends ConsumerState<StoreRegistrationScreen> {
+  bool _isLocatingGps = false;
+  double? _latitude;
+  double? _longitude;
+
+  Future<void> _fetchGpsAndAddress() async {
+    setState(() => _isLocatingGps = true);
+    try {
+      final pos = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 15),
+        ),
+      );
+      _latitude = pos.latitude;
+      _longitude = pos.longitude;
+
+      final geocoded = await reverseGeocode(pos.latitude, pos.longitude);
+      if (geocoded != null) {
+        if (geocoded.fullAddress.isNotEmpty) {
+          _addressController.text = geocoded.fullAddress;
+        }
+        if (geocoded.region.isNotEmpty) {
+          _regionController.text = geocoded.region;
+        }
+      }
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Đã lấy GPS: ${_addressController.text} (±${pos.accuracy.round()}m)',
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Không thể lấy vị trí GPS: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLocatingGps = false);
+    }
+  }
   int _currentStep = 0;
   final _step1FormKey = GlobalKey<FormState>();
   final _step2FormKey = GlobalKey<FormState>();
@@ -293,6 +339,8 @@ class _StoreRegistrationScreenState extends ConsumerState<StoreRegistrationScree
       address: _addressController.text.trim(),
       region: _regionController.text.trim(),
       pickupLocation: _pickupLocationController.text.trim().isNotEmpty ? _pickupLocationController.text.trim() : null,
+        latitude: _latitude,
+        longitude: _longitude,
       targetCategories: _selectedCategories,
       fulfillmentMethods: _selectedFulfillment,
       verificationDocs: _successfulDocUrls,
@@ -644,6 +692,22 @@ class _StoreRegistrationScreenState extends ConsumerState<StoreRegistrationScree
           ),
           const SizedBox(height: 12),
 
+          OutlinedButton.icon(
+            onPressed: _isLocatingGps ? null : _fetchGpsAndAddress,
+            icon: _isLocatingGps
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.my_location),
+            label: Text(
+              _latitude != null
+                  ? 'GPS: ${_latitude!.toStringAsFixed(4)}, ${_longitude!.toStringAsFixed(4)} (Bấm để lấy lại)'
+                  : 'Lấy vị trí GPS & Điền địa chỉ',
+            ),
+          ),
+          const SizedBox(height: 12),
           Row(
             children: [
               Expanded(

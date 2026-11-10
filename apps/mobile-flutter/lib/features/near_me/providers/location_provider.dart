@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import '../services/geocoding_service.dart';
 
 class PresetRegion {
   final String name;
@@ -17,6 +19,8 @@ const List<PresetRegion> defaultPresetRegions = [
   PresetRegion('Cần Thơ', 10.0452, 105.7469),
   PresetRegion('Hà Nội', 21.0285, 105.8542),
   PresetRegion('TP. Hồ Chí Minh', 10.8231, 106.6297),
+  if (kDebugMode)
+    PresetRegion('Bến Thành (test)', 10.7725, 106.6980),
 ];
 
 class NearMeLocationState {
@@ -27,6 +31,9 @@ class NearMeLocationState {
   final String displayName;
   final String? errorMessage;
   final bool isLoadingGps;
+  final double? accuracyMeters;
+  final DateTime? measuredAt;
+  final bool isMocked;
 
   const NearMeLocationState({
     required this.isGps,
@@ -36,6 +43,9 @@ class NearMeLocationState {
     required this.displayName,
     this.errorMessage,
     this.isLoadingGps = false,
+    this.accuracyMeters,
+    this.measuredAt,
+    this.isMocked = false,
   });
 
   NearMeLocationState copyWith({
@@ -55,41 +65,50 @@ class NearMeLocationState {
       displayName: displayName ?? this.displayName,
       errorMessage: errorMessage,
       isLoadingGps: isLoadingGps ?? this.isLoadingGps,
+      accuracyMeters: accuracyMeters,
+      measuredAt: measuredAt,
+      isMocked: isMocked,
     );
   }
 }
 
 class NearMeLocationNotifier extends StateNotifier<NearMeLocationState> {
+  int _request = 0;
   NearMeLocationNotifier()
-      : super(const NearMeLocationState(
+    : super(
+        const NearMeLocationState(
           isGps: false,
           latitude: 11.5753,
           longitude: 108.1429,
           regionName: 'Lâm Đồng',
-          displayName: 'Lâm Đồng',
-        ));
+          displayName: 'Lâm Đồng (chọn tay)',
+        ),
+      );
 
   void selectPresetRegion(String name) {
+    _request++;
     final found = defaultPresetRegions.firstWhere(
       (r) => r.name == name,
       orElse: () => defaultPresetRegions.first,
     );
-    state = state.copyWith(
+    state = NearMeLocationState(
       isGps: false,
       latitude: found.latitude,
       longitude: found.longitude,
       regionName: found.name,
-      displayName: found.name,
+      displayName: '${found.name} (chọn tay)',
       errorMessage: null,
       isLoadingGps: false,
     );
   }
 
   Future<bool> enableGps() async {
+    final request = ++_request;
     state = state.copyWith(isLoadingGps: true, errorMessage: null);
 
     try {
       final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!mounted || request != _request) return false;
       if (!serviceEnabled) {
         state = state.copyWith(
           isLoadingGps: false,
@@ -99,8 +118,10 @@ class NearMeLocationNotifier extends StateNotifier<NearMeLocationState> {
       }
 
       LocationPermission permission = await Geolocator.checkPermission();
+      if (!mounted || request != _request) return false;
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
+        if (!mounted || request != _request) return false;
         if (permission == LocationPermission.denied) {
           state = state.copyWith(
             isLoadingGps: false,
@@ -113,30 +134,69 @@ class NearMeLocationNotifier extends StateNotifier<NearMeLocationState> {
       if (permission == LocationPermission.deniedForever) {
         state = state.copyWith(
           isLoadingGps: false,
-          errorMessage: 'Quyền vị trí bị từ chối vĩnh viễn. Vui lòng bật trong Cài đặt.',
+          errorMessage:
+              'Quyền vị trí bị từ chối vĩnh viễn. Vui lòng bật trong Cài đặt.',
         );
         return false;
       }
 
       final position = await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.medium,
-          timeLimit: Duration(seconds: 8),
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 15),
         ),
       );
+      if (!mounted || request != _request) return false;
+      final age = DateTime.now().difference(position.timestamp);
+      if (!position.latitude.isFinite ||
+          !position.longitude.isFinite ||
+          position.latitude.abs() > 90 ||
+          position.longitude.abs() > 180 ||
+          !position.accuracy.isFinite ||
+          position.accuracy <= 0 ||
+          position.accuracy > 1000 ||
+          age > const Duration(minutes: 2) ||
+          age < const Duration(minutes: -1)) {
+        state = state.copyWith(
+          isLoadingGps: false,
+          errorMessage:
+              'Vị trí GPS cũ hoặc sai số quá lớn. Hãy thử lại ở nơi thoáng.',
+        );
+        return false;
+      }
 
-      final displayStr = 'Vị trí hiện tại (${position.latitude.toStringAsFixed(2)}, ${position.longitude.toStringAsFixed(2)})';
-      
+            String displayStr =
+          '${position.isMocked ? "Vị trí giả lập" : "GPS"} '
+          '(${position.latitude.toStringAsFixed(4)}, ${position.longitude.toStringAsFixed(4)}) '
+          '±${position.accuracy.round()} m';
+      String regionName = 'Vị trí hiện tại';
+
+      try {
+        final geocoded = await reverseGeocode(position.latitude, position.longitude);
+        if (geocoded != null) {
+          if (geocoded.region.isNotEmpty) {
+            regionName = geocoded.region;
+          }
+          displayStr = '${geocoded.fullAddress} (±${position.accuracy.round()}m)';
+        }
+      } catch (err) {
+        debugPrint('Geocoding lookup error: $err');
+      }
+
       state = NearMeLocationState(
         isGps: true,
         latitude: position.latitude,
         longitude: position.longitude,
-        regionName: 'Vị trí hiện tại',
+        regionName: regionName,
         displayName: displayStr,
         isLoadingGps: false,
+        accuracyMeters: position.accuracy,
+        measuredAt: position.timestamp,
+        isMocked: position.isMocked,
       );
       return true;
     } catch (e) {
+      if (!mounted || request != _request) return false;
       state = state.copyWith(
         isLoadingGps: false,
         errorMessage: 'Không thể lấy vị trí GPS. Đã giữ khu vực hiện tại.',
@@ -152,5 +212,5 @@ class NearMeLocationNotifier extends StateNotifier<NearMeLocationState> {
 
 final nearMeLocationProvider =
     StateNotifierProvider<NearMeLocationNotifier, NearMeLocationState>((ref) {
-  return NearMeLocationNotifier();
-});
+      return NearMeLocationNotifier();
+    });

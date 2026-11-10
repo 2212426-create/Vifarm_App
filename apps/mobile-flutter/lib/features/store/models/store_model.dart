@@ -26,19 +26,21 @@ class StoreAuditLog {
       reviewerName: map['reviewerName'] as String? ?? '',
       reason: map['reason'] as String? ?? '',
       internalNote: map['internalNote'] as String? ?? '',
-      timestamp: (map['timestamp'] as num?)?.toInt() ?? DateTime.now().millisecondsSinceEpoch,
+      timestamp:
+          (map['timestamp'] as num?)?.toInt() ??
+          DateTime.now().millisecondsSinceEpoch,
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'version': version,
-        'status': status,
-        'reviewerId': reviewerId,
-        'reviewerName': reviewerName,
-        'reason': reason,
-        'internalNote': internalNote,
-        'timestamp': timestamp,
-      };
+    'version': version,
+    'status': status,
+    'reviewerId': reviewerId,
+    'reviewerName': reviewerName,
+    'reason': reason,
+    'internalNote': internalNote,
+    'timestamp': timestamp,
+  };
 }
 
 /// Model Gian hàng Nông Nghiệp
@@ -46,8 +48,10 @@ class StoreModel {
   final String storeId;
   final String ownerId;
   final String ownerName;
-  final String storeType;        // 'individual' (Cá nhân/Nhà vườn) | 'business' (Đơn vị kinh doanh)
-  final String? businessSubtype;  // 'enterprise' (Doanh nghiệp) | 'agent' (Đại lý) | 'coop' (HTX)
+  final String
+  storeType; // 'individual' (Cá nhân/Nhà vườn) | 'business' (Đơn vị kinh doanh)
+  final String?
+  businessSubtype; // 'enterprise' (Doanh nghiệp) | 'agent' (Đại lý) | 'coop' (HTX)
   final String storeName;
   final String avatarUrl;
   final String coverUrl;
@@ -57,15 +61,19 @@ class StoreModel {
   final String address;
   final String region;
   final String? pickupLocation;
+  final double? latitude;
+  final double? longitude;
   final List<String> targetCategories;
   final List<String> fulfillmentMethods;
-  final List<String> verificationDocs; // Tài liệu xác minh bảo mật (chỉ chủ hồ sơ & admin xem)
+  final List<String>
+  verificationDocs; // Tài liệu xác minh bảo mật (chỉ chủ hồ sơ & admin xem)
   final String? taxCode;
   final String? representative;
-  final String status;          // 'draft' | 'pending' | 'needs_changes' | 'approved' | 'rejected'
+  final String
+  status; // 'draft' | 'pending' | 'needs_changes' | 'approved' | 'rejected'
   final String? rejectionReason;
   final String operatingStatus; // 'active' | 'suspended' | 'closed'
-  final int version;            // Phiên bản hồ sơ gửi xét duyệt (tăng mỗi lần resubmit)
+  final int version; // Phiên bản hồ sơ gửi xét duyệt (tăng mỗi lần resubmit)
   final int? submittedAt;
   final String? reviewedBy;
   final String? reviewedByName;
@@ -89,6 +97,8 @@ class StoreModel {
     required this.address,
     required this.region,
     this.pickupLocation,
+    this.latitude,
+    this.longitude,
     this.targetCategories = const [],
     this.fulfillmentMethods = const ['pickup', 'agreed_delivery'],
     this.verificationDocs = const [],
@@ -127,15 +137,20 @@ class StoreModel {
       address: map['address'] as String? ?? '',
       region: map['region'] as String? ?? '',
       pickupLocation: map['pickupLocation'] as String?,
-      targetCategories: (map['targetCategories'] as List<dynamic>?)
+      latitude: (map['latitude'] as num?)?.toDouble(),
+      longitude: (map['longitude'] as num?)?.toDouble(),
+      targetCategories:
+          (map['targetCategories'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           const [],
-      fulfillmentMethods: (map['fulfillmentMethods'] as List<dynamic>?)
+      fulfillmentMethods:
+          (map['fulfillmentMethods'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           const ['pickup', 'agreed_delivery'],
-      verificationDocs: (map['verificationDocs'] as List<dynamic>?)
+      verificationDocs:
+          (map['verificationDocs'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           const [],
@@ -149,45 +164,67 @@ class StoreModel {
       reviewedBy: map['reviewedBy'] as String?,
       reviewedByName: map['reviewedByName'] as String?,
       reviewedAt: (map['reviewedAt'] as num?)?.toInt(),
-      auditHistory: (map['auditHistory'] as List<dynamic>?)
+      auditHistory:
+          (map['auditHistory'] as List<dynamic>?)
               ?.map((e) => StoreAuditLog.fromMap(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      createdAt: (map['createdAt'] as num?)?.toInt() ?? DateTime.now().millisecondsSinceEpoch,
-      updatedAt: (map['updatedAt'] as num?)?.toInt() ?? DateTime.now().millisecondsSinceEpoch,
+      createdAt:
+          (map['createdAt'] as num?)?.toInt() ??
+          DateTime.now().millisecondsSinceEpoch,
+      updatedAt:
+          (map['updatedAt'] as num?)?.toInt() ??
+          DateTime.now().millisecondsSinceEpoch,
+    );
+  }
+
+  Map<String, dynamic> toRegistrationMap() {
+    // Resubmission must not overwrite review or suspension decisions.
+    return toMap()..removeWhere(
+      (key, _) => const {
+        'reviewedBy',
+        'reviewedByName',
+        'reviewedAt',
+        'rejectionReason',
+        'auditHistory',
+        'operatingStatus',
+        'createdAt',
+      }.contains(key),
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'storeId': storeId,
-        'ownerId': ownerId,
-        'ownerName': ownerName,
-        'storeType': storeType,
-        'businessSubtype': businessSubtype,
-        'storeName': storeName,
-        'avatarUrl': avatarUrl,
-        'coverUrl': coverUrl,
-        'description': description,
-        'contactName': contactName,
-        'phone': phone,
-        'address': address,
-        'region': region,
-        'pickupLocation': pickupLocation,
-        'targetCategories': targetCategories,
-        'fulfillmentMethods': fulfillmentMethods,
-        'verificationDocs': verificationDocs,
-        'taxCode': taxCode,
-        'representative': representative,
-        'status': status,
-        'rejectionReason': rejectionReason,
-        'operatingStatus': operatingStatus,
-        'version': version,
-        'submittedAt': submittedAt,
-        'reviewedBy': reviewedBy,
-        'reviewedByName': reviewedByName,
-        'reviewedAt': reviewedAt,
-        'auditHistory': auditHistory.map((a) => a.toMap()).toList(),
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-      };
+    'storeId': storeId,
+    'ownerId': ownerId,
+    'ownerName': ownerName,
+    'storeType': storeType,
+    'businessSubtype': businessSubtype,
+    'storeName': storeName,
+    'avatarUrl': avatarUrl,
+    'coverUrl': coverUrl,
+    'description': description,
+    'contactName': contactName,
+    'phone': phone,
+    'address': address,
+    'region': region,
+    'pickupLocation': pickupLocation,
+    'latitude': latitude,
+    'longitude': longitude,
+    'targetCategories': targetCategories,
+    'fulfillmentMethods': fulfillmentMethods,
+    'verificationDocs': verificationDocs,
+    'taxCode': taxCode,
+    'representative': representative,
+    'status': status,
+    'rejectionReason': rejectionReason,
+    'operatingStatus': operatingStatus,
+    'version': version,
+    'submittedAt': submittedAt,
+    'reviewedBy': reviewedBy,
+    'reviewedByName': reviewedByName,
+    'reviewedAt': reviewedAt,
+    'auditHistory': auditHistory.map((a) => a.toMap()).toList(),
+    'createdAt': createdAt,
+    'updatedAt': updatedAt,
+  };
 }

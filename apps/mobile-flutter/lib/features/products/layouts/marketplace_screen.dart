@@ -17,7 +17,8 @@ class MarketplaceScreen extends ConsumerStatefulWidget {
 
 class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
   String _selectedCategory = 'Tất cả';
-  String _selectedRegion = 'Tất cả';
+  String _selectedProvince = 'Tất cả';
+  String _selectedDistrict = 'Tất cả';
   String _selectedSaleType = 'Tất cả';
   final _searchController = TextEditingController();
 
@@ -30,7 +31,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
     'Thiết bị & Máy nông nghiệp',
   ];
 
-  final List<String> _regions = [
+  final List<String> _provinces = [
     'Tất cả',
     'Lâm Đồng',
     'Đắk Lắk',
@@ -39,6 +40,127 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
     'Cần Thơ',
     'TP.HCM',
   ];
+
+  static const Map<String, List<String>> _provinceDistricts = {
+    'Lâm Đồng': [
+      'Tất cả',
+      'Đà Lạt',
+      'Bảo Lộc',
+      'Đức Trọng',
+      'Đơn Dương',
+      'Di Linh',
+      'Lạc Dương',
+      'Lâm Hà',
+      'Bảo Lâm',
+      'Đạ Huoai',
+      'Đạ Tẻh',
+      'Cát Tiên',
+    ],
+    'Đắk Lắk': [
+      'Tất cả',
+      'Buôn Ma Thuột',
+      'Buôn Hồ',
+      'Krông Pắc',
+      'Cư M\'gar',
+      'Ea Kar',
+      'Krông Năng',
+      'Krông Búk',
+    ],
+    'Gia Lai': [
+      'Tất cả',
+      'Pleiku',
+      'An Khê',
+      'Ayun Pa',
+      'Chư Sê',
+      'Đak Đoa',
+      'Ia Grai',
+    ],
+    'Đồng Nai': [
+      'Tất cả',
+      'Biên Hòa',
+      'Long Khánh',
+      'Long Thành',
+      'Nhơn Trạch',
+      'Định Quán',
+      'Xuân Lộc',
+    ],
+    'Cần Thơ': [
+      'Tất cả',
+      'Ninh Kiều',
+      'Cái Răng',
+      'Bình Thủy',
+      'Ô Môn',
+      'Thốt Nốt',
+      'Phong Điền',
+    ],
+    'TP.HCM': [
+      'Tất cả',
+      'Củ Chi',
+      'Hóc Môn',
+      'Bình Chánh',
+      'Cần Giờ',
+      'Thủ Đức',
+    ],
+  };
+
+  static const List<String> _popularSuggestions = [
+    'Lúa',
+    'Lúa giống',
+    'Lan hồ điệp',
+    'Lạc',
+    'Lê',
+    'Sầu riêng',
+    'Sầu riêng Ri6',
+    'Su su',
+    'Sâm ngọc linh',
+    'Phân bón',
+    'Phân NPK',
+    'Phân hữu cơ',
+    'Cà phê',
+    'Cà chua',
+    'Cây giống',
+    'Tiêu',
+    'Trà / Chè',
+    'Bơ 034',
+    'Bưởi da xanh',
+    'Rau củ sạch',
+    'Dưa lưới',
+    'Khoai lang',
+    'Ngô / Bắp',
+    'Thuốc BVTV',
+  ];
+
+  static String _removeAccents(String str) {
+    const withAccents = 'áàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđ';
+    const withoutAccents = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd';
+    var out = str;
+    for (var i = 0; i < withAccents.length; i++) {
+      out = out.replaceAll(withAccents[i], withoutAccents[i]);
+    }
+    return out;
+  }
+
+  List<String> get _matchingSuggestions {
+    final text = _searchController.text.trim().toLowerCase();
+    if (text.isEmpty) return const [];
+    final unaccentedText = _removeAccents(text);
+
+    return _popularSuggestions.where((item) {
+      final itemLower = item.toLowerCase();
+      final itemUnaccented = _removeAccents(itemLower);
+      return itemLower.startsWith(text) ||
+          itemUnaccented.startsWith(unaccentedText) ||
+          itemLower.contains(text) ||
+          itemUnaccented.contains(unaccentedText);
+    }).take(6).toList();
+  }
+
+  String get _effectiveRegionFilter {
+    if (_selectedDistrict != 'Tất cả') {
+      return _selectedDistrict;
+    }
+    return _selectedProvince;
+  }
 
   @override
   void dispose() {
@@ -53,7 +175,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
 
     final productsAsync = ref.watch(marketplaceProductsStreamProvider((
       category: _selectedCategory,
-      region: _selectedRegion,
+      region: _effectiveRegionFilter,
       saleType: _selectedSaleType,
       query: _searchController.text,
     )));
@@ -136,6 +258,52 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                   ),
                   onChanged: (val) => setState(() {}),
                 ),
+
+                // Gợi ý tìm kiếm tức thì theo chữ cái đầu (VD: L -> Lúa, S -> Sầu riêng)
+                if (_matchingSuggestions.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    height: 28,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _matchingSuggestions.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 6),
+                      itemBuilder: (context, index) {
+                        final suggestion = _matchingSuggestions[index];
+                        return InkWell(
+                          onTap: () {
+                            _searchController.text = suggestion;
+                            setState(() {});
+                          },
+                          borderRadius: BorderRadius.circular(14),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withAlpha(25),
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(color: AppColors.primary.withAlpha(80), width: 0.8),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.search, size: 12, color: AppColors.primary),
+                                const SizedBox(width: 4),
+                                Text(
+                                  suggestion,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 8),
 
                 // Category Chips
@@ -167,25 +335,31 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                 ),
                 const SizedBox(height: 6),
 
-                // Filter row for Region & SaleType
+                // Filter row for Region (Province) & SaleType
                 Row(
                   children: [
                     const Icon(Icons.location_on_outlined, size: 16, color: AppColors.primary),
                     const SizedBox(width: 4),
                     DropdownButton<String>(
-                      value: _selectedRegion,
+                      value: _selectedProvince,
                       underline: const SizedBox.shrink(),
                       isDense: true,
+                      menuMaxHeight: 250,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
                       ),
-                      items: _regions.map((r) {
+                      items: _provinces.map((r) {
                         return DropdownMenuItem(value: r, child: Text(r));
                       }).toList(),
                       onChanged: (val) {
-                        if (val != null) setState(() => _selectedRegion = val);
+                        if (val != null) {
+                          setState(() {
+                            _selectedProvince = val;
+                            _selectedDistrict = 'Tất cả';
+                          });
+                        }
                       },
                     ),
                     const Spacer(),
@@ -195,6 +369,7 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                       value: _selectedSaleType,
                       underline: const SizedBox.shrink(),
                       isDense: true,
+                      menuMaxHeight: 250,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -211,6 +386,48 @@ class _MarketplaceScreenState extends ConsumerState<MarketplaceScreen> {
                     ),
                   ],
                 ),
+                // Thanh chọn thành phố / thị xã / thị trấn trong tỉnh
+                if (_selectedProvince != 'Tất cả' && _provinceDistricts.containsKey(_selectedProvince)) ...[
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    height: 28,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _provinceDistricts[_selectedProvince]!.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 6),
+                      itemBuilder: (context, idx) {
+                        final d = _provinceDistricts[_selectedProvince]![idx];
+                        final isSel = _selectedDistrict == d;
+                        final label = d == 'Tất cả' ? 'Toàn tỉnh' : d;
+                        return InkWell(
+                          onTap: () => setState(() => _selectedDistrict = d),
+                          borderRadius: BorderRadius.circular(14),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: isSel ? AppColors.primary : AppColors.primary.withAlpha(20),
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: isSel ? AppColors.primary : AppColors.primary.withAlpha(60),
+                                width: 0.8,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                label,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: isSel ? FontWeight.bold : FontWeight.normal,
+                                  color: isSel ? Colors.white : (isDark ? Colors.white70 : AppColors.primary),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

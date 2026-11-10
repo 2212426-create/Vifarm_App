@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../profile/providers/profile_provider.dart';
 import '../providers/chat_provider.dart';
 
 /// Widget hiển thị danh sách người dùng đang hoạt động (Online) theo chiều ngang
@@ -15,7 +14,9 @@ class ActiveUsersRow extends ConsumerWidget {
     final activeUsersAsync = ref.watch(activeUsersProvider);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final dividerColor = isDark ? const Color(0xFF222224) : const Color(0xFFE8E8E8);
+    final dividerColor = isDark
+        ? const Color(0xFF222224)
+        : const Color(0xFFE8E8E8);
 
     return activeUsersAsync.when(
       data: (userIds) {
@@ -27,9 +28,7 @@ class ActiveUsersRow extends ConsumerWidget {
           height: 100,
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: dividerColor, width: 0.5),
-            ),
+            border: Border(bottom: BorderSide(color: dividerColor, width: 0.5)),
           ),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -64,16 +63,16 @@ class _ActiveUserItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileAsync = ref.watch(userProfileStreamProvider(userId));
+    final profileAsync = ref.watch(chatProfileProvider(userId));
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
 
     return profileAsync.when(
       data: (profile) {
-        if (profile == null) return const SizedBox.shrink();
-
-        final displayName = profile.username.isNotEmpty ? profile.username : 'User';
+        final displayName = profile.username.isNotEmpty
+            ? profile.username
+            : 'User';
 
         return GestureDetector(
           onTap: () {
@@ -97,9 +96,14 @@ class _ActiveUserItem extends ConsumerWidget {
                     children: [
                       CircleAvatar(
                         radius: 26,
-                        backgroundColor: isDark ? Colors.grey[800] : Colors.grey[300],
+                        backgroundColor: isDark
+                            ? Colors.grey[800]
+                            : Colors.grey[300],
                         backgroundImage: profile.avatarUrl.isNotEmpty
-                            ? CachedNetworkImageProvider(profile.avatarUrl, maxWidth: 80)
+                            ? CachedNetworkImageProvider(
+                                profile.avatarUrl,
+                                maxWidth: 80,
+                              )
                             : null,
                         child: profile.avatarUrl.isEmpty
                             ? Icon(
@@ -133,10 +137,7 @@ class _ActiveUserItem extends ConsumerWidget {
                   displayName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: cs.onSurface,
-                    fontSize: 11,
-                  ),
+                  style: TextStyle(color: cs.onSurface, fontSize: 11),
                   textAlign: TextAlign.center,
                 ),
               ],

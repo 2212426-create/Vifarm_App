@@ -8,9 +8,10 @@ import '../../core/theme/app_colors.dart';
 import '../../features/auth/models/profile_model.dart';
 import '../../features/auth/providers/auth_provider.dart';
 import '../../features/chat/providers/chat_provider.dart';
+import '../../core/providers/firebase_providers.dart' show firestoreProvider;
+import '../../features/chat/repositories/group_chat_repository.dart';
 import '../../features/farm_journal/models/journal_model.dart';
 import '../../features/products/models/product_model.dart';
-import '../../features/profile/providers/profile_provider.dart';
 import '../../features/store/models/store_model.dart';
 import '../../features/video_feed/models/video_model.dart';
 
@@ -70,7 +71,8 @@ class ShareContentModel {
       type: ShareContentType.store,
       id: store.storeId,
       title: store.storeName,
-      subtitle: '${store.region} • ${store.storeType == "individual" ? "Cá nhân/Nhà vườn" : "Đơn vị kinh doanh"}',
+      subtitle:
+          '${store.region} • ${store.storeType == "individual" ? "Cá nhân/Nhà vườn" : "Đơn vị kinh doanh"}',
       imageUrl: store.avatarUrl,
       shareUrl: '${AppConstants.shareBaseUrl}store_${store.storeId}',
       extraData: store.toMap(),
@@ -94,7 +96,8 @@ class ShareContentModel {
       type: ShareContentType.journal,
       id: journal.id,
       title: journal.name,
-      subtitle: '🌱 ${journal.crop} (${journal.farmLocation}) • ${journal.ownerName}',
+      subtitle:
+          '🌱 ${journal.crop} (${journal.farmLocation}) • ${journal.ownerName}',
       shareUrl: '${AppConstants.shareBaseUrl}journal_${journal.id}',
       isPrivate: journal.privacy == 'private',
       extraData: journal.toMap(),
@@ -106,16 +109,15 @@ class ShareContentModel {
 class UniversalShareBottomSheet extends ConsumerStatefulWidget {
   final ShareContentModel content;
 
-  const UniversalShareBottomSheet({
-    super.key,
-    required this.content,
-  });
+  const UniversalShareBottomSheet({super.key, required this.content});
 
   static void show(BuildContext context, ShareContentModel content) {
     if (content.isPrivate) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Nội dung này đang ở chế độ riêng tư, không thể chia sẻ công khai.'),
+          content: Text(
+            'Nội dung này đang ở chế độ riêng tư, không thể chia sẻ công khai.',
+          ),
           backgroundColor: Colors.amber,
         ),
       );
@@ -131,10 +133,12 @@ class UniversalShareBottomSheet extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<UniversalShareBottomSheet> createState() => _UniversalShareBottomSheetState();
+  ConsumerState<UniversalShareBottomSheet> createState() =>
+      _UniversalShareBottomSheetState();
 }
 
-class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottomSheet> {
+class _UniversalShareBottomSheetState
+    extends ConsumerState<UniversalShareBottomSheet> {
   final TextEditingController _captionController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
   final Set<String> _selectedRecipients = {};
@@ -159,33 +163,56 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
       final caption = _captionController.text.trim();
 
       for (final recipientId in _selectedRecipients) {
+        final conversations =
+            ref.read(chatConversationsProvider).valueOrNull ?? [];
+        final recipient = conversations.firstWhere(
+          (c) =>
+              (c['isGroup'] == true ? c['chatId'] : c['userId']) == recipientId,
+        );
+        final isGroup = recipient['isGroup'] == true;
+        if (isGroup && recipient['closed'] == true) {
+          throw StateError('Nhóm đã kết thúc. Vui lòng chọn lại người nhận.');
+        }
         if (widget.content.type == ShareContentType.video) {
           await repo.sendVideoShare(
             senderId: currentUser.uid,
             receiverId: recipientId,
             videoId: widget.content.id,
             caption: caption,
+            isGroup: isGroup,
           );
         } else {
           final messageText = caption.isNotEmpty
               ? '$caption\n\n[${widget.content.title}](${widget.content.shareUrl})'
               : 'Tôi muốn chia sẻ ${widget.content.title}: ${widget.content.shareUrl}';
 
-          await repo.sendMessage(
-            senderId: currentUser.uid,
-            receiverId: recipientId,
-            message: messageText,
-            type: 'text',
-            metadata: widget.content.extraData,
-          );
+          if (isGroup) {
+            await GroupChatRepository(ref.read(firestoreProvider)).send(
+              groupId: recipientId,
+              senderId: currentUser.uid,
+              text: messageText,
+              metadata: widget.content.extraData,
+            );
+          } else {
+            await repo.sendMessage(
+              senderId: currentUser.uid,
+              receiverId: recipientId,
+              message: messageText,
+              type: 'text',
+              metadata: widget.content.extraData,
+            );
+          }
         }
       }
 
       if (mounted) {
+        final messenger = ScaffoldMessenger.of(context);
         context.pop();
-        ScaffoldMessenger.of(context).showSnackBar(
+        messenger.showSnackBar(
           SnackBar(
-            content: Text('Đã chia sẻ cho ${_selectedRecipients.length} cuộc hội thoại!'),
+            content: Text(
+              'Đã chia sẻ cho ${_selectedRecipients.length} cuộc hội thoại!',
+            ),
           ),
         );
       }
@@ -263,7 +290,9 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                     width: 44,
                     height: 44,
                     color: AppColors.primary.withAlpha(40),
-                    child: widget.content.imageUrl != null && widget.content.imageUrl!.isNotEmpty
+                    child:
+                        widget.content.imageUrl != null &&
+                            widget.content.imageUrl!.isNotEmpty
                         ? Image.network(
                             widget.content.imageUrl!,
                             fit: BoxFit.cover,
@@ -279,7 +308,10 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                     children: [
                       Text(
                         widget.content.title,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -287,7 +319,10 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                         const SizedBox(height: 2),
                         Text(
                           widget.content.subtitle,
-                          style: const TextStyle(fontSize: 11, color: Colors.grey),
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -309,12 +344,17 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.copy, size: 16),
-                    label: const Text('Sao chép liên kết', style: TextStyle(fontSize: 12)),
+                    label: const Text(
+                      'Sao chép liên kết',
+                      style: TextStyle(fontSize: 12),
+                    ),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                     ),
                     onPressed: () {
-                      Clipboard.setData(ClipboardData(text: widget.content.shareUrl));
+                      Clipboard.setData(
+                        ClipboardData(text: widget.content.shareUrl),
+                      );
                       context.pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Đã sao chép liên kết')),
@@ -326,15 +366,22 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.share, size: 16),
-                    label: const Text('Chia sẻ qua...', style: TextStyle(fontSize: 12)),
+                    label: const Text(
+                      'Chia sẻ qua...',
+                      style: TextStyle(fontSize: 12),
+                    ),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                     ),
                     onPressed: () {
-                      Clipboard.setData(ClipboardData(text: widget.content.shareUrl));
+                      Clipboard.setData(
+                        ClipboardData(text: widget.content.shareUrl),
+                      );
                       context.pop();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Đã sao chép liên kết chia sẻ!')),
+                        const SnackBar(
+                          content: Text('Đã sao chép liên kết chia sẻ!'),
+                        ),
                       );
                     },
                   ),
@@ -357,7 +404,11 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.chat_bubble_outline, size: 48, color: Colors.grey),
+                          const Icon(
+                            Icons.chat_bubble_outline,
+                            size: 48,
+                            color: Colors.grey,
+                          ),
                           const SizedBox(height: 12),
                           const Text(
                             'Đăng nhập để gửi trực tiếp cho bạn bè trong ViFarm',
@@ -388,18 +439,28 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                               child: TextField(
                                 controller: _searchController,
                                 style: const TextStyle(fontSize: 13),
-                                onChanged: (v) => setState(() => _searchQuery = v.toLowerCase().trim()),
+                                onChanged: (v) => setState(
+                                  () => _searchQuery = v.toLowerCase().trim(),
+                                ),
                                 decoration: InputDecoration(
                                   hintText: 'Tìm người nhận trong ViFarm...',
-                                  hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
-                                  prefixIcon: const Icon(Icons.search, size: 18),
+                                  hintStyle: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                  prefixIcon: const Icon(
+                                    Icons.search,
+                                    size: 18,
+                                  ),
                                   contentPadding: EdgeInsets.zero,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: BorderSide.none,
                                   ),
                                   filled: true,
-                                  fillColor: isDark ? Colors.white10 : Colors.grey.shade200,
+                                  fillColor: isDark
+                                      ? Colors.white10
+                                      : Colors.grey.shade200,
                                 ),
                               ),
                             ),
@@ -411,8 +472,14 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                                 style: const TextStyle(fontSize: 13),
                                 decoration: InputDecoration(
                                   hintText: 'Thêm lời nhắn (không bắt buộc)...',
-                                  hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                  hintStyle: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 8,
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -429,32 +496,54 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                         child: conversationsAsync.when(
                           data: (convs) {
                             final filteredConvs = convs.where((c) {
+                              if (c['isGroup'] == true && c['closed'] == true)
+                                return false;
                               if (_searchQuery.isEmpty) return true;
-                              final title = (c['title'] ?? c['userId'] ?? '').toString().toLowerCase();
+                              final title = (c['title'] ?? c['userId'] ?? '')
+                                  .toString()
+                                  .toLowerCase();
                               return title.contains(_searchQuery);
                             }).toList();
 
                             if (filteredConvs.isEmpty) {
                               return const Center(
-                                child: Text('Không tìm thấy cuộc hội thoại nào.', style: TextStyle(fontSize: 13, color: Colors.grey)),
+                                child: Text(
+                                  'Không tìm thấy cuộc hội thoại nào.',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               );
                             }
 
                             return ListView.separated(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
                               itemCount: filteredConvs.length,
-                              separatorBuilder: (context, index) => const Divider(height: 1),
+                              separatorBuilder: (context, index) =>
+                                  const Divider(height: 1),
                               itemBuilder: (context, index) {
                                 final c = filteredConvs[index];
                                 final isGroup = c['isGroup'] == true;
-                                final id = (isGroup ? c['chatId'] : c['userId']) as String;
-                                final isSelected = _selectedRecipients.contains(id);
+                                final id =
+                                    (isGroup ? c['chatId'] : c['userId'])
+                                        as String;
+                                final isSelected = _selectedRecipients.contains(
+                                  id,
+                                );
 
                                 return _RecipientTile(
                                   id: id,
                                   isGroup: isGroup,
-                                  title: isGroup ? (c['title'] ?? 'Nhóm') : null,
-                                  avatar: isGroup ? (c['avatarUrl'] ?? '') : null,
+                                  title: isGroup
+                                      ? (c['title'] ?? 'Nhóm')
+                                      : null,
+                                  avatar: isGroup
+                                      ? (c['avatarUrl'] ?? '')
+                                      : null,
                                   isSelected: isSelected,
                                   onTap: () {
                                     setState(() {
@@ -469,7 +558,8 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                               },
                             );
                           },
-                          loading: () => const Center(child: CircularProgressIndicator()),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
                           error: (e, s) => Center(child: Text('Lỗi: $e')),
                         ),
                       ),
@@ -484,18 +574,26 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
                               ),
                               onPressed: _isSending ? null : _handleSend,
                               child: _isSending
                                   ? const SizedBox(
                                       width: 20,
                                       height: 20,
-                                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
+                                      ),
                                     )
                                   : Text(
                                       'Gửi (${_selectedRecipients.length})',
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
                                     ),
                             ),
                           ),
@@ -511,9 +609,17 @@ class _UniversalShareBottomSheetState extends ConsumerState<UniversalShareBottom
   Widget _getFallbackIcon() {
     switch (widget.content.type) {
       case ShareContentType.video:
-        return const Icon(Icons.play_circle_fill, color: AppColors.primary, size: 24);
+        return const Icon(
+          Icons.play_circle_fill,
+          color: AppColors.primary,
+          size: 24,
+        );
       case ShareContentType.product:
-        return const Icon(Icons.shopping_bag, color: AppColors.primary, size: 24);
+        return const Icon(
+          Icons.shopping_bag,
+          color: AppColors.primary,
+          size: 24,
+        );
       case ShareContentType.store:
         return const Icon(Icons.storefront, color: AppColors.primary, size: 24);
       case ShareContentType.profile:
@@ -546,45 +652,67 @@ class _RecipientTile extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return FutureBuilder(
-      future: isGroup ? Future.value(null) : ref.read(userProfileStreamProvider(id).future),
+      future: isGroup
+          ? Future.value(null)
+          : ref.read(chatProfileProvider(id).future),
       builder: (context, snap) {
         final profile = snap.data;
-        final displayTitle = isGroup ? (title ?? 'Nhóm') : (profile?.username ?? id.substring(0, 8));
-        final displayAvatar = isGroup ? (avatar ?? '') : (profile?.avatarUrl ?? '');
+        final displayTitle = isGroup
+            ? (title ?? 'Nhóm')
+            : (profile?.username ?? id.substring(0, 8));
+        final displayAvatar = isGroup
+            ? (avatar ?? '')
+            : (profile?.avatarUrl ?? '');
 
-        return ListTile(
-          onTap: onTap,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          leading: Stack(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.grey.shade200,
-                backgroundImage: displayAvatar.isNotEmpty ? NetworkImage(displayAvatar) : null,
-                child: displayAvatar.isEmpty
-                    ? Icon(isGroup ? Icons.group : Icons.person, color: Colors.grey, size: 20)
-                    : null,
-              ),
-              if (isSelected)
-                const Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Icon(Icons.check_circle, color: AppColors.primary, size: 16),
-                ),
-            ],
-          ),
-          title: Text(
-            isGroup ? displayTitle : '@$displayTitle',
-            style: TextStyle(
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              fontSize: 13,
-              color: isDark ? Colors.white : Colors.black87,
+        return Material(
+          color: Colors.transparent,
+          child: ListTile(
+            onTap: onTap,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 4,
+              vertical: 2,
             ),
-          ),
-          trailing: Checkbox(
-            value: isSelected,
-            activeColor: AppColors.primary,
-            onChanged: (_) => onTap(),
+            leading: Stack(
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.grey.shade200,
+                  backgroundImage: displayAvatar.isNotEmpty
+                      ? NetworkImage(displayAvatar)
+                      : null,
+                  child: displayAvatar.isEmpty
+                      ? Icon(
+                          isGroup ? Icons.group : Icons.person,
+                          color: Colors.grey,
+                          size: 20,
+                        )
+                      : null,
+                ),
+                if (isSelected)
+                  const Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Icon(
+                      Icons.check_circle,
+                      color: AppColors.primary,
+                      size: 16,
+                    ),
+                  ),
+              ],
+            ),
+            title: Text(
+              isGroup ? displayTitle : '@$displayTitle',
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontSize: 13,
+                color: isDark ? Colors.white : Colors.black87,
+              ),
+            ),
+            trailing: Checkbox(
+              value: isSelected,
+              activeColor: AppColors.primary,
+              onChanged: (_) => onTap(),
+            ),
           ),
         );
       },

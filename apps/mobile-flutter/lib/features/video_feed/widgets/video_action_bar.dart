@@ -9,6 +9,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../../saved_techniques/repositories/saved_techniques_repository.dart';
 import '../models/video_model.dart';
 import '../providers/video_provider.dart';
+import '../services/volume_sync_service.dart';
 import '../../../shared/widgets/share_button.dart';
 import '../../../shared/widgets/universal_share_bottom_sheet.dart';
 import '../../comments/widgets/comment_bottom_sheet.dart';
@@ -365,10 +366,12 @@ class VideoActionBar extends ConsumerWidget {
                   color: Colors.white,
                   size: 28,
                 ),
-                label: isMuted ? 'Muted' : 'Mở',
+                label: isMuted ? 'Tắt' : 'Mở',
                 onTap: () {
                   HapticFeedback.lightImpact();
-                  ref.read(videoMuteProvider.notifier).state = !isMuted;
+                  final nextMute = !isMuted;
+                  ref.read(videoMuteProvider.notifier).state = nextMute;
+                  ref.read(volumeSyncServiceProvider).setMute(nextMute);
                 },
               );
             },

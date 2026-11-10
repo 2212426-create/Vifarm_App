@@ -51,19 +51,23 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
   @override
   void initState() {
     super.initState();
+    // Lazy preload: Khởi tạo và buffer trước controller ngay khi item được widget tree nạp
+    _initController();
     if (widget.autoPlay) {
       _isVisible = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _initController();
-      });
     }
   }
 
   void _initController() {
     if (_controller != null) return;
 
+    var uriString = widget.video.videoUri;
+    if (uriString.contains('10.0.2.2')) {
+      uriString = uriString.replaceAll('10.0.2.2', '127.0.0.1');
+    }
+
     _controller = VideoPlayerController.networkUrl(
-      Uri.parse(widget.video.videoUri),
+      Uri.parse(uriString),
     );
     _controller!.initialize().then((_) {
       if (mounted) {
@@ -78,6 +82,8 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
         }
         setState(() {});
       }
+    }).catchError((err) {
+      debugPrint('[VideoPlayerWidget] init error for ${widget.video.videoId}: $err');
     });
   }
 
@@ -250,9 +256,7 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
           }
         }
 
-        if (info.visibleFraction == 0.0) {
-          _disposeController();
-        }
+// Controller được giữ buffer để vuốt lại phát ngay; giải phóng trong dispose()
       },
       child: Stack(
         fit: StackFit.expand,
@@ -272,6 +276,7 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
                     color: Colors.black,
                     child: const Center(
                       child: CircularProgressIndicator(
+                        strokeWidth: 2,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),
                       ),
                     ),

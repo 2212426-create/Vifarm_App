@@ -76,3 +76,10 @@ apps/mobile-flutter/*.local.json
 # Temporary artifacts
 *.artifact.md
 apps/mobile-flutter/screen.png
+
+# Temporary local scratch and extracted APKs
+*.apk
+tiktok_apks/
+*.py
+!scripts/
+manifest.json

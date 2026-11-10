@@ -14,17 +14,28 @@ final storeRepositoryProvider = Provider<StoreRepository>((ref) {
   );
 });
 
-final userStoreStreamProvider = StreamProvider.family<StoreModel?, String>((ref, ownerId) {
+final userStoreStreamProvider = StreamProvider.family<StoreModel?, String>((
+  ref,
+  ownerId,
+) {
   return ref.watch(storeRepositoryProvider).watchUserStore(ownerId);
 });
 
-final publicStoreStreamProvider = StreamProvider.family<StoreModel?, String>((ref, storeId) {
+final publicStoreStreamProvider = StreamProvider.family<StoreModel?, String>((
+  ref,
+  storeId,
+) {
   return ref.watch(storeRepositoryProvider).watchPublicStore(storeId);
 });
 
-final adminStoresStreamProvider = StreamProvider.family<List<StoreModel>, String?>((ref, filterStatus) {
-  return ref.watch(storeRepositoryProvider).watchAdminStores(filterStatus);
+final approvedStoresStreamProvider = StreamProvider<List<StoreModel>>((ref) {
+  return ref.watch(storeRepositoryProvider).watchApprovedStores();
 });
+
+final adminStoresStreamProvider =
+    StreamProvider.family<List<StoreModel>, String?>((ref, filterStatus) {
+      return ref.watch(storeRepositoryProvider).watchAdminStores(filterStatus);
+    });
 
 class StoreRepository {
   final FirebaseFirestore _firestore;
@@ -33,8 +44,8 @@ class StoreRepository {
   StoreRepository({
     required FirebaseFirestore firestore,
     FirebaseStorage? storage,
-  })  : _firestore = firestore,
-        _storage = storage ?? FirebaseStorage.instance;
+  }) : _firestore = firestore,
+       _storage = storage ?? FirebaseStorage.instance;
 
   /// Stream thông tin gian hàng của user (Mỗi tài khoản tối đa 1 gian hàng)
   Stream<StoreModel?> watchUserStore(String ownerId) {
@@ -44,10 +55,10 @@ class StoreRepository {
         .where('ownerId', isEqualTo: ownerId)
         .snapshots()
         .map((snapshot) {
-      if (snapshot.docs.isEmpty) return null;
-      final doc = snapshot.docs.first;
-      return StoreModel.fromMap(doc.data(), doc.id);
-    });
+          if (snapshot.docs.isEmpty) return null;
+          final doc = snapshot.docs.first;
+          return StoreModel.fromMap(doc.data(), doc.id);
+        });
   }
 
   /// Lấy thông tin gian hàng theo ownerId bằng Future
@@ -73,6 +84,18 @@ class StoreRepository {
     });
   }
 
+  /// Stream cac gian hang dang hoat dong
+  Stream<List<StoreModel>> watchApprovedStores() {
+    return _firestore
+        .collection('stores')
+        .where('status', isEqualTo: 'approved')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => StoreModel.fromMap(doc.data(), doc.id))
+            .where((s) => s.operatingStatus == 'active')
+            .toList());
+  }
+
   /// Stream danh sách gian hàng dành cho Admin xét duyệt
   Stream<List<StoreModel>> watchAdminStores([String? filterStatus]) {
     Query query = _firestore.collection('stores');
@@ -81,9 +104,16 @@ class StoreRepository {
     }
     return query.snapshots().map((snapshot) {
       final list = snapshot.docs
-          .map((doc) => StoreModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+          .map(
+            (doc) =>
+                StoreModel.fromMap(doc.data() as Map<String, dynamic>, doc.id),
+          )
           .toList();
-      list.sort((a, b) => (b.submittedAt ?? b.updatedAt).compareTo(a.submittedAt ?? a.updatedAt));
+      list.sort(
+        (a, b) => (b.submittedAt ?? b.updatedAt).compareTo(
+          a.submittedAt ?? a.updatedAt,
+        ),
+      );
       return list;
     });
   }
@@ -94,17 +124,24 @@ class StoreRepository {
     required XFile file,
     required String type, // 'avatar' | 'cover' | 'doc'
   }) async {
-    final attemptId = DateTime.now().millisecondsSinceEpoch.toString().substring(7);
+    final attemptId = DateTime.now().millisecondsSinceEpoch
+        .toString()
+        .substring(7);
     final isAuthenticated = ownerId.isNotEmpty;
 
-    debugPrint('[StorageDebug] Attempt #$attemptId - Stage 1: AuthCheck (isAuth=$isAuthenticated), Type=$type, FileName=${file.name}');
+    debugPrint(
+      '[StorageDebug] Attempt #$attemptId - Stage 1: AuthCheck (isAuth=$isAuthenticated), Type=$type, FileName=${file.name}',
+    );
 
     if (!isAuthenticated) {
       throw Exception('Thông tin người dùng không hợp lệ hoặc chưa đăng nhập.');
     }
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final sanitizedFileName = file.name.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '_');
+    final sanitizedFileName = file.name.replaceAll(
+      RegExp(r'[^a-zA-Z0-9._-]'),
+      '_',
+    );
 
     late final String path;
     if (type == 'avatar') {
@@ -117,10 +154,13 @@ class StoreRepository {
 
     final bytes = await file.readAsBytes();
     final metadata = SettableMetadata(
-      contentType: file.mimeType ?? (path.endsWith('.png') ? 'image/png' : 'image/jpeg'),
+      contentType:
+          file.mimeType ?? (path.endsWith('.png') ? 'image/png' : 'image/jpeg'),
     );
 
-    debugPrint('[StorageDebug] Attempt #$attemptId - Stage 2: TargetBucket="${_storage.bucket}", Path="$path", Size=${bytes.length} bytes, Mime=${metadata.contentType}');
+    debugPrint(
+      '[StorageDebug] Attempt #$attemptId - Stage 2: TargetBucket="${_storage.bucket}", Path="$path", Size=${bytes.length} bytes, Mime=${metadata.contentType}',
+    );
 
     TaskSnapshot snapshot;
     try {
@@ -131,35 +171,55 @@ class StoreRepository {
         metadata: metadata,
       );
       snapshot = await uploadTask;
-      debugPrint('[StorageDebug] Attempt #$attemptId - Stage 3: Primary bucket upload completed.');
+      debugPrint(
+        '[StorageDebug] Attempt #$attemptId - Stage 3: Primary bucket upload completed.',
+      );
     } catch (e) {
-      debugPrint('[StorageDebug] Attempt #$attemptId - Stage 3: Primary bucket upload failed ($e). Trying fallback bucket gs://mytiktokclone-f9789.appspot.com...');
+      debugPrint(
+        '[StorageDebug] Attempt #$attemptId - Stage 3: Primary bucket upload failed ($e). Trying fallback bucket gs://mytiktokclone-f9789.appspot.com...',
+      );
       try {
-        final fallbackStorage = FirebaseStorage.instanceFor(bucket: 'gs://mytiktokclone-f9789.appspot.com');
+        final fallbackStorage = FirebaseStorage.instanceFor(
+          bucket: 'gs://mytiktokclone-f9789.appspot.com',
+        );
         final fallbackRef = fallbackStorage.ref().child(path);
         final uploadTask = fallbackRef.putData(bytes, metadata);
         snapshot = await uploadTask;
-        debugPrint('[StorageDebug] Attempt #$attemptId - Stage 3: Fallback bucket upload completed.');
+        debugPrint(
+          '[StorageDebug] Attempt #$attemptId - Stage 3: Fallback bucket upload completed.',
+        );
       } catch (fallbackError) {
         if (fallbackError is FirebaseException) {
-          debugPrint('[StorageDebug] Attempt #$attemptId - Stage 3: Fallback FirebaseException code=${fallbackError.code}, msg=${fallbackError.message}');
+          debugPrint(
+            '[StorageDebug] Attempt #$attemptId - Stage 3: Fallback FirebaseException code=${fallbackError.code}, msg=${fallbackError.message}',
+          );
         } else {
-          debugPrint('[StorageDebug] Attempt #$attemptId - Stage 3: Fallback general error: $fallbackError');
+          debugPrint(
+            '[StorageDebug] Attempt #$attemptId - Stage 3: Fallback general error: $fallbackError',
+          );
         }
         rethrow;
       }
     }
 
-    debugPrint('[StorageDebug] Attempt #$attemptId - Stage 4: Querying getDownloadURL...');
+    debugPrint(
+      '[StorageDebug] Attempt #$attemptId - Stage 4: Querying getDownloadURL...',
+    );
     try {
       final downloadUrl = await snapshot.ref.getDownloadURL();
-      debugPrint('[StorageDebug] Attempt #$attemptId - Stage 5: Success! Download URL retrieved.');
+      debugPrint(
+        '[StorageDebug] Attempt #$attemptId - Stage 5: Success! Download URL retrieved.',
+      );
       return downloadUrl;
     } catch (urlError) {
       if (urlError is FirebaseException) {
-        debugPrint('[StorageDebug] Attempt #$attemptId - Stage 5: getDownloadURL FirebaseException code=${urlError.code}, msg=${urlError.message}');
+        debugPrint(
+          '[StorageDebug] Attempt #$attemptId - Stage 5: getDownloadURL FirebaseException code=${urlError.code}, msg=${urlError.message}',
+        );
       } else {
-        debugPrint('[StorageDebug] Attempt #$attemptId - Stage 5: getDownloadURL error: $urlError');
+        debugPrint(
+          '[StorageDebug] Attempt #$attemptId - Stage 5: getDownloadURL error: $urlError',
+        );
       }
       rethrow;
     }
@@ -171,12 +231,16 @@ class StoreRepository {
         ? _firestore.collection('stores').doc(store.storeId)
         : _firestore.collection('stores').doc();
 
+    final existing = await docRef.get();
     final now = DateTime.now().millisecondsSinceEpoch;
-    final map = store.toMap();
+    final map = store.toRegistrationMap();
     map['storeId'] = docRef.id;
     map['status'] = 'draft';
     map['updatedAt'] = now;
-    if (store.createdAt == 0) map['createdAt'] = now;
+    if (!existing.exists) {
+      map['createdAt'] = now;
+      map['operatingStatus'] = 'active';
+    }
 
     await docRef.set(map, SetOptions(merge: true));
     return docRef.id;
@@ -201,14 +265,16 @@ class StoreRepository {
     }
 
     final now = DateTime.now().millisecondsSinceEpoch;
-    final map = store.toMap();
+    final map = store.toRegistrationMap();
     map['storeId'] = docRef.id;
     map['status'] = 'pending';
     map['version'] = newVersion;
     map['submittedAt'] = now;
-    map['rejectionReason'] = null;
     map['updatedAt'] = now;
-    if (store.createdAt == 0) map['createdAt'] = now;
+    if (!docSnap.exists) {
+      map['createdAt'] = now;
+      map['operatingStatus'] = 'active';
+    }
 
     await docRef.set(map, SetOptions(merge: true));
     return docRef.id;
@@ -242,16 +308,21 @@ class StoreRepository {
 
       // 1. Chặn tự phê duyệt hồ sơ của chính mình
       if (reviewerId == ownerId) {
-        throw Exception('Quản trị viên không thể tự phê duyệt hồ sơ gian hàng của chính mình.');
+        throw Exception(
+          'Quản trị viên không thể tự phê duyệt hồ sơ gian hàng của chính mình.',
+        );
       }
 
       // 2. Kiểm tra xung đột phiên bản
       if (currentVersion != expectedVersion) {
-        throw Exception('Phiên bản hồ sơ đã thay đổi (v$currentVersion). Không thể xét duyệt phiên bản cũ v$expectedVersion.');
+        throw Exception(
+          'Phiên bản hồ sơ đã thay đổi (v$currentVersion). Không thể xét duyệt phiên bản cũ v$expectedVersion.',
+        );
       }
 
       final now = DateTime.now().millisecondsSinceEpoch;
-      final existingAuditList = (data['auditHistory'] as List<dynamic>?)
+      final existingAuditList =
+          (data['auditHistory'] as List<dynamic>?)
               ?.map((e) => StoreAuditLog.fromMap(e as Map<String, dynamic>))
               .toList() ??
           <StoreAuditLog>[];
@@ -283,7 +354,10 @@ class StoreRepository {
   }
 
   /// Cập nhật thông tin gian hàng đã được duyệt
-  Future<void> updateStoreSettings(String storeId, Map<String, dynamic> data) async {
+  Future<void> updateStoreSettings(
+    String storeId,
+    Map<String, dynamic> data,
+  ) async {
     data['updatedAt'] = DateTime.now().millisecondsSinceEpoch;
     await _firestore.collection('stores').doc(storeId).update(data);
   }

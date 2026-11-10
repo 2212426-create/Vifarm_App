@@ -6,6 +6,7 @@ import 'core/providers/theme_provider.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/chat/providers/chat_provider.dart';
+import 'features/video_feed/services/volume_sync_service.dart';
 
 /// Widget gốc của ứng dụng ViFarm
 /// Cấu hình Material 3 theme, GoRouter, và quản lý Presence người dùng
@@ -34,17 +35,20 @@ class _ViFarmAppState extends ConsumerState<ViFarmApp>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    final currentUid = ref.read(authStateProvider).valueOrNull?.uid;
-    if (currentUid == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final currentUid = ref.read(authStateProvider).valueOrNull?.uid;
+      if (currentUid == null) return;
 
-    final chatRepo = ref.read(chatRepositoryProvider);
-    if (state == AppLifecycleState.resumed) {
-      chatRepo.updatePresence(currentUid, true);
-    } else if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.detached) {
-      chatRepo.updatePresence(currentUid, false);
-    }
+      final chatRepo = ref.read(chatRepositoryProvider);
+      if (state == AppLifecycleState.resumed) {
+        chatRepo.updatePresence(currentUid, true);
+      } else if (state == AppLifecycleState.paused ||
+          state == AppLifecycleState.inactive ||
+          state == AppLifecycleState.detached) {
+        chatRepo.updatePresence(currentUid, false);
+      }
+    });
   }
 
   @override
@@ -54,6 +58,7 @@ class _ViFarmAppState extends ConsumerState<ViFarmApp>
 
     // Kích hoạt tự động Presence & Kết nối (Riverpod tự động hủy subscription cũ khi logout)
     ref.watch(currentUserPresenceProvider);
+    ref.watch(volumeSyncServiceProvider);
 
     return MaterialApp.router(
       title: 'ViFarm',
