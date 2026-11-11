@@ -61,20 +61,6 @@ iDCF có thí nghiệm Yahoo. Notebook tác giả lọc train/random còn 5.400 
 survey; dự án giữ 15.400 user nên dữ liệu train khác nhau. Xem
 [nguồn và giới hạn xác minh](source_repository_review_20261021.md).
 
-IViDR (tên hiển thị **IViDR**) thay pipeline staged MSE cũ theo yêu cầu mới:
-MLP0 + pseudoinverse theo item + hai gate MLP học fitted/residual; dual iVAE;
-feedback marginal BCE. Giai đoạn 1 không có phạt L2 .01 như iDCF và LCDR (ghi trong metadata, chưa đo tác động).
-Từ 28/10/2026 mặc định cố định prior mean bằng 0 (Eq. 42 học nó)
-và đặt trọng số mẫu âm .1 trong BCE (Eq. 25 không trọng số); lý do và bằng chứng 10 seed ở
-[phân tích nguyên nhân](ividr_root_cause_20261027.md). Checkpoint chứa cả stage1
-và feedback; không diễn giải lại trọng số cũ thành phiên bản mới. T/Z dựng từ biased exposure
-và feature user liên quan từng item, không nhân đôi feature thành item embedding.
-Từ 22/10, feature embedding học được; gate nhận toàn Z_j qua lớp đầu factorize.
-Coordinate adapter Eq. (10) gắn với treatment item và bỏ free Linear bridge.
-Feedback lấy kỳ vọng xác suất trước BCE, inference tích phân Gaussian tất định;
-scorer phi tuyến không dùng factor shortcut. Adapter và parameter sharing vẫn
-là lựa chọn cần công bố, chưa chứng nhận tái lập tác giả. MF/iDCF giữ MSE.
-[Cấu hình và giới hạn hiện hành](ividr_reference_20261022.md).
 Nguồn:
 [iDCF](https://github.com/BgmLover/iDCF),
 [CDR paper](https://jiawei-chen.github.io/paper/CIKM23-CDR.pdf).

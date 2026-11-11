@@ -367,7 +367,7 @@ class _AdminStoreReviewDetailScreenState extends ConsumerState<AdminStoreReviewD
                               child: Image.network(
                                 url,
                                 fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) => const Icon(Icons.insert_drive_file, size: 36),
+                                errorBuilder: (_, _, _) => const Icon(Icons.insert_drive_file, size: 36),
                               ),
                             ),
                           ),

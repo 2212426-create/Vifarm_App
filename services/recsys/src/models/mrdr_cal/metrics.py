@@ -4,6 +4,9 @@ Coat and Yahoo test sets have a fixed number of items per user (16, 10) and are 
 positive are skipped; DCG@K is not normalised and Recall@K counts hits (it can exceed 1). KuaiRand goes through
 the per-user branch of the author code, whose Recall@K divides by the user's positives; Tables V-VI of the paper
 report values above 1 for KuaiRand, so the hit count is also reported (`recall_count`).
+
+NDCG@5, Recall@5 and Recall@5_bounded are added with the project definitions (src/evaluation/protocol.py) so the
+model can be read at the K used elsewhere in the thesis. They are not in the paper and stay on this protocol.
 """
 import numpy as np
 
@@ -49,6 +52,23 @@ def recall_at_k(label, score, user_num, items_per_user, ks=KS, user_ids=None, no
     return np.array([np.mean(values[k]) if values[k] else 0.0 for k in ks])
 
 
+def project_topk(label, score, user_num, items_per_user, k=5, user_ids=None):
+    """Project NDCG@K (IDCG over min(K, positives)), Recall@K = hits / positives, bounded = hits / min(K, positives).
+
+    Macro average over users with at least one positive, the same users the Hu metrics keep."""
+    ndcg, recall, bounded = [], [], []
+    discounts = 1.0 / np.log2(np.arange(k) + 2)
+    for ranked in _ranked_rows(label, score, user_num, items_per_user, user_ids):
+        positives = ranked.sum()
+        hits = ranked[:k]
+        ideal = discounts[:int(min(k, positives))].sum()
+        ndcg.append(float(np.sum(hits * discounts[:len(hits)]) / ideal))
+        recall.append(float(hits.sum() / positives))
+        bounded.append(float(hits.sum() / min(k, positives)))
+    mean = lambda values: float(np.mean(values)) if values else 0.0  # noqa: E731
+    return {f"NDCG@{k}": mean(ndcg), f"Recall@{k}": mean(recall), f"Recall@{k}_bounded": mean(bounded)}
+
+
 def user_auc(label, score, user_num, items_per_user, user_ids=None):
     """calculate_auc: mean AUC over users that have both classes."""
     label, score = np.asarray(label), np.asarray(score)
@@ -68,6 +88,7 @@ def evaluate(label, score, user_num, items_per_user, user_ids=None):
     out = {"AUC": roc_auc(label, score), "UAUC": user_auc(label, score, user_num, items_per_user, user_ids)}
     out.update({f"DCG@{k}": float(v) for k, v in zip(KS, dcg)})
     out.update({f"Recall@{k}": float(v) for k, v in zip(KS, recall)})
+    out.update(project_topk(label, score, user_num, items_per_user, user_ids=user_ids))
     if user_ids is not None:
         counts = recall_at_k(label, score, user_num, items_per_user, user_ids=user_ids, normalise=False)
         out.update({f"Recall@{k}_count": float(v) for k, v in zip(KS, counts)})

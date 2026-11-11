@@ -1,9 +1,9 @@
-"""Coat: MF, iDCF, IViDR (theo giai đoạn) và DR-BIAS + CDR, lặp 10 seed (42–51).
+"""Coat: MF, iDCF và DR-BIAS + CDR, lặp 10 seed (42–51).
 
 MF/iDCF select validation checkpoints; CDR uses source train-loss stopping.
 Report mean/sample std; pair tests only within the same evaluation protocol.
 
-    python experiments/run.py coat-seeds [--models MF iDCF IViDR "DR-BIAS + CDR"]
+    python experiments/run.py coat-seeds [--models MF iDCF "DR-BIAS + CDR"]
 """
 
 import argparse
@@ -20,7 +20,6 @@ from scipy.stats import wilcoxon
 from src.models.mf.train_mf import train_baseline_mf
 from src.models.cdr.train_dr_bias_cdr import train_dr_bias_cdr
 from src.models.cdr.source_protocol import run_source
-from src.models.ividr.ividr_staged import mf_item_embeddings
 from src.models.idcf.train_idcf import fit_idcf_pipeline
 from src.data_pipeline.coat_dataset import load_coat_processed
 from src.training.config import mf_config, cdr_config
@@ -30,18 +29,14 @@ from src.utils.helpers import RESULTS_DIR, CHECKPOINT_DIR
 
 MODELS = ("MF", "iDCF", "DR-BIAS + CDR")
 STANDARD_MODELS = MODELS
-# Cấu hình MF của tác giả iDCF (MF.py); cũng là treatment T của IViDR.
+# Cấu hình MF của tác giả iDCF (MF.py).
 MF_CONFIG = mf_config("coat")
 
 
 def run_seed(name, data, seed, ckpt, cdr_implementation="released"):
-    if name in ("MF", "IViDR"):
-        mf = train_baseline_mf(dataset_name="coat", data_dict=data, seed=seed, checkpoint_dir=ckpt,
-                               evaluate_test=name == "MF", checkpoint_tag=f"seeds_mf_{seed}", **MF_CONFIG)
-        if name == "MF":
-            return mf
-        return fit_idcf_pipeline(data, "coat", seed, item_emb=mf_item_embeddings(mf["checkpoint_path"]),
-                                 checkpoint_dir=ckpt, checkpoint_tag=f"seeds_ividr_{seed}")
+    if name == "MF":
+        return train_baseline_mf(dataset_name="coat", data_dict=data, seed=seed, checkpoint_dir=ckpt,
+                                 checkpoint_tag=f"seeds_mf_{seed}", **MF_CONFIG)
     if name == "iDCF":
         return fit_idcf_pipeline(data, "coat", seed, checkpoint_dir=ckpt, checkpoint_tag=f"seeds_idcf_{seed}")
     if name != "DR-BIAS + CDR":
@@ -109,16 +104,14 @@ def main(argv=None):
     for name, s in summary.items():
         nd_std = f"{s['NDCG@5_std']:.4f}" if s['NDCG@5_std'] is not None else "N/A"
         rc_std = f"{s['recall_std']:.4f}" if s['recall_std'] is not None else "N/A"
-        label = (rows[name][0]['metadata']['config'].get('display_name','IViDR-approx')
-                 if name == 'IViDR' else name)
+        label = name
         if rows[name][0]['evaluation_scope']=='cdr_source_protocol': label += ' (source; Recall bounded)'
         lines.append(f"| {label} | {s['NDCG@5_mean']:.4f} +/- {nd_std} | "
                      f"{s['recall_mean']:.4f} +/- {rc_std} |")
     lines += ["", "| So sánh | ΔNDCG@5 trung bình | Wilcoxon p (theo cặp seed) |", "| :-- | --: | --: |"]
     lines += [f"| {k} | {v['mean_delta_ndcg']:+.4f} | {v['wilcoxon_p_over_seeds']:.3g} |" for k, v in pairs.items()]
     lines += ["", "Các mô hình được huấn luyện độc lập; CDR không nạp checkpoint MF.",
-              "MF/iDCF: >=4, user split 30/70; CDR released: source >=3/toàn random log/5% calibration/Recall bounded. Không kiểm định chéo hai giao thức.",
-              "IViDR: BCE trên xác suất đã marginalize, giai đoạn 1 prior mean 0 và mẫu âm trọng số .1 (khác Eq. 42/25 của paper); coordinate adapter Eq. (10) ghi trong metadata, chưa chứng nhận tái lập tác giả.", ""]
+              "MF/iDCF: >=4, user split 30/70; CDR released: source >=3/toàn random log/5% calibration/Recall bounded. Không kiểm định chéo hai giao thức.", ""]
     path.with_suffix(".md").write_text("\n".join(lines), encoding="utf-8")
     print("\n".join(lines))
     print(f"Report: {path}")

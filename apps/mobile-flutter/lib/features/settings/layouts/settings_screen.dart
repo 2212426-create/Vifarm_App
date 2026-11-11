@@ -21,8 +21,6 @@ class SettingsScreen extends ConsumerWidget {
     final textColor = theme.colorScheme.onSurface;
     final hintColor = isDark ? Colors.grey[400]! : Colors.grey[600]!;
 
-    final currentUid = ref.watch(currentUserProvider)?.uid ?? '';
-
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(

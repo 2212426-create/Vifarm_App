@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "source_sha256": "3e9f20b8562a08917b140e22965d8742bb370f08daada62dda71b3a52192d74c",
-  "scope": "MRDR-CAL (Hu et al., TKDE 2025; MRDR from Guo et al.) and CLEV-DR (Zhang et al., KDD 2025, Ours-DR) on their author protocols, on top of the NeuMF/cf-dl milestone. Six-model benchmark code and scores unchanged",
+  "source_sha256": "97ca516a40dfbf2fdf854a444308ecd5bc773604788ff2bff0d126c5ef577e96",
+  "scope": "MRDR-CAL gains project NDCG@5/Recall@5/Recall@5_bounded and is rerun on Coat (exact match), Yahoo and KuaiRand (CPU float nondeterminism, within seed std). Builds on the 07/11 lint cleanup and IViDR/TopPop/ItemKNN-CF removal; five-model benchmark code and scores unchanged",
   "default_models": [
     "MF",
     "iDCF",
@@ -161,13 +161,13 @@
     "conalign": "conalign_source_protocol (ConAlign-src): source para(), seeds 0-2, unbiased tower on unbiased test; KuaiRand window paper; NDCG column = source NDCG, AUC global"
   },
   "test_suite": {
-    "total": 204,
-    "passed": 203,
+    "total": 200,
+    "passed": 199,
     "skipped": 1,
     "skip_reason": "CUDA unavailable",
-    "log": "docs/archive/2026-11-04/mrdr_cal_clev/tests.log"
+    "log": "docs/archive/2026-11-08/mrdr_topk/tests.log"
   },
-  "validation_artifact": "results/mrdr_cal_clev_validation_20261104.json",
+  "validation_artifact": "results/mrdr_topk_validation_20261108.json",
   "independent_cdr_validation": [
     {
       "seed": 2020,
@@ -190,8 +190,7 @@
     "KuaiRand uses local preprocessing and array/bounded-memory sampling adaptations",
     "Tuning uses validation calibration/selection; separate from default source protocol",
     "API lacks randomized log; serving adaptation",
-    "CUDA unverified: device fixes are covered by unit tests only, no GPU run",
-    "IViDR stage 1 has l2_penalty 0 while iDCF and LCDR use .01; recorded in metadata, effect not measured"
+    "CUDA unverified: device fixes are covered by unit tests only, no GPU run"
   ],
   "cdr_implementation": {
     "coat": "released_source_protocol",
@@ -199,55 +198,11 @@
     "kuairand": "released_source_protocol"
   },
   "displayed_recall": "Recall@5_bounded",
-  "ividr_reference_defaults": {
-    "treatment_dimensions": {
-      "coat": 32,
-      "yahoo": 96,
-      "kuairand": 128
-    },
-    "feature_embedding": "trainable_linear",
-    "feedback_loss": "bce",
-    "prediction": "E[sigmoid(score)]",
-    "train_mc_samples": 10,
-    "inference_quadrature_points": 32,
-    "phi": 1.0,
-    "lambda_mf": 1.0,
-    "rho": 0.9,
-    "tau": 0.9,
-    "eq10_adapter": "tied_item_lift",
-    "feedback_grid_size": 10,
-    "feedback_patience": 20,
-    "paper_reproduction": false
-  },
-  "ividr_default": {
-    "display_name": "IViDR",
-    "ividr_version": "reference_v2_prior0_neg0.1",
-    "prior_mean": "zero",
-    "negative_weight": 0.1,
-    "eq10_bridge": "tied_item_lift",
-    "paper_literal_overrides": {
-      "ivae_overrides": {
-        "prior_mean": "learned"
-      },
-      "negative_weight": 1
-    },
-    "evidence": "results/ividr_ten_seed_summary_20261028.json",
-    "changed_on": "2026-10-28"
-  },
-  "ividr_root_cause": {
-    "guide": "docs/benchmarks/ividr_root_cause_20261027.md",
-    "main_cause": "BCE penalizes self-selected low-rated exposures",
-    "mf_bce_negative_weight_0.2_recovers_validation": true,
-    "ividr_gain_with_weighting": "within seed noise",
-    "default_changed": true,
-    "evidence": "results/ividr_ten_seed_summary_20261028.json"
-  },
-  "reviewed_on": "2026-11-04",
+  "reviewed_on": "2026-11-08",
   "comparison_models": {
     "workflow": "cf-dl",
     "protocol": "H30",
-    "ncf_reference": "hexiangnan/neural_collaborative_filtering@4aab159",
-    "neighborhood_reference": "MaurizioFD/RecSys2019_DeepLearning_Evaluation@0fb6b7f (not copied)"
+    "ncf_reference": "hexiangnan/neural_collaborative_filtering@4aab159"
   },
   "author_protocol_models": {
     "MRDR-CAL": {

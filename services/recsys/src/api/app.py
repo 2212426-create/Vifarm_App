@@ -16,6 +16,7 @@ Project: ViFarm (services/recsys)
 """
 
 import json
+import logging
 import os
 import urllib.error
 import urllib.request
@@ -32,6 +33,8 @@ from src.api.auth import ApiAuth
 from src.api.firebase_bridge import InteractionLog, load_snapshot
 from src.api.schemas import CompareRequest, InteractionRequest, RecommendRequest, RecommendResponse
 
+logger = logging.getLogger(__name__)
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -45,7 +48,7 @@ def build_engine_from_env():
         return RecEngine(loader, interaction_log=InteractionLog(log_path))
     except Exception as e:
         err_msg = str(e)
-        print(f"[Warning] RecEngine build skipped/failed: {err_msg}")
+        logger.warning("RecEngine build skipped/failed: %s", err_msg)
         class DummyEngine:
             def health(self):
                 return {"status": "recsys_disabled", "models_available": [], "reason": err_msg}

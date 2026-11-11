@@ -23,7 +23,8 @@ SOURCES = [{"repository": "https://github.com/sunxin000/uncertainty4recsys",
             "commit": "36dc7c6198c4f7722ee4634c41254e8fe48decdf", "used": "NeuMF, propensity, Platt, metrics"},
            {"repository": "https://github.com/guosyjlu/MRDR-DL", "commit": "a89d2aa4aba929e48e61415d593b46d4b5f0170d",
             "used": "MRDR imputation and DR losses, alternating training, validation cross-entropy selection"}]
-KEYS = ("AUC", "UAUC", "DCG@2", "DCG@4", "DCG@6", "Recall@2", "Recall@4", "Recall@6")
+KEYS = ("AUC", "UAUC", "DCG@2", "DCG@4", "DCG@6", "Recall@2", "Recall@4", "Recall@6",
+        "NDCG@5", "Recall@5", "Recall@5_bounded")
 
 
 def summarize(runs):
@@ -50,7 +51,7 @@ def main(argv=None):
         for seed in args.seeds:
             result = run(dataset, seed=seed, data=data, overrides=overrides)
             runs.append(result)
-            print(json.dumps({k: result[k] for k in ("dataset", "seed", "AUC", "DCG@2", "Recall@2", "seconds")}))
+            print(json.dumps({k: result[k] for k in ("dataset", "seed", "AUC", "DCG@2", "Recall@2", "NDCG@5", "Recall@5", "seconds")}))
         report = {"model": "MRDR-CAL", "dataset": dataset, "run_id": run_id, "smoke": args.smoke, "seeds": args.seeds,
                   "runs": runs, "summary": summarize(runs), "paper": PAPER_MRDR_CAL[dataset], "sources": SOURCES,
                   "code_sha256_at_start": code,

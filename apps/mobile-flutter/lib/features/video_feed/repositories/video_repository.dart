@@ -3,6 +3,7 @@
 import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../models/video_model.dart';
@@ -236,10 +237,10 @@ class VideoRepository {
           .toList();
 
       if (followingIds.isEmpty) {
-        print('DEBUG: No following IDs found for user $currentUid');
+        debugPrint('DEBUG: No following IDs found for user $currentUid');
         return [];
       }
-      print('DEBUG: Found following IDs: $followingIds');
+      debugPrint('DEBUG: Found following IDs: $followingIds');
 
       // 2. Lấy video từ những người này (Firestore whereIn giới hạn 30 items)
       // BỎ orderBy ĐỂ TRÁNH YÊU CẦU INDEX PHỨC TẠP
@@ -249,7 +250,7 @@ class VideoRepository {
           .limit(100)
           .get();
 
-      print('DEBUG: Found ${snapshot.docs.length} videos from following');
+      debugPrint('DEBUG: Found ${snapshot.docs.length} videos from following');
 
       final videos = snapshot.docs
           .map((doc) => VideoModel.fromMap(doc.data(), doc.id))
@@ -261,7 +262,7 @@ class VideoRepository {
 
       return videos;
     } catch (e) {
-      print('DEBUG: Error in getFollowingVideos: $e');
+      debugPrint('DEBUG: Error in getFollowingVideos: $e');
       return [];
     }
   }

@@ -63,7 +63,7 @@ feedback dùng $Z_{lc}$ theo khung iDCF. Không có mã tác giả, dự án cà
 | **CLEV-DR** | Port từ mã tác giả KDD 2025, 4 tháp NCF + Monte Carlo | Probit + BCE (protocol tác giả) |
 | **MRDR-CAL** | Cài đặt theo Hu et al. (TKDE 2025) + Guo et al. | Platt + MRDR loss (protocol tác giả) |
 
-*(Ghi chú: Mô hình IViDR đã được nhóm nghiên cứu độc lập và loại khỏi danh mục chính do tác giả không công bố mã nguồn và mục tiêu BCE làm suy giảm điểm xếp hạng, xem [phân tích nguyên nhân](../benchmarks/ividr_root_cause_20261027.md)).*
+*(Ghi chú: Mô hình IViDR đã được nhóm nghiên cứu độc lập và loại khỏi danh mục chính do tác giả không công bố mã nguồn và mục tiêu BCE làm suy giảm điểm xếp hạng; mã IViDR đã xóa khỏi repo ngày 07/11/2026).*
 
 Coat báo cáo nhiều seed vì dữ liệu nhỏ. Phân tích chi tiết:
 [LCDR và ConAlign](../benchmarks/lcdr_conalign_20261027.md).

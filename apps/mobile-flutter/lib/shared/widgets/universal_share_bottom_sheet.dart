@@ -296,7 +296,7 @@ class _UniversalShareBottomSheetState
                         ? Image.network(
                             widget.content.imageUrl!,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => _getFallbackIcon(),
+                            errorBuilder: (_, _, _) => _getFallbackIcon(),
                           )
                         : _getFallbackIcon(),
                   ),

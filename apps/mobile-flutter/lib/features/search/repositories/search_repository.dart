@@ -9,8 +9,8 @@ class SearchRepository {
   final FirebaseFirestore _firestore;
 
   SearchRepository({
-    required FirebaseFirestore firestore,
-  }) : _firestore = firestore;
+    required this._firestore,
+  });
 
   /// Tìm kiếm người dùng theo username/fullname (Hỗ trợ tiếng Việt không dấu)
   Future<List<ProfileModel>> searchUsers(String key) async {

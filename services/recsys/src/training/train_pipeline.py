@@ -118,7 +118,6 @@ def run_grid_search(
                 best_overall_ndcg = metrics["validation"]["NDCG@5"]
                 best_config = trial_record
 
-    from src.evaluation.table_formatter import format_grid_table
     all_trials.sort(key=lambda x: x["metrics"].get("NDCG@5", 0.0), reverse=True)
     grid_headers = ["Hạng", "Learning Rate", "Weight Decay", "NDCG@5", "Recall@5", "Precision@5", "HitRate@5"]
     grid_rows = []

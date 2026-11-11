@@ -4,7 +4,6 @@ Các PDF được bảo toàn byte và checksum; không phải kết quả mô h
 
 - [iDCF](iDCF.pdf).
 - [CDR](CDR.pdf).
-- [IViDR](IViDR.pdf).
 - [iVAE, AISTATS 2020](iVAE_AISTATS2020.pdf): PDF PMLR, 10 trang.
 - [IV4Rec, WWW 2022](IV4Rec_WWW2022.pdf): arXiv 2202.04514v1, 9 trang.
 - [IDCIV-RS, IJCAI 2025](IDCIV_RS_IJCAI2025.pdf): PDF proceedings, 9 trang.
@@ -19,7 +18,5 @@ Các PDF được bảo toàn byte và checksum; không phải kết quả mô h
 trước khi trích công thức/bảng. Tình trạng triển khai: [CURRENT_STATE](../CURRENT_STATE.md).
 Checksum giữ nguyên file đang lưu, không chứng nhận rằng nó là phiên bản xuất bản mới nhất.
 
-[Manifest nguồn IViDR ngày 23/10](ividr_reference_sources_20261023.json) ghi các PDF
-tham khảo mới và commit/file đã đọc của iDCF, iVAE, IV4Rec, DFIV.
-[Nguồn tham khảo IViDR](../benchmarks/ividr_sources_20261023.md)
-phân biệt source liên quan với source tác giả IViDR v1 chưa xác minh đầy đủ.
+[Manifest nguồn ngày 23/10](ividr_reference_sources_20261023.json) ghi nguồn tải và SHA-256 của các PDF
+iVAE, IV4Rec, IDCIV-RS và commit/file đã đọc của iDCF, iVAE, IV4Rec, DFIV (mã IViDR đã xóa ngày 07/11/2026).

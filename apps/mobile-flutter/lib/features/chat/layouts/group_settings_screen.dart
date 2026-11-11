@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toptop_flutter/core/theme/app_theme.dart';
-import '../repositories/group_chat_repository.dart';
-import 'package:toptop_flutter/features/chat/providers/chat_provider.dart';
+import 'package:toptop_flutter/features/profile/providers/profile_provider.dart';
 import 'package:toptop_flutter/features/chat/widgets/add_members_sheet.dart';
 
 class GroupSettingsScreen extends ConsumerStatefulWidget {
@@ -14,12 +13,10 @@ class GroupSettingsScreen extends ConsumerStatefulWidget {
   const GroupSettingsScreen({super.key, required this.groupId});
 
   @override
-  ConsumerState<GroupSettingsScreen> createState() =>
-      _GroupSettingsScreenState();
+  ConsumerState<GroupSettingsScreen> createState() => _GroupSettingsScreenState();
 }
 
-class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
-    with SingleTickerProviderStateMixin {
+class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -36,52 +33,26 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('chats')
-          .doc(widget.groupId)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Scaffold(
-            body: Center(child: Text('Không thể truy cập nhóm.')),
-          );
-        }
-        if (!snapshot.hasData) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
 
-        final data = snapshot.data!.data() as Map<String, dynamic>?;
-        if (data == null) {
-          return const Scaffold(
-            body: Center(child: Text('Nhóm không còn tồn tại.')),
-          );
-        }
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance.collection('chats').doc(widget.groupId).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        
+        final data = snapshot.data!.data() as Map<String, dynamic>;
         final name = data['groupName'] ?? 'Nhóm';
         final memberIds = List<String>.from(data['memberIds'] ?? []);
-        final isPinned =
-            (data['pinnedBy']
-                as Map?)?[FirebaseAuth.instance.currentUser?.uid] ==
-            true;
+        final isPinned = data['isPinned'] ?? false;
         final isMuted = data['isMuted'] ?? false;
         final creatorId = data['createdBy'] ?? '';
         final currentUid = FirebaseAuth.instance.currentUser?.uid;
         final isAdmin = creatorId == currentUid;
-        final closed = data['closed'] == true;
 
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => context.pop(),
-            ),
-            title: Text(
-              name,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+            title: Text(name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -89,23 +60,9 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
-                    if (closed)
-                      const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Text(
-                          'Nhóm đã kết thúc. Bạn chỉ có thể xem lịch sử.',
-                        ),
-                      ),
-                    _buildQuickActions(context, memberIds, isAdmin && !closed),
+                    _buildQuickActions(context, memberIds),
                     const SizedBox(height: 20),
-                    _buildSettingsList(
-                      context,
-                      isPinned,
-                      isMuted,
-                      isAdmin,
-                      memberIds,
-                      closed,
-                    ),
+                    _buildSettingsList(context, isPinned, isMuted, isAdmin, memberIds),
                   ],
                 ),
               ),
@@ -140,43 +97,22 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
     );
   }
 
-  Widget _buildQuickActions(
-    BuildContext context,
-    List<String> memberIds,
-    bool canManage,
-  ) {
+  Widget _buildQuickActions(BuildContext context, List<String> memberIds) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        if (canManage)
-          _buildActionItem(Icons.person_add_outlined, 'Thêm người', () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              builder: (context) => AddMembersSheet(
-                groupId: widget.groupId,
-                existingMemberIds: memberIds,
-              ),
-            );
-          }),
-        if (canManage)
-          _buildActionItem(Icons.link, 'Liên kết mời', () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Mời bằng liên kết chưa được hỗ trợ.'),
-              ),
-            );
-          }),
-        _buildActionItem(Icons.search, 'Tìm kiếm', () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Dùng nút kính lúp trong màn trò chuyện để tìm tin nhắn.',
-              ),
-            ),
+        _buildActionItem(Icons.person_add_outlined, 'Thêm người', () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => AddMembersSheet(groupId: widget.groupId, existingMemberIds: memberIds),
           );
         }),
+        _buildActionItem(Icons.link, 'Liên kết mời', () {
+           // Copy link logic
+        }),
+        _buildActionItem(Icons.search, 'Tìm kiếm', () {}),
       ],
     );
   }
@@ -198,97 +134,37 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
     );
   }
 
-  Widget _buildSettingsList(
-    BuildContext context,
-    bool isPinned,
-    bool isMuted,
-    bool isAdmin,
-    List<String> memberIds,
-    bool closed,
-  ) {
+  Widget _buildSettingsList(BuildContext context, bool isPinned, bool isMuted, bool isAdmin, List<String> memberIds) {
     return Column(
       children: [
+        _buildListTile(Icons.bubble_chart_outlined, 'Bong bóng trò chuyện', trailing: const Icon(Icons.chevron_right)),
+        _buildListTile(Icons.music_note_outlined, 'Âm báo', trailing: const Icon(Icons.chevron_right)),
         _buildListTile(
-          Icons.bubble_chart_outlined,
-          'Bong bóng trò chuyện (chưa hỗ trợ)',
-          trailing: const Icon(Icons.chevron_right),
-        ),
-        _buildListTile(
-          Icons.music_note_outlined,
-          'Âm báo (chưa hỗ trợ)',
-          trailing: const Icon(Icons.chevron_right),
-        ),
-        _buildListTile(
-          Icons.push_pin_outlined,
-          'Ghim lên đầu',
+          Icons.push_pin_outlined, 
+          'Ghim lên đầu', 
           trailing: Switch(
-            value: isPinned,
-            onChanged: closed
-                ? null
-                : (v) => FirebaseFirestore.instance
-                      .collection('chats')
-                      .doc(widget.groupId)
-                      .update({
-                        'pinnedBy.${FirebaseAuth.instance.currentUser!.uid}': v,
-                      })
-                      .catchError((Object _) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Không thể cập nhật ghim.'),
-                            ),
-                          );
-                        }
-                      }),
-            activeThumbColor: AppTheme.primaryColor,
+            value: isPinned, 
+            onChanged: (v) => FirebaseFirestore.instance.collection('chats').doc(widget.groupId).update({'isPinned': v}),
+            activeColor: AppTheme.primaryColor,
           ),
         ),
+        _buildListTile(Icons.notifications_none, 'Thông báo', trailing: Text(isMuted ? 'Tắt' : 'Tất cả', style: const TextStyle(color: Colors.grey))),
+        _buildListTile(Icons.flag_outlined, 'Báo cáo', trailing: const Icon(Icons.chevron_right)),
         _buildListTile(
-          Icons.notifications_none,
-          'Thông báo nền (chưa hỗ trợ)',
-          trailing: Text(
-            isMuted ? 'Tắt' : 'Tất cả',
-            style: const TextStyle(color: Colors.grey),
-          ),
-        ),
-        _buildListTile(
-          Icons.flag_outlined,
-          'Báo cáo nhóm (chưa hỗ trợ)',
+          Icons.settings_outlined, 
+          'Quản lý nhóm', 
           trailing: const Icon(Icons.chevron_right),
+          onTap: isAdmin ? () => context.push('/group-management/${widget.groupId}') : null,
         ),
-        if (!closed && isAdmin)
-          _buildListTile(
-            Icons.settings_outlined,
-            'Quản lý nhóm',
-            trailing: const Icon(Icons.chevron_right),
-            onTap: isAdmin
-                ? () => context.push('/group-management/${widget.groupId}')
-                : null,
-          ),
-        if (!closed && !isAdmin)
-          _buildListTile(
-            Icons.logout,
-            'Rời nhóm',
-            textColor: Colors.red,
-            onTap: () => _leaveGroup(context),
-          ),
+        _buildListTile(Icons.logout, 'Rời nhóm', textColor: Colors.red, onTap: () => _leaveGroup(context)),
       ],
     );
   }
 
-  Widget _buildListTile(
-    IconData icon,
-    String title, {
-    Widget? trailing,
-    Color? textColor,
-    VoidCallback? onTap,
-  }) {
+  Widget _buildListTile(IconData icon, String title, {Widget? trailing, Color? textColor, VoidCallback? onTap}) {
     return ListTile(
       leading: Icon(icon, color: textColor ?? Colors.black87),
-      title: Text(
-        title,
-        style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
-      ),
+      title: Text(title, style: TextStyle(color: textColor, fontWeight: FontWeight.w500)),
       trailing: trailing,
       onTap: onTap,
     );
@@ -300,21 +176,12 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
       itemCount: memberIds.length,
       itemBuilder: (context, index) {
         final userId = memberIds[index];
-        final profileAsync = ref.watch(chatProfileProvider(userId));
+        final profileAsync = ref.watch(userProfileStreamProvider(userId));
         return profileAsync.when(
-          data: (profile) => ListTile(
-            leading: CircleAvatar(
-              backgroundImage: profile.avatarUrl.isNotEmpty
-                  ? NetworkImage(profile.avatarUrl)
-                  : null,
-            ),
+          data: (profile) => profile == null ? const SizedBox.shrink() : ListTile(
+            leading: CircleAvatar(backgroundImage: profile.avatarUrl.isNotEmpty ? NetworkImage(profile.avatarUrl) : null),
             title: Text(profile.username),
-            subtitle: userId == creatorId
-                ? const Text(
-                    'Chủ nhóm',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  )
-                : null,
+            subtitle: userId == creatorId ? const Text('Chủ nhóm', style: TextStyle(color: Colors.grey, fontSize: 12)) : null,
           ),
           loading: () => const SizedBox.shrink(),
           error: (_, _) => const SizedBox.shrink(),
@@ -329,50 +196,30 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
           .collection('chats')
           .doc(widget.groupId)
           .collection('messages')
-          .where('type', isEqualTo: 'image')
+          .where('type', whereIn: ['image', 'video'])
           .snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Center(child: Text('Không thể tải ảnh của nhóm.'));
-        }
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
         final docs = snapshot.data!.docs;
         if (docs.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.photo_library_outlined,
-                  size: 64,
-                  color: Colors.grey[300],
-                ),
+                Icon(Icons.photo_library_outlined, size: 64, color: Colors.grey[300]),
                 const SizedBox(height: 16),
-                const Text(
-                  'Ảnh đã chia sẻ sẽ hiển thị tại đây',
-                  style: TextStyle(color: Colors.grey),
-                ),
+                const Text('Ảnh và video sẽ hiển thị tại đây', style: TextStyle(color: Colors.grey)),
               ],
             ),
           );
         }
         return GridView.builder(
           padding: const EdgeInsets.all(2),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 2,
-            mainAxisSpacing: 2,
-          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 2, mainAxisSpacing: 2),
           itemCount: docs.length,
           itemBuilder: (context, index) {
             final data = docs[index].data() as Map<String, dynamic>;
-            return Image.network(
-              data['message'],
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
-            );
+            return Image.network(data['message'], fit: BoxFit.cover);
           },
         );
       },
@@ -382,41 +229,25 @@ class _GroupSettingsScreenState extends ConsumerState<GroupSettingsScreen>
   Future<void> _leaveGroup(BuildContext context) async {
     final currentUid = FirebaseAuth.instance.currentUser?.uid;
     if (currentUid == null) return;
-
+    
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Rời khỏi nhóm?'),
         content: const Text('Bạn sẽ không còn nhận được tin nhắn từ nhóm này.'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Hủy'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Rời nhóm', style: TextStyle(color: Colors.red)),
-          ),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Hủy')),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Rời nhóm', style: TextStyle(color: Colors.red))),
         ],
       ),
     );
 
     if (confirm == true) {
-      try {
-        await GroupChatRepository(
-          FirebaseFirestore.instance,
-        ).changeMembers(widget.groupId, [currentUid], add: false);
-        if (context.mounted) context.go('/inbox');
-      } catch (_) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Không thể rời nhóm. Chủ nhóm cần kết thúc nhóm trước.',
-              ),
-            ),
-          );
-        }
+      await FirebaseFirestore.instance.collection('chats').doc(widget.groupId).update({
+        'memberIds': FieldValue.arrayRemove([currentUid]),
+      });
+      if (context.mounted) {
+        context.go('/inbox');
       }
     }
   }
@@ -433,11 +264,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(color: Colors.white, child: _tabBar);
   }
 

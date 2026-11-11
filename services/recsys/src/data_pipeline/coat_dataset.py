@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Module nạp và quản lý dữ liệu Coat Dataset cho MF, iDCF/IViDR và DR-BIAS + CDR
+Module nạp và quản lý dữ liệu Coat Dataset cho MF, iDCF và DR-BIAS + CDR
 Project: ViFarm (services/recsys)
 """
 

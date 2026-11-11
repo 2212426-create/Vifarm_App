@@ -103,34 +103,10 @@
       "after_sha256": "2873f7bfeaecc5853e917f5e60dcd593cb2c2d63590df735537f7b58c969f641"
     },
     {
-      "old": "src/causal/idcf/ividr_model.py",
-      "new": "src/models/ividr/ividr_model.py",
-      "before_sha256": "446708d3979b738a7f3dba7f9c55b8a1f1422d4f56fabeb8ef0d3cf5b14fd9f2",
-      "after_sha256": "4cf19ee24b0ef3d36dae27956fbf01301458d167e29aba87a2fba74a3d745bc1"
-    },
-    {
-      "old": "src/causal/idcf/ividr_reference.py",
-      "new": "src/models/ividr/ividr_reference.py",
-      "before_sha256": "6eadcc626352a36c312c89707ecb6c1fd7101674b4bf8ca8514c27db74b84a45",
-      "after_sha256": "9c978c457aa17e5d8416132faac9ba83f9f3994a719bba3c6a3135993e3c6272"
-    },
-    {
-      "old": "src/causal/idcf/ividr_staged.py",
-      "new": "src/models/ividr/ividr_staged.py",
-      "before_sha256": "c5f91fa193b0848801b7b038605391c833ccceff71ee0ae99fc118459dfa75f1",
-      "after_sha256": "490537d0b751590d386f946ce610cce40e389ae94f3e31f2a42227026cd48fec"
-    },
-    {
       "old": "src/causal/idcf/train_idcf.py",
       "new": "src/models/idcf/train_idcf.py",
       "before_sha256": "1d9702db2ba69b6c0e55311704e2f1e2a396923b22dbafeae03e5f8ae028233b",
       "after_sha256": "e61d60392addf9a1efbee1b9316131a7f6027fcd543ac24b8f76d93ba670e745"
-    },
-    {
-      "old": "src/causal/idcf/train_ividr.py",
-      "new": "src/models/ividr/train_ividr.py",
-      "before_sha256": "ee5bef9fa08cc75e6009002741522a519465c0d152f92d03cc6766230323f0fd",
-      "after_sha256": "c744ef02f7fa80f2ec9fe9815a8ab808ebc8622b3f400b3025b4119d9f5f9b42"
     }
   ],
   "compatibility": "Python module aliases; legacy non-Python license moved alongside implementation",

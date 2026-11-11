@@ -1,4 +1,4 @@
-# Rà soát nguồn CDR, iDCF và IViDR — 21/10/2026
+# Rà soát nguồn CDR và iDCF — 21/10/2026
 
 [Trạng thái hiện hành](../CURRENT_STATE.md) · [Định nghĩa mô hình](paper_model_alignment.md).
 Đây là rà soát mã nguồn và đính chính tài liệu; chưa tích hợp hoặc chạy các repo mới.
@@ -35,10 +35,3 @@ Trong dự án hiện tại, MF/iDCF giữ 15.400 user/311.704 biased ratings v�
 category thiếu survey cho 10.000 user. Đây là khác biệt dữ liệu huấn luyện thực,
 không thể chỉ dựa vào điểm gần paper để gọi là tái lập. Cần đối chiếu thêm
 hyperparameter, sampling, checkpoint selection và evaluator trước khi đổi runtime.
-
-## IViDR: paper reference
-
-[arXiv IViDR](https://arxiv.org/html/2410.12451v1#S4.SS6) specifies BCE
-in Eq. (25). The project keeps learned IV + dual iVAE + BCE feedback.
-See [implementation and local choices](ividr_reference_20261022.md).
-The published ACM version and full experimental reproduction remain unverified.

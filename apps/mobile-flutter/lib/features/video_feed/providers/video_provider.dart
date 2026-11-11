@@ -94,7 +94,6 @@ final homeFeedProvider = Provider<AsyncValue<List<FeedItem>>>((ref) {
       videosAsync = ref.watch(followingVideoFeedProvider);
       break;
     case HomeTab.forYou:
-    default:
       videosAsync = ref.watch(videoFeedProvider);
       break;
   }

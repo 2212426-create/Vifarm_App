@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_on": "2026-11-04",
+  "reviewed_on": "2026-11-08",
   "read_first": "docs/CURRENT_STATE.md",
   "files": [
     {
@@ -39,57 +39,7 @@
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-10-27/ividr_optimization/run_variant.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-27/ividr_rootcause/bce_budget.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-27/ividr_rootcause/factorial.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-27/ividr_rootcause/marginal_inference.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
       "path": "docs/archive/2026-10-28/conalign_paper_window/run.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-28/full_benchmark/recover_coat_yahoo.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-28/ividr_bce/ividr_weighted.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-28/ividr_bce/ividr_zero_prior.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-28/ividr_bce/mf_bce.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-28/ividr_bce/mf_objective.py",
-      "role": "historical_evidence",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-10-28/ividr_ten_seed/run_seed.py",
       "role": "historical_evidence",
       "immutable": false
     },
@@ -159,16 +109,6 @@
       "immutable": false
     },
     {
-      "path": "docs/archive/2026-11-04/mrdr_cal_clev/smoke.log",
-      "role": "verification_log",
-      "immutable": false
-    },
-    {
-      "path": "docs/archive/2026-11-04/mrdr_cal_clev/tests.log",
-      "role": "verification_log",
-      "immutable": false
-    },
-    {
       "path": "docs/archive/2026-11-04/mrdr_cal_clev/validate.py",
       "role": "historical_evidence",
       "immutable": false
@@ -205,26 +145,6 @@
     },
     {
       "path": "docs/benchmarks/evaluation_protocol.md",
-      "role": "current_guide",
-      "immutable": false
-    },
-    {
-      "path": "docs/benchmarks/ividr_eq10_ablation_20261027.md",
-      "role": "current_guide",
-      "immutable": false
-    },
-    {
-      "path": "docs/benchmarks/ividr_reference_20261022.md",
-      "role": "current_guide",
-      "immutable": false
-    },
-    {
-      "path": "docs/benchmarks/ividr_root_cause_20261027.md",
-      "role": "current_guide",
-      "immutable": false
-    },
-    {
-      "path": "docs/benchmarks/ividr_sources_20261023.md",
       "role": "current_guide",
       "immutable": false
     },
@@ -296,12 +216,6 @@
       "sha256": "fe4edd0210d0938469c24124b6dff9146c8e6d145b2ca62e5b4f85f90de007f1"
     },
     {
-      "path": "docs/paper_summaries/IViDR.md",
-      "role": "paper_transcript",
-      "immutable": true,
-      "sha256": "51a94d806bf551d24f3335e8a011844c937a4af7b91194810a9e24c8b2c45855"
-    },
-    {
       "path": "docs/paper_summaries/LCDR.md",
       "role": "source_reference",
       "immutable": true,
@@ -347,12 +261,6 @@
       "role": "source_reference",
       "immutable": true,
       "sha256": "5ae20b87db12a864f8cde918ec4ce731d135dfe7e3d8188a11dd00ec73e799b1"
-    },
-    {
-      "path": "docs/papers/IViDR.pdf",
-      "role": "source_reference",
-      "immutable": true,
-      "sha256": "ff725d20dfd676f543882cba959dd60d988a792fabeaaf10a1d894804247cfad"
     },
     {
       "path": "docs/papers/LCDR.pdf",
@@ -457,17 +365,6 @@
     },
     {
       "path": "results/benchmark_all_f109d46fbe_20261104_222805_e21bb674_v4.md",
-      "role": "benchmark_result",
-      "immutable": false
-    },
-    {
-      "path": "results/benchmark_kuairand_ividr_be219eee39_20261029_193713_d87515c9_v4.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "5b1682368cd08373c7143cd2fa4e49b2c24d8ff4605b80b694d01477f8744ff9"
-    },
-    {
-      "path": "results/benchmark_kuairand_ividr_be219eee39_20261029_193713_d87515c9_v4.md",
       "role": "benchmark_result",
       "immutable": false
     },
@@ -654,18 +551,6 @@
       "sha256": "8f2513c8c4c496ef19e7be6bbb04e19437b355cd0b495aa44bdf2671036e4435"
     },
     {
-      "path": "results/ividr_benchmark_recovered_coat_yahoo_20261029.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "5edff85a09ba722ff74e0070527bb723835320c029c70fbbc7502a00133ea049"
-    },
-    {
-      "path": "results/ividr_ten_seed_summary_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "d34e088fda2118a183e106bd34005edf86f41302395dc6522034c5026b82a4d9"
-    },
-    {
       "path": "results/lcdr_coat_20261027_220934_6395e1a8.json",
       "role": "benchmark_result",
       "immutable": true,
@@ -780,1068 +665,6 @@
       "sha256": "0a4e63244852b39af18ecc0fc0a7b3e855c30e63a66a3f9cdbeacb7da35c06fa"
     },
     {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.0001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "235b8257fad6ac4fff860af5c66700474e9e5346f16b23087da231a528da8bed"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.0001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "503d8ae462e6f40c105edde81473721bea97a38b7c39cf9733d40781fb373058"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.0001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "52e3e1de586ef1310611e68e57952027e4683d6acd23ae2ecb196a54254ca045"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "f2631ab4b238702efba4cbcab56b3785de9e0b1f9f3e2999b7e39ad034ea9bfc"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "d9d9d01b4e94202a3d675610fc4d0fc98507d3057c635a611dea9453fda8100a"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a37332aba4feaeec3efa25821888186d68e9ea707a39300cae6630384e0b0f55"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.01_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "96479cefb6d5977bbc00b6bbf6f1f1cb71631e9880167dae32072a4f5814564a"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.01_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "50f8e5cd60d4c006e8f9f2ed7c140a41f99e83507d7f2da9927887bcb837db91"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd0.01_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "159d0b1576106e7a8cafbd381887340f55290b623ab34ec2afbbd74c8b893701"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd1e-05_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "0c59cae6685817bda66b963989f3c83b521cb1a2cf5d4007f394ee670e27b5a5"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd1e-05_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "d61415a0cbdb3d79ec7bb170d63e8860aa3753401403de06befd9c8b10f41e55"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d16_wd1e-05_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "ff01e2ac1ee5ecf3692ef40a67b4de80f6090491c27a9e098ed086bc99c3af6c"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.0001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a6120e2a5b87ca55613ebcd1f67dd2a0be55a1c4b076cfdbf8d69689fd47643b"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.0001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "e05e2b08c72a9d83b4e7780f7a7e716adcda81d0e7cb23286e58a41b8ddd803d"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.0001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "cbad8edde47e8cf835f144ce9a33dee49f44b2cdbeb6e7d095d617e7fe7f0a25"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "dc6b27f8403fc8243d337f92dab35f72e3e85396d3197265a04d8fbc14e5277b"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "635031dcba30263136109b84e0abc158e3c7bde8ce71a699cccd809bf445545d"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "f3ad6b60643e2433f4d35f0e3aa59aebffe9a5218113375016494f47feb3e3a9"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.01_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "5469f4cf5e6ba3d20a058465e92d339f2c93fb2fa2e0a9e031a8f0db5bb1910a"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.01_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "111603c13cfcbdc05c895e9f0e48d7d6adc516da4d77fdd281238f90102a0458"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd0.01_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "8d015a06208753f279ba4488ca4de9f149db3dd224fc8c858597491ae973ea1f"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd1e-05_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "ee18cf0e71d8772168b87fb6104575ab48fb531ea25039b6e81a0e99591b5153"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd1e-05_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "526a1695e0ca77615a81a48994f7a08243290e7f97e3655a0523a35e83ae1fdd"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d4_wd1e-05_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "5bf2e2c467dcfa695f9de4f9f27473efb38dbbc6b1fd410fdcf67b4b805760af"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.0001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "d57b7e503e1cc46671ec9a6d08440916a723c89439d49ba96bd5d58f628c49a1"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.0001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "61741fdd7ac379c6bf3e25e4103197960d243ae3de9f47f507315b5a914ceb8a"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.0001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "05518b8e1e00dcb88c2af9e6ef602078865b2d80a48b36664a98e123db4d02a5"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "fc1d5c2c9367f2fe1805163fad85499d7ad09c33a5777236335ff14624919037"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "4a14d6d1ade9b54049ae390a8fb5e9173744f99abf7b266f55c956f1730cfbcc"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "afdf3d631d4bedebed9c0aee964474b60ff4fdab32d6d3117764a5b8d4de80a2"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.01_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "5a436701e9dca049de99bf8e813a57fae9d34a303f8bcf546af525fc2c39f91c"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.01_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "52e8b0e4e59ab5d441fabcef0502cc6e1b907b78a625b4cfd314a2fcd906db7b"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd0.01_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "5959229e769a55872b3914cdf4f43eeec1990e4ece8cbaf3d8774f39e7babc1a"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd1e-05_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "70f1ffeb65ce9e640e6c3730e91768e41f2fe1bfc1848ca2a1f2d32b2bb4cfbf"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd1e-05_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "180e7e7b2179760c41602aefe7cc3c06fc3e4ddd8e45f23775b64c752f5a465a"
-    },
-    {
-      "path": "results/studies/ividr_bce_mf_d64_wd1e-05_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "b5d9f945cc334fbf5ac9ff256f7a1fcf87ff366cd56aec934935b80a3340d9fa"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_global_lr0.0005_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "bcbb1b56e572a9e70e298b12fac68c73d70a0d7c1fb0290f94ca4515b5ad3c28"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_global_lr0.0005_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "be52527e4b391262b4ff892a2f3d9eb75eae3c09178f45daabf6ae0919a9f6fd"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_global_lr0.0005_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "692a4b5c4d2c42aadbc12f69fc4e01de82ba6c77fee5fafc51a2e97af5a22666"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_global_lr0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "940414182f8392d74e2ce7b65839c715cd8ea6e7ef27690509fa88343169d91f"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_global_lr0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "02acb976b4d6b28e0b4d41400a5e3ba141b200c55e4df7a87ecef99ff2c1cd0b"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_global_lr0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "4425c92421eaea729e42c329c2b8b51f70536b7865c70995ece458eabd08807a"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_init01_lr0.0005_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "1cf9e140dc627e85bc15217feb57d578854569e1bfb64de8854cec10628edda6"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_init01_lr0.0005_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a524a205c0cce66dedf1e35453c08c66a40ea49dff657113562222263458dacb"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_init01_lr0.0005_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "ce1fe23943d91bbde1e2357b4c24652653fc1e5be3ae19aaacb63b5583ce9766"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_init01_lr0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "14a5eafe540ac3e1660814477d18448186c151a746b675c258a0f84c56eb8aa2"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_init01_lr0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "64b06aa8de4e6a48e4dc40d8d8a274e600a48bcf1f4ea83e82c737cb87d2bab0"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_init01_lr0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a36df5f825b23664381cdc19fcc7db21b22e6dc4cfb6029d17f7b225aab4a6e6"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_lr0.0005_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "ebd31d5f4dcc19ed6542533116b10a6b4038fef940e3dc79bf5b2a461839164f"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_lr0.0005_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "ffbdf264378dd9cff056d08d2718fb868c18b36e3837a037125408f4b338abf8"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_lr0.0005_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "63489e0d6df6b2613f50f7a455c257d2a087de0f53cfe4ce986e29d3d0c56fda"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_lr0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a38a0aa743c9232482e4d7a9eeaba8d67df173948b08c78ca27770b19d274446"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_lr0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "0ad2a41ba347d300a4b1d093f28e7ed8aaa14bebba4a03ea1965a294552b1844"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_lr0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "0d4fdd0abdb2b2ee8ea0b403e3f93aee3f96823f0c9c410531eeb31749c8e6a5"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.2_lr0.0005_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "bf9b85fdefe4ed5d40d474029f33b26fbc341e21f424b94631ccbf999af4505f"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.2_lr0.0005_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "4a0861fe052ada761ae202bd921f36f31bdfeef6a83a92da7ab47c377084f118"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.2_lr0.0005_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "ef11e29258494c56a87b7c3c7235b966ccfbb056896dd926042aa37532110ced"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.2_lr0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "bc3a622dab09bc71c4b8add91c81d040846daad98aaed71b6987ce6d2d88f99f"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.2_lr0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "937506f834f9e5f76e18ef0d8d99954cc63dc3e7ee64cc9b6c4f09319e68d5f4"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.2_lr0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a3b33c7643e5452dc5a797690dd86c78eae1731b256276cde0f1a41e5e8df4ac"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.5_lr0.0005_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "600affb9ad675a6a4e3f665da835553b1581f8bfa2edb144f1212272b81b3870"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.5_lr0.0005_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a83ee985a35e93b231996f325c60d7b2d68f1a27e5d12397c9c713838daa55d4"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.5_lr0.0005_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "cc558f6149f8da0ed9d6b1ab7324149c633dd847ec8bd0cb014db0ec88beeb5a"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.5_lr0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "b408eee34158dd13d74eef1ef09b3df107da9c3cce845a822f7dc4d82432e674"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.5_lr0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "66182417853ef6a9e8d5e89a2612c38fd501f84638e928352dd17bae6e695216"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_bce_neg0.5_lr0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "abac18a14148e166dd26f904c27beb7012f1a98af5f8920059f1ddd2bc73f21d"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_mse_lr0.0005_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "9850b2fb3925e5e27767b52eb3546ecc9436054e22c0f682da17adc693f04bb7"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_mse_lr0.0005_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "b649fed8ae74cd1f8f88233abd62b775e5241db1569c38a82497e9f71bb543e9"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_mse_lr0.0005_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "614dd36e62c104913a90134dee02a8c0ff672fddaa41d7da1f947fee2e856296"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_mse_lr0.001_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "9cb016a234daffbc38702d4eccc949ea4a81f4075fbef3eb72d68ef69b825c14"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_mse_lr0.001_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "0d68eabc974af757d8e2abca05ef2963c3edd12db8ae32cdb7dbfe24e9aa8cb5"
-    },
-    {
-      "path": "results/studies/ividr_bce_objective_mse_lr0.001_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "2dcffb7a4cec3eff575676249a7cb0889ab8d547fc38618c980c139dab4057af"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_idcf_neg0.2_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "dbd8f51ca1f19114eeb4379d7681c6667b6519ccec2aa1dd14aa8f73dd7d8d77"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_idcf_neg0.2_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "2eb3254bea685b7582d798d845dbab600eaaf710d704f5cf0709d607c654938d"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_idcf_neg0.2_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "cc5bcf5c5e1ba3ed7e2c2862879ae59855ae8a5b58681566f29de7095b7d384b"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_ividr_neg0.1_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "d8badedc2c869dcdc4616cde64a5ff4e1e073ec0ef311895cb3d637602cde24e"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_ividr_neg0.1_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "d8fecd3b7f1b7e6a429f800f733579c49506b5292ef8ea58c1b8fb3223f16a38"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_ividr_neg0.1_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "1ed5f7f52eef56325d256375265eeed73d79a6493eb62550c3583a1aa4a14f3d"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_ividr_neg0.2_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "3a1771a2379c29abcc1748cd20feb4e6a7201fad27c5229359ea8d8c91c5de12"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_ividr_neg0.2_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "82e84b12d888a4edebe14aee2d7f9709e2d13fef4d10b857b1ad64b7e31cb99e"
-    },
-    {
-      "path": "results/studies/ividr_bce_weighted_ividr_neg0.2_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "3ab6ad54aa06716525b6320cd3f0a894d89f186c0c965c9506058b66a45d5be8"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg0.1_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "67c6f05ce224c284343840c7747a8ca3ab98d725d3c448b847da17a88076e6ca"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg0.1_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "6e2bb5b894319a8ac06f365d2a8616bba14187ae07b2862de31b98d7fe6b1888"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg0.1_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "e550d8531e1ab523a38f10939e5f4c4ecf22e9713f07c7c4db54be0444e8eff2"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg0.2_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "e3ab87a9813bb93ee61864300087e3ebd14457ccd2a86deb9e7be8dc1530a58a"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg0.2_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "dbc066eb0c6f5cc04fe372f2d0e9cc19136da0ebb471679389d98526b1b5f51b"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg0.2_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "74f7520038591a87d4b87137926a548bbacf540bf286e10f7fb66eaa419794a8"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg1_seed42_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "273db67b9463c3a998c123a593c577827555d00cb249ca545bab170dd97c94f4"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg1_seed43_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "9c2638685bdd42f7fe6e8936dd7553664a75e0ae23149f238d8b040b37f4f4e2"
-    },
-    {
-      "path": "results/studies/ividr_bce_zero_prior_neg1_seed44_20261028.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "b6c17ae8ef3d68f470f6455097ef752844224a18ac5d02b025e922f5ee74928a"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_full_seed42_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "c7a3a5248b652b862ebe9b1d6204ef4ad589070606ec28b26bde66712a621a91"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_full_seed43_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "cf0bd648bbc6d41d13dca3112256cb3b9225952f9917660c9058c74946e4efbf"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_full_seed44_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "4b0ae0f3217d1a3938870da5e91e61c2af42bfedfde81d58450e9ce77f793a4e"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_fitted_seed42_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "35855cec9c572dc509eb7b4bcd715a67ab143d0fa75d2386e282b026799c722f"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_fitted_seed43_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "281a16692f35a971116becad05b07d44f1c9f9f779fcd0070de4c8568bda5ece"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_fitted_seed44_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "262a979dca6a9ccc552d5addb770ae57d65070d7bcd1a66e5356f165a4eb8a92"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_full_seed42_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "148febae5801eab5ed09f1520cffce024c3933588df313278de5fe89b0dbd2cd"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_full_seed43_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "a2a14262013cd43cb73243eab92e29fffc01708d3da9d3a5dde70e45bb74e21b"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_full_seed44_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "128feec3cd177474850b90fde2efdbd41448e60d8c94773bbc11bbfe27ca2d48"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_residual_seed42_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "6b1233bfa17fe30ea2db3b8368ff7db4bc2b293272adfaeb8258eae6492022d3"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_residual_seed43_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "5306149ee0077fda2c61ec1d0b58b6b7211ef6ea10b8d494773fd5edc7baa3ed"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_residual_seed44_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "4a9e61986bd08c1f3d5855b4cdcb80c69e2fafb6f4a0b5177d2479ee1868cd37"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_treatment_seed42_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "9ac883ce28f6c3ebb3238fa512307963fd3fe250a5e4f44f66fd541f522a1062"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_treatment_seed43_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "14876618586a28af7bb17f977f5da8e91b8256e2a19d71c4ddeb48caab97861f"
-    },
-    {
-      "path": "results/studies/ividr_opt_tied_item_lift_rownorm_treatment_seed44_20261027.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "1dfb83c87b0419e0e78aa5d8c9db2710e7e05f93d2aa5e3057cd28852d6efc70"
-    },
-    {
-      "path": "results/studies/ividr_research_diagnostics_20261023.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a64be2afd34c30da2976f515b6e34d19c45450ab25f2a077aa17d32ef26443da"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.001_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "bfd649c6fcbf93ffb78580fb6913af13309f954c1779f9a29960d4d7affb5099"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.001_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "e9d18bcbcfac8be3da0f58e549058d8a2d0c7be69d0ddb30b5012169786dde59"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.001_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a5aeb220a5fc323b7a75d343741e5db97b1f1a839442f1cf4ce072ffe05e4039"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.003_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "bc2b4904eff96c91fc885d92d035b200c3fb4df62180130ac5edcc7cb511641b"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.003_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "145b2a2a91cbe181558736b0987c0aa3b86b18dd71cec4a585f05a61584adf31"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.003_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "29cb6cfc73395a2267c18607267d75c72210f0c94ca459336432040a5218b0cf"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.01_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "da01811fe04f1b7f2894fb2292c2e5e6bb8a457813277860654eafbda866a91d"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.01_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "68cae3b12b0ed06a838f1ab244a899c22bc6730477a21bfcdf02540fbfdc761f"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_idcf_lr0.01_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "44a4a247609d739a5047a960f23b6d85e0b88ff6bc8fdf0fd437c08b64ddd992"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.001_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "c6b5b5366af687c5dcc20ba77c5899f5babd7ce2f07f16c85d3352aea08ff9e4"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.001_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "c5ba322190f8295c9d5949207a93db7bfadd62aa3c08532f607a4346a7c9ea79"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.001_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "21c407a976b906f364350bd436f8c24c3d8eae13b8ff3edf787b5910f6bf9ec3"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.003_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "00c8e7354a05e8fa3784894965f020dc7907cd743db6e68268a522a6c6de0a5c"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.003_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "611e818bf5884f651350ea22833c966491fbd9c2b2ac5745d1bcf3ff1ead05ef"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.003_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "6e2d0ae60513a061f547d226c9bedbfa84b5f4027fe077c94cf4309b93af29b1"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.01_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "35a289f4694e8247efb22e6f2a6439cbe97db11960350aab456ebfc90fa62dad"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.01_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "40b9068faabb499836ca6fdf2f3712a851024be2c454e5553d761a1fe3839114"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_ividr_lr0.01_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "446d14d5f3cfe62ad64814ae4214d17b6e6d488e93c05e24057dd184cec3e2af"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.001_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "979a3947be3b6b8035821407bd933e14edb845833faf2979050140863adf74f1"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.001_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "6f2904b29d0871540058eec19447edd81f6ce4fc21f831935e71cc4e697405c0"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.001_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "328a6f9420fa3cdf9cc7b9487c53949b716d1429396643c084c3ea59033c016f"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.003_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "e22a1917cbcb23dbefb9cbff3573696a5e4cf86ee03f505f9ebcc72ac37831eb"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.003_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "dfcc8218850cb92f590b4e96bf7526460428f39c430bca2ebc650b49d77b862a"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.003_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "a9e0ca043426e89eb3f0d0b3d9df6138a7deabd8a09e4a33621a7fdd222ca302"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.01_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "2a0b6fb6b2d0a93eb054a80c7f05b02686284ded64c11150145391c5a02ca9cd"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.01_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "b9d73ed207992e5a1574075a34cf93c9b76db3c253551abbb4add7008280b075"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_bce_budget_zero_lr0.01_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "d40cce965d5979a521d528c5a298008808e8f192fc0319c717f23b3477fd0f41"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_idcf_lat_bce_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "1391256b5aa2995347ff595f0a9fc27c4c490e836097710dc807afab6dd791af"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_idcf_lat_bce_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "dd85d641d13ccb47897989e06762a023cc59cbdb4ef19c94d251442181e1fed9"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_idcf_lat_bce_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "edc3aa8f266c5ce1e934641b4b0acdb90f00fe7f73473af0acc278ea6a52bf78"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_center_bce_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "5e88c8b9571279368129a32db5cc8389c9c6544f51984e8f58003752397bdbee"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_center_bce_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "c616b78d58df5edec320627c511a29cdca03c83c0598656139a5df844d7eae3e"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_center_bce_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "c0b4b8f2e4465a8bf5a13124937dfb0d2260df550767e30f04bb76facd47cfd3"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_lat_mse_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "242dfc7b13b995a5a6e89318e129a08a32bc591f1f50d48da77452cab94c51d5"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_lat_mse_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "c60374ad54d1ec77125bc7f9cac854e65b1dfca525559a3f121788d42847f799"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_lat_mse_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "26ef45ed370367927a286efd0b3dc61b4e5bdce524f510cbc37b492df776b53a"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_mean_bce_seed42_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "54fa324049355652a524bdcd572513ab638626eee3ecafaa3a0672548393ec97"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_mean_bce_seed43_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "77297d2f834c41f9bad873c6e822f7937a67516228926874892e450ccc69397c"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_ividr_mean_bce_seed44_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "eb95a5b88e19bc7f308d1460dc110a81e7717ba807b72216f8379a86d4cb12d0"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_marginal_inference_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "2070d548c9130bc507b8ccab1ea4a65ef06391bec260313681be547756f34b5a"
-    },
-    {
-      "path": "results/studies/ividr_rootcause_mf_mse_reference_20261027.json",
-      "role": "diagnostic_result",
-      "immutable": true,
-      "sha256": "448542ece56658ad4b84bd0af413821727cf87bdef42528b0140eed3ab922215"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed42_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "75fa101a8d0ec0c2beca72f1bcef392c7700f390af45ff518a18f35f86ed584d"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed43_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "f10246853331c10cda96c358b288a548e1b373d61831cdef069f6864b30ac14e"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed44_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "a907ae06ecf4ae60970be78ea4f98ae5694b9def513c8cb398dcdefa70de89c1"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed45_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "9cffc40038113b528a9704c7ea6e9be910db05d66bcdff84aec8e8dcc6ffed2e"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed46_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "2ac2b5a685c3ba6428bf389d426ae178952ec7f88b7c72920b018ab1f30dfa12"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed47_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "e223ade39e892e0dc2dc0b23908cb1b435a934d4594af83223095a95e34efd9f"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed48_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "103c5c0d1e600fe00fc948d139343e2747a1b325d3be93e6a5f68fc17eed3587"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed49_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "bff4c72b18f8d0b2ae2fe6bedd27859c5973c2e84544129d240dc38fcde79a41"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed50_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "fc21eff4dd77f8e4afbbb245c8a0027376ea89248a5b33ab9e39747b01079c2b"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_idcf_seed51_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "2cc98fb28bf40c3d0baef8fd54efa800ca93e1a6bf59961d69eeb470bd5002de"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed42_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "7e1609872b5a644a58653c96302058f86bf18cfeb3e7ab4559215177713e8ea0"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed43_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "c8f10a89e935afe9d59ca2688be06c38d47449f6d79f7027c18c774361069b14"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed44_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "0d76c1c5c2141093111980bb341df27d39ac5fafa06318bb230bf9b3fe6c0b41"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed45_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "b1b966f84a2d863e124d2840936fff318f9765eaf58bdc25b87b11bafaa026ba"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed46_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "b55c7d6465fe3e297d2aca48a573d4935b2a693114f68e3912ffef43a899627c"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed47_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "2c97ca38e12bf9e58ff7097063d2e73a68b1580ef7024d397bd45e4d76d2ec2c"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed48_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "65008877363c15c230d076399f0c91fd1ddcd26874f45b7230e75cfbf60cbc53"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed49_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "308a633d1c2d992aa9b4e01e7a8778237eb013896285e72c9abc5e03319d6c65"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed50_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "a7cae9d3181eec39a9a9ff8c2fa37fe39166a7b13ad8fd55af678e862701375e"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_default_seed51_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "66d52ef4e990136adbdac9320b26f0b19141fd1b4bc71c6faa595ed7437a8eb2"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed42_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "0bc1f6c373912106b9ac3ebc97bb1483a6d7a4a27eb9ace80d99ccf5710eafbd"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed43_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "337e2db6d63f72ad76ea2679b4c20a58dad3b857c5ba30f76981a9df6b3c18b9"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed44_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "46dbfec739493a91f1b8c923c87ef5da6eba43e096bdc9e7a72e55644b0637d7"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed45_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "28fe18a36b094101a2cc6076cd32616582cea11ea61454d51f0a927eb063f234"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed46_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "caed4ccd0a7fa5aff4b2a9149ae601a2493e44a6edbcb6abeca5c0e63c6bc60a"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed47_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "06aa74f5788c3ccc71165880a3dfc02a84142ae8448d0f647044e4e5740eaf4e"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed48_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "d61636a2d44e35c171f79f05f367f10b3f43db55aae3604691ad50920d15bfed"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed49_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "df21c04f670f8893022c85d00bc8dff2daadd40c41bd70ab583d08f2be532e7d"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed50_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "4ab5e436dd9f6a76fb2e83c0b57445cc68105a0bb27cf0597216c5acc8f5c80f"
-    },
-    {
-      "path": "results/studies/ividr_ten_seed_ividr_zero_neg0.1_seed51_20261028.json",
-      "role": "benchmark_result",
-      "immutable": true,
-      "sha256": "4d3a8fb34a52a8495645d5f3a59bfbf3bbbc028d6adcc32d959c57b6fa526e85"
-    },
-    {
       "path": "results/studies/lcdr_constraint_lambda10_seed42_20261028.json",
       "role": "benchmark_result",
       "immutable": true,
@@ -1936,6 +759,67 @@
       "role": "validation_result",
       "immutable": true,
       "sha256": "8c2cb421a489506b01a060aba2ce35fa3455dc61ec3e8749dfcb97918f604367"
+    },
+    {
+      "path": "docs/archive/2026-11-07/model_removal/validate.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "results/model_removal_validation_20261107.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "30f81ed08a3b6535bda49eca338a00538e3c907aec66101f86840ecb474b2c8d"
+    },
+    {
+      "path": "docs/archive/2026-11-07/lint_cleanup/validate.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "results/lint_cleanup_validation_20261107.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "8dc9db76ae54661268207a771275799142b1c627bb7a12c39506284cd8e50865"
+    },
+    {
+      "path": "docs/archive/2026-11-08/mrdr_topk/validate.py",
+      "role": "historical_evidence",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-08/mrdr_topk/tests.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "docs/archive/2026-11-08/mrdr_topk/smoke.log",
+      "role": "verification_log",
+      "immutable": false
+    },
+    {
+      "path": "results/mrdr_topk_validation_20261108.json",
+      "role": "validation_result",
+      "immutable": true,
+      "sha256": "d64036da02f304cc90089b5edf3277fb0d39ca097296b9d85de0d757fe1b8b62"
+    },
+    {
+      "path": "results/mrdr_cal_coat_20261107_222905_f9db8ab0.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "aedc0945dcd2971506d226b3c99958be42631a6b557d77df0a144b57db289043"
+    },
+    {
+      "path": "results/mrdr_cal_yahoo_20261107_224026_a0c7fad3.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "753d7d917c89ad1ef2aeb6fd2022078f2e4922ce53e732db2912b94f47985273"
+    },
+    {
+      "path": "results/mrdr_cal_kuairand_20261108_022532_067ff6a2.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "04e92286d00b608d2c8f63ff99ada36bc9d362d89de0e56c31abed9a686ad13d"
     }
   ]
 }

@@ -10,7 +10,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from src.causal.cdr.cdr_model import CDRFramework
 from src.causal.cdr.dr_bias_loss import (PAPER_OBJECTIVE_REVISION, cdr_recommendation_loss,
                                         dr_bias_closed_form_imputation_loss, imputed_bce, imputation_keep)
 from src.causal.cdr.observations import aggregate_observed_pairs

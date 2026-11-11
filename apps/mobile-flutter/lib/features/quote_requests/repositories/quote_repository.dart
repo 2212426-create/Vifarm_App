@@ -29,12 +29,10 @@ class QuoteRepository {
   final OrderRepository _orderRepository;
 
   QuoteRepository({
-    required FirebaseFirestore firestore,
-    required FirebaseDatabase database,
-    required OrderRepository orderRepository,
-  })  : _firestore = firestore,
-        _database = database,
-        _orderRepository = orderRepository;
+    required this._firestore,
+    required this._database,
+    required this._orderRepository,
+  });
 
   Stream<List<QuoteRequestModel>> watchUserQuotes(String userId) {
     if (userId.isEmpty) return Stream.value([]);

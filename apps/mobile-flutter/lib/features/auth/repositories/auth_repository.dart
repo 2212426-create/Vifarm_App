@@ -13,10 +13,9 @@ class AuthRepository {
   final FirebaseFirestore _firestore;
 
   AuthRepository({
-    required FirebaseAuth auth,
-    required FirebaseFirestore firestore,
-  }) : _auth = auth,
-       _firestore = firestore;
+    required this._auth,
+    required this._firestore,
+  });
 
   User? get currentUser => _auth.currentUser;
 

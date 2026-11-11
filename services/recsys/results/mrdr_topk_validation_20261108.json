@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "code_sha256": "97ca516a40dfbf2fdf854a444308ecd5bc773604788ff2bff0d126c5ef577e96"
+  },
+  "runs": [
+    {
+      "seed": 2020,
+      "best_epoch": 23,
+      "best_val_ndcg": 0.6699348906169417,
+      "epochs_run": 23,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\mrdr_topk_validation_20261108\\coat_cdr_released_seed2020_v4_6b93cd2037b5d380.pt"
+    },
+    {
+      "seed": 2021,
+      "best_epoch": 35,
+      "best_val_ndcg": 0.6546685444276458,
+      "epochs_run": 35,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\mrdr_topk_validation_20261108\\coat_cdr_released_seed2021_v4_963988aea4370420.pt"
+    },
+    {
+      "seed": 2022,
+      "best_epoch": 25,
+      "best_val_ndcg": 0.6669383509943496,
+      "epochs_run": 25,
+      "checkpoint_path": "D:\\University\\DoAnChuyenNganh\\ViFarm_App\\services\\recsys\\checkpoints\\mrdr_topk_validation_20261108\\coat_cdr_released_seed2022_v4_ebf75d3d50f66da3.pt"
+    }
+  ],
+  "evaluation": "validation_only_no_held_out_test",
+  "regression": "Exact CDR validation scores and selected epochs after adding project top-5 metrics to MRDR-CAL (CDR code unchanged)"
+}
