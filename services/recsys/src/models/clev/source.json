@@ -53,7 +53,10 @@
     "For each seed the IPS stage is trained once and its model and random state are restored for every alpha; tests show this equals separate runs"
   ],
   "known_paper_code_differences": [
-    "The Optuna objective of every script maximises test AUC + NDCG + Recall, so the published hyperparameters were selected on the test set"
+    "The Optuna objective of every script maximises test AUC + NDCG + Recall, so the published hyperparameters were selected on the test set",
+    "Paper Sec. 6.2.2 tunes the Monte Carlo sample size in [100, 500] for Coat; coat_test.py (the only Coat script in the repository) uses 50",
+    "Paper Sec. 6.1 writes KuaiRec ratios less than two as 1; the code labels ratio >= 2 as positive"
   ],
-  "paper_comparison": "Paper Table 2 has Coat, Yahoo! R3 and KuaiRec; KuaiRand-Pure has no paper number"
+  "paper_comparison": "Paper Table 2 has Coat, Yahoo! R3 and KuaiRec; KuaiRand-Pure has no paper number",
+  "paper_reference_rows": "Paper Table 2 NCF row (no debiasing): Coat AUC .762 / R@5 .441 / N@5 .623, Yahoo .682 / .451 / .674; the port's CLEV-DR is below these N@5 values"
 }

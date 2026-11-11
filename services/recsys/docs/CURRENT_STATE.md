@@ -5,7 +5,8 @@ Mốc mã đã kiểm chứng: **08/11/2026**, source
 Mốc này thêm NDCG@5, Recall@5, Recall@5_bounded (định nghĩa của đồ án) cho MRDR-CAL và chạy lại MRDR-CAL trên ba
 dataset. Mốc 07/11 trước đó dọn lint (`ruff.toml`, không đổi hành vi) và xóa toàn bộ mã IViDR và TopPop/ItemKNN-CF theo yêu cầu người dùng; `cf-dl` còn MF, GMF, MLP, NeuMF,
 NeuMF-pre. Mốc 04/11 trước đó thêm MRDR-CAL (Hu et al., TKDE 2025) và CLEV-DR (Zhang et al., KDD 2025, "Ours-DR")
-theo protocol tác giả. Năm mô hình của `benchmark --model all` không đổi mã và không đổi điểm. Lịch sử trước đó nằm trong Git, xem [cách khôi phục](MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
+theo protocol tác giả. Năm mô hình của `benchmark --model all` không đổi mã và không đổi điểm. Ngày 11/11 đối chiếu báo cáo đồ án với mã
+và sáu bài báo gốc, không đổi source: chạy lại MF và iDCF Coat 10 seed, sửa các chỗ tài liệu lệch mã. Lịch sử trước đó nằm trong Git, xem [cách khôi phục](MAINTENANCE.md#khôi-phục-tài-liệu-cũ).
 
 ## Bộ mô hình và cách đọc điểm
 
@@ -17,7 +18,7 @@ theo protocol tác giả. Năm mô hình của `benchmark --model all` không đ
 | **CDR-src / CDR-KR** | DR-BIAS + CDR | Theo script tác giả: ≥3, toàn random log, 5% nhãn tập chấm để hiệu chỉnh, user không positive = 1 (CDR-src Coat/Yahoo; CDR-KR là KuaiRand địa phương) |
 | **ConAlign-src** | ConAlign | Theo source tác giả: chia ngẫu nhiên riêng, tháp unbiased, seed 0–2 |
 | **MRDR-CAL-src** | MRDR-CAL | Theo Hu et al.: train MNAR/log thiên lệch, test MAR/log ngẫu nhiên, nhãn rating > 3 hoặc is_click; AUC, DCG@{2,4,6}, Recall@{2,4,6}; thêm NDCG@5, Recall@5 theo định nghĩa đồ án |
-| **CLEV-DR-src** | CLEV-DR | Theo Zhang et al.: train log thiên lệch, test toàn log ngẫu nhiên, nhãn rating ≥ 3 hoặc watch ratio ≥ 2; AUC, Recall@K, NDCG@K (K = 5 Coat/Yahoo, 50 KuaiRec) |
+| **CLEV-DR-src** | CLEV-DR | Theo Zhang et al.: train log thiên lệch, test toàn log ngẫu nhiên, nhãn rating ≥ 3 hoặc is_click; AUC toàn cục, Recall@5, NDCG@5 theo mã tác giả. KuaiRand-Pure thay KuaiRec của bài báo |
 
 **Chỉ so sánh được trong cùng nhóm.** CDR và ConAlign có điểm cao hơn trên Coat chủ yếu vì protocol dễ hơn:
 giữ nguyên checkpoint CDR script nhưng chấm theo ≥4/test pool H30 chỉ còn .4797
@@ -72,13 +73,17 @@ lệch chuẩn. Mọi số trong hai bảng trên lấy từ cùng lượt chạ
 | :-- | :-- | --: | --: | --: | :-- |
 | Coat (alpha .8) | 0–4 | .750 ± .007 | .430 ± .012 | .613 ± .019 | .775 / .485 / .679 |
 | Yahoo!R3 (alpha .4) | 0–2 | .672 ± .015 | .431 ± .039 | .660 ± .040 | .715 / .486 / .713 |
-| KuaiRec (Paper Bảng 2) | 0–2 | — | — | .652 ± .002 | .853 / .715 / .666 (Số liệu bài báo gốc Zhang et al., KDD 2025; repo tập trung KuaiRand-Pure) |
+| KuaiRand-Pure (alpha .8) | 0–2 | .649 ± .001 | .218 ± .001 | .425 ± .001 | không có (bài báo dùng KuaiRec) |
 
-- **CLEV-DR:** port khớp mã tác giả tuyệt đối (cùng seed, Coat, chênh dự đoán 0). Thấp hơn bài báo trên Coat và Yahoo
-  (NDCG −.05 đến −.07), gần trên KuaiRec. Repo thiếu `coat_test_dr.py`; Coat-DR và KuaiRec-DR dùng cấu hình bản Naive.
+- **CLEV-DR:** port khớp mã tác giả tuyệt đối trong phép thử ngắn (cùng seed, Coat, 2 epoch propensity + 3 epoch chính,
+  chênh dự đoán 0). Thấp hơn bài báo trên Coat và Yahoo (NDCG −.05 đến −.07), và thấp hơn cả dòng NCF không khử thiên
+  lệch của chính bài báo (NDCG@5 .623 Coat, .674 Yahoo). Yahoo chỉ 3 seed, độ lệch chuẩn .040. Repo tác giả thiếu
+  `coat_test_dr.py` nên Coat-DR dùng cấu hình bản Naive; cấu hình này lấy 50 mẫu Monte Carlo, ngoài khoảng 100–500 mà
+  bài báo ghi cho Coat. KuaiRand-Pure không có cấu hình của tác giả, dùng giá trị của `kuai_main.py`.
 - **MRDR-CAL:** repo Hu không có mã MRDR, phần MRDR theo Guo et al. (MRDR-DL). NeuMF không khử thiên lệch
-  theo script của Hu tái lập được dòng "Neumf base" của bài (Coat AUC .768, DCG@2 .765 so với .7604, .7478), nên khoảng
-  cách nằm ở phần MRDR tự ghép. Chẩn đoán với loss dạng tổng và train tới khoảng epoch 150 đạt AUC .746, DCG@2 .670;
+  theo script của Hu tái lập được dòng "Neumf base" của bài (Coat AUC .768, DCG@2 .765 so với .7604, .7478; chẩn đoán
+  3 seed), nên khoảng cách nằm ở phần MRDR tự ghép. Hệ quả: MRDR-CAL của đồ án (Coat AUC .724) thấp hơn NeuMF không khử
+  thiên lệch của chính đồ án trong cùng protocol, tức bản dựng lại chưa tái hiện được lợi ích của phương pháp. Chẩn đoán với loss dạng tổng và train tới khoảng epoch 150 đạt AUC .746, DCG@2 .670;
   cấu hình này chọn sau khi xem test nên không đưa vào bảng.
 - **KuaiRand Recall:** mã Hu chuẩn hóa recall theo số positive (≤ 1), Bảng VI ghi giá trị > 1; dạng đếm của đồ án
   (.554 / 1.046 / 1.506) khớp thang của bài, nên bảng trên dùng dạng đếm.
@@ -87,13 +92,20 @@ Coat nhỏ nên phải đọc theo nhiều seed:
 
 | Mô hình (Coat, H30) | Seed | Test NDCG@5 | Paper |
 | :-- | :-- | --: | --: |
-| iDCF | 42–51 | .5699 ± .0107 | .5638 trong paper IViDR |
+| iDCF | 42–51 | .5699 ± .0107 | .5744 ± .0122 (paper iDCF) |
 | LCDR | 42–51 | .5713 ± .0114 | .5973 |
-| MF | 42–51 | .5479 ± .0184 | .5590 trong paper IViDR |
+| MF | 42–51 | .5479 ± .0184 | .5524 ± .0144 (paper iDCF) |
 | NeuMF (mã tác giả NCF) | 42–51 | .5340 ± .0194 | không có (paper NCF dùng ML-1M, Pinterest) |
 
 iDCF và LCDR vượt MF có ý nghĩa (+.022, p ≈ .010; +.024, p ≈ .002); NeuMF thấp hơn MF −.014, không có ý nghĩa
-(p ≈ .16). Chưa có mô hình nào trong nhóm H30 được chứng minh vượt iDCF trên Coat.
+(p ≈ .16). Chưa có mô hình nào trong nhóm H30 được chứng minh vượt iDCF trên Coat (LCDR so với iDCF: +.001).
+
+iDCF 10 seed còn có Recall@5 .5537 ± .0110 và AUC .6865 ± .0114
+([file](../results/idcf_coat_10seeds_windows_20261111.json); MF cùng lượt và kiểm định ở
+[coat_seeds](../results/coat_seeds_4b77ed83d03fd5b3_20261111_163912_80b99b32.json)). Lượt chạy lại ngày 11/11 trùng
+tuyệt đối trung bình của mốc 28/10. Một lượt iDCF chạy trên Linux
+([file](../results/idcf_coat_10seeds_20261108.json)) ra .5651 ± .0209 vì lệch ở 6 seed (seed 45: .5110 so với .5726);
+so với MF trên Windows thì p ≈ .064. MF, NeuMF và LCDR đều chạy trên Windows nên bảng trên dùng bản Windows.
 
 ## CF và học sâu (`cf-dl`)
 
@@ -143,6 +155,11 @@ Môi trường: Python 3.12.10, PyTorch 2.14.1+cpu, NumPy 2.5.4, pandas 3.0.6, C
 - **Yahoo:** dự án giữ 15.400 user, paper iDCF chỉ giữ 5.400 user có survey; 10.000 user nhận category thiếu.
 - **KuaiRand:** preprocessing và proxy địa phương; CDR dùng sampler có hoàn lại.
 - **CDR source protocol** dùng nhãn tập chấm để hiệu chỉnh propensity, không phải held-out độc lập.
+- **Bộ lọc phương sai của CDR gần như không hoạt động** với ngưỡng 10 của script: tỷ lệ giá trị điền khuyết bị loại là
+  0 ở mọi epoch trên Coat, cao nhất .16% trên Yahoo và .0015% trên KuaiRand (`filtered_fraction` trong file kết quả).
+  `observed_rows_dropped` (48 / 408 / 454) là số dòng lẻ của lô cuối bị bỏ, không phải số dòng bị lọc.
+- **Bài báo và mã công bố lệch nhau ở CDR, ConAlign, CLEV-DR, MRDR-CAL, NeuMF;** đồ án theo mã. Danh sách ở
+  [paper_model_alignment](benchmarks/paper_model_alignment.md#bài-báo-lệch-mã-công-bố).
 - **MF/iDCF/CDR Yahoo và KuaiRand** thuộc lượt 20/10 (source `134b536cc623`); chỉ Coat được đối chiếu lại tensor ở các mốc sau.
 - **ConAlign KuaiRand cao hơn paper** (+.024 UAUC); paper mô tả tập 1.000 user, khác log thật 27.285 user, nên hai bên không cùng dữ liệu.
 - **NeuMF không tinh chỉnh:** dùng mặc định của mã tác giả, chạy đủ 100 epoch; trên Coat NeuMF-pre chọn epoch 0 ở 6/10 seed
@@ -154,9 +171,10 @@ Môi trường: Python 3.12.10, PyTorch 2.14.1+cpu, NumPy 2.5.4, pandas 3.0.6, C
 - **MRDR-CAL không phải mã của Hu et al.:** phần MRDR ghép từ Guo et al.; số epoch MRDR là ngân sách CPU địa phương
   (Coat 200, Yahoo 50, KuaiRand 20, chọn theo validation CE). Coat/Yahoo giữ 10% MNAR làm validation như bài viết.
 - **CLEV-DR:** siêu tham số của tác giả được Optuna chọn trên test, và `alpha` chỉ chọn được bằng test; bài viết nhãn
-  KuaiRec ngược với mã (mã: ratio ≥ 2 là dương). Lượt CLEV-DR chạy ở source `3bb669cc0d45`, trước khi thêm MRDR-CAL;
-  mã CLEV-DR không đổi từ đó.
-- **Dữ liệu KuaiRec của Zhang** chỉ lưu cục bộ trong `data/raw/kuairec_zhang`.
+  KuaiRec ngược với mã (mã: ratio ≥ 2 là dương). Lượt Coat/Yahoo chạy ở source `3bb669cc0d45`, trước khi thêm MRDR-CAL;
+  lượt KuaiRand-Pure ở source `aaadb81eb5a6`.
+- **CLEV-DR trên KuaiRec** (dataset của bài báo) từng chạy cục bộ ngày 04/11 nhưng file kết quả và dữ liệu không còn
+  trong repo, nên không trích số. Lệnh `clev` hiện chạy Coat, Yahoo và KuaiRand-Pure.
 - **CUDA chưa kiểm chứng.** Lỗi lệch thiết bị của ConAlign đã sửa, có unit test, nhưng chưa chạy thật trên GPU.
 - **Đề cương `.docx` chính thức** (ngoài repo) vẫn ghi NCF và độ chính xác cao; `docs/de_cuong/` theo mã hiện hành và liệt kê
   [khác biệt](de_cuong/README.md#khác-biệt-với-bản-docx).

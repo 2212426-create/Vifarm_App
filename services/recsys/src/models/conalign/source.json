@@ -2,7 +2,12 @@
   "model": "ConAlign",
   "paper": {
     "title": "ConAlign: Conditional Alignment Framework for Balancing Biased and Unbiased Recommendation",
-    "authors": ["Jingcheng Zhang", "Yihan Wang", "Qi Song", "Liyin Hong"],
+    "authors": [
+      "Jingcheng Zhang",
+      "Yihan Wang",
+      "Qi Song",
+      "Liyin Hong"
+    ],
     "venue": "RecSys 2026",
     "doi": "10.1145/3773078.3831873",
     "arxiv": "2607.24092v1",
@@ -13,9 +18,16 @@
     "commit": "f6171bb5871025be2a77a37c4c9ab151cbaaab6f",
     "vendored": "third_party/conalign",
     "license": "none declared; academic study only",
-    "ported": ["mymodel.py::DualTowerMF", "mymodel.py::para", "mymodel.py::train_and_eval",
-               "utils/load_dataset_new.py", "utils/load_kuairand.py", "utils/data_loader.py",
-               "utils/early_stop.py", "utils/metrics.py"]
+    "ported": [
+      "mymodel.py::DualTowerMF",
+      "mymodel.py::para",
+      "mymodel.py::train_and_eval",
+      "utils/load_dataset_new.py",
+      "utils/load_kuairand.py",
+      "utils/data_loader.py",
+      "utils/early_stop.py",
+      "utils/metrics.py"
+    ]
   },
   "local_changes": [
     "Reads data/raw instead of the repository datasets folder; rebuilt rows are byte-identical",
@@ -27,6 +39,8 @@
   "paper_source_differences": [
     "Paper text (Sec. 4.1): KuaiRand logs April 22 to May 8, train first two weeks, validation day 15, test last two days. Source utils/load_kuairand.py builds train dates as 20220408 + i for i < 28, i.e. 20220408..20220430 then 20220431..20220435 (not real dates): May 1-5 never enter training although the docstring says 28 days to May 5. Validation 05-06 and test 05-07..08 agree",
     "Paper describes KuaiRand-Pure as 1,000 users and 7,388 videos; the released Pure logs for April 22 to May 8 have 27,285 users and 7,583 videos",
-    "Paper reports UAUC/NDCG@5 without naming which source NDCG; artifacts keep every source metric name"
+    "Paper reports UAUC/NDCG@5 without naming which source NDCG; artifacts keep every source metric name",
+    "Paper Sec. 3.3.2 trains both towers concurrently on two data streams; source mymodel.py::train_and_eval runs two sequential stages (pretrain the biased tower, copy its weights, freeze it, fine-tune the unbiased tower)",
+    "Paper Eq. (3) feeds the biased tower's penultimate representation, concatenated with generalization features, into the unbiased tower and aligns penultimate representations (Eq. 6); the source DualTowerMF has two independent MF towers and aligns embeddings and biases with an L1 difference"
   ]
 }

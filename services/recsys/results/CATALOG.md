@@ -1,6 +1,6 @@
 # Catalog kết quả RecSys
 
-Cập nhật 04/11/2026. Mỗi file giữ nguyên byte; metadata trong JSON là nguồn cuối cùng để đọc seed, source và protocol.
+Cập nhật 11/11/2026. Mỗi file giữ nguyên byte; metadata trong JSON là nguồn cuối cùng để đọc seed, source và protocol.
 Bảng điểm tổng hợp: [CURRENT_STATE](../docs/CURRENT_STATE.md).
 
 ## Kết quả đầy đủ đang được trích dẫn
@@ -17,6 +17,9 @@ Bảng điểm tổng hợp: [CURRENT_STATE](../docs/CURRENT_STATE.md).
 | [cf_dl_yahoo_20261103_203152_cce07ea1.json](cf_dl_yahoo_20261103_203152_cce07ea1.json) | NeuMF Yahoo, mã tác giả NCF | 42 | `56aea4e7592b` |
 | [cf_dl_kuairand_20261103_203153_182dbb3e.json](cf_dl_kuairand_20261103_203153_182dbb3e.json) | NeuMF KuaiRand, mã tác giả NCF, đủ 100 epoch | 42 | `56aea4e7592b` |
 | [lcdr_coat_20261104_001633_38fc69d6.json](lcdr_coat_20261104_001633_38fc69d6.json) | LCDR Coat 10 seed, protocol H30 | 42–51 | `56aea4e7592b` |
+| [coat_seeds_4b77ed83d03fd5b3_20261111_163912_80b99b32.json](coat_seeds_4b77ed83d03fd5b3_20261111_163912_80b99b32.json) | MF và iDCF Coat 10 seed (`coat-seeds`), Windows; kiểm định theo cặp seed. MF trùng từng seed với lượt `cf-dl`; iDCF ra lại .5699 ± .0107 của mốc 28/10 (file gốc đã xóa cùng IViDR ngày 07/11) | 42–51 | `97ca516a40df` |
+| [idcf_coat_10seeds_windows_20261111.json](idcf_coat_10seeds_windows_20261111.json) | iDCF Coat 10 seed, cùng seed và cùng máy với file trên, thêm Recall@5 bounded và AUC từng seed; NDCG@5 trùng tuyệt đối. Nguồn cho dòng iDCF Coat | 42–51 | `97ca516a40df` |
+| [idcf_coat_10seeds_20261108.json](idcf_coat_10seeds_20261108.json) | iDCF Coat 10 seed chạy trên Linux: .5651 ± .0209, lệch bản Windows ở 6 seed (seed 45: .5110 so với .5726). Chỉ để tham khảo; không so cặp seed với MF, NeuMF, LCDR vì các mô hình đó chạy trên Windows | 42–51 | ghi trong JSON |
 | [mrdr_cal_coat_20261104_013609_11a6bf42.json](mrdr_cal_coat_20261104_013609_11a6bf42.json) | MRDR-CAL Coat lượt 04/11; lượt 07/11 khớp tuyệt đối và thay thế | 0–9 | `fc12897bbcf8` |
 | [mrdr_cal_yahoo_20261104_013610_aa1da2a8.json](mrdr_cal_yahoo_20261104_013610_aa1da2a8.json) | MRDR-CAL Yahoo!R3 lượt 04/11, thay bằng lượt 07/11 (lệch trong phương sai seed) | 0–9 | `fc12897bbcf8` |
 | [mrdr_cal_kuairand_20261104_013611_0644a364.json](mrdr_cal_kuairand_20261104_013611_0644a364.json) | MRDR-CAL KuaiRand-Pure lượt 04/11, thay bằng lượt 08/11 (lệch trong phương sai seed) | 0–2 | `fc12897bbcf8` |
@@ -25,7 +28,7 @@ Bảng điểm tổng hợp: [CURRENT_STATE](../docs/CURRENT_STATE.md).
 | [mrdr_cal_kuairand_20261108_022532_067ff6a2.json](mrdr_cal_kuairand_20261108_022532_067ff6a2.json) | MRDR-CAL KuaiRand-Pure; Recall chuẩn hóa và dạng đếm, kèm NDCG@5/Recall@5 | 0–2 | `97ca516a40df` |
 | [clev_coat_20261104_011507_7e1c36a1.json](clev_coat_20261104_011507_7e1c36a1.json) | CLEV-DR Coat, protocol Zhang et al., quét alpha .4/.6/.8 | 0–4 | `3bb669cc0d45` |
 | [clev_yahoo_20261104_011509_c0d3258f.json](clev_yahoo_20261104_011509_c0d3258f.json) | CLEV-DR Yahoo!R3, quét alpha .4/.6/.8 | 0–2 | `3bb669cc0d45` |
-| [clev_kuairand_20261104_171457_8a75f508.json](clev_kuairand_20261104_171457_8a75f508.json) | CLEV-DR KuaiRand-Pure, quét alpha .2–.8, mảng int32 tối ưu RAM | 0–2 | `d24904b` |
+| [clev_kuairand_20261104_171457_8a75f508.json](clev_kuairand_20261104_171457_8a75f508.json) | CLEV-DR KuaiRand-Pure, quét alpha .2–.8, mảng int32 tối ưu RAM | 0–2 | `aaadb81eb5a6` |
 | [serving_latency_20261106_203153_7d041bbb.json](serving_latency_20261106_203153_7d041bbb.json) | Độ trễ suy luận CPU chấm 1.000 và 6.712 ứng viên (MF, NeuMF, CDR, iDCF/LCDR, CLEV-DR predict, ConAlign; khởi tạo ngẫu nhiên, kích thước KuaiRand) và `/recommend` trong tiến trình trên export TopTop. Sinh bằng `experiments/workflows/serving_latency.py` | 0 | trong JSON |
 
 ## Tổng hợp và kiểm chứng
