@@ -1,0 +1,145 @@
+{
+ "dataset": "coat",
+ "model": "iDCF",
+ "protocol": "H30",
+ "seeds": [
+  42,
+  43,
+  44,
+  45,
+  46,
+  47,
+  48,
+  49,
+  50,
+  51
+ ],
+ "note": "Chạy lại 11/11/2026 bằng fit_idcf_pipeline (src.models.idcf.train_idcf), 2 luồng CPU, để có AUC và Recall@5_bounded từng seed. NDCG@5 từng seed trùng tuyệt đối với lượt coat-seeds cùng ngày và với trung bình .5699 ± .0107 của mốc 28/10.",
+ "environment": {
+  "python": "3.12.10",
+  "torch": "2.14.1+cpu",
+  "numpy": "2.5.4",
+  "os": "Windows-11-10.0.26100-SP0",
+  "torch_threads": 2,
+  "device": "cpu"
+ },
+ "code_sha256": "97ca516a40dfbf2fdf854a444308ecd5bc773604788ff2bff0d126c5ef577e96",
+ "same_seed_reference": "results/coat_seeds_4b77ed83d03fd5b3_20261111_163912_80b99b32.json",
+ "max_abs_ndcg_difference_vs_reference": 0.0,
+ "runs": [
+  {
+   "seed": 42,
+   "NDCG@5": 0.5698840836815878,
+   "Recall@5": 0.5519691220290022,
+   "Recall@5_bounded": 0.6022954091816367,
+   "AUC": 0.6859969849677934
+  },
+  {
+   "seed": 43,
+   "NDCG@5": 0.5729673625939321,
+   "Recall@5": 0.5545951885772246,
+   "Recall@5_bounded": 0.6052894211576846,
+   "AUC": 0.6819750172482207
+  },
+  {
+   "seed": 44,
+   "NDCG@5": 0.5836478342925536,
+   "Recall@5": 0.5477085954630865,
+   "Recall@5_bounded": 0.6013972055888223,
+   "AUC": 0.6829096697547297
+  },
+  {
+   "seed": 45,
+   "NDCG@5": 0.572564880214196,
+   "Recall@5": 0.5518861710478478,
+   "Recall@5_bounded": 0.6068862275449102,
+   "AUC": 0.6948223433253373
+  },
+  {
+   "seed": 46,
+   "NDCG@5": 0.5679744071215646,
+   "Recall@5": 0.5620370813484585,
+   "Recall@5_bounded": 0.6169660678642714,
+   "AUC": 0.6861945190538005
+  },
+  {
+   "seed": 47,
+   "NDCG@5": 0.5481602597714322,
+   "Recall@5": 0.5440161967108076,
+   "Recall@5_bounded": 0.5996007984031936,
+   "AUC": 0.684475462993427
+  },
+  {
+   "seed": 48,
+   "NDCG@5": 0.5666076555774219,
+   "Recall@5": 0.5536704812153914,
+   "Recall@5_bounded": 0.6078842315369262,
+   "AUC": 0.6954388716739016
+  },
+  {
+   "seed": 49,
+   "NDCG@5": 0.5864695156462015,
+   "Recall@5": 0.5799203624053922,
+   "Recall@5_bounded": 0.6368263473053892,
+   "AUC": 0.7093316904319898
+  },
+  {
+   "seed": 50,
+   "NDCG@5": 0.5621570928889323,
+   "Recall@5": 0.5398172353262173,
+   "Recall@5_bounded": 0.5911177644710579,
+   "AUC": 0.6680832432703689
+  },
+  {
+   "seed": 51,
+   "NDCG@5": 0.5688761789170778,
+   "Recall@5": 0.5518025720121528,
+   "Recall@5_bounded": 0.603193612774451,
+   "AUC": 0.6756766063278039
+  }
+ ],
+ "summary": {
+  "NDCG@5": {
+   "mean": 0.56993092707049,
+   "std": 0.010688609461024009,
+   "n_seeds": 10
+  },
+  "Recall@5": {
+   "mean": 0.5537423006135581,
+   "std": 0.011005498358410847,
+   "n_seeds": 10
+  },
+  "Recall@5_bounded": {
+   "mean": 0.6071457085828342,
+   "std": 0.012326343673720411,
+   "n_seeds": 10
+  },
+  "AUC": {
+   "mean": 0.6864904409047372,
+   "std": 0.01137533301814994,
+   "n_seeds": 10
+  }
+ },
+ "paired_vs_mf": {
+  "mf_source": "results/coat_seeds_4b77ed83d03fd5b3_20261111_163912_80b99b32.json",
+  "mean_delta_ndcg": 0.022052229088630925,
+  "wins": 8,
+  "wilcoxon_p": 0.009765625
+ },
+ "linux_rerun_comparison": {
+  "file": "results/idcf_coat_10seeds_20261108.json",
+  "per_seed_ndcg_difference": {
+   "42": -0.000141,
+   "43": 0.0,
+   "44": 0.0,
+   "45": 0.061591,
+   "46": 0.0,
+   "47": -0.00961,
+   "48": 0.0,
+   "49": 0.000904,
+   "50": 0.000638,
+   "51": -0.004934
+  },
+  "reading": "Lượt Linux lệch ở seed 42, 45, 47, 49, 50, 51 (lớn nhất seed 45: .5726 so với .5110). MF, NeuMF và LCDR của nhóm H30 đều chạy trên Windows nên dùng file này khi so cặp seed."
+ }
+}

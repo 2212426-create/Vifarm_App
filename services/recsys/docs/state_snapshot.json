@@ -224,7 +224,7 @@
       "datasets": [
         "coat",
         "yahoo",
-        "kuairec"
+        "kuairand"
       ],
       "sources": [
         "WallaceSUI/kdd25-background-variable@66a0e5f"

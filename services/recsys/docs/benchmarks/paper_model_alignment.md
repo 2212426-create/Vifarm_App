@@ -61,6 +61,24 @@ iDCF có thí nghiệm Yahoo. Notebook tác giả lọc train/random còn 5.400 
 survey; dự án giữ 15.400 user nên dữ liệu train khác nhau. Xem
 [nguồn và giới hạn xác minh](source_repository_review_20261021.md).
 
+## Bài báo lệch mã công bố
+
+Đối chiếu ngày 11/11/2026 giữa PDF trong `docs/papers` và mã tác giả. Đồ án theo mã; chi tiết từng mô hình ở
+`source.json` trong package tương ứng.
+
+| Mô hình | Bài báo viết | Mã công bố làm |
+| :-- | :-- | :-- |
+| CDR | Nhãn dương là điểm lớn hơn 3; log ngẫu nhiên chia 10% validation, 90% test; ngưỡng η dò trong {0,1 … 50} | Điểm ≥ 3; chấm trên toàn bộ log ngẫu nhiên, lấy 5% nhãn để hiệu chỉnh propensity, không có validation; ngưỡng 10 |
+| ConAlign | Hai tháp học đồng thời trên hai luồng dữ liệu; đầu vào tháp unbiased ghép biểu diễn tầng áp chót của tháp biased (công thức 3); căn chỉnh ở tầng áp chót | Hai giai đoạn nối tiếp: huấn luyện tháp biased, sao chép trọng số, đóng băng, tinh chỉnh tháp unbiased; hai tháp MF độc lập; căn chỉnh L1 trên embedding và bias |
+| ConAlign, KuaiRand | 1.000 người dùng, 7.388 video; huấn luyện hai tuần đầu của 22/04–08/05 | Log Pure thật có 27.285 người dùng, 7.583 video; loader bỏ sót 01–05/05 |
+| CLEV-DR | Số mẫu Monte Carlo cho Coat dò trong 100–500; KuaiRec: ratio nhỏ hơn 2 là dương | `coat_test.py` dùng 50; ratio ≥ 2 là dương; siêu tham số do Optuna chọn trên test; thiếu `coat_test_dr.py` |
+| MRDR-CAL | Phụ lục ghi L2 1e-4; 1.186.509 dòng ngẫu nhiên KuaiRand; Recall KuaiRand trong bảng lớn hơn 1 | Không có mã MRDR; `train_rec_with_ips.py` mặc định 1e-3; log thật 1.186.059 dòng; hàm recall chuẩn hóa về ≤ 1 |
+| NeuMF | Predictive factor 8 ứng với embedding MLP 16; sau pre-training dùng SGD | Mặc định `[64, 32, 16, 8]` cho embedding 32; tiếp tục bằng Adam |
+| LCDR | λ = 0,9 / 0,1 / 0,9; tốc độ học dò bằng grid search | Không có mã; đồ án cài lại trên pipeline iDCF với cấu hình cố định |
+
+Với ngưỡng 10 của script, bộ lọc phương sai của CDR loại 0% giá trị điền khuyết trên Coat, tối đa .16% trên Yahoo và
+.0015% trên KuaiRand, nên các lượt này gần với DR-BIAS không lọc.
+
 Nguồn:
 [iDCF](https://github.com/BgmLover/iDCF),
 [CDR paper](https://jiawei-chen.github.io/paper/CIKM23-CDR.pdf).

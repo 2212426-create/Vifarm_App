@@ -1,36 +1,36 @@
-# Graph Report - ViFarm_App  (2026-11-09)
+# Graph Report - ViFarm_App  (2026-11-11)
 
 ## Corpus Check
-- 585 files · ~663,868 words
+- 587 files · ~671,002 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 261 file(s) not represented in the graph (top: .xml 166, .ttf 18, (none) 16)
 
 ## Summary
-- 5940 nodes · 12683 edges · 272 communities (196 shown, 76 thin omitted)
+- 5941 nodes · 12714 edges · 272 communities (198 shown, 74 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 341 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b0320df9`
+- Built from commit: `7d7b4bc2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- json
-- splash_screen.dart
+- load_coat_processed
+- marketplace_screen.dart
 - package:flutter/material.dart
-- bottom_nav_shell.dart
-- ReleasedCDR
+- package:flutter/material.dart
+- serving_latency.py
 - edit_journal_screen.dart
-- test_suite.py
+- evaluate_checkpoint
 - store_registration_screen.dart
 - android.view.View
 - mrdr_cal/model.py
 - test_methodology.py
 - app_router.dart
-- serving_latency.py
+- video_provider.dart
 - ConsumerWidget
-- package:cloud_firestore/cloud_firestore.dart
+- store_repository.dart
 - EmailSignInActivity.java
 - chat_provider.dart
 - NCF
@@ -41,15 +41,15 @@
 - _ViFarmAppState
 - chat_screen.dart
 - CommentActivity.java
-- marketplace_screen.dart
-- currentUserProvider
+- ../../auth/providers/auth_provider.dart
+- edit_product_screen.dart
 - torch
 - app_strings.dart
 - quote_model.dart
 - VideoViewHolder
 - my_application.cc
-- get_device
-- package:flutter_riverpod/flutter_riverpod.dart
+- models/cdr/train_dr_bias_cdr.py
+- create_journal_screen.dart
 - ChatAdapter
 - Video
 - table_formatter.py
@@ -68,13 +68,13 @@
 - CDR: Conservative Doubly Robust Learning for Debiased Recommendation
 - journal_model.dart
 - run_all_benchmarks.py
-- argparse
+- numpy
 - androidx.fragment.app.Fragment
 - app_theme.dart
 - ProfileActivity
 - platform_media.dart
 - com.google.android.gms.tasks.Task
-- saved_techniques_repository.dart
+- search_provider.dart
 - LCDR và ConAlign: hai mô hình thực nghiệm
 - VideoHomeScreenActivity
 - Capabilities
@@ -86,7 +86,7 @@
 - auth_text_field.dart
 - video_description_screen.dart
 - Dashboard.tsx
-- video_player_widget.dart
+- currentUserProvider
 - cart_provider.dart
 - ProfileFragment
 - NavigationFragment
@@ -103,10 +103,10 @@
 - upload_provider.dart
 - app.py
 - torch
-- FirebaseTokenVerifier
+- auth.py
 - test_clev.py
 - 2. Cơ sở lý thuyết
-- EngineTests
+- make_engine
 - VideoAdapter.java
 - CommentActivity
 - quote_repository.dart
@@ -136,7 +136,7 @@
 - InterD.py
 - weather_widget.dart
 - Settings.tsx
-- share_button.dart
+- video_share_card.dart
 - cart_model.dart
 - video_repository.dart
 - RecEngine
@@ -146,11 +146,11 @@
 - Cách xử lý
 - compilerOptions
 - 📋 KẾ HOẠCH PHÁT TRIỂN HỆ THỐNG NHẬN DIỆN BẢN QUYỀN TỰ ĐỘNG & KIỂM DUYỆT VIDEO
-- recsys_service.dart
+- comment_repository.dart
 - ConsumerStatefulWidget
 - edit_journal_entry_screen.dart
 - dependencies
-- video_share_bottom_sheet.dart
+- add_members_sheet.dart
 - create_group_bottom_sheet.dart
 - load_kuairand.py
 - ad_booking_model.dart
@@ -197,7 +197,7 @@
 - chat_message_model.dart
 - TeeLogger
 - TeeLogger
-- MF_bias.py
+- EngineTests
 - MF
 - 📱 TopTop Android Application (TikTok Clone Client)
 - TopTop Flutter
@@ -212,15 +212,14 @@
 - ConAlign: Conditional Alignment for Biased and Unbiased Recommendation
 - text_utils.dart
 - .MessageHandler
-- tunnel.py
+- build_engine_from_env
 - time_utils.dart
 - LaunchImage.imageset/README.md
 - .onCreate
 - comment_model.dart
 - early_stop.py
 - journal_repository.dart
-- video_copyright_service.dart
-- upload_repository.dart
+- weather_repository.dart
 - NGHIÊN CỨU ỨNG DỤNG HỌC MÁY TRONG PHÂN TÍCH HÀNH VI NGƯỜI DÙNG VÀ ĐỀ XUẤT VIDEO NGẮN TRÊN NỀN TẢNG QUẢNG BÁ SẢN PHẨM NÔNG NGHIỆP
 - utils/metrics.py
 - KD_Label.py
@@ -230,7 +229,7 @@
 - IPS.py
 - .onCreate
 - journal_detail_screen.dart
-- ReverseLayerF
+- CounterfactualSampler
 - RunnerTests
 - cdr_source_coat_20261104_223038_c37b736f.md
 - notification_model.dart
@@ -240,7 +239,7 @@
 - PHỤ LỤC
 - II.3 Nhóm Mô Hình Dự Đoán Mức Độ Quan Tâm Dựa Trên Học Sâu (Deep Learning & Causal RecSys)
 - BaoCao_ToanVan_DoAnChuyenNganh.md
-- MetaMF
+- appearance_screen.dart
 - Size
 - cdr_source_kuairand_20261105_033521_08cf0ae7.md
 - cdr_source_yahoo_20261104_233237_defadff6.md
@@ -248,14 +247,14 @@
 - ThreeLinear
 - I.3 Thiên Lệch Hiển Thị và Suy Luận Nhân Quả trong Hệ Gợi Ý
 - naive_bayes_propensity
-- Đề cương nghiên cứu
-- ApiAuth
+- MLPLayers
+- .user_id
 - evaluate_unbiased_model
 - Point
-- _Last
+- OneLinear
 - ConAlign
 - Win32Window
-- third_party/conalign/model.py
+- FourLinear
 - CDR theo mã công bố và định nghĩa các mô hình
 - Cấu trúc thư mục RecSys
 - Rà soát nguồn CDR và iDCF — 21/10/2026
@@ -281,43 +280,43 @@
   services/recsys/docs/benchmarks/lcdr_conalign_20261027.md → services/recsys/tests/test_conalign.py
 - `RecSys: đọc trạng thái trước khi sửa hoặc đánh giá mô hình` --references--> `conalign()`  [INFERRED]
   services/recsys/AGENTS.md → services/recsys/tests/test_paper_model_profiles.py
+- `II.5.1 Kiến Trúc Backend Serving (FastAPI)` --references--> `conalign()`  [INFERRED]
+  services/recsys/docs/baocao/BaoCao_ToanVan_DoAnChuyenNganh.md → services/recsys/tests/test_paper_model_profiles.py
 - `RecSys: Hệ Thống Gợi Ý Video Ngắn Khử Thiên Lệch & Học Sâu NCF` --references--> `MF`  [INFERRED]
   services/recsys/README.md → services/recsys/third_party/conalign/model.py
-- `Bảng tổng hợp chỉ số đánh giá:` --references--> `MF`  [INFERRED]
-  services/recsys/results/cf_dl_kuairand_20261104_222852_7ece255e.md → services/recsys/third_party/conalign/model.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (272 total, 76 thin omitted)
+## Communities (272 total, 74 thin omitted)
 
-### Community 0 - "json"
+### Community 0 - "load_coat_processed"
+Cohesion: 0.06
+Nodes (11): Factors, inverse_propensity(), main(), run(), on_epoch(), load_coat_processed(), load_coat_raw_features(), collate_click_fn() (+3 more)
+
+### Community 1 - "marketplace_screen.dart"
 Cohesion: 0.08
-Nodes (20): find_service_account_key(), main(), main(), run_seed(), main(), train_cdr(), cdr_config(), main() (+12 more)
-
-### Community 1 - "splash_screen.dart"
-Cohesion: 0.05
-Nodes (38): build, _buildLogoWidget, _buildStaticFallback, _checkAndProceedPhase3, _controller, createState, didChangeDependencies, dispose (+30 more)
+Nodes (23): cartItemCountProvider, build, _calculateDistanceKm, createState, NearMeScreen, _NearMeScreenState, _selectedRadius, build (+15 more)
 
 ### Community 2 - "package:flutter/material.dart"
 Cohesion: 0.03
-Nodes (62): _AuthChoiceButton, AuthChoiceScreen, build, icon, label, onTap, build, createState (+54 more)
+Nodes (81): _AuthChoiceButton, AuthChoiceScreen, build, _GoogleLogo, icon, label, onTap, build (+73 more)
 
-### Community 3 - "bottom_nav_shell.dart"
+### Community 3 - "package:flutter/material.dart"
+Cohesion: 0.04
+Nodes (48): _loadTheme, _repository, setThemeMode, themeRepositoryProvider, build, SavedTechniquesScreen, savedTechniquesStreamProvider, build (+40 more)
+
+### Community 4 - "serving_latency.py"
 Cohesion: 0.05
-Nodes (32): _GoogleLogo, InboxPlaceholder, ChatBubble, _AuthorRow, _ProductCard, _VideoGridItem, AccountSettingsScreen, activeIcon (+24 more)
-
-### Community 4 - "ReleasedCDR"
-Cohesion: 0.10
-Nodes (6): paired_significance(), ReleasedCDR, ReleasedDotMF, SourceDefaultTests, TrainingProgressTests, observer()
+Nodes (14): paired_significance(), main(), measure_api(), measure_models(), model_scorers(), time_call(), ReleasedCDR, ReleasedDotMF (+6 more)
 
 ### Community 5 - "edit_journal_screen.dart"
 Cohesion: 0.11
 Nodes (18): createState, _cropController, _descriptionController, dispose, _formKey, _initFromJournal, _isInitialized, _isLoading (+10 more)
 
-### Community 6 - "test_suite.py"
+### Community 6 - "evaluate_checkpoint"
 Cohesion: 0.04
-Nodes (48): main(), compare(), main(), run(), run_all_benchmarks(), run_idcf_family(), root(), candidate_pool_diagnostics() (+40 more)
+Nodes (23): value(), root(), MatrixFactorization, train_baseline_mf(), tuning_grids(), run_grid_search(), train_single_run(), evaluate_checkpoint() (+15 more)
 
 ### Community 7 - "store_registration_screen.dart"
 Cohesion: 0.04
@@ -328,24 +327,24 @@ Cohesion: 0.04
 Nodes (15): View.OnClickListener, View.OnClickListener, View.OnClickListener, SignInToDeleteActivity, View.OnClickListener, FollowerAdapter, FollowingAdapter, NotificationAdapter (+7 more)
 
 ### Community 9 - "mrdr_cal/model.py"
-Cohesion: 0.13
-Nodes (4): MLPLayers, NeuMF, Platt, MRDRCalModelTests
+Cohesion: 0.14
+Nodes (3): NeuMF, Platt, MRDRCalModelTests
 
 ### Community 10 - "test_methodology.py"
 Cohesion: 0.12
 Nodes (10): load_kuairand_author_proxy(), load_kuairand_tab_instruments(), paired_ndcg_difference(), kuairand_inputs(), author_user_features(), AuthorConfigTests, AuthorProxyTests, KuaiRandIDCFInputTests (+2 more)
 
-### Community 12 - "serving_latency.py"
-Cohesion: 0.07
-Nodes (8): main(), measure_api(), measure_models(), model_scorers(), time_call(), IDCFModel, MatrixFactorization, IDCFModelTests
+### Community 12 - "video_provider.dart"
+Cohesion: 0.09
+Nodes (22): _leaveGroup, build, _buildTopTab, VideoFeedScreen, adsAsync, adsStreamProvider, followingVideoFeedProvider, homeFeedProvider (+14 more)
 
 ### Community 13 - "ConsumerWidget"
 Cohesion: 0.03
-Nodes (68): _buildMembersTab, build, _buildErrorWidget, _buildTile, _ConversationTile, formatTime, InboxScreen, isPinned (+60 more)
+Nodes (80): build, _buildErrorWidget, _buildTile, _ConversationTile, formatTime, InboxScreen, isPinned, lastMessage (+72 more)
 
-### Community 14 - "package:cloud_firestore/cloud_firestore.dart"
-Cohesion: 0.07
-Nodes (20): _firestore, getStoreByOwner, reviewStoreRegistration, saveStoreDraft, _storage, submitStoreRegistration, updateStoreSettings, uploadStoreMedia (+12 more)
+### Community 14 - "store_repository.dart"
+Cohesion: 0.14
+Nodes (12): _firestore, getStoreByOwner, reviewStoreRegistration, saveStoreDraft, _storage, submitStoreRegistration, updateStoreSettings, uploadStoreMedia (+4 more)
 
 ### Community 15 - "EmailSignInActivity.java"
 Cohesion: 0.08
@@ -360,36 +359,36 @@ Cohesion: 0.04
 Nodes (20): GridSpacingItemDecoration, SearchActivity, SearchView.OnQueryTextListener, ActiveUserAdapter, ViewHolder, OnTagClickListener, TrendingTagAdapter, ViewHolder (+12 more)
 
 ### Community 20 - "universal_share_bottom_sheet.dart"
-Cohesion: 0.06
-Nodes (28): avatar, _captionController, content, createState, dispose, extraData, fromJournal, fromProduct (+20 more)
+Cohesion: 0.04
+Nodes (42): build, content, createState, _handleTap, iconColor, iconSize, _isPressed, isVideoOverlay (+34 more)
 
 ### Community 21 - "profile_screen.dart"
-Cohesion: 0.04
-Nodes (42): publicJournalsStreamProvider, userJournalsStreamProvider, sellerProductsStreamProvider, _bioController, build, _buildDivider, _buildMetricItem, _buildStoreCardTile (+34 more)
+Cohesion: 0.07
+Nodes (28): publicJournalsStreamProvider, userJournalsStreamProvider, _pickProductImages, _saveField, _buildEditRow, createState, EditProfileScreen, _EditProfileScreenState (+20 more)
 
 ### Community 22 - "_ViFarmAppState"
-Cohesion: 0.14
-Nodes (12): build, createState, dispose, initState, ViFarmApp, _ViFarmAppState, themeNotifierProvider, ThemeViewModel (+4 more)
+Cohesion: 0.21
+Nodes (8): build, createState, dispose, initState, ViFarmApp, _ViFarmAppState, routerProvider, currentUserPresenceProvider
 
 ### Community 23 - "chat_screen.dart"
-Cohesion: 0.04
-Nodes (50): _buildErrorWidget, _chatRepository, ChatScreen, _ChatScreenState, createState, dispose, _markAsSeen, _messageController (+42 more)
+Cohesion: 0.03
+Nodes (84): didChangeAppLifecycleState, build, _buildLogoWidget, _buildStaticFallback, _checkAndProceedPhase3, _controller, createState, didChangeDependencies (+76 more)
 
 ### Community 24 - "CommentActivity.java"
 Cohesion: 0.05
 Nodes (7): FollowActivity, FullScreenAvatarActivity, HomeScreenActivity, SettingsAndPrivacyActivity, VideoActivity, VideoFragment, StaticVariable
 
-### Community 25 - "marketplace_screen.dart"
+### Community 25 - "../../auth/providers/auth_provider.dart"
 Cohesion: 0.03
-Nodes (60): cartItemCountProvider, build, _categories, _category, createState, _descriptionController, dispose, _formKey (+52 more)
+Nodes (75): build, _CartGroupCard, _CartItemTile, CartScreen, _formatVND, group, item, CartGroupModel (+67 more)
 
-### Community 26 - "currentUserProvider"
-Cohesion: 0.06
-Nodes (64): currentUserProfileProvider, currentUserProvider, build, CartScreen, cartGroupsProvider, cartProvider, chatConversationsProvider, _VideoShareBottomSheetState (+56 more)
+### Community 26 - "edit_product_screen.dart"
+Cohesion: 0.09
+Nodes (24): build, _categories, _category, createState, _descriptionController, dispose, EditProductScreen, _EditProductScreenState (+16 more)
 
 ### Community 27 - "torch"
-Cohesion: 0.03
-Nodes (19): sample_training_instances(), cdr_config(), mf_config(), released_tuning_grids(), tuning_grids(), CFDLReportTests, AlternatingCDRTests, BenchmarkArtifactTests (+11 more)
+Cohesion: 0.04
+Nodes (14): find_service_account_key(), main(), main(), main(), sample_training_instances(), experiment_lock(), CFDLReportTests, source_modules() (+6 more)
 
 ### Community 28 - "app_strings.dart"
 Cohesion: 0.04
@@ -407,13 +406,13 @@ Nodes (3): VideoViewHolder, OnSwipeTouchListener, 🗄️ Thiết Kế Cơ Sở 
 Cohesion: 0.08
 Nodes (14): fl_register_plugins(), main(), first_frame_cb(), my_application_activate(), my_application_class_init(), my_application_dispose(), my_application_init(), my_application_local_command_line() (+6 more)
 
-### Community 32 - "get_device"
-Cohesion: 0.06
-Nodes (14): binary_exposure(), elbo_loss(), ExposureIVAE, mlp(), train_exposure_ivae(), validation_elbo(), LatentConstrainedVAE, lcvae_loss() (+6 more)
+### Community 32 - "models/cdr/train_dr_bias_cdr.py"
+Cohesion: 0.04
+Nodes (49): run_seed(), run_all_benchmarks(), train_cdr(), run_idcf_family(), aggregate_observed_pairs(), naive_bayes_propensity(), propensity_diagnostics(), validation_labels() (+41 more)
 
-### Community 33 - "package:flutter_riverpod/flutter_riverpod.dart"
-Cohesion: 0.03
-Nodes (56): _loadTheme, _repository, setThemeMode, themeRepositoryProvider, build, CreateJournalScreen, createState, _cropController (+48 more)
+### Community 33 - "create_journal_screen.dart"
+Cohesion: 0.12
+Nodes (16): build, CreateJournalScreen, _CreateJournalScreenState, createState, _cropController, _descriptionController, dispose, _formKey (+8 more)
 
 ### Community 34 - "ChatAdapter"
 Cohesion: 0.06
@@ -425,7 +424,7 @@ Nodes (3): LegacyHashtagFixer, HashMap<String, Object>, Video
 
 ### Community 36 - "table_formatter.py"
 Cohesion: 0.12
-Nodes (11): anchors(), main(), managed_files(), markdown_content(), sha256(), source_signature(), EpochTableTracker, format_metrics_table() (+3 more)
+Nodes (12): anchors(), main(), managed_files(), markdown_content(), sha256(), source_signature(), EpochTableTracker, format_grid_table() (+4 more)
 
 ### Community 37 - "video_model.dart"
 Cohesion: 0.06
@@ -452,8 +451,8 @@ Cohesion: 0.07
 Nodes (26): name, private, scripts, build, clean, dev, lint, preview (+18 more)
 
 ### Community 43 - "video_provider.dart"
-Cohesion: 0.03
-Nodes (56): build, cleanTag, createState, dispose, HashtagScreen, _HashtagScreenState, hashtagVideosProvider, initState (+48 more)
+Cohesion: 0.04
+Nodes (45): build, cleanTag, createState, dispose, HashtagScreen, _HashtagScreenState, hashtagVideosProvider, initState (+37 more)
 
 ### Community 44 - "store_model.dart"
 Cohesion: 0.05
@@ -484,12 +483,12 @@ Cohesion: 0.06
 Nodes (34): attachedImageUrls, attachedVideoUrl, calculateDayNumber, classifyEntry, compareEntries, createdAt, crop, description (+26 more)
 
 ### Community 51 - "run_all_benchmarks.py"
-Cohesion: 0.05
-Nodes (39): main(), format_cfdl_tables(), main(), ndcg_by_seed(), row(), run(), run_seed(), seed_pairs() (+31 more)
-
-### Community 52 - "argparse"
 Cohesion: 0.06
-Nodes (24): stats(), dr_sum(), author_metrics(), DotMF, fit_cdr_bias(), main(), mc_dropout(), naive_bayes_inverse_propensity() (+16 more)
+Nodes (44): main(), main(), data_digest(), main(), summarize(), main(), compare(), main() (+36 more)
+
+### Community 52 - "numpy"
+Cohesion: 0.07
+Nodes (25): stats(), format_cfdl_tables(), ndcg_by_seed(), row(), run(), run_seed(), seed_pairs(), summarize() (+17 more)
 
 ### Community 53 - "androidx.fragment.app.Fragment"
 Cohesion: 0.09
@@ -507,13 +506,13 @@ Nodes (15): createCloudinaryVideoPart, createVideoPreview, createCloudinaryVideo
 Cohesion: 0.09
 Nodes (11): View.OnClickListener, OnCompleteListener<Void>, EmailLogInActivity, OnCompleteListener<AuthResult>, View.OnClickListener, EmailSignupActivity, View.OnClickListener, OnCompleteListener<AuthResult> (+3 more)
 
-### Community 58 - "saved_techniques_repository.dart"
-Cohesion: 0.11
-Nodes (14): _firestore, isTechniqueSavedProvider, SavedTechniquesRepository, savedTechniquesRepositoryProvider, toggleSaveTechnique, watch, watchIsSaved, watchSavedTechniques (+6 more)
+### Community 58 - "search_provider.dart"
+Cohesion: 0.12
+Nodes (11): clearHistory, _loadHistory, _prefsKey, searchRepositoryProvider, watch, _firestore, loadTrendingTags, loadTrendingVideos (+3 more)
 
 ### Community 59 - "LCDR và ConAlign: hai mô hình thực nghiệm"
-Cohesion: 0.11
-Nodes (15): RecSys: đọc trạng thái trước khi sửa hoặc đánh giá mô hình, II.5.1 Kiến Trúc Backend Serving (FastAPI), II.5.2 Tích Hợp Trên Ứng Dụng Di Động TopTop (Flutter), II.5 Đóng Gói Mô Hình Thành API và Tích Hợp Vào Hệ Thống Thực Tế, ConAlign: port từ source, Cách chạy, Cửa sổ train KuaiRand của ConAlign, 28–30/10/2026, Kết quả Coat, 27/10/2026 (+7 more)
+Cohesion: 0.13
+Nodes (12): RecSys: đọc trạng thái trước khi sửa hoặc đánh giá mô hình, ConAlign: port từ source, Cách chạy, Cửa sổ train KuaiRand của ConAlign, 28–30/10/2026, Kết quả Coat, 27/10/2026, Kết quả đầy đủ ba dataset, 28–30/10/2026, LCDR Coat: các lựa chọn paper để ngỏ, 28/10/2026, LCDR: phần theo paper và phần tự chọn (+4 more)
 
 ### Community 60 - "VideoHomeScreenActivity"
 Cohesion: 0.12
@@ -532,39 +531,39 @@ Cohesion: 0.14
 Nodes (12): AuthContext, AuthContextType, AuthUser, app, auth, db, firebaseConfig, googleProvider (+4 more)
 
 ### Community 64 - "camera_screen.dart"
-Cohesion: 0.20
-Nodes (8): build, _buildUploadCard, CameraScreen, _CameraScreenState, createState, _isLoading, _picker, _pickVideo
+Cohesion: 0.10
+Nodes (14): build, _buildUploadCard, CameraScreen, _CameraScreenState, createState, _isLoading, _picker, _pickVideo (+6 more)
 
 ### Community 65 - "VideoAdapter.java"
 Cohesion: 0.08
 Nodes (10): AccountSettingActivity, DeleteAccountActivity, MainActivity, ShareAccountActivity, SigninChoiceActivity, SignupChoiceActivity, SplashScreenActivity, ViewHolder (+2 more)
 
 ### Community 67 - "auth_text_field.dart"
-Cohesion: 0.10
+Cohesion: 0.11
 Nodes (16): AuthTextField, _AuthTextFieldState, build, controller, createState, dispose, _focusNode, hintText (+8 more)
 
 ### Community 68 - "video_description_screen.dart"
 Cohesion: 0.05
-Nodes (34): firestoreProvider, _allowDownload, build, _buildInputHelper, _buildSettingsGroup, _buildSwitchTile, _buildTopicSelectorSection, createState (+26 more)
+Nodes (38): firestoreProvider, _allowDownload, build, _buildInputHelper, _buildSettingsGroup, _buildSwitchTile, _buildTopicSelectorSection, createState (+30 more)
 
 ### Community 69 - "Dashboard.tsx"
 Cohesion: 0.18
 Nodes (7): SidebarProps, cn(), formatNumber(), DashboardProps, Report, recharts, tailwind-merge
 
-### Community 70 - "video_player_widget.dart"
+### Community 70 - "currentUserProvider"
 Cohesion: 0.03
-Nodes (60): authorId, build, _buildErrorCard, _buildSkeleton, _controller, createState, dispose, _formatCount (+52 more)
+Nodes (83): currentUserProfileProvider, currentUserProvider, _submit, build, userOrdersStreamProvider, sellerProductsStreamProvider, initState, build (+75 more)
 
 ### Community 71 - "cart_provider.dart"
-Cohesion: 0.08
-Nodes (21): _CartGroupCard, _CartItemTile, _formatVND, group, item, CartGroupModel, CartItemModel, addToCart (+13 more)
+Cohesion: 0.13
+Nodes (14): addToCart, cartItems, clearSelectedItems, currentUser, currentUserId, firestore, _loadCart, map (+6 more)
 
 ### Community 73 - "NavigationFragment"
 Cohesion: 0.19
 Nodes (4): NavigationFragment, View.OnKeyListener, DialogInterface.OnClickListener, DialogInterface.OnClickListener
 
 ### Community 75 - "test_mrdr_cal.py"
-Cohesion: 0.23
+Cohesion: 0.27
 Nodes (6): build_kuairand(), implicit_target(), load(), _part(), _split(), MRDRDataTests
 
 ### Community 76 - "win32_window.cpp"
@@ -572,7 +571,7 @@ Cohesion: 0.18
 Nodes (5): Scale(), Win32Window::Win32Window(), WindowClassRegistrar, class_registered_, instance_
 
 ### Community 77 - "FlutterWindow"
-Cohesion: 0.12
+Cohesion: 0.11
 Nodes (4): FlutterWindow, flutter_controller_, FlutterWindow::FlutterWindow(), project_
 
 ### Community 78 - "auth_provider.dart"
@@ -584,28 +583,32 @@ Cohesion: 0.15
 Nodes (7): View.OnClickListener, OnSuccessListener<Void>, OnSuccessListener<Void>, View.OnClickListener, OnSuccessListener<Void>, OnSuccessListener<Void>, OnCompleteListener<DocumentSnapshot>
 
 ### Community 81 - "package:flutter_test/flutter_test.dart"
-Cohesion: 0.07
-Nodes (12): VideoCopyrightService, main, main, main, main, service, main, main (+4 more)
+Cohesion: 0.05
+Nodes (24): audioSimilarity, computeHammingDistance, computeVisualSimilarity, CopyrightDecision, CopyrightEvaluation, decision, evaluateCopyrightRisk, findMostSimilarVideo (+16 more)
 
 ### Community 82 - "firebase_bridge.py"
-Cohesion: 0.10
-Nodes (15): behavior_label(), fetch_firestore_collection(), fetch_rtdb(), _http_json(), InteractionLog, likes_from_notifications(), _load_export_videos(), load_snapshot() (+7 more)
+Cohesion: 0.09
+Nodes (17): behavior_label(), fetch_firestore_collection(), fetch_rtdb(), _http_json(), likes_from_notifications(), _load_export_videos(), load_snapshot(), normalize_video() (+9 more)
 
 ### Community 83 - "CURRENT_STATE.md"
-Cohesion: 0.20
-Nodes (4): Script thực nghiệm và log mốc hiện hành, Tham chiếu bài báo: giữ đúng nguồn và biến thể, Bản chép/tóm tắt bài báo, Slide và kịch bản thuyết trình
+Cohesion: 0.18
+Nodes (6): Script thực nghiệm và log mốc hiện hành, Tham chiếu bài báo: giữ đúng nguồn và biến thể, Khác biệt với bản `.docx`, Đề cương nghiên cứu, Bản chép/tóm tắt bài báo, Slide và kịch bản thuyết trình
 
 ### Community 84 - "upload_provider.dart"
-Cohesion: 0.07
+Cohesion: 0.06
 Nodes (22): copyWith, errorMessage, _geminiService, legacyHashtagFixerProvider, progress, _repository, reset, status (+14 more)
 
 ### Community 85 - "app.py"
-Cohesion: 0.11
-Nodes (13): build_engine_from_env(), create_app(), compare(), get_engine(), health(), interaction(), popular(), recommend() (+5 more)
+Cohesion: 0.14
+Nodes (12): create_app(), compare(), get_engine(), health(), interaction(), popular(), recommend(), sync() (+4 more)
 
 ### Community 86 - "torch"
-Cohesion: 0.06
-Nodes (30): main(), train_conalign_row(), run_conalign(), deduplicate_and_binarize_interactions(), finish(), load_conalign_data(), load_explicit(), load_kuairand() (+22 more)
+Cohesion: 0.08
+Nodes (17): train_conalign_row(), run_conalign(), deduplicate_and_binarize_interactions(), finish(), load_conalign_data(), load_explicit(), load_kuairand(), raw_rating_frames() (+9 more)
+
+### Community 87 - "auth.py"
+Cohesion: 0.16
+Nodes (4): FirebaseTokenVerifier, TokenRejected, VerifierUnavailable, FirebaseVerifierTests
 
 ### Community 88 - "test_clev.py"
 Cohesion: 0.16
@@ -615,9 +618,9 @@ Nodes (8): evaluate(), ndcg_at_k(), _per_user(), precision_at_k(), recall_at_k()
 Cohesion: 0.17
 Nodes (12): 1. Mục tiêu, 2.1. Neural Collaborative Filtering (phần tổng quan), 2.2. Identifiable VAE, 2.3. CLEV-DR (Zhang et al., KDD 2025), 2.4. iDCF, 2.5. MRDR-CAL (Hu et al., TKDE 2025), 2.6. LCDR, 2. Cơ sở lý thuyết (+4 more)
 
-### Community 90 - "EngineTests"
-Cohesion: 0.11
-Nodes (4): BackgroundRetrainTests, EngineTests, InteractionTests, make_engine()
+### Community 90 - "make_engine"
+Cohesion: 0.14
+Nodes (4): BackgroundRetrainTests, HttpTests, InteractionTests, make_engine()
 
 ### Community 91 - "VideoAdapter.java"
 Cohesion: 0.03
@@ -629,23 +632,23 @@ Nodes (6): CommentActivity, EventListener<QuerySnapshot>, OnCompleteListener<Doc
 
 ### Community 93 - "quote_repository.dart"
 Cohesion: 0.05
-Nodes (36): createOrderFromQuote, createOrdersFromCart, _firestore, OrderRepository, updateOrderStatus, watch, watchOrderDetail, watchUserOrders (+28 more)
+Nodes (30): createOrderFromQuote, createOrdersFromCart, _firestore, OrderRepository, updateOrderStatus, watch, watchOrderDetail, watchUserOrders (+22 more)
 
 ### Community 94 - "search_screen.dart"
-Cohesion: 0.08
-Nodes (31): build, _buildCampaignBanner, _buildDiscoveryUI, _buildSearchResultsUI, _buildUsersSearchTab, _buildVideosSearchTab, _clearSearch, createState (+23 more)
+Cohesion: 0.10
+Nodes (26): build, _buildCampaignBanner, _buildDiscoveryUI, _buildSearchResultsUI, _buildUsersSearchTab, _buildVideosSearchTab, _clearSearch, createState (+18 more)
 
 ### Community 95 - "profile_repository.dart"
-Cohesion: 0.11
-Nodes (17): _database, _firestore, followUser, getFollowers, getFollowing, getProfile, _pendingFollowLocks, _storage (+9 more)
+Cohesion: 0.06
+Nodes (32): build, _buildFollowersTab, _buildFollowingTab, _buildUserRow, FollowListScreen, initialTabIndex, userId, currentUid (+24 more)
 
 ### Community 96 - "CLEVDR"
 Cohesion: 0.21
 Nodes (4): CLEVDR, NCFBase, CLEVModelTests, CLEVSharedIPSTests
 
 ### Community 97 - "chat_repository.dart"
-Cohesion: 0.11
-Nodes (17): ChatRepository, _database, _firestore, getRoomId, markMessagesAsSeen, sendMessage, sendVideoShare, setTyping (+9 more)
+Cohesion: 0.08
+Nodes (22): authStateProvider, firebaseAuthProvider, firebaseStorageProvider, realtimeDbProvider, watch, ChatRepository, _database, _firestore (+14 more)
 
 ### Community 98 - "Moderation.tsx"
 Cohesion: 0.53
@@ -662,6 +665,10 @@ Nodes (10): binarize(), kuairand_frames_to_samples(), load(), rating_mat_to_samp
 ### Community 101 - "validators.dart"
 Cohesion: 0.14
 Nodes (12): _dateRegex, _emailRegex, isNumeric, _phoneRegex, _usernameRegex, validateBirthdate, validateConfirmPassword, validateEmail (+4 more)
+
+### Community 102 - "InvPrefImplicit_changed"
+Cohesion: 0.13
+Nodes (3): ReverseLayerF, InvPrefImplicit_changed, LinearLogSoftMaxEnvClassifier
 
 ### Community 103 - "app_mode_provider.dart"
 Cohesion: 0.18
@@ -688,11 +695,11 @@ Cohesion: 0.13
 Nodes (14): cloud_firestore, file_selector_macos, firebase_auth, firebase_core, firebase_database, firebase_storage, Foundation, geolocator_apple (+6 more)
 
 ### Community 109 - "MetaModule"
-Cohesion: 0.23
-Nodes (3): MetaEmbed, MetaModule, to_var()
+Cohesion: 0.15
+Nodes (4): MetaEmbed, MetaMF, MetaModule, to_var()
 
 ### Community 110 - "utils.cpp"
-Cohesion: 0.13
+Cohesion: 0.19
 Nodes (4): wWinMain(), CreateAndAttachConsole(), GetCommandLineArguments(), Utf8FromUtf16()
 
 ### Community 111 - "Loader_list"
@@ -716,20 +723,20 @@ Cohesion: 0.27
 Nodes (9): sample_unobserved(), _batches(), calibrated_propensity(), _neumf(), _observe(), _predict(), run(), train_mrdr() (+1 more)
 
 ### Community 117 - "InterD.py"
-Cohesion: 0.22
-Nodes (7): run_test(), train_and_eval(), train_AutoDebias_model(), train_InterD_model(), train_MF_model(), train_and_eval(), EarlyStopping
+Cohesion: 0.26
+Nodes (5): run_test(), train_and_eval(), train_AutoDebias_model(), train_InterD_model(), train_MF_model()
 
 ### Community 118 - "weather_widget.dart"
-Cohesion: 0.07
-Nodes (23): build, _calculateDistanceKm, createState, NearMeScreen, _NearMeScreenState, _selectedRadius, nearMeLocationProvider, fetchWeather (+15 more)
+Cohesion: 0.11
+Nodes (16): nearMeLocationProvider, fetchWeather, location, _locationState, repo, _repository, weatherNotifierProvider, weatherRepositoryProvider (+8 more)
 
 ### Community 119 - "Settings.tsx"
 Cohesion: 0.12
 Nodes (19): Notification, UserModal(), UserModalProps, ACTION_ICONS, ACTION_LABELS, Ad, AdBooking, AdStatus (+11 more)
 
-### Community 120 - "share_button.dart"
-Cohesion: 0.14
-Nodes (12): build, content, createState, _handleTap, iconColor, iconSize, _isPressed, isVideoOverlay (+4 more)
+### Community 120 - "video_share_card.dart"
+Cohesion: 0.11
+Nodes (18): authorId, build, _buildErrorCard, _buildSkeleton, _controller, createState, dispose, _formatCount (+10 more)
 
 ### Community 121 - "cart_model.dart"
 Cohesion: 0.09
@@ -744,8 +751,8 @@ Cohesion: 0.22
 Nodes (8): AdModel, ad, AdItem, FeedItem, id, video, VideoItem, VideoModel
 
 ### Community 126 - "chat_list_tile.dart"
-Cohesion: 0.06
-Nodes (27): didChangeAppLifecycleState, initState, chatRepositoryProvider, build, chat, ChatListTile, _ChatListTileState, createGroupWith (+19 more)
+Cohesion: 0.08
+Nodes (19): chat, ChatListTile, _ChatListTileState, createGroupWith, createState, currentUid, docRef, _formatTime (+11 more)
 
 ### Community 127 - "Cách xử lý"
 Cohesion: 0.25
@@ -759,13 +766,13 @@ Nodes (15): compilerOptions, allowImportingTsExtensions, allowJs, experimentalDe
 Cohesion: 0.12
 Nodes (15): 📌 1. Bối Cảnh & Mục Tiêu Dự Án, 🗺️ 2. Luồng Vận Hành Cốt Lõi (Architecture Flow), 📅 3. Kế Hoạch Triển Khai Chi Tiết Theo Ngày (08/10 → 16/10), 4.1. Chuẩn Hóa Dữ Liệu Trao Đổi Giữa Người 1 và Người 2 (Data Contract), 4.2. Cơ Chế Tạo Dấu Vân Tay Video (Video Fingerprint / DNA) của Người 2, 4.3. Công Thức Tính Độ Tương Đồng (Similarity Calculation), 4.4. Ma Trận Quyết Định Bản Quyền Tự Động (Decision Matrix), 🔬 4. Chi Tiết Kỹ Thuật Cơ Chế Bản Quyền & AI (+7 more)
 
-### Community 130 - "recsys_service.dart"
-Cohesion: 0.06
-Nodes (29): authStateProvider, firebaseAuthProvider, firebaseStorageProvider, realtimeDbProvider, watch, CommentRepository, _database, deleteComment (+21 more)
+### Community 130 - "comment_repository.dart"
+Cohesion: 0.11
+Nodes (14): expandedComments, expandedCommentsProvider, rawCommentsAsync, watch, when, CommentRepository, _database, deleteComment (+6 more)
 
 ### Community 131 - "ConsumerStatefulWidget"
-Cohesion: 0.05
-Nodes (42): VideoShareBottomSheet, EditProductScreen, build, ChangePasswordScreen, _ChangePasswordScreenState, _confirmPasswordController, createState, dispose (+34 more)
+Cohesion: 0.04
+Nodes (50): build, createState, dispose, initialVideoId, initState, _pageController, roomId, SharedVideoPlayerScreen (+42 more)
 
 ### Community 132 - "edit_journal_entry_screen.dart"
 Cohesion: 0.11
@@ -775,17 +782,17 @@ Nodes (17): createState, dispose, entryId, _formKey, _initFromEntry, _isInitiali
 Cohesion: 0.14
 Nodes (14): dependencies, clsx, dotenv, express, firebase, @google/genai, lucide-react, motion (+6 more)
 
-### Community 134 - "video_share_bottom_sheet.dart"
-Cohesion: 0.06
-Nodes (31): commentLikesStateProvider, commentRepositoryProvider, commentsStreamProvider, expandedComments, expandedCommentsProvider, formattedCommentsProvider, rawCommentsAsync, watch (+23 more)
+### Community 134 - "add_members_sheet.dart"
+Cohesion: 0.18
+Nodes (12): selectableFriendsProvider, _addMembers, AddMembersSheet, _AddMembersSheetState, build, _buildHandle, createState, existingMemberIds (+4 more)
 
 ### Community 135 - "create_group_bottom_sheet.dart"
-Cohesion: 0.07
-Nodes (29): selectableFriendsProvider, _addMembers, AddMembersSheet, _AddMembersSheetState, build, _buildHandle, createState, existingMemberIds (+21 more)
+Cohesion: 0.12
+Nodes (17): _buildAvatarPicker, _buildCreateButton, _buildFriendsList, _buildHandle, _buildHeader, _buildNameInput, _createGroup, CreateGroupBottomSheet (+9 more)
 
 ### Community 136 - "load_kuairand.py"
-Cohesion: 0.21
-Nodes (5): deduplicate_and_binarize_interactions(), df_to_sparse_matrix(), explore_kuairand_data(), load_kuairand(), load_kuairand_for_mf()
+Cohesion: 0.16
+Nodes (9): load_dataset(), seed_randomly_split(), sparse_mx_to_torch_sparse_tensor(), split_per_user(), deduplicate_and_binarize_interactions(), df_to_sparse_matrix(), explore_kuairand_data(), load_kuairand() (+1 more)
 
 ### Community 137 - "ad_booking_model.dart"
 Cohesion: 0.14
@@ -824,8 +831,8 @@ Cohesion: 0.13
 Nodes (14): WeatherData, build, createState, _formatDayLabel, _formatHourLabel, _formatTimestamp, _getFilteredHourly, HourlyMode (+6 more)
 
 ### Community 147 - "List"
-Cohesion: 0.17
-Nodes (8): CartNotifier, LastReadTimestampNotifier, WeatherNotifier, SearchHistoryNotifier, build, onTagTap, tags, TrendingTags
+Cohesion: 0.33
+Nodes (4): CartNotifier, LastReadTimestampNotifier, WeatherNotifier, SearchHistoryNotifier
 
 ### Community 148 - "chat_preview_model.dart"
 Cohesion: 0.13
@@ -856,8 +863,8 @@ Cohesion: 0.20
 Nodes (8): AuthProvider(), initialState, Theme, ThemeProvider(), ThemeProviderContext, ThemeProviderProps, ThemeProviderState, react-dom
 
 ### Community 158 - "CausE.py"
-Cohesion: 0.12
-Nodes (4): train_and_eval(), train_and_eval(), train_and_eval(), Stop_args()
+Cohesion: 0.10
+Nodes (7): parse_args(), train_and_eval(), train_and_eval(), train_and_eval(), train_and_eval(), EarlyStopping, Stop_args()
 
 ### Community 159 - "KD_Debias.py"
 Cohesion: 0.27
@@ -868,15 +875,15 @@ Cohesion: 0.12
 Nodes (16): 1.1 Bối cảnh thực tiễn: Video ngắn và Nông nghiệp số tại Việt Nam, 1.2 Thách thức học thuật: Thiên lệch hiển thị (Exposure Bias) và Vấn đề Bất bình đẳng Thuật toán, 1. Lý do chọn đề tài và Bối cảnh nghiên cứu, 2.1 Mục tiêu tổng quát, 2.2 Mục tiêu cụ thể, 2. Mục tiêu nghiên cứu của đề tài, 3.1 Đối tượng nghiên cứu, 3.2 Phạm vi nghiên cứu (+8 more)
 
 ### Community 163 - "mrdr_cal/metrics.py"
-Cohesion: 0.20
-Nodes (8): roc_auc(), dcg_at_k(), evaluate(), project_topk(), _ranked_rows(), recall_at_k(), user_auc(), MRDRMetricTests
+Cohesion: 0.16
+Nodes (9): roc_auc(), dcg_at_k(), evaluate(), project_topk(), _ranked_rows(), recall_at_k(), user_auc(), MRDRConfigTests (+1 more)
 
 ### Community 164 - "Benchmark v4: kết quả theo giao thức từng mô hình"
 Cohesion: 0.18
 Nodes (10): Benchmark v4: kết quả theo giao thức từng mô hình, Candidate pool coat, Candidate pool kuairand, Candidate pool yahoo, Cấu hình CDR Coat, Giới hạn sai số, Kiểm định theo cặp user (coat, test), Kiểm định theo cặp user (kuairand, test) (+2 more)
 
 ### Community 165 - "typing_indicator.dart"
-Cohesion: 0.20
+Cohesion: 0.18
 Nodes (9): _animations, build, _controllers, createState, dispose, initState, _startAnimations, TypingIndicator (+1 more)
 
 ### Community 166 - "video_fingerprint_worker.py"
@@ -892,8 +899,8 @@ Cohesion: 0.22
 Nodes (8): advertiserId, AdvertiserModel, balance, companyName, contactEmail, fromMap, status, toMap
 
 ### Community 169 - "MatrixFactorization"
-Cohesion: 0.04
-Nodes (19): CDRFramework, cdr_recommendation_loss(), dr_bias_closed_form_imputation_loss(), imputation_keep(), imputed_bce(), ImputationModel, train_cdr(), aggregate_observed_pairs() (+11 more)
+Cohesion: 0.03
+Nodes (24): dr_sum(), _Last, author_metrics(), DotMF, fit_cdr_bias(), main(), mc_dropout(), naive_bayes_inverse_propensity() (+16 more)
 
 ### Community 170 - "Khác biệt protocol của CDR và các kết luận còn dùng"
 Cohesion: 0.50
@@ -936,8 +943,12 @@ Cohesion: 0.17
 Nodes (11): 1. Đặt vấn đề về Tính Tái Lập (Reproducibility Crisis) trong Khử Thiên Lệch, 2.1. Sự vắng mặt của Mã nguồn Tác giả và Rủi ro Khiếm khuyết Kiến trúc, 2.2. Kết quả Thực nghiệm Không Khớp và Không Có Ý nghĩa Thống kê, 2. Phân tích Nguyên nhân Loại bỏ Mô hình IViDR khỏi Đồ án, 3.1. Cơ sở Toán học Vững chắc, 3.2. Kiểm định Tương đương Tuyệt đối (Bit-level Parity Verification), 3. Lựa chọn Thay thế: Mô hình CLEV-DR (KDD 2025), 4.1. Nhận định về Khoảng cách giữa Báo cáo Bài báo và Thực nghiệm (Empirical Gap) (+3 more)
 
 ### Community 197 - "weather_repository.dart"
-Cohesion: 0.06
-Nodes (25): _cache, clearCache, _client, code, defaultTtl, _generateRequestId, _getCacheKey, getWeather (+17 more)
+Cohesion: 0.05
+Nodes (27): _cachedApiUrl, checkHealth, _cleanUrl, _client, _database, _firebaseIdToken, getActiveApiUrl, getRecommendations (+19 more)
+
+### Community 199 - "AuthHttpTests"
+Cohesion: 0.21
+Nodes (4): ApiAuth, AuthHttpTests, bearer(), fake_verify()
 
 ### Community 201 - "ĐỀ TÀI: NGHIÊN CỨU ỨNG DỤNG HỌC MÁY TRONG PHÂN TÍCH HÀNH VI NGƯỜI DÙNG VÀ ĐỀ XUẤT VIDEO NGẮN TRÊN NỀN TẢNG QUẢNG BÁ NÔNG SẢN (ViFarm / TopTop)"
 Cohesion: 0.18
@@ -959,10 +970,6 @@ Nodes (7): 1. Thông tin tài liệu, 2. Ý tưởng, 3. Thuật toán theo sour
 Cohesion: 0.50
 Nodes (3): normalizeHashtag, removeDiacritics, TextUtils
 
-### Community 209 - "tunnel.py"
-Cohesion: 0.33
-Nodes (3): publish_server_url(), main(), start_tunnel()
-
 ### Community 214 - "comment_model.dart"
 Cohesion: 0.14
 Nodes (13): authorId, commentId, CommentModel, content, copyWith, fromMap, parentId, parentUsername (+5 more)
@@ -971,13 +978,9 @@ Nodes (13): authorId, commentId, CommentModel, content, copyWith, fromMap, paren
 Cohesion: 0.14
 Nodes (13): addJournalEntry, createJournal, deleteJournal, deleteJournalEntry, _firestore, JournalRepository, updateJournal, updateJournalEntry (+5 more)
 
-### Community 226 - "video_copyright_service.dart"
-Cohesion: 0.15
-Nodes (12): audioSimilarity, computeHammingDistance, computeVisualSimilarity, CopyrightDecision, CopyrightEvaluation, decision, evaluateCopyrightRisk, findMostSimilarVideo (+4 more)
-
-### Community 227 - "upload_repository.dart"
-Cohesion: 0.17
-Nodes (8): finalize, _firestore, getAllVideosForCopyrightCheck, MultipartRequestWithProgress, saveVideoToFirestore, uploadImageToCloudinary, UploadRepository, uploadVideoToCloudinary
+### Community 227 - "weather_repository.dart"
+Cohesion: 0.07
+Nodes (21): _cache, clearCache, _client, code, defaultTtl, _generateRequestId, _getCacheKey, getWeather (+13 more)
 
 ### Community 228 - "NGHIÊN CỨU ỨNG DỤNG HỌC MÁY TRONG PHÂN TÍCH HÀNH VI NGƯỜI DÙNG VÀ ĐỀ XUẤT VIDEO NGẮN TRÊN NỀN TẢNG QUẢNG BÁ SẢN PHẨM NÔNG NGHIỆP"
 Cohesion: 0.33
@@ -989,7 +992,7 @@ Nodes (7): auc(), bce(), calc(), evaluate(), mse(), uauc(), undcg()
 
 ### Community 232 - "group_settings_screen.dart"
 Cohesion: 0.08
-Nodes (19): build, _buildActionItem, _buildAlbumTab, _buildListTile, _buildQuickActions, _buildSettingsList, createState, dispose (+11 more)
+Nodes (19): build, _buildActionItem, _buildAlbumTab, _buildListTile, _buildMembersTab, _buildQuickActions, _buildSettingsList, createState (+11 more)
 
 ### Community 233 - "CHƯƠNG I. CƠ SỞ LÝ THUYẾT & KỸ THUẬT KHỬ THIÊN LỆCH"
 Cohesion: 0.15
@@ -1004,8 +1007,8 @@ Cohesion: 0.11
 Nodes (16): action, copyWith, fromMap, fromUsername, notificationId, NotificationModel, timestamp, toMap (+8 more)
 
 ### Community 242 - "test_mrdr_cal.py"
-Cohesion: 0.19
-Nodes (4): dr_loss(), mrdr_imputation_loss(), MRDRConfigTests, MRDRLossTests
+Cohesion: 0.29
+Nodes (3): dr_loss(), mrdr_imputation_loss(), MRDRLossTests
 
 ### Community 243 - "PHẦN ĐẦU BÁO CÁO"
 Cohesion: 0.33
@@ -1023,6 +1026,10 @@ Nodes (6): II.3.1 Mô hình NeuMF (WWW 2017), II.3.2 Mô hình iDCF (WWW 2023), 
 Cohesion: 0.25
 Nodes (6): Báo cáo Đồ án Chuyên ngành (Toàn văn), BÁO CÁO ĐỒ ÁN CHUYÊN NGÀNH, KHOA CÔNG NGHỆ THÔNG TIN, NGÀNH CÔNG NGHỆ THÔNG TIN, TRƯỜNG ĐẠI HỌC ĐÀ LẠT, ĐỀ TÀI:
 
+### Community 247 - "appearance_screen.dart"
+Cohesion: 0.33
+Nodes (4): themeNotifierProvider, ThemeViewModel, AppearanceScreen, build
+
 ### Community 248 - "Size"
 Cohesion: 0.50
 Nodes (3): Size, height, width
@@ -1035,13 +1042,13 @@ Nodes (3): Block, Interactions, LoaderList
 Cohesion: 0.40
 Nodes (5): I.3.1 Cơ chế Phát sinh Thiên lệch: Phân biệt MNAR và MAR, I.3.2 Đồ thị Nhân quả có hướng (Causal Directed Acyclic Graph - DAG), I.3.3 Phương pháp Trọng số Nghịch đảo Xu hướng (Inverse Propensity Scoring - IPS), I.3.4 Phương pháp Ước lượng Kỳ vọng Kép (Doubly Robust - DR), I.3 Thiên Lệch Hiển Thị và Suy Luận Nhân Quả trong Hệ Gợi Ý
 
-### Community 256 - "ApiAuth"
-Cohesion: 0.10
-Nodes (6): ApiAuth, _bearer(), TokenRejected, VerifierUnavailable, fake_verify(), HttpTests
+### Community 256 - ".user_id"
+Cohesion: 0.33
+Nodes (4): II.5.1 Kiến Trúc Backend Serving (FastAPI), II.5.2 Tích Hợp Trên Ứng Dụng Di Động TopTop (Flutter), II.5 Đóng Gói Mô Hình Thành API và Tích Hợp Vào Hệ Thống Thực Tế, _bearer()
 
 ### Community 257 - "evaluate_unbiased_model"
 Cohesion: 0.05
-Nodes (18): generate_console_grid_report(), get_benchmark_tables_data(), value(), evaluate_popularity(), PopularityModel, evaluate_unbiased_model(), compute_auc(), compute_hitrate_at_k() (+10 more)
+Nodes (19): conalign_notes(), generate_console_grid_report(), get_benchmark_tables_data(), candidate_pool_diagnostics(), evaluate_popularity(), PopularityModel, evaluate_unbiased_model(), compute_auc() (+11 more)
 
 ### Community 258 - "Point"
 Cohesion: 0.50
@@ -1056,8 +1063,8 @@ Cohesion: 0.24
 Nodes (4): Win32Window, child_content_, quit_on_close_, window_handle_
 
 ### Community 279 - "CDR theo mã công bố và định nghĩa các mô hình"
-Cohesion: 0.50
-Nodes (4): CDR mặc định, CDR theo mã công bố và định nghĩa các mô hình, MF, iDCF và Yahoo, Từng luồng thực thi
+Cohesion: 0.40
+Nodes (5): Bài báo lệch mã công bố, CDR mặc định, CDR theo mã công bố và định nghĩa các mô hình, MF, iDCF và Yahoo, Từng luồng thực thi
 
 ### Community 283 - "Cấu trúc thư mục RecSys"
 Cohesion: 0.67
@@ -1076,24 +1083,24 @@ Cohesion: 0.33
 Nodes (6): Bảng tổng hợp và cập nhật báo cáo — 21/10/2026, CDR mặc định: source protocol, Giao thức đánh giá theo mô hình, KuaiRand, tuning và serving, MF/iDCF và chế độ CDR shared, Tên protocol
 
 ## Knowledge Gaps
-- **1626 isolated node(s):** `@google/genai`, `dotenv`, `express`, `motion`, `@types/express` (+1621 more)
+- **1625 isolated node(s):** `@google/genai`, `dotenv`, `express`, `motion`, `@types/express` (+1620 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2941 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **76 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **74 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `VideoViewHolder` connect `VideoViewHolder` to `VideoAdapter.java`, `OnSwipeTouchListener`, `Video`, `android.view.View`, `Override`, `SearchFragment.java`, `CommentActivity.java`, `com.google.android.gms.tasks.Task`?**
-  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+  _High betweenness centrality (0.032) - this node is a cross-community bridge._
 - **What connects `@google/genai`, `dotenv`, `express` to the rest of the system?**
-  _1626 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `json` be split into smaller, more focused modules?**
-  _Cohesion score 0.08269230769230769 - nodes in this community are weakly interconnected._
+  _1625 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `load_coat_processed` be split into smaller, more focused modules?**
+  _Cohesion score 0.06262626262626263 - nodes in this community are weakly interconnected._
 - **Why does `📱 TopTop (TikTok Clone Ecosystem) - Hệ Sinh Thái Mạng Xã Hội Video Ngắn Tích Hợp AI` connect `📱 TopTop (TikTok Clone Ecosystem) - Hệ Sinh Thái Mạng Xã Hội Video Ngắn Tích Hợp AI` to `VideoViewHolder`?**
   _High betweenness centrality (0.027) - this node is a cross-community bridge._
-- **Should `splash_screen.dart` be split into smaller, more focused modules?**
-  _Cohesion score 0.053156146179401995 - nodes in this community are weakly interconnected._
-- **Why does `RecSys: Hệ Thống Gợi Ý Video Ngắn Khử Thiên Lệch & Học Sâu NCF` connect `RecSys: Hệ Thống Gợi Ý Video Ngắn Khử Thiên Lệch & Học Sâu NCF` to `mrdr_cal/model.py`, `CURRENT_STATE.md`, `MF`?**
-  _High betweenness centrality (0.026) - this node is a cross-community bridge._
+- **Should `marketplace_screen.dart` be split into smaller, more focused modules?**
+  _Cohesion score 0.08465608465608465 - nodes in this community are weakly interconnected._
+- **Why does `ApiAuth` connect `AuthHttpTests` to `.user_id`, `serving_latency.py`, `firebase_bridge.py`, `app.py`, `auth.py`, `make_engine`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **Should `package:flutter/material.dart` be split into smaller, more focused modules?**
-  _Cohesion score 0.0339632277834525 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.025552825552825554 - nodes in this community are weakly interconnected._

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_on": "2026-11-08",
+  "reviewed_on": "2026-11-11",
   "read_first": "docs/CURRENT_STATE.md",
   "files": [
     {
@@ -820,6 +820,24 @@
       "role": "benchmark_result",
       "immutable": true,
       "sha256": "04e92286d00b608d2c8f63ff99ada36bc9d362d89de0e56c31abed9a686ad13d"
+    },
+    {
+      "path": "results/idcf_coat_10seeds_20261108.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "c94e92a0dce97cc1bea53234707dd3779147a09d658943dede816538ac492e7c"
+    },
+    {
+      "path": "results/coat_seeds_4b77ed83d03fd5b3_20261111_163912_80b99b32.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "de409a6e06950f263dfa006529561393ca1d2241b988e798d2db50c507cda19e"
+    },
+    {
+      "path": "results/idcf_coat_10seeds_windows_20261111.json",
+      "role": "benchmark_result",
+      "immutable": true,
+      "sha256": "0d4c13e4577368d7766c022aa8f5eb8791584a66744a5e4b339d8e406663f562"
     }
   ]
 }
