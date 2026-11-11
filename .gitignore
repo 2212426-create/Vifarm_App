@@ -51,6 +51,8 @@ apps/mobile-flutter/.flutter-plugins-dependencies
 apps/mobile-flutter/.pub-cache/
 apps/mobile-flutter/.pub/
 apps/mobile-flutter/build/
+apps/mobile-flutter/android/build/
+apps/mobile-flutter/android/app/build/
 apps/mobile-flutter/android/key.properties
 apps/mobile-flutter/ios/Flutter/Generated.xcconfig
 apps/mobile-flutter/ios/Flutter/flutter_export_environment.sh
