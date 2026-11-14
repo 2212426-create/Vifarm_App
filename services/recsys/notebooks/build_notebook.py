@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Sinh notebook Google Colab 'TopTop_RecSys_Colab_API.ipynb'.
-Notebook không tự định nghĩa mô hình: nó cài repo và chạy src.api (MF / DR-BIAS+CDR
+Notebook không tự định nghĩa mô hình: nó cài repo và chạy src.api (ConAlign / MF / CDR
 huấn luyện thật trên tương tác TopTop), mở Cloudflare Tunnel rồi ghi URL lên Firebase.
 
     venv\\Scripts\\python.exe notebooks\\build_notebook.py
@@ -10,7 +10,11 @@ huấn luyện thật trên tương tác TopTop), mở Cloudflare Tunnel rồi g
 import json
 from pathlib import Path
 
-REPO_URL = "https://github.com/HubertPhung/agri-behavioral-recsys.git"
+# Monorepo công khai của nhóm; code API nằm trong services/recsys.
+REPO_URL = "https://github.com/2212426-create/Vifarm_App.git"
+REPO_BRANCH = "master"
+REPO_DIR = "/content/Vifarm_App"
+RECSYS_DIR = f"{REPO_DIR}/services/recsys"
 TARGET = Path(__file__).resolve().parent / "TopTop_RecSys_Colab_API.ipynb"
 
 
@@ -26,19 +30,19 @@ cells = [
 # TopTop RecSys API trên Google Colab
 
 Chạy **Runtime → Run all**. Notebook:
-1. Cài repo `agri-behavioral-recsys` và thư viện API.
+1. Tải repo `Vifarm_App` (nhánh `master`) và thư viện API; code chạy trong `services/recsys`.
 2. Nạp video từ Firestore, tương tác từ `toptop_interactions.csv` (nếu tải lên) và lượt like RTDB.
-3. Huấn luyện thật **MF** và **DR-BIAS + CDR** trên tương tác TopTop (nhãn dương: like hoặc xem ≥ 3 giây).
+3. Huấn luyện thật **ConAlign**, **MF** và **CDR** trên tương tác TopTop (nhãn dương: like hoặc xem ≥ 3 giây).
 4. Mở Cloudflare Tunnel và ghi URL vào `server_config/recsys_url` để app tự kết nối.
 
 User chưa có lịch sử nhận gợi ý theo độ phổ biến. App gửi `model="conalign"`; nếu mô hình được yêu cầu
 chưa huấn luyện được, API chọn mô hình khả dụng và trả `fallback_reason` trong phản hồi.
-Benchmark mặc định chạy sáu mô hình; API chỉ phục vụ MF và CDR. MF dùng MSE; CDR dùng BCE và huấn luyện độc lập. Đọc docs/CURRENT_STATE.md ở đúng revision repo đang chạy.
+Đọc `services/recsys/docs/CURRENT_STATE.md` ở đúng revision repo đang chạy.
 """),
     make_cell("code", f"""
-# 1. Cài repo, thư viện API và cloudflared
-!git clone -q {REPO_URL} /content/agri-behavioral-recsys 2>/dev/null || git -C /content/agri-behavioral-recsys pull -q
-%cd /content/agri-behavioral-recsys
+# 1. Tải repo (chỉ commit mới nhất), thư viện API và cloudflared
+!git -C {REPO_DIR} fetch -q --depth 1 origin {REPO_BRANCH} 2>/dev/null && git -C {REPO_DIR} reset -q --hard FETCH_HEAD || git clone -q --depth 1 --branch {REPO_BRANCH} {REPO_URL} {REPO_DIR}
+%cd {RECSYS_DIR}
 !pip install -q fastapi uvicorn httpx google-auth requests
 !wget -q -nc https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O cloudflared && chmod +x cloudflared
 """),

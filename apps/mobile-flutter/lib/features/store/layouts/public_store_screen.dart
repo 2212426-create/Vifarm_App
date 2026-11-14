@@ -212,7 +212,7 @@ class PublicStoreScreen extends ConsumerWidget {
                                           color: AppColors.primary.withAlpha(20),
                                           width: double.infinity,
                                           child: product.images.isNotEmpty
-                                              ? Image.network(product.images.first, fit: BoxFit.cover)
+                                              ? Image.network(product.images.first, fit: BoxFit.cover, cacheWidth: 480)
                                               : const Icon(Icons.grass, color: AppColors.primary),
                                         ),
                                       ),

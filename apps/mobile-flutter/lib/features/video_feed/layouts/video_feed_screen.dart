@@ -77,12 +77,18 @@ class VideoFeedScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final item = items[index];
 
+                    // Key theo id: khi quảng cáo được chèn vào sau, các trang dịch chỉ số;
+                    // không có key thì State (và VideoPlayerController) của video cũ bị gán cho video khác.
                     if (item is AdItem) {
-                      return AdPlayerWidget(ad: item.ad);
+                      return AdPlayerWidget(
+                        key: ValueKey('ad_${item.id}_$index'),
+                        ad: item.ad,
+                      );
                     } else if (item is VideoItem) {
                       final video = item.video;
 
                       return Stack(
+                        key: ValueKey('video_${video.videoId}_$index'),
                         fit: StackFit.expand,
                         children: [
                           VideoPlayerWidget(video: video),

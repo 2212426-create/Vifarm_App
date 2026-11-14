@@ -6,35 +6,48 @@ class TextUtils {
   static String removeDiacritics(String str) {
     if (str.isEmpty) return '';
 
-    var result = str.trim().toLowerCase();
-
-    const vietnamese = [
-      'aáàảãạăắằẳẵặâấầẩẫậ',
-      'AÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬ',
-      'dđ',
-      'DĐ',
-      'eéèẻẽẹêếềểễệ',
-      'EÉÈẺẼẸÊẾỀỂỄỆ',
-      'iíìỉĩị',
-      'IÍÌỈĨỊ',
-      'oóòỏõọôốồổỗộơớờởỡợ',
-      'OÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢ',
-      'uúùủũụưứừửữự',
-      'UÚÙỦŨỤƯỨỪỬỮỰ',
-      'yýỳỷỹỵ',
-      'YÝỲỶỸỴ',
-    ];
-
-    for (var element in vietnamese) {
-      final source = element.substring(1);
-      final target = element[0];
-      for (var i = 0; i < source.length; i++) {
-        result = result.replaceAll(source[i], target);
-      }
+    // Một lượt duyệt qua bảng tra dựng sẵn (trước đây ~130 lần replaceAll mỗi chuỗi,
+    // mỗi lần tạo một chuỗi mới; hàm này chạy cho từng sản phẩm/video khi lọc, tìm kiếm).
+    final units = str.trim().toLowerCase().codeUnits;
+    final out = List<int>.filled(units.length, 0);
+    for (var i = 0; i < units.length; i++) {
+      final unit = units[i];
+      out[i] = _diacriticMap[unit] ?? unit;
     }
 
-    return result.replaceAll(RegExp(r'\s+'), ' ');
+    return String.fromCharCodes(out).replaceAll(_whitespace, ' ');
   }
+
+  static final RegExp _whitespace = RegExp(r'\s+');
+
+  /// Bảng tra ký tự có dấu -> ký tự gốc, dựng một lần từ [_vietnameseGroups].
+  static final Map<int, int> _diacriticMap = () {
+    final map = <int, int>{};
+    for (final group in _vietnameseGroups) {
+      final target = group.codeUnitAt(0);
+      for (final unit in group.substring(1).codeUnits) {
+        map[unit] = target;
+      }
+    }
+    return map;
+  }();
+
+  static const _vietnameseGroups = [
+    'aáàảãạăắằẳẵặâấầẩẫậ',
+    'AÁÀẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬ',
+    'dđ',
+    'DĐ',
+    'eéèẻẽẹêếềểễệ',
+    'EÉÈẺẼẸÊẾỀỂỄỆ',
+    'iíìỉĩị',
+    'IÍÌỈĨỊ',
+    'oóòỏõọôốồổỗộơớờởỡợ',
+    'OÓÒỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢ',
+    'uúùủũụưứừửữự',
+    'UÚÙỦŨỤƯỨỪỬỮỰ',
+    'yýỳỷỹỵ',
+    'YÝỲỶỸỴ',
+  ];
 
   /// Chuẩn hóa hashtag (bỏ dấu #, xóa khoảng trắng, chữ thường)
   static String normalizeHashtag(String tag) {

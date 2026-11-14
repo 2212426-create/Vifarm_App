@@ -87,14 +87,6 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
     });
   }
 
-  void _disposeController() {
-    if (_controller != null) {
-      _controller!.dispose();
-      _controller = null;
-      setState(() {});
-    }
-  }
-
   @override
   void dispose() {
     _controller?.dispose();
@@ -223,10 +215,14 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
 
   @override
   Widget build(BuildContext context) {
-    final isMuted = ref.watch(videoMuteProvider);
-    if (_controller != null && _controller!.value.isInitialized) {
-      _controller!.setVolume(isMuted ? 0 : 1);
-    }
+    // Chỉ gọi setVolume (qua platform channel) khi trạng thái tắt âm đổi,
+    // thay vì ở mỗi lần build (mỗi lần double-tap thả tim cũng build lại).
+    ref.listen<bool>(videoMuteProvider, (_, isMuted) {
+      final controller = _controller;
+      if (controller != null && controller.value.isInitialized) {
+        controller.setVolume(isMuted ? 0 : 1);
+      }
+    });
 
     final hasController = _controller != null && _controller!.value.isInitialized;
 

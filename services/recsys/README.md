@@ -152,7 +152,9 @@ Mỗi lượt chạy xuất báo cáo Markdown và JSON vào thư mục `results
   Truy cập Swagger docs: [http://localhost:8000/docs](http://localhost:8000/docs).
   Kiểm tra trạng thái hệ thống: [http://localhost:8000/health](http://localhost:8000/health).
 
-* **Mở Cloudflare Tunnel kết nối ra Internet:**
+* **Chạy API kèm Cloudflare Tunnel ra Internet** (thay cho lệnh uvicorn ở trên, không chạy cùng lúc vì `tunnel` tự khởi động uvicorn trên cùng cổng; cần `cloudflared` trong PATH; URL công khai được ghi vào RTDB `server_config/recsys_url` để app tự kết nối):
   ```powershell
   .\venv\Scripts\python.exe -m src.api.tunnel --port 8000
   ```
+
+* **Chạy trên Google Colab:** mở `notebooks/TopTop_RecSys_Colab_API.ipynb` và chọn Runtime → Run all. Notebook clone nhánh `master` của repo nhóm và chạy cùng lệnh `src.api.tunnel`; sửa notebook qua `notebooks/build_notebook.py`.

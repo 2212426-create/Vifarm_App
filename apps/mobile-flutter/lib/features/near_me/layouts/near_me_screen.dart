@@ -333,7 +333,7 @@ class _NearMeScreenState extends ConsumerState<NearMeScreen> {
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: product.images.isNotEmpty
-                              ? Image.network(product.images.first, fit: BoxFit.cover)
+                              ? Image.network(product.images.first, fit: BoxFit.cover, cacheWidth: 180)
                               : const Icon(Icons.grass, color: AppColors.primary),
                         ),
                         title: Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
