@@ -15,7 +15,9 @@ final productRepositoryProvider = Provider<ProductRepository>((ref) {
   );
 });
 
-final marketplaceProductsStreamProvider = StreamProvider.family<List<ProductModel>, ({String? category, String? region, String? saleType, String? query})>((ref, arg) {
+// autoDispose: mỗi chuỗi tìm kiếm là một tham số family; không tự hủy thì mỗi phím gõ
+// để lại một listener Firestore sống mãi trên toàn bộ collection products.
+final marketplaceProductsStreamProvider = StreamProvider.autoDispose.family<List<ProductModel>, ({String? category, String? region, String? saleType, String? query})>((ref, arg) {
   return ref.watch(productRepositoryProvider).watchMarketplaceProducts(
     category: arg.category,
     region: arg.region,
@@ -55,6 +57,13 @@ class ProductRepository {
     ],
   };
 
+  /// [provinceDistricts] đã bỏ dấu, tính một lần (trước đây tính lại cho từng sản phẩm).
+  static final Map<String, List<String>> _normalizedProvinceDistricts = {
+    for (final entry in provinceDistricts.entries)
+      TextUtils.removeDiacritics(entry.key):
+          entry.value.map(TextUtils.removeDiacritics).toList(),
+  };
+
   /// Kiểm tra sản phẩm có khớp khu vực tìm kiếm / lọc (hỗ trợ cả cấp Tỉnh và cấp Huyện/Xã)
   static bool isRegionMatched(String productRegion, String queryRegion) {
     if (queryRegion.isEmpty || queryRegion == 'Tất cả') return true;
@@ -62,11 +71,10 @@ class ProductRepository {
     final qNorm = TextUtils.removeDiacritics(queryRegion);
     if (pNorm.contains(qNorm) || qNorm.contains(pNorm)) return true;
 
-    for (final entry in provinceDistricts.entries) {
-      final provNorm = TextUtils.removeDiacritics(entry.key);
+    for (final entry in _normalizedProvinceDistricts.entries) {
+      final provNorm = entry.key;
       if (qNorm == provNorm || qNorm.contains(provNorm)) {
-        for (final district in entry.value) {
-          final distNorm = TextUtils.removeDiacritics(district);
+        for (final distNorm in entry.value) {
           if (pNorm.contains(distNorm) || distNorm.contains(pNorm)) {
             return true;
           }
