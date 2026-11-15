@@ -352,5 +352,36 @@ class FirebaseVerifierTests(unittest.TestCase):
                 verifier("t")
 
 
+class RandomExposureTests(unittest.TestCase):
+    def test_explore_marks_random_items(self):
+        engine = make_engine(random_rate=1.0, random_seed=0)
+        recs, _, _, _ = engine.recommend("u0", k=3, explore=True)
+        self.assertEqual([r["exposure"] for r in recs], ["random"] * 3)
+        self.assertTrue(all(r["model"] == "random" and r["score"] is None for r in recs))
+        self.assertEqual(len({r["videoId"] for r in recs}), 3)
+        self.assertTrue(all(("u0", r["videoId"]) in engine.random_served for r in recs))
+
+    def test_no_explore_keeps_model_ranking(self):
+        engine = make_engine(random_rate=1.0, random_seed=0)
+        recs, _, _, _ = engine.recommend("u0", k=3)
+        self.assertEqual({r["exposure"] for r in recs}, {"normal"})
+        self.assertEqual(engine.random_served, {})
+
+    def test_guest_and_empty_pool_get_no_random_items(self):
+        engine = make_engine(random_rate=1.0, random_seed=0)
+        guest, _, _, _ = engine.recommend("guest", k=3, explore=True)
+        self.assertEqual({r["exposure"] for r in guest}, {"normal"})
+        allv = ["v0", "v1", "v2", "v3", "v4", "v5"]
+        recs, _, _, _ = engine.recommend("u0", k=3, explore=True, exclude_video_ids=allv)
+        self.assertEqual(len(recs), 3)
+        self.assertEqual(len({r["videoId"] for r in recs}), 3)
+
+    def test_http_recommend_explores(self):
+        client = TestClient(create_app(engine=make_engine(random_rate=1.0, random_seed=0),
+                                       auth=ApiAuth("off")))
+        body = client.post("/api/v1/recommend", json={"user_id": "u0", "k": 2}).json()
+        self.assertEqual({r["exposure"] for r in body["recommendations"]}, {"random"})
+
+
 if __name__ == "__main__":
     unittest.main()

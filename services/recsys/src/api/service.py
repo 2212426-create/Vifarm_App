@@ -31,6 +31,7 @@ from src.api.firebase_bridge import behavior_label
 
 logger = logging.getLogger(__name__)
 
+RANDOM_SERVED_TTL = 24 * 3600  # giây: thời gian nhớ video đã phát ngẫu nhiên cho tới khi có tương tác
 TRAINABLE_MODELS = ("conalign", "mf", "cdr")
 UNSUPPORTED_MODELS = {
     "clev_dr": "CLEV-DR chưa được tích hợp vào engine phục vụ (huấn luyện offline mất khoảng 4.000–4.700 s mỗi lượt trên CPU); online phục vụ qua ConAlign/MF/CDR.",
@@ -52,7 +53,7 @@ class RecEngine:
     def __init__(self, snapshot_loader, interaction_log=None, models=TRAINABLE_MODELS,
                  embedding_dim=16, epochs=150, lr=0.01, weight_decay=1e-3,
                  seed=42, retrain_every=20, min_interactions=10, device=None,
-                 background_retrain=True):
+                 background_retrain=True, random_rate=0.0, random_seed=None):
         unknown = set(models) - set(TRAINABLE_MODELS)
         if unknown:
             raise ValueError(f"Unsupported models: {sorted(unknown)}")
@@ -68,6 +69,9 @@ class RecEngine:
         self.min_interactions = min_interactions
         self.device = device or torch.device("cpu")
         self.background_retrain = background_retrain
+        self.random_rate = float(random_rate)
+        self._rng = np.random.default_rng(random_seed)
+        self.random_served = {}               # (user_id, video_id) -> thời điểm phát ngẫu nhiên (giây)
         self._lock = threading.RLock()        # bảo vệ trạng thái phục vụ; chỉ giữ trong thời gian ngắn
         self._train_lock = threading.Lock()   # mỗi thời điểm chỉ một lượt huấn luyện
         self._retrain_thread = None
@@ -294,7 +298,8 @@ class RecEngine:
             logits = self.models[model_name].predict_user_all(torch.tensor([user_idx], device=self.device))
         return torch.sigmoid(logits[0]).cpu().numpy().astype(np.float64)
 
-    def recommend(self, user_id, k=10, model="conalign", filter_rejected=True, exclude_video_ids=()):
+    def recommend(self, user_id, k=10, model="conalign", filter_rejected=True, exclude_video_ids=(),
+                  explore=False):
         with self._lock:
             model_used, reason = self.resolve_model(model)
             user_idx = self.u2idx.get(str(user_id))
@@ -321,14 +326,39 @@ class RecEngine:
             candidates = np.asarray(candidates, dtype=np.int64)
             if len(candidates) == 0:
                 return [], model_used, cold, reason
-            order = candidates[np.lexsort((candidates, -scores[candidates]))][:k]
+            ranked = [int(j) for j in candidates[np.lexsort((candidates, -scores[candidates]))]]
+            explore = explore and self.random_rate > 0 and str(user_id) != "guest"
+            picks = []  # (chỉ số video, có phải bốc ngẫu nhiên không)
+            placed = set()
+            next_model = 0
+            for _ in range(k):
+                while next_model < len(ranked) and ranked[next_model] in placed:
+                    next_model += 1
+                pool = [int(j) for j in candidates if int(j) not in placed] if explore else []
+                if pool and self._rng.random() < self.random_rate:
+                    j, is_random = pool[int(self._rng.integers(len(pool)))], True
+                elif next_model < len(ranked):
+                    j, is_random = ranked[next_model], False
+                else:
+                    break
+                placed.add(j)
+                picks.append((j, is_random))
             results = []
-            for rank, j in enumerate(order, 1):
+            now = time.time()
+            for rank, (j, is_random) in enumerate(picks, 1):
                 video = dict(self.snapshot.videos[self.video_ids[j]])
                 video.pop("_doc_id", None)
-                video.update(rank=rank, score=round(float(scores[j]), 6),
-                             video_id=video["videoId"], model=model_used)
+                video.update(rank=rank, video_id=video["videoId"],
+                             score=None if is_random else round(float(scores[j]), 6),
+                             model="random" if is_random else model_used,
+                             exposure="random" if is_random else "normal")
+                if is_random:
+                    self.random_served[(str(user_id), video["videoId"])] = now
                 results.append(video)
+            if any(is_random for _, is_random in picks):
+                # Dọn các mục quá hạn mỗi lần ghi để dict không phình mãi.
+                self.random_served = {key: t for key, t in self.random_served.items()
+                                      if now - t <= RANDOM_SERVED_TTL}
             return results, model_used, cold, reason
 
     def log_interaction(self, user_id, video_id, play_time_ms, is_like):

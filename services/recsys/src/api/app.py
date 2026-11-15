@@ -45,7 +45,8 @@ def build_engine_from_env():
         log_path = Path(os.environ.get("RECSYS_INTERACTION_LOG", PROJECT_ROOT / "data" / "api" / "interactions_log.csv"))
         loader = partial(load_snapshot, source=os.environ.get("RECSYS_DATA_SOURCE", "auto"),
                          export_dir=export_dir if export_dir.exists() else None, interaction_log=log_path)
-        return RecEngine(loader, interaction_log=InteractionLog(log_path))
+        return RecEngine(loader, interaction_log=InteractionLog(log_path),
+                         random_rate=float(os.environ.get("RECSYS_RANDOM_RATE", "0.1")))
     except Exception as e:
         err_msg = str(e)
         logger.warning("RecEngine build skipped/failed: %s", err_msg)
@@ -149,7 +150,7 @@ def create_app(engine=None, auth=None):
         user_id = auth.user_id(authorization, req.user_id, required=False)
         recs, used, cold, reason = get_engine().recommend(
             user_id, k=req.k, model=req.model, filter_rejected=req.filter_rejected,
-            exclude_video_ids=req.exclude_video_ids)
+            exclude_video_ids=req.exclude_video_ids, explore=True)
         return RecommendResponse(user_id=user_id, model_requested=req.model, model_used=used,
                                  is_cold_start=cold, fallback_reason=reason, recommendations=recs)
 
