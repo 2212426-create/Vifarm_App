@@ -16,6 +16,9 @@ class RecSysService {
   String? _cachedApiUrl;
   DateTime? _lastCacheTime;
   String? _lastUrlSource;
+  // videoId được server chọn ngẫu nhiên (exposure == "random"). Không xóa khi nhận danh sách
+  // mới để lượt thích muộn của video cũ vẫn mang cờ.
+  final Set<String> _randomExposureIds = <String>{};
 
   RecSysService({
     http.Client? client,
@@ -208,6 +211,9 @@ class RecSysService {
     }
   }
 
+  /// Video này có được server phát ngẫu nhiên (exposure == "random") không.
+  bool isRandomExposure(String videoId) => _randomExposureIds.contains(videoId);
+
   /// Lấy danh sách video gợi ý
   Future<List<VideoModel>?> getRecommendations({
     String? userId,
@@ -240,6 +246,9 @@ class RecSysService {
           for (final item in recs) {
             if (item is Map<String, dynamic>) {
               final vId = (item['videoId'] ?? item['video_id'])?.toString();
+              if (vId != null && vId.isNotEmpty && item['exposure'] == 'random') {
+                _randomExposureIds.add(vId);
+              }
               list.add(VideoModel.fromMap(item, vId));
             }
           }
@@ -288,6 +297,7 @@ class RecSysService {
           'video_id': videoId,
           'play_time_ms': playTimeMs,
           'is_like': isLike,
+          'exposure': isRandomExposure(videoId) ? 'random' : 'normal',
         }),
       ).timeout(const Duration(seconds: 3));
     } catch (_) {}

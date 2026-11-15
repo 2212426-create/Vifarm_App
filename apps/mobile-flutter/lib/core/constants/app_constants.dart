@@ -59,4 +59,6 @@ class AppConstants {
     defaultValue: '',
   );
   static const String recSysStorageKey = 'recsys_colab_api_url';
+  // Lượt xem ngắn nhất (ms) được gửi cho RecSys để ghi nhận video đã hiển thị
+  static const int recsysMinExposureMs = 500;
 }

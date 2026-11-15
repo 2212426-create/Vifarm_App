@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/video_model.dart';
 import '../providers/video_provider.dart';
@@ -109,6 +110,26 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
             .contains(tag.toLowerCase().replaceAll('#', '')));
     if (isDalatCampaign) {
       repo.recordCampaignView(widget.video.videoId);
+    }
+  }
+
+  /// Lượt xem dưới 3 giây (chưa được _checkWatchProgress ghi) vẫn gửi cho RecSys
+  /// để server biết video đã hiển thị. Không đánh dấu đã xem, không ghi sở thích.
+  void _logShortView() {
+    final start = _startTime;
+    if (start == null || !mounted) return;
+    final user = ref.read(currentUserProvider);
+    if (user == null) return;
+
+    final ms = DateTime.now().difference(start).inMilliseconds;
+    if (ms >= AppConstants.recsysMinExposureMs && ms < 3000) {
+      ref.read(videoRepositoryProvider).logRecSysInteraction(
+            userId: user.uid,
+            videoId: widget.video.videoId,
+            playTimeMs: ms,
+            isLike: false,
+          );
+      _startTime = null;
     }
   }
 
@@ -249,6 +270,7 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
               _controller!.pause();
               _checkWatchProgress();
             }
+            _logShortView();
           }
         }
 
