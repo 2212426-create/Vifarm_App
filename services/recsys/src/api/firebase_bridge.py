@@ -166,6 +166,9 @@ class Snapshot:
     interactions: pd.DataFrame
     source: str
     loaded_at: float = field(default_factory=time.time)
+    # Lượt xem video chèn ngẫu nhiên (không qua mô hình), tách khỏi interactions để huấn luyện ConAlign.
+    random_interactions: pd.DataFrame = field(
+        default_factory=lambda: pd.DataFrame(columns=INTERACTION_COLUMNS))
 
 
 def _load_export_videos(export_dir):
@@ -182,7 +185,17 @@ def _load_export_videos(export_dir):
     return [], []
 
 
-def load_snapshot(source="auto", export_dir=None, interaction_log=None):
+def _merge_to_catalog(rows, catalog):
+    """Giữ các dòng thuộc catalog và gộp cặp (user, video) lặp:
+    dương nếu có ít nhất một lần dương (cùng quy ước benchmark KuaiRand)."""
+    frame = pd.DataFrame(rows, columns=INTERACTION_COLUMNS)
+    frame = frame[frame["video_id"].isin(catalog)]
+    return (frame.groupby(["user_id", "video_id"], as_index=False)
+            .agg(label=("label", "max"), play_time_ms=("play_time_ms", "max"),
+                 is_like=("is_like", "max"), source=("source", "first")))
+
+
+def load_snapshot(source="auto", export_dir=None, interaction_log=None, random_log=None):
     """source: 'live' (Firebase REST), 'export' (file cục bộ) hoặc 'auto' (live, lỗi thì export)."""
     if source not in ("auto", "live", "export"):
         raise ValueError("source must be auto, live or export")
@@ -210,13 +223,9 @@ def load_snapshot(source="auto", export_dir=None, interaction_log=None):
         video = normalize_video(raw)
         if video["videoId"]:
             catalog[video["videoId"]] = video
-    frame = pd.DataFrame(rows, columns=INTERACTION_COLUMNS)
-    frame = frame[frame["video_id"].isin(catalog)]
-    # Cặp lặp được gộp: dương nếu có ít nhất một lần dương (cùng quy ước benchmark KuaiRand).
-    frame = (frame.groupby(["user_id", "video_id"], as_index=False)
-             .agg(label=("label", "max"), play_time_ms=("play_time_ms", "max"),
-                  is_like=("is_like", "max"), source=("source", "first")))
-    return Snapshot(videos=catalog, users=users, interactions=frame, source=used)
+    random_rows = read_interactions_csv(random_log, "api_random") if random_log is not None else []
+    return Snapshot(videos=catalog, users=users, interactions=_merge_to_catalog(rows, catalog),
+                    source=used, random_interactions=_merge_to_catalog(random_rows, catalog))
 
 
 class InteractionLog:

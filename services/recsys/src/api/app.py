@@ -46,7 +46,8 @@ def build_engine_from_env():
         log_path = Path(os.environ.get("RECSYS_INTERACTION_LOG", PROJECT_ROOT / "data" / "api" / "interactions_log.csv"))
         random_log_path = Path(os.environ.get("RECSYS_RANDOM_LOG", PROJECT_ROOT / "data" / "api" / "random_log.csv"))
         loader = partial(load_snapshot, source=os.environ.get("RECSYS_DATA_SOURCE", "auto"),
-                         export_dir=export_dir if export_dir.exists() else None, interaction_log=log_path)
+                         export_dir=export_dir if export_dir.exists() else None, interaction_log=log_path,
+                         random_log=random_log_path)
         return RecEngine(loader, interaction_log=InteractionLog(log_path),
                          random_log=InteractionLog(random_log_path),
                          random_rate=float(os.environ.get("RECSYS_RANDOM_RATE", "0.1")))

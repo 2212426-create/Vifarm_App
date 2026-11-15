@@ -83,6 +83,36 @@ class BridgeTests(unittest.TestCase):
         self.assertEqual(list(snap.videos), ["v1"])
         self.assertEqual(snap.interactions[["user_id", "video_id", "label"]].values.tolist(), [["u", "v1", 1.0]])
 
+    def _export_fixture(self, tmp):
+        (tmp / "toptop_processed_bundle.json").write_text(
+            '{"videos": [{"video_id": "v1", "video_uri": "u"}], "users": []}', encoding="utf-8")
+        (tmp / "toptop_interactions.csv").write_text(
+            "user_id,video_id,is_like,play_time_ms\nu,v1,0,100\nu,gone,1,0\n", encoding="utf-8")
+        InteractionLog(tmp / "log.csv").append("u", "v1", 5000, False)
+        return tmp / "log.csv"
+
+    def test_snapshot_reads_random_log_separately(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            log_path = self._export_fixture(tmp)
+            rpath = tmp / "random.csv"
+            rlog = InteractionLog(rpath)
+            rlog.append("u9", "v1", 800, False)
+            rlog.append("u9", "vX", 9000, True)
+            snap = load_snapshot("export", export_dir=tmp, interaction_log=log_path, random_log=rpath)
+        self.assertEqual(len(snap.random_interactions), 1)
+        self.assertEqual(set(snap.random_interactions["source"]), {"api_random"})
+        self.assertNotIn(("u9", "v1"), set(zip(snap.interactions.user_id, snap.interactions.video_id)))
+
+    def test_snapshot_without_random_log_is_empty(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            log_path = self._export_fixture(tmp)
+            snap = load_snapshot("export", export_dir=tmp, interaction_log=log_path,
+                                 random_log=tmp / "missing.csv")
+        self.assertEqual(list(snap.random_interactions.columns), INTERACTION_COLUMNS)
+        self.assertEqual(len(snap.random_interactions), 0)
+
 
 class EngineTests(unittest.TestCase):
     @classmethod
