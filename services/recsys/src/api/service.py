@@ -53,7 +53,7 @@ class RecEngine:
     def __init__(self, snapshot_loader, interaction_log=None, models=TRAINABLE_MODELS,
                  embedding_dim=16, epochs=150, lr=0.01, weight_decay=1e-3,
                  seed=42, retrain_every=20, min_interactions=10, device=None,
-                 background_retrain=True, random_rate=0.0, random_seed=None):
+                 background_retrain=True, random_rate=0.0, random_seed=None, random_log=None):
         unknown = set(models) - set(TRAINABLE_MODELS)
         if unknown:
             raise ValueError(f"Unsupported models: {sorted(unknown)}")
@@ -70,6 +70,7 @@ class RecEngine:
         self.device = device or torch.device("cpu")
         self.background_retrain = background_retrain
         self.random_rate = float(random_rate)
+        self.random_log = random_log
         self._rng = np.random.default_rng(random_seed)
         self.random_served = {}               # (user_id, video_id) -> thời điểm phát ngẫu nhiên (giây)
         self._lock = threading.RLock()        # bảo vệ trạng thái phục vụ; chỉ giữ trong thời gian ngắn
@@ -79,6 +80,7 @@ class RecEngine:
         self.last_retrain_error = None
         self.watched = {}
         self.pending = []
+        self.pending_random = []              # lượt xem ngẫu nhiên đã chấp nhận, cùng khóa với pending
         self.models = {}
         self.training_stats = {}
         self.refresh()
@@ -93,6 +95,7 @@ class RecEngine:
             with self._lock:
                 # Tương tác trước mốc này đã ghi vào log trước khi snapshot được đọc.
                 cut = len(self.pending)
+                cut_random = len(self.pending_random)
                 self._since_fit = 0
             snapshot = self.snapshot_loader()
             with self._lock:
@@ -102,6 +105,7 @@ class RecEngine:
             with self._lock:
                 if self.interaction_log is not None:
                     self.pending = self.pending[cut:]
+                    self.pending_random = self.pending_random[cut_random:]
                 self._install(state)
 
     def _retrain(self):
@@ -361,19 +365,28 @@ class RecEngine:
                                       if now - t <= RANDOM_SERVED_TTL}
             return results, model_used, cold, reason
 
-    def log_interaction(self, user_id, video_id, play_time_ms, is_like):
+    def log_interaction(self, user_id, video_id, play_time_ms, is_like, exposure="normal"):
         user_id, video_id = str(user_id), str(video_id)
         label = behavior_label(is_like, play_time_ms)
-        if self.interaction_log is not None:
-            self.interaction_log.append(user_id, video_id, play_time_ms, is_like)
         start = False
+        with self._lock:
+            # Chỉ nhận "random" khi cặp thật sự được phát ngẫu nhiên và chưa quá hạn.
+            served_at = self.random_served.get((user_id, video_id))
+            accepted = "random" if (exposure == "random" and served_at is not None
+                                    and time.time() - served_at <= RANDOM_SERVED_TTL) else "normal"
+        if accepted == "random":
+            if self.random_log is not None:
+                self.random_log.append(user_id, video_id, play_time_ms, is_like)
+        elif self.interaction_log is not None:
+            self.interaction_log.append(user_id, video_id, play_time_ms, is_like)
         with self._lock:
             self.watched.setdefault(user_id, set()).add(video_id)
             known = video_id in self.i2idx
             if known:
-                self.pending.append({"user_id": user_id, "video_id": video_id, "label": label,
-                                     "play_time_ms": int(play_time_ms), "is_like": bool(is_like),
-                                     "source": "api_live"})
+                row = {"user_id": user_id, "video_id": video_id, "label": label,
+                       "play_time_ms": int(play_time_ms), "is_like": bool(is_like),
+                       "source": "api_random" if accepted == "random" else "api_live"}
+                (self.pending_random if accepted == "random" else self.pending).append(row)
                 self._since_fit += 1
                 start = bool(self.retrain_every) and self._since_fit >= self.retrain_every and not self.retraining
                 if start and self.background_retrain:
@@ -383,7 +396,8 @@ class RecEngine:
         if start and not self.background_retrain:
             self._retrain_safely()
         return {"status": "recorded", "user_id": user_id, "video_id": video_id,
-                "is_positive_interaction": bool(label), "known_video": known, "retrain_started": start}
+                "is_positive_interaction": bool(label), "known_video": known, "retrain_started": start,
+                "exposure": accepted}
 
     def health(self):
         with self._lock:

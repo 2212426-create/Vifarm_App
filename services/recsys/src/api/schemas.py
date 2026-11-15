@@ -5,7 +5,7 @@ Hợp đồng JSON giữa RecSys API và app TopTop
 Project: ViFarm (services/recsys)
 """
 
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -23,6 +23,7 @@ class InteractionRequest(BaseModel):
     video_id: str
     play_time_ms: int = Field(default=0, ge=0)
     is_like: bool = False
+    exposure: Literal["normal", "random"] = "normal"
 
 
 class CompareRequest(BaseModel):

@@ -10,6 +10,7 @@ Biến môi trường:
     RECSYS_DATA_SOURCE      auto | live | export   (mặc định auto)
     RECSYS_EXPORT_DIR       thư mục chứa toptop_interactions.csv (mặc định data/firebase_export ở gốc repo)
     RECSYS_INTERACTION_LOG  CSV ghi nối tương tác từ app (mặc định data/api/interactions_log.csv)
+    RECSYS_RANDOM_LOG       CSV ghi nối lượt xem ngẫu nhiên (mặc định data/api/random_log.csv)
     RECSYS_AUTH_MODE        firebase (mặc định) | off — xem src/api/auth.py
     RECSYS_ADMIN_KEY        khóa X-Admin-Key cho /api/v1/sync
 Project: ViFarm (services/recsys)
@@ -43,9 +44,11 @@ def build_engine_from_env():
         from src.api.service import RecEngine
         export_dir = Path(os.environ.get("RECSYS_EXPORT_DIR", PROJECT_ROOT.parents[1] / "data" / "firebase_export"))
         log_path = Path(os.environ.get("RECSYS_INTERACTION_LOG", PROJECT_ROOT / "data" / "api" / "interactions_log.csv"))
+        random_log_path = Path(os.environ.get("RECSYS_RANDOM_LOG", PROJECT_ROOT / "data" / "api" / "random_log.csv"))
         loader = partial(load_snapshot, source=os.environ.get("RECSYS_DATA_SOURCE", "auto"),
                          export_dir=export_dir if export_dir.exists() else None, interaction_log=log_path)
         return RecEngine(loader, interaction_log=InteractionLog(log_path),
+                         random_log=InteractionLog(random_log_path),
                          random_rate=float(os.environ.get("RECSYS_RANDOM_RATE", "0.1")))
     except Exception as e:
         err_msg = str(e)
@@ -157,7 +160,8 @@ def create_app(engine=None, auth=None):
     @app.post("/api/v1/interaction")
     def interaction(req: InteractionRequest, authorization: Optional[str] = Header(default=None)):
         user_id = auth.user_id(authorization, req.user_id, required=True)
-        return get_engine().log_interaction(user_id, req.video_id, req.play_time_ms, req.is_like)
+        return get_engine().log_interaction(user_id, req.video_id, req.play_time_ms, req.is_like,
+                                            exposure=req.exposure)
 
     @app.post("/api/v1/compare")
     def compare(req: CompareRequest, authorization: Optional[str] = Header(default=None)):

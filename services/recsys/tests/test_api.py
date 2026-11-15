@@ -15,7 +15,7 @@ from src.api.firebase_bridge import (INTERACTION_COLUMNS, InteractionLog, Snapsh
                                      behavior_label, likes_from_notifications,
                                      load_snapshot, normalize_video, parse_fs_value,
                                      unique_username_map)
-from src.api.service import RecEngine
+from src.api.service import RANDOM_SERVED_TTL, RecEngine
 
 
 def make_snapshot():
@@ -283,6 +283,13 @@ class AuthHttpTests(unittest.TestCase):
         self.assertEqual(res.json()["user_id"], "u1")
         self.assertIn("v5", self.engine.watched["u1"])
 
+    def test_http_interaction_accepts_exposure_field(self):
+        res = self.post("/api/v1/interaction",
+                        {"video_id": "v3", "play_time_ms": 800, "is_like": False, "exposure": "random"},
+                        bearer("tok-u1"))
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["exposure"], "normal")
+
     def test_spoofed_user_id_is_rejected(self):
         res = self.post("/api/v1/interaction", {"user_id": "u1", "video_id": "v2"}, bearer("tok-u0"))
         self.assertEqual(res.status_code, 403)
@@ -360,6 +367,51 @@ class RandomExposureTests(unittest.TestCase):
         self.assertTrue(all(r["model"] == "random" and r["score"] is None for r in recs))
         self.assertEqual(len({r["videoId"] for r in recs}), 3)
         self.assertTrue(all(("u0", r["videoId"]) in engine.random_served for r in recs))
+
+    def test_served_random_interaction_goes_to_random_log(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rlog = InteractionLog(Path(tmp) / "random.csv")
+            engine = make_engine(random_rate=1.0, random_seed=0, random_log=rlog, retrain_every=0)
+            vid = engine.recommend("u0", k=1, explore=True)[0][0]["videoId"]
+            out = engine.log_interaction("u0", vid, 800, False, exposure="random")
+            self.assertEqual(out["exposure"], "random")
+            self.assertEqual(len(engine.pending_random), 1)
+            self.assertEqual(engine.pending_random[0]["label"], 0.0)
+            self.assertEqual(engine.pending_random[0]["source"], "api_random")
+            self.assertEqual(engine.pending, [])
+            self.assertEqual(len(pd.read_csv(rlog.path)), 1)
+
+    def test_unserved_random_claim_is_recorded_as_normal(self):
+        engine = make_engine(random_rate=0.0, retrain_every=0)
+        out = engine.log_interaction("u0", "v3", 800, False, exposure="random")
+        self.assertEqual(out["exposure"], "normal")
+        self.assertEqual(engine.pending_random, [])
+        self.assertEqual(len(engine.pending), 1)
+
+    def test_expired_random_claim_is_recorded_as_normal(self):
+        engine = make_engine(random_rate=1.0, random_seed=0, retrain_every=0)
+        vid = engine.recommend("u0", k=1, explore=True)[0][0]["videoId"]
+        engine.random_served[("u0", vid)] -= RANDOM_SERVED_TTL + 10
+        out = engine.log_interaction("u0", vid, 800, False, exposure="random")
+        self.assertEqual(out["exposure"], "normal")
+        self.assertEqual(engine.pending_random, [])
+
+    def test_normal_flag_on_served_item_stays_normal(self):
+        engine = make_engine(random_rate=1.0, random_seed=0, retrain_every=0)
+        vid = engine.recommend("u0", k=1, explore=True)[0][0]["videoId"]
+        out = engine.log_interaction("u0", vid, 800, False)
+        self.assertEqual(out["exposure"], "normal")
+        self.assertEqual(engine.pending_random, [])
+
+    def test_refresh_cuts_pending_random_when_log_configured(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rlog = InteractionLog(Path(tmp) / "random.csv")
+            engine = make_engine(random_rate=1.0, random_seed=0, random_log=rlog,
+                                 interaction_log=InteractionLog(Path(tmp) / "log.csv"), retrain_every=0)
+            vid = engine.recommend("u0", k=1, explore=True)[0][0]["videoId"]
+            engine.log_interaction("u0", vid, 800, False, exposure="random")
+            engine.refresh()
+            self.assertEqual(engine.pending_random, [])
 
     def test_no_explore_keeps_model_ranking(self):
         engine = make_engine(random_rate=1.0, random_seed=0)
