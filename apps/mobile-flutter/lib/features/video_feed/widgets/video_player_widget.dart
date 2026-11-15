@@ -133,6 +133,7 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
           videoId: widget.video.videoId,
           playTimeMs: ms,
           isLike: false,
+          exposure: widget.video.exposure,
         );
 
         repo.recordInterest(
@@ -147,6 +148,7 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
           videoId: widget.video.videoId,
           playTimeMs: ms,
           isLike: false,
+          exposure: widget.video.exposure,
         );
       }
       _startTime = null;

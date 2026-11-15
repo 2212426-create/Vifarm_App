@@ -246,6 +246,7 @@ class VideoActionBar extends ConsumerWidget {
                         videoId: video.videoId,
                         playTimeMs: 0,
                         isLike: !isLiked,
+                        exposure: video.exposure,
                       );
                 },
               );

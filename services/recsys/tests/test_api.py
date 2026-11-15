@@ -400,6 +400,17 @@ class RandomExposureTests(unittest.TestCase):
         self.assertEqual(len({r["videoId"] for r in recs}), 3)
         self.assertTrue(all(("u0", r["videoId"]) in engine.random_served for r in recs))
 
+    def test_normal_serve_revokes_earlier_random_flag(self):
+        engine = make_engine(random_rate=1.0, random_seed=0, retrain_every=0)
+        vid = engine.recommend("u0", k=1, explore=True)[0][0]["videoId"]
+        self.assertIn(("u0", vid), engine.random_served)
+        recs, _, _, _ = engine.recommend("u0", k=100, explore=False)
+        self.assertIn(vid, [r["videoId"] for r in recs])
+        self.assertNotIn(("u0", vid), engine.random_served)
+        out = engine.log_interaction("u0", vid, 800, False, exposure="random")
+        self.assertEqual(out["exposure"], "normal")
+        self.assertEqual(engine.pending_random, [])
+
     def test_served_random_interaction_goes_to_random_log(self):
         with tempfile.TemporaryDirectory() as tmp:
             rlog = InteractionLog(Path(tmp) / "random.csv")
@@ -626,6 +637,25 @@ class RandomTrainingTests(unittest.TestCase):
                 mock.patch("src.api.service.RecEngine.refresh"):
             engine = app_module.build_engine_from_env()
         self.assertEqual(engine.min_random_interactions, 7)
+
+    def _build_with_rate(self, value):
+        from src.api import app as app_module
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.dict("os.environ", {
+                "RECSYS_RANDOM_RATE": value, "RECSYS_DATA_SOURCE": "export",
+                "RECSYS_INTERACTION_LOG": str(Path(tmp) / "log.csv"),
+                "RECSYS_RANDOM_LOG": str(Path(tmp) / "random.csv")}), \
+                mock.patch("src.api.service.RecEngine.refresh"):
+            return app_module.build_engine_from_env()
+
+    def test_env_bad_random_rate_falls_back_to_default(self):
+        engine = self._build_with_rate("abc")
+        self.assertTrue(hasattr(engine, "random_rate"))  # vẫn dựng RecEngine, không rơi về DummyEngine
+        self.assertEqual(engine.random_rate, 0.1)
+
+    def test_env_random_rate_is_clamped(self):
+        self.assertEqual(self._build_with_rate("5").random_rate, 1.0)
+        self.assertEqual(self._build_with_rate("-0.3").random_rate, 0.0)
+        self.assertEqual(self._build_with_rate("0.25").random_rate, 0.25)
 
 
 if __name__ == "__main__":

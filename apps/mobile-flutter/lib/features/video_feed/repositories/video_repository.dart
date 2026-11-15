@@ -636,12 +636,14 @@ class VideoRepository {
     required String videoId,
     required int playTimeMs,
     required bool isLike,
+    String exposure = 'normal',
   }) {
     _recsysService?.logInteraction(
       userId: userId,
       videoId: videoId,
       playTimeMs: playTimeMs,
       isLike: isLike,
+      exposure: exposure,
     );
   }
 }

@@ -411,6 +411,9 @@ class RecEngine:
                              exposure="random" if is_random else "normal")
                 if is_random:
                     self.random_served[(str(user_id), video["videoId"])] = now
+                else:
+                    # Lần phát thường sau đó thu hồi cờ ngẫu nhiên cũ của cặp này.
+                    self.random_served.pop((str(user_id), video["videoId"]), None)
                 results.append(video)
             if any(is_random for _, is_random in picks):
                 # Dọn các mục quá hạn mỗi lần ghi để dict không phình mãi.

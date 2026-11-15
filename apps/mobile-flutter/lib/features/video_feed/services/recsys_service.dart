@@ -16,9 +16,6 @@ class RecSysService {
   String? _cachedApiUrl;
   DateTime? _lastCacheTime;
   String? _lastUrlSource;
-  // videoId được server chọn ngẫu nhiên (exposure == "random"). Không xóa khi nhận danh sách
-  // mới để lượt thích muộn của video cũ vẫn mang cờ.
-  final Set<String> _randomExposureIds = <String>{};
 
   RecSysService({
     http.Client? client,
@@ -211,9 +208,6 @@ class RecSysService {
     }
   }
 
-  /// Video này có được server phát ngẫu nhiên (exposure == "random") không.
-  bool isRandomExposure(String videoId) => _randomExposureIds.contains(videoId);
-
   /// Lấy danh sách video gợi ý
   Future<List<VideoModel>?> getRecommendations({
     String? userId,
@@ -246,9 +240,6 @@ class RecSysService {
           for (final item in recs) {
             if (item is Map<String, dynamic>) {
               final vId = (item['videoId'] ?? item['video_id'])?.toString();
-              if (vId != null && vId.isNotEmpty && item['exposure'] == 'random') {
-                _randomExposureIds.add(vId);
-              }
               list.add(VideoModel.fromMap(item, vId));
             }
           }
@@ -267,12 +258,14 @@ class RecSysService {
     required String videoId,
     required int playTimeMs,
     required bool isLike,
+    String exposure = 'normal',
   }) {
     _sendInteractionAsync(
       userId: userId,
       videoId: videoId,
       playTimeMs: playTimeMs,
       isLike: isLike,
+      exposure: exposure,
     );
   }
 
@@ -281,6 +274,7 @@ class RecSysService {
     required String videoId,
     required int playTimeMs,
     required bool isLike,
+    String exposure = 'normal',
   }) async {
     // Server chỉ nhận tương tác kèm Firebase ID token; khách không gửi để tránh gộp mọi
     // khách thành một user "guest" trong dữ liệu huấn luyện.
@@ -297,7 +291,7 @@ class RecSysService {
           'video_id': videoId,
           'play_time_ms': playTimeMs,
           'is_like': isLike,
-          'exposure': isRandomExposure(videoId) ? 'random' : 'normal',
+          'exposure': exposure,
         }),
       ).timeout(const Duration(seconds: 3));
     } catch (_) {}

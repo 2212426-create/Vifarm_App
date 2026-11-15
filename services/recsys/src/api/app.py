@@ -10,6 +10,7 @@ Biến môi trường:
     RECSYS_DATA_SOURCE      auto | live | export   (mặc định auto)
     RECSYS_EXPORT_DIR       thư mục chứa toptop_interactions.csv (mặc định data/firebase_export ở gốc repo)
     RECSYS_INTERACTION_LOG  CSV ghi nối tương tác từ app (mặc định data/api/interactions_log.csv)
+    RECSYS_RANDOM_RATE      tỉ lệ video ngẫu nhiên chèn vào /recommend, 0..1 (mặc định 0.1; giá trị sai dùng mặc định)
     RECSYS_RANDOM_LOG       CSV ghi nối lượt xem ngẫu nhiên (mặc định data/api/random_log.csv)
     RECSYS_MIN_RANDOM       số lượt ngẫu nhiên tối thiểu để huấn luyện ConAlign bằng log ngẫu nhiên (mặc định 50)
     RECSYS_AUTH_MODE        firebase (mặc định) | off — xem src/api/auth.py
@@ -40,7 +41,22 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
+def _random_rate_from_env(default=0.1):
+    """Đọc RECSYS_RANDOM_RATE; giá trị sai dùng mặc định, kẹp vào [0, 1]."""
+    raw = os.environ.get("RECSYS_RANDOM_RATE", str(default))
+    try:
+        rate = float(raw)
+    except ValueError:
+        logger.warning("RECSYS_RANDOM_RATE=%r không hợp lệ, dùng mặc định %s", raw, default)
+        return default
+    if rate != rate:  # NaN
+        logger.warning("RECSYS_RANDOM_RATE=%r không hợp lệ, dùng mặc định %s", raw, default)
+        return default
+    return min(1.0, max(0.0, rate))
+
+
 def build_engine_from_env():
+    random_rate = _random_rate_from_env()
     try:
         from src.api.service import RecEngine
         export_dir = Path(os.environ.get("RECSYS_EXPORT_DIR", PROJECT_ROOT.parents[1] / "data" / "firebase_export"))
@@ -51,7 +67,7 @@ def build_engine_from_env():
                          random_log=random_log_path)
         return RecEngine(loader, interaction_log=InteractionLog(log_path),
                          random_log=InteractionLog(random_log_path),
-                         random_rate=float(os.environ.get("RECSYS_RANDOM_RATE", "0.1")),
+                         random_rate=random_rate,
                          min_random_interactions=int(os.environ.get("RECSYS_MIN_RANDOM", "50")))
     except Exception as e:
         err_msg = str(e)

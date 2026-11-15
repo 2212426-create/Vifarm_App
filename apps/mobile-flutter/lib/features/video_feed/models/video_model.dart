@@ -31,6 +31,8 @@ class VideoModel {
   final double? latitude;
   final double? longitude;
   final bool isPublic;
+  // Cờ phát của server ('random' | 'normal'); chỉ dùng cho log RecSys, không ghi lại Firestore.
+  final String exposure;
 
   VideoModel({
     required this.videoId,
@@ -59,6 +61,7 @@ class VideoModel {
     this.latitude,
     this.longitude,
     this.isPublic = true,
+    this.exposure = 'normal',
   });
 
   /// Trả về nhãn tiếng Việt hiển thị thân thiện cho chủ đề video
@@ -127,6 +130,7 @@ class VideoModel {
       latitude: (map['latitude'] as num?)?.toDouble(),
       longitude: (map['longitude'] as num?)?.toDouble(),
       isPublic: map['isPublic'] as bool? ?? true,
+      exposure: map['exposure'] as String? ?? 'normal',
     );
   }
 
@@ -184,6 +188,7 @@ class VideoModel {
     double? latitude,
     double? longitude,
     bool? isPublic,
+    String? exposure,
   }) {
     return VideoModel(
       videoId: videoId ?? this.videoId,
@@ -210,6 +215,7 @@ class VideoModel {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       isPublic: isPublic ?? this.isPublic,
+      exposure: exposure ?? this.exposure,
     );
   }
 }
