@@ -35,6 +35,7 @@ from src.api.firebase_bridge import behavior_label
 
 logger = logging.getLogger(__name__)
 
+MIN_RANDOM_VAL_AUC = 0.5  # ConAlign log ngẫu nhiên chỉ được dùng khi AUC validation giai đoạn 2 vượt mức đoán ngẫu nhiên
 RANDOM_SERVED_TTL = 24 * 3600  # giây: thời gian nhớ video đã phát ngẫu nhiên cho tới khi có tương tác
 TRAINABLE_MODELS = ("conalign", "mf", "cdr")
 UNSUPPORTED_MODELS = {
@@ -107,12 +108,14 @@ class RecEngine:
             with self._lock:
                 # Có log thì snapshot đã chứa phần pending cũ; cặp trùng được gộp bằng max.
                 pending = self.pending[cut:] if self.interaction_log is not None else list(self.pending)
-                pending_random = (self.pending_random[cut_random:] if self.interaction_log is not None
+                # Lượt ngẫu nhiên được ghi bởi random_log nên mốc cắt của chúng theo random_log.
+                pending_random = (self.pending_random[cut_random:] if self.random_log is not None
                                   else list(self.pending_random))
             state = self._train_state(snapshot, pending, pending_random)
             with self._lock:
                 if self.interaction_log is not None:
                     self.pending = self.pending[cut:]
+                if self.random_log is not None:
                     self.pending_random = self.pending_random[cut_random:]
                 self._install(state)
 
@@ -165,7 +168,8 @@ class RecEngine:
         video_ids = list(snapshot.videos)
         i2idx = {vid: i for i, vid in enumerate(video_ids)}
         # Người dùng chỉ có lượt xem ngẫu nhiên vẫn cần chỉ số để tháp unbiased học được họ.
-        user_ids = sorted(set(frame["user_id"]) | set(random_frame["user_id"]))
+        normal_users = set(frame["user_id"])
+        user_ids = sorted(normal_users | set(random_frame["user_id"]))
         u2idx = {uid: i for i, uid in enumerate(user_ids)}
         models, cdr_info = {}, None
         conalign_mode, conalign_random = None, None
@@ -188,12 +192,13 @@ class RecEngine:
             "i2idx": i2idx,
             "user_ids": user_ids,
             "u2idx": u2idx,
+            "normal_users": normal_users,
             "popularity": self._popularity(snapshot, frame, i2idx),
             "models": models,
             "training_stats": {
                 "interactions": n,
                 "positives": int(frame["label"].sum()) if n else 0,
-                "users_with_history": len(user_ids),
+                "users_with_history": len(normal_users),
                 "videos": len(video_ids),
                 "trained_models": sorted(models),
                 "train_seconds": round(time.time() - started, 3),
@@ -239,7 +244,11 @@ class RecEngine:
                 fitted, info = None, {"error": f"{type(exc).__name__}: {exc}"}
             if fitted is not None:
                 model, info = fitted
-                return model.to(self.device), "random_log", info
+                # Checkpoint chọn theo AUC validation; <= 0.5 nghĩa là tháp unbiased chưa học được gì
+                # (có thể vẫn là trạng thái khởi tạo epoch 0) nên không đưa ra phục vụ.
+                if info["stage2_best_val_auc"] > MIN_RANDOM_VAL_AUC:
+                    return model.to(self.device), "random_log", info
+                info = {**info, "skipped": f"val_auc<={MIN_RANDOM_VAL_AUC}"}
             info = info or {"skipped": "Không chia được train/validation có đủ hai nhãn."}
         return self._train_conalign_proxy(*biased, n_users, n_items), "item_frequency_proxy", info
 
@@ -347,7 +356,11 @@ class RecEngine:
         with self._lock:
             model_used, reason = self.resolve_model(model)
             user_idx = self.u2idx.get(str(user_id))
-            cold = user_idx is None
+            # Người chỉ có lượt xem ngẫu nhiên chỉ được học bởi ConAlign chế độ random_log;
+            # các mô hình khác (và ConAlign proxy) coi họ là cold-start.
+            learned = str(user_id) in self.normal_users or (
+                model_used == "conalign" and self.training_stats.get("conalign_mode") == "random_log")
+            cold = user_idx is None or not learned
             if cold and model_used != "popularity":
                 model_used, reason = "popularity", "User chưa có lịch sử tương tác (cold-start)."
             scores = self._scores(model_used, user_idx)

@@ -445,6 +445,18 @@ class RandomExposureTests(unittest.TestCase):
             engine.refresh()
             self.assertEqual(engine.pending_random, [])
 
+    def test_refresh_cut_of_pending_random_follows_random_log(self):
+        # Chỉ có random_log (không có interaction_log): lượt ngẫu nhiên đã ghi file nên được cắt.
+        with tempfile.TemporaryDirectory() as tmp:
+            rlog = InteractionLog(Path(tmp) / "random.csv")
+            engine = make_engine(random_rate=1.0, random_seed=0, random_log=rlog, retrain_every=0)
+            vid = engine.recommend("u0", k=1, explore=True)[0][0]["videoId"]
+            engine.log_interaction("u0", vid, 800, False, exposure="random")
+            engine.log_interaction("u0", "v5", 800, False)
+            engine.refresh()
+            self.assertEqual(engine.pending_random, [])
+            self.assertEqual(len(engine.pending), 1)
+
     def test_no_explore_keeps_model_ranking(self):
         engine = make_engine(random_rate=1.0, random_seed=0)
         recs, _, _, _ = engine.recommend("u0", k=3)
@@ -484,18 +496,68 @@ def make_random_snapshot(n_random):
     return snap
 
 
+def cluster_rows(n_users, source, invert=False, prefix="u"):
+    """Hai cụm: user chẵn thích v0-v2, user lẻ thích v3-v5; mỗi user có đủ 6 video."""
+    rows = []
+    for k in range(n_users):
+        for j in range(6):
+            liked = (j < 3) == (k % 2 == 0)
+            liked = liked != invert
+            rows.append({"user_id": f"{prefix}{k}", "video_id": f"v{j}", "label": 1.0 if liked else 0.0,
+                         "play_time_ms": 9000 if liked else 800, "is_like": liked, "source": source})
+    return pd.DataFrame(rows, columns=INTERACTION_COLUMNS)
+
+
+def make_cluster_snapshot(invert_random=False, random_only_users=0):
+    """Log thường và log ngẫu nhiên cùng cấu trúc cụm nên cặp validation dự đoán được từ train.
+
+    invert_random=True đảo nhãn log ngẫu nhiên: validation xếp ngược với sở thích đã học.
+    """
+    snap = make_snapshot()
+    snap.interactions = cluster_rows(12, "test")
+    random = cluster_rows(12, "api_random", invert=invert_random)
+    if random_only_users:
+        random = pd.concat([random, cluster_rows(random_only_users, "api_random", prefix="r")],
+                           ignore_index=True)
+    snap.random_interactions = random
+    return snap
+
+
 class RandomTrainingTests(unittest.TestCase):
     def test_enough_random_log_trains_author_conalign(self):
-        engine = RecEngine(lambda: make_random_snapshot(24), epochs=50, min_interactions=5,
+        engine = RecEngine(make_cluster_snapshot, epochs=50, min_interactions=5,
                            min_random_interactions=12)
         self.assertEqual(engine.training_stats["conalign_mode"], "random_log")
-        self.assertEqual(engine.training_stats["random_interactions"], 24)
-        self.assertEqual(engine.training_stats["conalign_random"]["implementation"], "conalign_author_port")
+        self.assertEqual(engine.training_stats["random_interactions"], 72)
+        info = engine.training_stats["conalign_random"]
+        self.assertEqual(info["implementation"], "conalign_author_port")
+        self.assertGreater(info["stage2_best_val_auc"], 0.5)
+        self.assertNotIn("skipped", info)
         self.assertEqual(engine.training_stats["conalign_random"]["config"], "coat")
         self.assertEqual(engine.models["conalign"].user_latent_unbiased.embedding_dim, 10)
         recs, used, _, _ = engine.recommend("u0", k=3, model="conalign")
         self.assertEqual(used, "conalign")
         self.assertEqual(len(recs), 3)
+
+    def test_unlearnable_random_log_falls_back_to_proxy(self):
+        engine = RecEngine(lambda: make_cluster_snapshot(invert_random=True), epochs=50, min_interactions=5,
+                           min_random_interactions=12)
+        self.assertEqual(engine.training_stats["conalign_mode"], "item_frequency_proxy")
+        info = engine.training_stats["conalign_random"]
+        self.assertEqual(info["skipped"], "val_auc<=0.5")
+        self.assertLessEqual(info["stage2_best_val_auc"], 0.5)
+        self.assertEqual(engine.models["conalign"].user_latent_unbiased.embedding_dim, engine.embedding_dim)
+
+    def test_random_only_user_served_by_random_log_conalign_only(self):
+        engine = RecEngine(lambda: make_cluster_snapshot(random_only_users=2), epochs=50, min_interactions=5,
+                           min_random_interactions=12)
+        self.assertEqual(engine.training_stats["conalign_mode"], "random_log")
+        self.assertEqual(engine.training_stats["users_with_history"], 12)
+        _, used, cold, _ = engine.recommend("r0", k=3, model="conalign")
+        self.assertEqual((used, cold), ("conalign", False))
+        _, used, cold, reason = engine.recommend("r0", k=3, model="mf")
+        self.assertEqual((used, cold), ("popularity", True))
+        self.assertEqual(reason, "User chưa có lịch sử tương tác (cold-start).")
 
     def test_small_random_log_falls_back_to_proxy(self):
         engine = RecEngine(lambda: make_random_snapshot(4), epochs=50, min_interactions=5,
@@ -527,7 +589,7 @@ class RandomTrainingTests(unittest.TestCase):
         self.assertTrue(out["retrain_started"])
         self.assertEqual(engine.training_stats["random_interactions"], 5)
 
-    def test_random_only_user_gets_index(self):
+    def test_random_only_user_is_cold_in_proxy_mode(self):
         def loader():
             snap = make_random_snapshot(4)
             extra = pd.DataFrame([{"user_id": "u9", "video_id": "v0", "label": 1.0, "play_time_ms": 9000,
@@ -536,6 +598,12 @@ class RandomTrainingTests(unittest.TestCase):
             return snap
         engine = RecEngine(loader, epochs=50, min_interactions=5, min_random_interactions=12)
         self.assertIn("u9", engine.u2idx)
+        self.assertEqual(engine.training_stats["conalign_mode"], "item_frequency_proxy")
+        self.assertEqual(engine.training_stats["users_with_history"], 4)
+        for model in ("conalign", "mf", "cdr"):
+            _, used, cold, reason = engine.recommend("u9", k=3, model=model)
+            self.assertEqual((used, cold), ("popularity", True))
+            self.assertEqual(reason, "User chưa có lịch sử tương tác (cold-start).")
 
     def test_split_without_both_labels_returns_none(self):
         snap = make_snapshot()
