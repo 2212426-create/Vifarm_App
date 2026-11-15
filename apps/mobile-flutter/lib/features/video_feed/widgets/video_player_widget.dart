@@ -113,44 +113,25 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
     }
   }
 
-  /// Lượt xem dưới 3 giây (chưa được _checkWatchProgress ghi) vẫn gửi cho RecSys
-  /// để server biết video đã hiển thị. Không đánh dấu đã xem, không ghi sở thích.
-  void _logShortView() {
-    final start = _startTime;
-    if (start == null || !mounted) return;
-    final user = ref.read(currentUserProvider);
-    if (user == null) return;
-
-    final ms = DateTime.now().difference(start).inMilliseconds;
-    if (ms >= AppConstants.recsysMinExposureMs && ms < 3000) {
-      ref.read(videoRepositoryProvider).logRecSysInteraction(
-            userId: user.uid,
-            videoId: widget.video.videoId,
-            playTimeMs: ms,
-            isLike: false,
-          );
-      _startTime = null;
-    }
-  }
-
   void _checkWatchProgress() {
-    if (_controller == null || !mounted || !_isVisible) return;
+    if (_controller == null || !mounted) return;
 
     final duration = _controller!.value.duration;
     final position = _controller!.value.position;
     final user = ref.read(currentUserProvider);
     if (user == null) return;
 
-    if (_startTime != null) {
-      final elapsed = DateTime.now().difference(_startTime!).inSeconds;
-      if (elapsed >= 3) {
-        final repo = ref.read(videoRepositoryProvider);
+    final start = _startTime;
+    if (start != null) {
+      final ms = DateTime.now().difference(start).inMilliseconds;
+      final repo = ref.read(videoRepositoryProvider);
+      if (ms >= 3000) {
         repo.markVideoAsWatched(user.uid, widget.video.videoId);
 
         repo.logRecSysInteraction(
           userId: user.uid,
           videoId: widget.video.videoId,
-          playTimeMs: elapsed * 1000,
+          playTimeMs: ms,
           isLike: false,
         );
 
@@ -159,8 +140,16 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
           currentUid: user.uid,
           weight: 1,
         );
-        _startTime = null;
+      } else if (ms >= AppConstants.recsysMinExposureMs) {
+        // Lượt xem ngắn: chỉ báo cho RecSys video đã hiển thị, không ghi đã xem/sở thích.
+        repo.logRecSysInteraction(
+          userId: user.uid,
+          videoId: widget.video.videoId,
+          playTimeMs: ms,
+          isLike: false,
+        );
       }
+      _startTime = null;
     }
 
     if (duration.inMilliseconds > 0 && !_hasLoggedComplete) {
@@ -270,7 +259,6 @@ class _VideoPlayerWidgetState extends ConsumerState<VideoPlayerWidget>
               _controller!.pause();
               _checkWatchProgress();
             }
-            _logShortView();
           }
         }
 

@@ -43,8 +43,13 @@ void main() {
         userId: 'u', videoId: 'a', playTimeMs: 800, isLike: false);
     service.logInteraction(
         userId: 'u', videoId: 'b', playTimeMs: 800, isLike: false);
-    await Future<void>.delayed(const Duration(milliseconds: 50));
+    // Chờ có đủ 2 body, giới hạn số vòng để test không treo.
+    for (var i = 0; i < 100 && sent.length < 2; i++) {
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+    }
 
-    expect(sent.map((b) => b['exposure']), ['random', 'normal']);
+    expect(sent, hasLength(2));
+    final byVideo = {for (final b in sent) b['video_id']: b['exposure']};
+    expect(byVideo, {'a': 'random', 'b': 'normal'});
   });
 }
