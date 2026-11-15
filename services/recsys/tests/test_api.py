@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest import mock
 
 import pandas as pd
+import torch
 from fastapi.testclient import TestClient
 
 from src.api.app import create_app
@@ -15,6 +16,7 @@ from src.api.firebase_bridge import (INTERACTION_COLUMNS, InteractionLog, Snapsh
                                      behavior_label, likes_from_notifications,
                                      load_snapshot, normalize_video, parse_fs_value,
                                      unique_username_map)
+from src.api.conalign_random import fit_conalign_with_random_log
 from src.api.service import RANDOM_SERVED_TTL, RecEngine
 
 
@@ -463,6 +465,99 @@ class RandomExposureTests(unittest.TestCase):
                                        auth=ApiAuth("off")))
         body = client.post("/api/v1/recommend", json={"user_id": "u0", "k": 2}).json()
         self.assertEqual({r["exposure"] for r in body["recommendations"]}, {"random"})
+
+
+LIKED = {"u0": "v0 v1 v2", "u1": "v3 v4 v5", "u2": "v0 v1", "u3": "v4 v5"}
+
+
+def make_random_snapshot(n_random):
+    """Thêm log ngẫu nhiên: duyệt u0..u3, v0..v5; nhãn 1 nếu video thuộc nhóm thích của user."""
+    snap = make_snapshot()
+    rows = []
+    for user in ("u0", "u1", "u2", "u3"):
+        for j in range(6):
+            vid = f"v{j}"
+            liked = vid in LIKED[user].split()
+            rows.append({"user_id": user, "video_id": vid, "label": 1.0 if liked else 0.0,
+                         "play_time_ms": 9000 if liked else 800, "is_like": liked, "source": "api_random"})
+    snap.random_interactions = pd.DataFrame(rows[:n_random], columns=INTERACTION_COLUMNS)
+    return snap
+
+
+class RandomTrainingTests(unittest.TestCase):
+    def test_enough_random_log_trains_author_conalign(self):
+        engine = RecEngine(lambda: make_random_snapshot(24), epochs=50, min_interactions=5,
+                           min_random_interactions=12)
+        self.assertEqual(engine.training_stats["conalign_mode"], "random_log")
+        self.assertEqual(engine.training_stats["random_interactions"], 24)
+        self.assertEqual(engine.training_stats["conalign_random"]["implementation"], "conalign_author_port")
+        self.assertEqual(engine.training_stats["conalign_random"]["config"], "coat")
+        self.assertEqual(engine.models["conalign"].user_latent_unbiased.embedding_dim, 10)
+        recs, used, _, _ = engine.recommend("u0", k=3, model="conalign")
+        self.assertEqual(used, "conalign")
+        self.assertEqual(len(recs), 3)
+
+    def test_small_random_log_falls_back_to_proxy(self):
+        engine = RecEngine(lambda: make_random_snapshot(4), epochs=50, min_interactions=5,
+                           min_random_interactions=12)
+        self.assertEqual(engine.training_stats["conalign_mode"], "item_frequency_proxy")
+        self.assertEqual(engine.training_stats["random_interactions"], 4)
+        self.assertIn("conalign", engine.models)
+
+    def test_unsplittable_random_log_falls_back_to_proxy(self):
+        # 4 dòng nhãn 1,1,1,0: nhãn 0 chỉ có một dòng nên không chia được train/validation.
+        engine = RecEngine(lambda: make_random_snapshot(4), epochs=50, min_interactions=5,
+                           min_random_interactions=4)
+        self.assertEqual(engine.training_stats["conalign_mode"], "item_frequency_proxy")
+        self.assertIn("skipped", engine.training_stats["conalign_random"])
+
+    def test_no_normal_data_means_no_conalign_mode(self):
+        engine = RecEngine(lambda: make_random_snapshot(24), epochs=50, min_interactions=1000,
+                           min_random_interactions=12)
+        self.assertIsNone(engine.training_stats["conalign_mode"])
+        self.assertEqual(engine.models, {})
+
+    def test_retrain_counts_pending_random(self):
+        engine = RecEngine(lambda: make_random_snapshot(4), epochs=50, min_interactions=5,
+                           min_random_interactions=12, random_rate=1.0, random_seed=0,
+                           retrain_every=1, background_retrain=False)
+        vid = next(r["videoId"] for r in engine.recommend("u3", k=3, explore=True)[0])
+        out = engine.log_interaction("u3", vid, 800, False, exposure="random")
+        self.assertEqual(out["exposure"], "random")
+        self.assertTrue(out["retrain_started"])
+        self.assertEqual(engine.training_stats["random_interactions"], 5)
+
+    def test_random_only_user_gets_index(self):
+        def loader():
+            snap = make_random_snapshot(4)
+            extra = pd.DataFrame([{"user_id": "u9", "video_id": "v0", "label": 1.0, "play_time_ms": 9000,
+                                   "is_like": True, "source": "api_random"}], columns=INTERACTION_COLUMNS)
+            snap.random_interactions = pd.concat([snap.random_interactions, extra], ignore_index=True)
+            return snap
+        engine = RecEngine(loader, epochs=50, min_interactions=5, min_random_interactions=12)
+        self.assertIn("u9", engine.u2idx)
+
+    def test_split_without_both_labels_returns_none(self):
+        snap = make_snapshot()
+        frame = snap.interactions
+        u2idx = {u: k for k, u in enumerate(sorted(frame["user_id"].unique()))}
+        i2idx = {v: k for k, v in enumerate(snap.videos)}
+        biased = (torch.tensor(frame["user_id"].map(u2idx).to_numpy()),
+                  torch.tensor(frame["video_id"].map(i2idx).to_numpy()),
+                  torch.tensor(frame["label"].to_numpy(), dtype=torch.float32))
+        random_all_positive = (torch.tensor([0, 0, 1, 1, 2, 3]), torch.tensor([0, 1, 3, 4, 0, 4]),
+                               torch.ones(6))
+        self.assertIsNone(fit_conalign_with_random_log(biased, random_all_positive, 4, 8, seed=42))
+
+    def test_env_reads_min_random(self):
+        from src.api import app as app_module
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.dict("os.environ", {
+                "RECSYS_MIN_RANDOM": "7", "RECSYS_DATA_SOURCE": "export",
+                "RECSYS_INTERACTION_LOG": str(Path(tmp) / "log.csv"),
+                "RECSYS_RANDOM_LOG": str(Path(tmp) / "random.csv")}), \
+                mock.patch("src.api.service.RecEngine.refresh"):
+            engine = app_module.build_engine_from_env()
+        self.assertEqual(engine.min_random_interactions, 7)
 
 
 if __name__ == "__main__":

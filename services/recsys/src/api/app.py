@@ -11,6 +11,7 @@ Biến môi trường:
     RECSYS_EXPORT_DIR       thư mục chứa toptop_interactions.csv (mặc định data/firebase_export ở gốc repo)
     RECSYS_INTERACTION_LOG  CSV ghi nối tương tác từ app (mặc định data/api/interactions_log.csv)
     RECSYS_RANDOM_LOG       CSV ghi nối lượt xem ngẫu nhiên (mặc định data/api/random_log.csv)
+    RECSYS_MIN_RANDOM       số lượt ngẫu nhiên tối thiểu để huấn luyện ConAlign bằng log ngẫu nhiên (mặc định 50)
     RECSYS_AUTH_MODE        firebase (mặc định) | off — xem src/api/auth.py
     RECSYS_ADMIN_KEY        khóa X-Admin-Key cho /api/v1/sync
 Project: ViFarm (services/recsys)
@@ -50,7 +51,8 @@ def build_engine_from_env():
                          random_log=random_log_path)
         return RecEngine(loader, interaction_log=InteractionLog(log_path),
                          random_log=InteractionLog(random_log_path),
-                         random_rate=float(os.environ.get("RECSYS_RANDOM_RATE", "0.1")))
+                         random_rate=float(os.environ.get("RECSYS_RANDOM_RATE", "0.1")),
+                         min_random_interactions=int(os.environ.get("RECSYS_MIN_RANDOM", "50")))
     except Exception as e:
         err_msg = str(e)
         logger.warning("RecEngine build skipped/failed: %s", err_msg)

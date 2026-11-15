@@ -3,11 +3,14 @@
 Recommendation engine phục vụ app TopTop.
 
 MF uses MSE. CDR uses the released DR-BIAS+CDR architecture and update rule.
-Serving has no random-exposure labels: item-frequency propensity and replacement
+CDR has no random-exposure labels in serving: item-frequency propensity and replacement
 catalog sampling are explicit adaptations in training_stats.cdr.
+ConAlign: khi log hiển thị ngẫu nhiên đủ min_random_interactions dòng và có cả hai nhãn,
+dịch vụ huấn luyện bằng port tác giả (train_conalign, cấu hình "coat"); nếu không, dùng
+proxy trọng số tần suất video. training_stats.conalign_mode ghi cách đã dùng.
 Popularity serves new users.
-CLEV-DR và ConAlign được huấn luyện và đánh giá ở pha Offline Benchmark; phục vụ online
-trực tiếp sử dụng MF, CDR hoặc Popularity fallback với lý do rõ ràng.
+CLEV-DR được huấn luyện và đánh giá ở pha Offline Benchmark; phục vụ online
+trực tiếp sử dụng ConAlign, MF, CDR hoặc Popularity fallback với lý do rõ ràng.
 
 Huấn luyện lại không giữ khóa phục vụ: mô hình mới được huấn luyện trên bản sao dữ liệu
 rồi hoán đổi nguyên khối, nên /recommend vẫn trả lời bằng mô hình cũ trong lúc train.
@@ -23,6 +26,7 @@ import pandas as pd
 import torch
 import torch.nn.functional as F
 
+from src.api.conalign_random import fit_conalign_with_random_log
 from src.models.cdr.released import ReleasedCDR, fit_released
 from src.models.conalign.model import DualTowerMF
 from src.models.mf.matrix_factorization import MatrixFactorization
@@ -53,7 +57,8 @@ class RecEngine:
     def __init__(self, snapshot_loader, interaction_log=None, models=TRAINABLE_MODELS,
                  embedding_dim=16, epochs=150, lr=0.01, weight_decay=1e-3,
                  seed=42, retrain_every=20, min_interactions=10, device=None,
-                 background_retrain=True, random_rate=0.0, random_seed=None, random_log=None):
+                 background_retrain=True, random_rate=0.0, random_seed=None, random_log=None,
+                 min_random_interactions=50):
         unknown = set(models) - set(TRAINABLE_MODELS)
         if unknown:
             raise ValueError(f"Unsupported models: {sorted(unknown)}")
@@ -67,6 +72,7 @@ class RecEngine:
         self.seed = seed
         self.retrain_every = retrain_every
         self.min_interactions = min_interactions
+        self.min_random_interactions = min_random_interactions
         self.device = device or torch.device("cpu")
         self.background_retrain = background_retrain
         self.random_rate = float(random_rate)
@@ -101,7 +107,9 @@ class RecEngine:
             with self._lock:
                 # Có log thì snapshot đã chứa phần pending cũ; cặp trùng được gộp bằng max.
                 pending = self.pending[cut:] if self.interaction_log is not None else list(self.pending)
-            state = self._train_state(snapshot, pending)
+                pending_random = (self.pending_random[cut_random:] if self.interaction_log is not None
+                                  else list(self.pending_random))
+            state = self._train_state(snapshot, pending, pending_random)
             with self._lock:
                 if self.interaction_log is not None:
                     self.pending = self.pending[cut:]
@@ -112,8 +120,9 @@ class RecEngine:
         with self._train_lock:
             with self._lock:
                 snapshot, pending = self.snapshot, list(self.pending)
+                pending_random = list(self.pending_random)
                 self._since_fit = 0
-            state = self._train_state(snapshot, pending)
+            state = self._train_state(snapshot, pending, pending_random)
             with self._lock:
                 self._install(state)
 
@@ -138,8 +147,8 @@ class RecEngine:
         return not self.retraining
 
     @staticmethod
-    def _interactions(snapshot, pending):
-        frame = snapshot.interactions
+    def _interactions(frame, pending):
+        """Gộp pending vào frame; cặp (user, video) lặp lấy max (dương nếu từng dương)."""
         if pending:
             extra = pd.DataFrame(pending, columns=frame.columns)
             frame = (pd.concat([frame, extra], ignore_index=True)
@@ -148,24 +157,29 @@ class RecEngine:
                           is_like=("is_like", "max"), source=("source", "first")))
         return frame
 
-    def _train_state(self, snapshot, pending):
+    def _train_state(self, snapshot, pending, pending_random=()):
         """Huấn luyện trên bản sao dữ liệu; không đọc hay ghi trạng thái phục vụ."""
         started = time.time()
-        frame = self._interactions(snapshot, pending)
+        frame = self._interactions(snapshot.interactions, pending)
+        random_frame = self._interactions(snapshot.random_interactions, pending_random)
         video_ids = list(snapshot.videos)
         i2idx = {vid: i for i, vid in enumerate(video_ids)}
-        user_ids = sorted(frame["user_id"].unique().tolist())
+        # Người dùng chỉ có lượt xem ngẫu nhiên vẫn cần chỉ số để tháp unbiased học được họ.
+        user_ids = sorted(set(frame["user_id"]) | set(random_frame["user_id"]))
         u2idx = {uid: i for i, uid in enumerate(user_ids)}
         models, cdr_info = {}, None
+        conalign_mode, conalign_random = None, None
         n = len(frame)
+        # Log ngẫu nhiên chỉ thay giai đoạn 2 của ConAlign; giai đoạn 1 vẫn cần log thường.
         if n >= self.min_interactions and frame["label"].nunique() > 1:
-            u = torch.tensor(frame["user_id"].map(u2idx).to_numpy(), dtype=torch.long, device=self.device)
-            i = torch.tensor(frame["video_id"].map(i2idx).to_numpy(), dtype=torch.long, device=self.device)
-            y = torch.tensor(frame["label"].to_numpy(dtype=np.float32), device=self.device)
+            u, i, y = self._tensors(frame, u2idx, i2idx)
             sizes = (len(user_ids), len(video_ids))
             for name in self.model_names:
                 if name == "cdr":
                     models[name], cdr_info = self._train_cdr(u, i, y, *sizes)
+                elif name == "conalign":
+                    models[name], conalign_mode, conalign_random = self._train_conalign(
+                        (u, i, y), random_frame, u2idx, i2idx, *sizes)
                 else:
                     models[name] = getattr(self, f"_train_{name}")(u, i, y, *sizes)
         return {
@@ -185,6 +199,9 @@ class RecEngine:
                 "train_seconds": round(time.time() - started, 3),
                 "trained_at": int(time.time() * 1000),
                 "cdr": cdr_info,
+                "conalign_mode": conalign_mode,
+                "random_interactions": len(random_frame),
+                "conalign_random": conalign_random,
             },
         }
 
@@ -202,8 +219,31 @@ class RecEngine:
             scores += np.log1p(np.bincount(pos, minlength=len(scores)))
         return scores
 
+    def _tensors(self, frame, u2idx, i2idx):
+        u = torch.tensor(frame["user_id"].map(u2idx).to_numpy(), dtype=torch.long, device=self.device)
+        i = torch.tensor(frame["video_id"].map(i2idx).to_numpy(), dtype=torch.long, device=self.device)
+        y = torch.tensor(frame["label"].to_numpy(dtype=np.float32), device=self.device)
+        return u, i, y
+
     # -------------------------------------------------------------- training
-    def _train_conalign(self, u, i, y, n_users, n_items):
+    def _train_conalign(self, biased, random_frame, u2idx, i2idx, n_users, n_items):
+        """Trả (mô hình, conalign_mode, info của lượt dùng log ngẫu nhiên hoặc None)."""
+        info = None
+        if len(random_frame) >= self.min_random_interactions and random_frame["label"].nunique() > 1:
+            random = tuple(t.cpu() for t in self._tensors(random_frame, u2idx, i2idx))
+            try:
+                fitted = fit_conalign_with_random_log(tuple(t.cpu() for t in biased), random,
+                                                      n_users, n_items, seed=self.seed)
+            except Exception as exc:  # lỗi port tác giả không được chặn cả lượt huấn luyện
+                logger.exception("ConAlign random-log training failed; using item-frequency proxy")
+                fitted, info = None, {"error": f"{type(exc).__name__}: {exc}"}
+            if fitted is not None:
+                model, info = fitted
+                return model.to(self.device), "random_log", info
+            info = info or {"skipped": "Không chia được train/validation có đủ hai nhãn."}
+        return self._train_conalign_proxy(*biased, n_users, n_items), "item_frequency_proxy", info
+
+    def _train_conalign_proxy(self, u, i, y, n_users, n_items):
         set_seed(self.seed)
         model = DualTowerMF(n_users, n_items, dim=self.embedding_dim, alignment_weight=0.1).to(self.device)
         # Stage 1: Huấn luyện tháp Biased trên dữ liệu tương tác tự nhiên (MNAR log)
