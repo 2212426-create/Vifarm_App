@@ -17,7 +17,7 @@
 - `/interaction` nhận thêm `exposure` (mặc định `"normal"`). Dịch vụ chỉ chấp nhận `"random"` khi cặp (user, video) có trong sổ phát ngẫu nhiên của chính nó (hạn 24 giờ); ngược lại ghi như lượt thường.
 - Lượt ngẫu nhiên ghi vào `RECSYS_RANDOM_LOG` (mặc định `data/api/random_log.csv`, cùng định dạng với `interactions_log.csv`), không trộn vào log thường.
 - Huấn luyện: khi log ngẫu nhiên ≥ `min_random_interactions` (50) và các phần chia đều có cả hai nhãn, ConAlign của dịch vụ huấn luyện bằng `train_conalign(..., 'coat', ...)` (SGD, dim 10, có cổng, dừng sớm theo AUC validation); nếu không, dùng cách trọng số tần suất hiện tại. `/health` báo `conalign_mode` và `random_interactions`.
-- Ứng dụng: `RecSysService` nhớ các `videoId` được trả với `exposure = "random"` và gửi kèm cờ khi ghi tương tác; `VideoPlayerWidget` gửi thêm lượt xem từ 500 ms đến dưới 3 giây khi người dùng rời video.
+- Ứng dụng: mỗi `VideoModel` mang `exposure` của chính lần được phát (mặc định `"normal"`) và gửi kèm khi ghi tương tác; dịch vụ thu hồi cờ ngẫu nhiên của một cặp khi phát lại cặp đó như video thường (sửa sau rà soát cuối); `VideoPlayerWidget` gửi thêm lượt xem từ 500 ms đến dưới 3 giây khi người dùng rời video.
 
 ## Global Constraints
 
