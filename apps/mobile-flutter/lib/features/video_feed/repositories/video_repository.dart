@@ -27,13 +27,18 @@ class VideoRepository {
 
   /// Lấy danh sách video được đề xuất (phân tích dựa trên tương tác, watch time và lịch sử tìm kiếm)
   Future<List<VideoModel>> getRecommendedVideos(String? currentUid) async {
+    // Lịch sử xem dùng cho cả RecSys lẫn nhánh dự phòng: đọc một lần, song song với
+    // bước dò máy chủ RecSys (thay vì đọc tuần tự hai lần như trước).
+    final watchedIdsFuture = currentUid != null
+        ? getWatchedVideoIds(currentUid)
+        : Future.value(<String>[]);
+
     // 0. ƯU TIÊN 1: Lấy danh sách video từ Colab AI RecSys Server (nếu đang hoạt động)
     if (_recsysService != null) {
-      final watchedIds = currentUid != null ? await getWatchedVideoIds(currentUid) : <String>[];
       final aiVideos = await _recsysService.getRecommendations(
         userId: currentUid,
         limit: AppConstants.videoFeedLimit,
-        excludeVideoIds: watchedIds,
+        excludeVideoIds: await watchedIdsFuture,
       );
       if (aiVideos != null && aiVideos.isNotEmpty) {
         return aiVideos;
@@ -41,6 +46,9 @@ class VideoRepository {
     }
 
     // 1. DỰ PHÒNG: Thuật toán Firestore truyền thống khi RecSys chưa bật hoặc lỗi mạng
+    final topInterestsFuture = currentUid != null
+        ? getTopInterests(currentUid, limit: 15)
+        : Future.value(<String>[]);
     final snapshot = await _firestore
         .collection(AppConstants.videosCollection)
         .orderBy('timestamp', descending: true)
@@ -61,11 +69,11 @@ class VideoRepository {
     }
 
     // 2. NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP
-    // 2.1. Lấy lịch sử video đã xem
-    final watchedIds = await getWatchedVideoIds(currentUid);
+    // 2.1. Lịch sử video đã xem (Set để tra cứu O(1) trên tối đa 500 video)
+    final watchedIds = (await watchedIdsFuture).toSet();
 
-    // 2.2. Lấy sở thích người dùng (top tags)
-    final topInterests = await getTopInterests(currentUid, limit: 15);
+    // 2.2. Sở thích người dùng (top tags), đã tải song song với truy vấn video
+    final topInterests = await topInterestsFuture;
 
     // 2.3. Lọc bỏ video đã xem (chỉ áp dụng cho For You để luôn mới mẻ)
     final unwatchedVideos = allVideos
@@ -285,16 +293,15 @@ class VideoRepository {
   }
 
   List<VideoModel> _rankVideos(List<VideoModel> videos, List<String> topInterests) {
-    final ranked = List<VideoModel>.from(videos);
-    ranked.sort((a, b) {
-      double scoreA = _calculateVideoScore(a, topInterests);
-      double scoreB = _calculateVideoScore(b, topInterests);
-      return scoreB.compareTo(scoreA);
-    });
+    // Tính điểm một lần cho mỗi video (trước đây tính lại trong mỗi phép so sánh của sort)
+    final interests = topInterests.toSet();
+    final scores = {for (final v in videos) v: _calculateVideoScore(v, interests)};
+    final ranked = List<VideoModel>.from(videos)
+      ..sort((a, b) => scores[b]!.compareTo(scores[a]!));
     return ranked.take(AppConstants.videoFeedLimit).toList();
   }
 
-  double _calculateVideoScore(VideoModel video, List<String> topInterests) {
+  double _calculateVideoScore(VideoModel video, Set<String> topInterests) {
     double score = 0;
 
     // 1. Tag Match (Hợp sở thích)

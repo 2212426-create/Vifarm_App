@@ -59,15 +59,25 @@ class RecSysService {
     }
   }
 
-  /// Lấy địa chỉ API hoàn toàn tự động, có kiểm tra sức khỏe server qua /health
-  Future<String?> getActiveApiUrl() async {
-    // 1. Dùng cache bộ nhớ 30 giây nếu server vẫn sống
-    if (_cachedApiUrl != null &&
-        _lastCacheTime != null &&
-        DateTime.now().difference(_lastCacheTime!).inSeconds < 30) {
-      return _cachedApiUrl;
+  /// Lấy địa chỉ API hoàn toàn tự động, có kiểm tra sức khỏe server qua /health.
+  /// Trả về null khi không máy chủ nào phản hồi, để nơi gọi dùng Firestore ngay.
+  Future<String?> getActiveApiUrl() {
+    // 1. Dùng cache bộ nhớ 30 giây cho cả kết quả online lẫn offline: khi server tắt,
+    // chuỗi dò bên dưới tốn tới ~15 giây nên không được chạy lại ở mỗi lần vuốt video.
+    if (_lastCacheTime != null &&
+        DateTime.now().difference(_lastCacheTime!) < _urlCacheTtl) {
+      return Future.value(_cachedApiUrl);
     }
+    // Gộp các lần gọi đồng thời (feed + log tương tác) vào cùng một lượt dò.
+    return _pendingUrlLookup ??= _resolveApiUrl().whenComplete(() {
+      _pendingUrlLookup = null;
+    });
+  }
 
+  static const Duration _urlCacheTtl = Duration(seconds: 30);
+  Future<String?>? _pendingUrlLookup;
+
+  Future<String?> _resolveApiUrl() async {
     // 2. Đọc từ Firebase Realtime Database qua SDK
     try {
       if (_database != null) {
@@ -154,13 +164,12 @@ class RecSysService {
       }
     }
 
-    // Nếu không máy chủ nào phản hồi /health, trả về local fallback mặc định cho môi trường
-    final defaultFallback = (!kIsWeb && defaultTargetPlatform == TargetPlatform.android)
-        ? 'http://10.0.2.2:8000'
-        : 'http://localhost:8000';
-
-    _lastUrlSource = 'Default Platform Fallback (Offline/Not Responding)';
-    return defaultFallback;
+    // Không máy chủ nào phản hồi /health: ghi nhớ trạng thái offline trong thời gian cache
+    // (trước đây trả về URL localhost chắc chắn lỗi, khiến mỗi request chờ thêm timeout).
+    _cachedApiUrl = null;
+    _lastCacheTime = DateTime.now();
+    _lastUrlSource = 'Offline (không máy chủ nào phản hồi /health)';
+    return null;
   }
 
   /// Kiểm tra trạng thái máy chủ qua endpoint /health

@@ -131,6 +131,7 @@ class _HashtagScreenState extends ConsumerState<HashtagScreen> with SingleTicker
                                     ? Image.network(
                                         video.videoUri.replaceAll('.mp4', '.jpg'),
                                         fit: BoxFit.cover,
+                                        cacheWidth: 360,
                                         errorBuilder: (context, error, stackTrace) =>
                                             const Icon(Icons.play_circle_outline, color: Colors.white30),
                                       )

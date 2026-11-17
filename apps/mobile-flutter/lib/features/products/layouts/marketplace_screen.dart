@@ -507,6 +507,8 @@ class _ProductCard extends StatelessWidget {
                         ? Image.network(
                             product.images.first,
                             fit: BoxFit.cover,
+                            // Giải mã cỡ thumbnail lưới 2 cột thay vì ảnh gốc nhiều MB
+                            cacheWidth: 480,
                             errorBuilder: (context, error, stackTrace) =>
                                 const Icon(Icons.image, size: 48, color: Colors.grey),
                           )
